@@ -48,6 +48,9 @@ jobs:
           KIS_APP_SECRET: ${{ secrets.KIS_APP_SECRET }}
         run: python -u scripts/collect.py
 
+      - name: Discover public brokerage report candidates
+        run: python -u scripts/discover_broker_reports.py
+
       - name: Save beta data to v3-2-beta
         run: |
           git config user.name "QStonePark Bot"
