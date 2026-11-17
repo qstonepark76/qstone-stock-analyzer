@@ -7,6 +7,7 @@ import os, json, math, statistics, datetime as dt, io, zipfile, time
 from pathlib import Path
 import requests
 import xml.etree.ElementTree as ET
+from analyst_consensus import load_and_score_consensus
 
 KRX_URL = os.getenv("KRX_API_BASE", "https://data-dbg.krx.co.kr/svc/apis/sto/stk_bydd_trd")
 KRX_KEY = os.environ["KRX_AUTH_KEY"].strip()
@@ -429,6 +430,7 @@ def main():
         stock["volatility_20d"] = statistics.pstdev(changes) if len(changes) >= 5 else None
 
     investor_flows, kis_note = collect_kis_investor_flows(stocks, asof)
+    analyst_data, analyst_note = load_and_score_consensus(stocks, asof)
     for stock in stocks:
         stock.update(investor_flows.get(stock["ticker"], {}))
 
@@ -448,6 +450,9 @@ def main():
         "foreign_flow": score_field(stocks, "foreign_flow_5d_pct"),
         "institution_flow": score_field(stocks, "institution_flow_5d_pct"),
         "liquidity": score_field(stocks, "trading_value"),
+        "analyst_rating": score_field(stocks, "analyst_rating_score"),
+        "analyst_upside": score_field(stocks, "analyst_upside_pct"),
+        "analyst_revision": score_field(stocks, "analyst_target_revision_pct"),
         "volatility": score_field(stocks, "volatility_20d", reverse=True),
     }
 
@@ -478,14 +483,14 @@ def main():
         components = {
             "financial": fin, "growth": growth, "momentum": mom,
             "foreign_flow": score_maps["foreign_flow"].get(t), "institution_flow": score_maps["institution_flow"].get(t),
-            "valuation": None, "analyst_outlook": None,
+            "valuation": None, "analyst_outlook": x.get("analyst_consensus_score"),
         }
         component_coverage = {
             "financial": round(fin_cov, 1), "growth": round(growth_cov, 1),
             "momentum": round(mom_cov, 1),
             "foreign_flow": 100 if x.get("foreign_flow_5d_pct") is not None else 0,
             "institution_flow": 100 if x.get("institution_flow_5d_pct") is not None else 0,
-            "valuation": 0, "analyst_outlook": 0,
+            "valuation": 0, "analyst_outlook": x.get("analyst_consensus_coverage_pct", 0),
         }
         # The approved seven category weights remain unchanged.
         category_weights = {
@@ -544,7 +549,7 @@ def main():
     perf_file.write_text(json.dumps(perf[-500:], ensure_ascii=False, indent=2), encoding="utf-8")
 
     def compact(items, list_key):
-        keys = ["ticker", "name", "close", "change_pct", "score", "provisional_score", "score_coverage_pct", "grade", "provisional_grade", "status", "official_recommendation_eligible", "component_scores", "component_coverage_pct", "financial_score", "growth_score", "momentum_score", "roe_pct", "sales_growth_pct", "operating_profit_growth_pct", "momentum_5d", "momentum_20d", "momentum_60d", "history_observations", "trading_value", "foreign_net_buy_qty_5d", "institution_net_buy_qty_5d", "foreign_flow_5d_pct", "institution_flow_5d_pct", "investor_flow_as_of", "investor_flow_sessions", "reason", "risk_factors"]
+        keys = ["ticker", "name", "close", "change_pct", "score", "provisional_score", "score_coverage_pct", "grade", "provisional_grade", "status", "official_recommendation_eligible", "component_scores", "component_coverage_pct", "financial_score", "growth_score", "momentum_score", "roe_pct", "sales_growth_pct", "operating_profit_growth_pct", "momentum_5d", "momentum_20d", "momentum_60d", "history_observations", "trading_value", "foreign_net_buy_qty_5d", "institution_net_buy_qty_5d", "foreign_flow_5d_pct", "institution_flow_5d_pct", "investor_flow_as_of", "investor_flow_sessions", "reason", "risk_factors", "analyst_report_count", "analyst_broker_count", "analyst_avg_target_price", "analyst_avg_upside_pct", "analyst_consensus_score", "analyst_consensus_coverage_pct", "analyst_latest_report_date", "analyst_sources"]
         out = []
         for x in items:
             row = {k: x.get(k) for k in keys}
@@ -562,7 +567,7 @@ def main():
         "top10": compact(official, "overall"),
         "performance": {"snapshots": len(perf), "note": "공식 추천 종목의 추천일 종가 저장. 이후 거래일 관측치가 쌓이면 1주·1개월·3개월 수익률 계산 예정."},
         "data_quality": {"label": "v3.2 베타 · 시가총액 상위 300개 · 가격 이력 누적", "note": dart_note + ". " + kis_note + ". PER/PBR 및 증권사 전망 공급자는 미연결이며 임의 추정하지 않습니다.", "official_top10_count": len(official), "coverage_gate": "7개 평가영역의 실제 확보 가중치가 100%일 때만 공식 추천 점수/등급 부여", "financial_universe_batch": FINANCIAL_UNIVERSE, "financial_universe_total": len(stocks), "market_cap_covered_count": len(cap_covered), "universe_limit": 300, "history_sessions_available": history_sessions_available, "history_sessions_required": 61, "history_progress_pct": round(min(history_sessions_available, 61) / 61 * 100, 1)},
-        "providers": {"krx": "connected", "opendart": "connected" if financial else ("configured_no_data" if DART_KEY else "not_configured"), "investor_flows": "connected" if investor_flows else ("configured_no_data" if os.getenv("KIS_APP_KEY") and os.getenv("KIS_APP_SECRET") else "not_configured"), "valuation": "not_connected", "analyst_consensus": "not_connected"},
+        "providers": {"krx": "connected", "opendart": "connected" if financial else ("configured_no_data" if DART_KEY else "not_configured"), "investor_flows": "connected" if investor_flows else ("configured_no_data" if os.getenv("KIS_APP_KEY") and os.getenv("KIS_APP_SECRET") else "not_configured"), "valuation": "not_connected", "analyst_consensus": "connected" if analyst_data else "configured_no_data"},
         "model": {"version": "3.2-beta", "weights": {"financial_health_profitability": 20, "growth": 20, "price_momentum": 15, "foreign_flow": 15, "institution_flow": 10, "valuation_per_pbr": 10, "broker_outlook": 10}, "grade_thresholds": {"S": 90, "A": 80, "B": 70, "C": 60, "excluded": 0}, "note": "확정 100점 배점 유지. 부분 데이터는 provisional_score로만 표시하고 공식 score/grade를 부여하지 않음. 모멘텀은 현재 종가를 포함해 61개 거래일 종가(직전 60거래일 비교)가 누적되어야 산출."}
     }
     (OUT / "latest.json").write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
