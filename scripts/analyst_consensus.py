@@ -130,6 +130,7 @@ def load_and_score_consensus(stocks, asof):
         summary["analyst_consensus_coverage_pct"] = coverage
         if coverage:
             summary["analyst_consensus_score"] = round(sum(v*w for v, w in available) / coverage, 1)
+        universe[ticker].update(summary)
 
     note = (
         f"무료 공개 증권사 리포트: 원문 링크 기반 메타데이터 {len(reports)}건 중 "
