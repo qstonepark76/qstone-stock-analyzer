@@ -486,6 +486,7 @@ def update_recommendation_performance(perf, history_dir, index_history_dir):
         for label, offset in horizons.items():
             target = start + offset
             if target >= len(dates):
+                per_stock[label] = {}
                 aggregate[label] = None
                 benchmark[label] = None
                 continue
