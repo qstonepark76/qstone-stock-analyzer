@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Q Stone Park Stock Analyzer v2.1
+"""Q Stone Park Stock Analyzer v3.0-beta
 KRX daily market data + throttled/cached OpenDART annual financials.
 Unconnected data (foreign/institution flows, PER/PBR, analyst targets) are never fabricated.
 """
@@ -14,11 +14,11 @@ DART_KEY = os.getenv("DART_AUTH_KEY", "").strip()
 OUT = Path("data")
 OUT.mkdir(exist_ok=True)
 CACHE_FILE = OUT / "financial_cache.json"
-FINANCIAL_UNIVERSE = 50
-CACHE_DAYS = 30
+FINANCIAL_UNIVERSE = 120  # rolling incremental universe; cache prevents repeated calls
+CACHE_DAYS = 90
 REQUEST_TIMEOUT = (8, 20)
 S = requests.Session()
-S.headers.update({"User-Agent": "QStonePark-StockAnalyzer/2.1"})
+S.headers.update({"User-Agent": "QStonePark-StockAnalyzer/3.0-beta"})
 
 def parse_rows(payload):
     if isinstance(payload, list):
@@ -290,6 +290,15 @@ def score_field(stocks, field, reverse=False):
     scores = percentile([s.get(field) for s in stocks], not reverse)
     return {s["ticker"]: score for s, score in zip(stocks, scores)}
 
+def safe_pct(a, b):
+    return ((a / b) - 1) * 100 if a is not None and b not in (None, 0) else None
+
+def weighted_score(parts):
+    usable = [(v, w) for v, w in parts if v is not None and math.isfinite(v)]
+    if not usable:
+        return None, 0
+    return round(sum(v*w for v,w in usable) / sum(w for _,w in usable), 1), sum(w for _,w in usable)
+
 def main():
     asof, raw = latest_krx_rows()
     stocks = normalize(raw)
@@ -301,20 +310,17 @@ def main():
     (history / f"{asof:%Y%m%d}.json").write_text(json.dumps(stocks, ensure_ascii=False), encoding="utf-8")
     snapshots = []
     for path in sorted(history.glob("*.json"))[-35:]:
-        try:
-            snapshots.append(json.loads(path.read_text(encoding="utf-8")))
-        except Exception:
-            pass
+        try: snapshots.append(json.loads(path.read_text(encoding="utf-8")))
+        except Exception: pass
     by_ticker = {}
     for snapshot in snapshots:
-        for item in snapshot:
-            by_ticker.setdefault(item["ticker"], []).append(item)
+        for item in snapshot: by_ticker.setdefault(item["ticker"], []).append(item)
     for stock in stocks:
         series = by_ticker.get(stock["ticker"], [])
         closes = [item["close"] for item in series]
         stock["momentum_5d"] = (stock["close"] / closes[-6] - 1) * 100 if len(closes) >= 6 and closes[-6] else None
         stock["momentum_20d"] = (stock["close"] / closes[-21] - 1) * 100 if len(closes) >= 21 and closes[-21] else None
-        changes = [item.get("change_pct") for item in series[-20:] if item.get("change_pct") is not None]
+        changes = [x.get("change_pct") for x in series[-20:] if x.get("change_pct") is not None]
         stock["volatility_20d"] = statistics.pstdev(changes) if len(changes) >= 5 else None
 
     financial, dart_note = collect_dart(stocks)
@@ -323,72 +329,87 @@ def main():
         stock.update(metrics)
         stock["financial_metrics_available"] = any(v is not None for v in metrics.values())
 
-    p20 = score_field(stocks, "momentum_20d")
-    p5 = score_field(stocks, "momentum_5d")
-    pvalue = score_field(stocks, "trading_value")
-    pvol = score_field(stocks, "volatility_20d", reverse=True)
-    pday = score_field(stocks, "change_pct")
-    proe = score_field(stocks, "roe_pct")
-    psales = score_field(stocks, "sales_growth_pct")
-    pop = score_field(stocks, "operating_profit_growth_pct")
-
-    for stock in stocks:
-        ticker = stock["ticker"]
-        technical_parts = [(p20[ticker], 35), (p5[ticker], 20), (pvalue[ticker], 20), (pvol[ticker], 15), (pday[ticker], 10)]
-        technical = [(v, w) for v, w in technical_parts if v is not None]
-        stock["technical_score"] = round(sum(v*w for v,w in technical)/sum(w for _,w in technical), 1) if technical else None
-        fin_parts = [(proe[ticker], 35), (psales[ticker], 30), (pop[ticker], 35)]
-        fin = [(v,w) for v,w in fin_parts if v is not None]
-        stock["financial_score"] = round(sum(v*w for v,w in fin)/sum(w for _,w in fin), 1) if fin else None
-        # Current connected target model: fundamentals 25 + momentum 15.
-        # Unconnected factors remain unavailable and are not imputed.
-        model_parts = [
-            (stock["financial_score"], 25),
-            (None, 15), (None, 15),
-            (p20[ticker], 15),
-            (None, 15), (None, 15),
-        ]
-        available = [(v,w) for v,w in model_parts if v is not None]
-        stock["score"] = round(sum(v*w for v,w in available)/sum(w for _,w in available), 1) if available else stock["technical_score"]
-        stock["score_coverage_pct"] = round(sum(w for _,w in available), 0)
-        stock["status"] = "잠정 평가" if stock["score_coverage_pct"] < 100 else "종합평가 완료"
-
-    ranked = sorted(stocks, key=lambda x: (x.get("score") is not None, x.get("score") or -1), reverse=True)
-    advancers = sum(1 for x in stocks if (x.get("change_pct") or 0) > 0)
-    decliners = sum(1 for x in stocks if (x.get("change_pct") or 0) < 0)
-    fields = (
-        "ticker","name","close","change_pct","score","score_coverage_pct","status",
-        "momentum_20d","trading_value","technical_score","financial_score",
-        "roe_pct","sales_growth_pct","operating_profit_growth_pct",
-    )
-    top10 = [{key: stock.get(key) for key in fields} for stock in ranked[:10]]
-    avg_coverage = round(sum(x["score_coverage_pct"] for x in top10)/len(top10), 1) if top10 else 0
-    result = {
-        "as_of": asof.isoformat(),
-        "market": {"kospi": None, "kospi_change_pct": None, "analyzed_count": len(stocks),
-                   "advancers": advancers, "decliners": decliners},
-        "top10": top10,
-        "performance": {"avg_return_pct": None},
-        "data_quality": {
-            "label": "KRX 시세 수집 완료",
-            "note": dart_note + ". 외국인·기관 수급, PER/PBR, 증권사 목표주가는 별도 공급자 미연결.",
-        },
-        "providers": {
-            "krx": "connected",
-            "opendart": "connected" if financial else ("configured_no_data" if DART_KEY else "not_configured"),
-            "investor_flows": "not_connected", "valuation": "not_connected",
-            "analyst_consensus": "not_connected",
-        },
-        "model": {
-            "version": "2.1",
-            "weights": {"fundamentals":25,"foreign_flow":15,"institution_flow":15,
-                        "momentum":15,"valuation":15,"analyst_consensus":15},
-            "top10_average_coverage_pct": avg_coverage,
-            "note": "연결된 항목만 가중치를 재정규화한 잠정 점수. 데이터 커버리지를 함께 확인하세요.",
-        },
+    # Percentile scores are cross-sectional ranks; they are not absolute forecasts.
+    score_maps = {
+        "roe": score_field(stocks, "roe_pct"),
+        "sales_growth": score_field(stocks, "sales_growth_pct"),
+        "op_growth": score_field(stocks, "operating_profit_growth_pct"),
+        "momentum20": score_field(stocks, "momentum_20d"),
+        "momentum5": score_field(stocks, "momentum_5d"),
+        "liquidity": score_field(stocks, "trading_value"),
+        "volatility": score_field(stocks, "volatility_20d", reverse=True),
     }
-    (OUT / "latest.json").write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"[완료] {asof}: KRX {len(stocks)}개 종목 / DART 재무 확보 {len(financial)}개 / TOP10 {len(top10)}개 / 평균 커버리지 {avg_coverage}%", flush=True)
+    for x in stocks:
+        t=x["ticker"]
+        # Seven fixed buckets preserve the approved 100-point model. Unconnected
+        # factors remain null; the score is shown as provisional with coverage.
+        fin, finw = weighted_score([(score_maps["roe"].get(t), 50), (score_maps["sales_growth"].get(t), 25), (score_maps["op_growth"].get(t),25)])
+        growth, growthw = weighted_score([(score_maps["sales_growth"].get(t),50),(score_maps["op_growth"].get(t),50)])
+        mom, momw = weighted_score([(score_maps["momentum20"].get(t),50),(score_maps["momentum5"].get(t),25),(score_maps["liquidity"].get(t),15),(score_maps["volatility"].get(t),10)])
+        x["component_scores"] = {
+          "financial": fin, "growth": growth, "momentum": mom,
+          "foreign_flow": None, "institution_flow": None,
+          "valuation": None, "analyst_outlook": None
+        }
+        parts=[(fin,20),(growth,20),(mom,15),(None,15),(None,10),(None,10),(None,10)]
+        total, coverage = weighted_score(parts)
+        x["score"] = total
+        x["score_coverage_pct"] = coverage
+        x["grade"] = ("S" if total>=90 else "A" if total>=80 else "B" if total>=70 else "C" if total>=60 else "제외") if total is not None else "평가보류"
+        x["official_recommendation_eligible"] = coverage == 100 and total is not None
+        x["status"] = "공식 추천 심사 가능" if x["official_recommendation_eligible"] else "잠정 평가·공식추천 제외"
+        x["reason"] = "재무·성장·모멘텀 상대점수 기반; 미연결 항목은 미반영"
+        x["risk_factors"] = [label for key,label in [("roe_pct","ROE 자료 부족"),("sales_growth_pct","매출성장 자료 부족"),("operating_profit_growth_pct","영업이익 성장 자료 부족"),("momentum_20d","20일 주가 이력 부족")] if x.get(key) is None]
+
+    for x in stocks:
+        x["financial_score"]=x["component_scores"]["financial"]
+        x["growth_score"]=x["component_scores"]["growth"]
+        x["momentum_score"]=x["component_scores"]["momentum"]
+
+    # Five strategy lists. Composite TOP10 is deliberately restricted to 100% coverage.
+    def top(field, eligible=None):
+        pool=[x for x in stocks if x.get(field) is not None and (eligible(x) if eligible else True)]
+        return sorted(pool,key=lambda z:z[field],reverse=True)[:10]
+    official=top("score",lambda x:x["official_recommendation_eligible"])
+    lists={
+      "overall": official,
+      "financial": top("financial_score"),
+      "growth": top("growth_score"),
+      "undervalued": [],  # PER/PBR/ROE complete valuation feed not connected yet
+      "momentum": top("momentum_score"),
+    }
+    # Expose named strategy metrics consistently.
+    for x in stocks:
+        x["financial_score"]=x["component_scores"]["financial"]
+        x["growth_score"]=x["component_scores"]["growth"]
+        x["momentum_score"]=x["component_scores"]["momentum"]
+    lists["financial"]=top("financial_score")
+    lists["growth"]=top("growth_score")
+    lists["momentum"]=top("momentum_score")
+
+    # Recommendation snapshots and forward return tracking. Future returns are filled
+    # by later runs when corresponding trading-day observations become available.
+    perf_file=OUT/"recommendation_history.json"
+    try: perf=json.loads(perf_file.read_text(encoding="utf-8"))
+    except Exception: perf=[]
+    if not any(p.get("as_of")==asof.isoformat() for p in perf):
+        perf.append({"as_of":asof.isoformat(),"tickers":[{"ticker":x["ticker"],"name":x["name"],"close":x["close"]} for x in official],"returns":{"1w":None,"1m":None,"3m":None}})
+    (perf_file).write_text(json.dumps(perf[-500:],ensure_ascii=False,indent=2),encoding="utf-8")
+
+    def compact(items):
+        keys=["ticker","name","close","change_pct","score","score_coverage_pct","grade","status","official_recommendation_eligible","component_scores","financial_score","growth_score","momentum_score","roe_pct","sales_growth_pct","operating_profit_growth_pct","momentum_20d","trading_value","reason","risk_factors"]
+        return [{k:x.get(k) for k in keys} for x in items]
+    result={
+      "as_of":asof.isoformat(),"market":{"kospi":None,"kospi_change_pct":None,"analyzed_count":len(stocks),"advancers":sum(1 for x in stocks if (x.get("change_pct") or 0)>0),"decliners":sum(1 for x in stocks if (x.get("change_pct") or 0)<0)},
+      "lists":{k:compact(v) for k,v in lists.items()},"top10":compact(official),
+      "performance":{"snapshots":len(perf),"note":"추천일 종가 저장. 1주·1개월·3개월 수익률은 이후 거래일 데이터 축적 후 계산 예정."},
+      "data_quality":{"label":"v3.0 베타 · 데이터 커버리지 우선","note":dart_note+". 외국인·기관 수급, PER/PBR, 증권사 전망 데이터 공급자는 미연결이며 임의 추정하지 않습니다.","official_top10_count":len(official),"coverage_gate":"공식 종합 TOP10은 7개 평가영역 전체 확보(100%) 시에만 포함"},
+      "providers":{"krx":"connected","opendart":"connected" if financial else ("configured_no_data" if DART_KEY else "not_configured"),"investor_flows":"not_connected","valuation":"not_connected","analyst_consensus":"not_connected"},
+      "model":{"version":"3.0-beta","weights":{"financial_health_profitability":20,"growth":20,"price_momentum":15,"foreign_flow":15,"institution_flow":10,"valuation_per_pbr":10,"broker_outlook":10},"grade_thresholds":{"S":90,"A":80,"B":70,"C":60,"excluded":0},"note":"고정 배점 유지. 미연결 항목은 점수 0점으로 간주하지 않고 미확보 처리; 커버리지 표시. 등급은 백테스트 전 잠정 기준."}
+    }
+    (OUT/"latest.json").write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding="utf-8")
+    print(f"[완료] v3.0-beta {asof}: KRX {len(stocks)}개 / DART 재무 {len(financial)}개 / 공식추천 가능 {len(official)}개",flush=True)
+
 
 if __name__ == "__main__":
     main()
