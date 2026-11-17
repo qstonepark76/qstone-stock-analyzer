@@ -1,59 +1,75 @@
-# Q Stone Park Stock Analyzer — 자동 업데이트 배포 패키지
+# Q Stone Park Stock Analyzer — v3.2 Beta
 
-## 무엇이 들어 있나요?
-- `index.html`: 모바일 대응 주식 분석 대시보드
-- `scripts/collect.py`: KRX 유가증권 일별매매정보 수집 및 기술지표 기반 TOP 10 산출
-- `.github/workflows/daily.yml`: 평일 19:00(KST) 자동 수집 및 GitHub Pages 배포
-- `data/latest.json`: 웹 화면이 읽는 최신 데이터
-- `data/history/`: 매일 수집한 원본 종목 스냅샷(실행 후 생성)
+## 개발 및 보호 원칙
+- 모든 v3.2 개발·수정·검증은 `v3-2-beta`에서만 진행합니다.
+- `main`과 `v3-1-beta`는 보존하며 이 개발 단계에서 수정하거나 병합하지 않습니다.
+- 베타 검증 완료 후 별도 승인 없이는 정식 배포하지 않습니다.
+- 현재 베타는 검증용이며 GitHub Pages 정식 사이트 배포 작업과 분리되어 있습니다.
 
-## 중요 — 자동 업데이트를 켜기 위한 준비
-이 ZIP은 실행 가능한 배포 뼈대이며, 사용자 GitHub 계정과 KRX 인증키에 접근할 수 없으므로 공개 웹사이트에 직접 배포되지는 않았습니다. 아래 설정을 한 번 해야 자동화가 작동합니다.
+## 프로그램 목표
+KOSPI·KOSDAQ 시가총액 상위 300개 종목을 대상으로 아래 7개 평가영역을 합산해 주식 스크리닝을 수행합니다.
 
-### 1. KRX 인증키 발급
-1. KRX Data Marketplace OPEN API에 회원가입/로그인합니다.
-2. API 인증키를 신청합니다.
-3. 서비스 목록에서 **유가증권 일별매매정보**를 찾아 이용 신청합니다.
-4. 승인 후 인증키와 API 서비스 사용 권한을 확인합니다.
-공식 안내: https://openapi.krx.co.kr/contents/OPP/INFO/OPPINFO003.jsp
+| 평가영역 | 배점 |
+|---|---:|
+| 재무 건전성 및 수익성 | 20 |
+| 기업 성장성 | 20 |
+| 주가 모멘텀 | 15 |
+| 외국인 수급 | 15 |
+| 기관 수급 | 10 |
+| 기업가치(PER/PBR) | 10 |
+| 증권사 전망·컨센서스 | 10 |
+| **합계** | **100** |
 
-KRX 서비스 설명/최신 수정일: https://openapi.krx.co.kr/contents/OPP/USES/service/OPPUSES002_S2.cmd?BO_ID=JvJFzlAENzZlPBDNGAWC
+배점은 확정값이며 임의로 변경하지 않습니다. 데이터가 없는 항목은 추정값으로 채우지 않습니다. 7개 평가영역의 가중치 기준 실제 커버리지가 100%인 종목만 공식 종합점수·등급 대상입니다. 그 외에는 잠정점수로 구분합니다.
 
-> KRX 문서상 인증키는 요청 헤더 `AUTH_KEY`에 전달합니다. API 서비스 승인 전에는 호출이 실패할 수 있습니다. API ID 및 응답 스키마가 계정의 승인 서비스 명세와 다르면 `KRX_API_BASE` 또는 `normalize()`의 필드명을 해당 명세에 맞춰 조정해야 합니다.
+등급 기준: S 90점 이상, A 80~89점, B 70~79점, C 60~69점, 60점 미만 제외. 이 기준은 향후 백테스트로 적정성을 검증합니다.
 
-### 2. GitHub 저장소 만들기
-1. GitHub에서 새 **Public repository**를 만듭니다. 예: `qstone-stock-analyzer`
-2. ZIP 압축을 풀고 모든 파일을 저장소의 루트에 업로드합니다.
-3. `Settings → Secrets and variables → Actions → New repository secret`에서:
-   - Name: `KRX_AUTH_KEY`
-   - Secret: 발급받은 KRX 인증키
-4. `Settings → Pages → Build and deployment → Source`를 **GitHub Actions**로 선택합니다.
-5. `Actions` 탭에서 `Update KOSPI data and deploy site`를 수동 실행합니다.
+## 현재 구현 상태
 
-공식 GitHub Pages 배포 안내: https://docs.github.com/en/get-started/start-your-journey/deploying-your-website-automatically
+### 연결·구현된 항목
+- KRX 일별 시세 및 시가총액 상위 300개 종목 구성
+- 일별 종목 스냅샷 누적 및 5·20·60거래일 가격 모멘텀 산출 기반
+- OpenDART 재무 데이터 수집 및 캐시
+- KIS 외국인·기관 순매수 수량 기반 수급 데이터
+- 무료 공개 증권사 리포트 메타데이터를 읽고 컨센서스 점수를 계산하는 모듈
+- 7개 평가영역의 실제 데이터 커버리지 게이트
+- 종합·재무·성장·저평가·모멘텀 TOP 10 대시보드 구조
+- 공식 추천일 종가 기록 기반 성과 추적 구조
 
-### 3. 접속 주소
-배포 성공 후:
-`https://YOUR-GITHUB-USERNAME.github.io/qstone-stock-analyzer/`
+### 아직 미완성·검증이 필요한 항목
+- PER/PBR 등 밸류에이션 데이터 연결
+- 가격 이력 61개 거래일 누적 및 60거래일 모멘텀 검증
+- 공개 증권사 리포트의 자동 발견·수집. 현재는 `data/analyst_reports.json`에 검증된 메타데이터를 입력하는 방식이며 자동 수집기는 아직 구현되지 않았습니다.
+- OpenDART 연간 5년·분기 3년 데이터 확장. 현재 수집 범위는 최신 연간 재무자료 중심입니다.
+- 1주·1개월·3개월 추천 성과 계산 및 KOSPI 대비 백테스트
+- 평가 산식·순위·화면의 통합 검증
 
-## 현재 산출 로직과 제한
-현재 1차 자동화 점수는 KRX 일별 시세에서 계산할 수 있는 기술·거래 지표만 사용합니다.
-- 20일 가격 모멘텀: 30점
-- 5일 가격 모멘텀: 20점
-- 거래대금 백분위: 20점
-- 20일 변동성 역순위: 15점
-- 당일 등락률 백분위: 15점
+## 자동 실행
+워크플로: `.github/workflows/v3-2-beta.yml`
 
-사용 가능한 지표만 가중치를 재정규화하며, 실제 데이터가 없는 값은 만들지 않습니다.
-**실적 성장성, PER/PBR/ROE, 외국인·기관 순매수, 증권사 목표주가, KOSPI 지수 레벨은 아직 연결하지 않았습니다.** 해당 데이터는 별도 승인된 API/공식 소스와 스키마 검증을 거쳐야 하므로 현재 점수에 가짜로 반영하지 않습니다.
+- 평일 19:15 (한국시간) 예약 실행
+- GitHub Actions 수동 실행 지원
+- `v3-2-beta` 브랜치 변경 시 실행
+- 수집 결과는 `v3-2-beta`의 `data/`에 저장
+- 현재 워크플로는 데이터 검증·저장용이며 GitHub Pages 정식 배포를 수행하지 않습니다.
 
-## 자동 수집 시간
-GitHub Actions 예약은 월~금 10:00 UTC(한국시간 19:00)입니다. 공휴일에는 데이터가 없어 최근 7일을 역순 조회하도록 되어 있습니다. GitHub Actions 예약 실행은 시스템 부하에 따라 지연될 수 있습니다.
+필요한 GitHub Actions Secrets:
+- `KRX_AUTH_KEY`
+- `DART_AUTH_KEY`
+- `KIS_APP_KEY`
+- `KIS_APP_SECRET`
 
-## 보안
-- 인증키는 GitHub Secrets에만 저장합니다.
-- 인증키를 `index.html`, JSON 파일, 공개 저장소 코드에 직접 넣지 마세요.
-- KRX 시세정보를 공개 웹사이트에서 재배포·상업적으로 이용하려는 경우 별도 이용계약/승인이 필요할 수 있습니다. KRX의 데이터 수신방법 안내를 확인하세요: https://openapi.krx.co.kr/contents/OPP/DATA/OPPDATA003.jsp
+키는 GitHub 저장소의 Settings → Secrets and variables → Actions에 보관하며 코드나 JSON 파일에 직접 기록하지 않습니다.
 
-## 주의
-이 도구는 종목 스크리닝 및 리서치 보조용입니다. 자동 점수는 매수 추천이나 수익 보장을 의미하지 않습니다.
+## 증권사 리포트 데이터 원칙
+무료로 공개된 리포트의 발행사·발행일·투자의견·목표주가·공식 원문 링크 등 검증된 메타데이터만 사용합니다. PDF 원문을 복제하거나 재배포하지 않습니다. 컨센서스 점수는 최근 90일 자료와 최소 3개 증권사 의견을 기준으로 산출하며, 자세한 운영 규칙은 [무료 공개 증권사 리포트 안내](docs/FREE_BROKER_REPORTS.md)를 참고합니다.
+
+## 개발 로드맵
+1. 베타 안정화: 수집 데이터·결측 처리·평가 로직·자동 실행 검증
+2. 핵심 평가 기능 완성: PER/PBR, 60거래일 모멘텀, 공개 리포트 데이터, 목표주가
+3. 종합점수 및 5개 TOP 10 완성
+4. 추천 이력과 1주·1개월·3개월 수익률 및 KOSPI 대비 백테스트
+5. 대시보드 최종 개선 및 베타 종합 검증
+
+## 투자 유의사항
+본 프로그램은 종목 스크리닝 및 리서치 보조 도구입니다. 점수와 순위는 매수·매도 권유가 아니며 수익을 보장하지 않습니다. 데이터 지연·오류와 평가모형의 한계를 확인한 뒤 투자 판단에 활용해야 합니다.
