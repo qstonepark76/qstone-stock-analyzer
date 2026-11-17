@@ -21,7 +21,10 @@ RATING_MAP = {
 
 
 def norm_name(value):
-    return re.sub(r"[\s㈜주식회사]", "", str(value or "")).casefold()
+    name = re.sub(r"\s+", "", str(value or "")).casefold()
+    name = re.sub(r"^(?:㈜|주식회사)", "", name)
+    name = re.sub(r"(?:㈜|주식회사)$", "", name)
+    return name
 
 
 def load_latest_krx():
