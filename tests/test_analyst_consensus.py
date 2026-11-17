@@ -72,8 +72,9 @@ class AnalystConsensusTests(unittest.TestCase):
             stocks = self.stock()
             summaries, _ = load_and_score_consensus(stocks, date(2026, 11, 17))
 
-        self.assertEqual(summaries, {})
-        self.assertNotIn("analyst_report_count", stocks[0])
+        self.assertEqual(summaries["005930"]["analyst_broker_count"], 0)
+        self.assertEqual(stocks[0]["analyst_report_count"], 0)
+        self.assertIsNone(stocks[0]["analyst_consensus_score"])
 
 
 if __name__ == "__main__":
