@@ -3210,5 +3210,71 @@
       "investor_flow_as_of": "20261116",
       "investor_flow_sessions": 5
     }
+  },
+  "039490": {
+    "as_of": "2026-11-16",
+    "metrics": {
+      "foreign_net_buy_qty_5d": -152329.0,
+      "institution_net_buy_qty_5d": 179407.0,
+      "foreign_flow_5d_pct": -28.95124459049295,
+      "institution_flow_5d_pct": 34.09761725112467,
+      "investor_flow_as_of": "20261116",
+      "investor_flow_sessions": 5
+    }
+  },
+  "241560": {
+    "as_of": "2026-11-16",
+    "metrics": {
+      "foreign_net_buy_qty_5d": -231943.0,
+      "institution_net_buy_qty_5d": 278468.0,
+      "foreign_flow_5d_pct": -19.611346260837507,
+      "institution_flow_5d_pct": 23.545148465626898,
+      "investor_flow_as_of": "20261116",
+      "investor_flow_sessions": 5
+    }
+  },
+  "008930": {
+    "as_of": "2026-11-16",
+    "metrics": {
+      "foreign_net_buy_qty_5d": 236033.0,
+      "institution_net_buy_qty_5d": -142181.0,
+      "foreign_flow_5d_pct": 16.420852123072386,
+      "institution_flow_5d_pct": -9.891554044182614,
+      "investor_flow_as_of": "20261116",
+      "investor_flow_sessions": 5
+    }
+  },
+  "383220": {
+    "as_of": "2026-11-16",
+    "metrics": {
+      "foreign_net_buy_qty_5d": -18393.0,
+      "institution_net_buy_qty_5d": -10696.0,
+      "foreign_flow_5d_pct": -6.201992136657608,
+      "institution_flow_5d_pct": -3.6066170768058377,
+      "investor_flow_as_of": "20261116",
+      "investor_flow_sessions": 5
+    }
+  },
+  "005440": {
+    "as_of": "2026-11-16",
+    "metrics": {
+      "foreign_net_buy_qty_5d": 203214.0,
+      "institution_net_buy_qty_5d": -196505.0,
+      "foreign_flow_5d_pct": 30.03067883574114,
+      "institution_flow_5d_pct": -29.03923226065779,
+      "investor_flow_as_of": "20261116",
+      "investor_flow_sessions": 5
+    }
+  },
+  "014680": {
+    "as_of": "2026-11-16",
+    "metrics": {
+      "foreign_net_buy_qty_5d": 3612.0,
+      "institution_net_buy_qty_5d": -7378.0,
+      "foreign_flow_5d_pct": 1.5103112612687952,
+      "institution_flow_5d_pct": -3.0850156383281204,
+      "investor_flow_as_of": "20261116",
+      "investor_flow_sessions": 5
+    }
   }
 }

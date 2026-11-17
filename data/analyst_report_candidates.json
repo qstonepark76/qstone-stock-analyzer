@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "source": "Naver Stock Research API v2",
-  "collected_at": "2026-11-17T11:45:53.021555+00:00",
+  "collected_at": "2026-11-17T12:09:02.566255+00:00",
   "candidate_count": 500,
   "source_total_count": "90334",
   "verified_for_scoring": 0,
@@ -17,6 +17,9 @@
       "research_id": "98316",
       "ticker": "001040",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "180000",
       "rating": null,
       "target_price": null
     },
@@ -30,6 +33,9 @@
       "research_id": "98315",
       "ticker": "006260",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "342000",
       "rating": null,
       "target_price": null
     },
@@ -43,6 +49,9 @@
       "research_id": "98314",
       "ticker": "111770",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "100000",
       "rating": null,
       "target_price": null
     },
@@ -56,6 +65,9 @@
       "research_id": "98313",
       "ticker": "034730",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "650000",
       "rating": null,
       "target_price": null
     },
@@ -69,6 +81,9 @@
       "research_id": "98311",
       "ticker": "007660",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "150000",
       "rating": null,
       "target_price": null
     },
@@ -82,6 +97,9 @@
       "research_id": "98310",
       "ticker": "086450",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "29000",
       "rating": null,
       "target_price": null
     },
@@ -95,6 +113,9 @@
       "research_id": "98309",
       "ticker": "104830",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "65000",
       "rating": null,
       "target_price": null
     },
@@ -108,6 +129,9 @@
       "research_id": "98308",
       "ticker": "038390",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -121,6 +145,9 @@
       "research_id": "98307",
       "ticker": "032350",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "16000",
       "rating": null,
       "target_price": null
     },
@@ -134,6 +161,9 @@
       "research_id": "98306",
       "ticker": "006730",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "16500",
       "rating": null,
       "target_price": null
     },
@@ -147,6 +177,9 @@
       "research_id": "98305",
       "ticker": "073490",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "80000",
       "rating": null,
       "target_price": null
     },
@@ -160,6 +193,9 @@
       "research_id": "98304",
       "ticker": "138080",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "60000",
       "rating": null,
       "target_price": null
     },
@@ -173,6 +209,9 @@
       "research_id": "98303",
       "ticker": "034730",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "650000",
       "rating": null,
       "target_price": null
     },
@@ -186,6 +225,9 @@
       "research_id": "98302",
       "ticker": "001040",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "165000",
       "rating": null,
       "target_price": null
     },
@@ -199,6 +241,9 @@
       "research_id": "98272",
       "ticker": "018290",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -212,6 +257,9 @@
       "research_id": "98288",
       "ticker": "006730",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "19000",
       "rating": null,
       "target_price": null
     },
@@ -225,6 +273,9 @@
       "research_id": "98286",
       "ticker": "282880",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "13000",
       "rating": null,
       "target_price": null
     },
@@ -238,6 +289,9 @@
       "research_id": "98285",
       "ticker": "095570",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "6000",
       "rating": null,
       "target_price": null
     },
@@ -251,6 +305,9 @@
       "research_id": "98284",
       "ticker": "053580",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "9100",
       "rating": null,
       "target_price": null
     },
@@ -264,6 +321,9 @@
       "research_id": "98283",
       "ticker": "093370",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "20000",
       "rating": null,
       "target_price": null
     },
@@ -277,6 +337,9 @@
       "research_id": "98301",
       "ticker": "086670",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -290,6 +353,9 @@
       "research_id": "98300",
       "ticker": "441270",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -303,6 +369,9 @@
       "research_id": "98277",
       "ticker": "194370",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "19000",
       "rating": null,
       "target_price": null
     },
@@ -316,6 +385,9 @@
       "research_id": "98276",
       "ticker": "171090",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "134000",
       "rating": null,
       "target_price": null
     },
@@ -329,6 +401,9 @@
       "research_id": "98271",
       "ticker": "253590",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -342,6 +417,9 @@
       "research_id": "98270",
       "ticker": "074600",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "45000",
       "rating": null,
       "target_price": null
     },
@@ -355,6 +433,9 @@
       "research_id": "98269",
       "ticker": "131290",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "400000",
       "rating": null,
       "target_price": null
     },
@@ -368,6 +449,9 @@
       "research_id": "98268",
       "ticker": "232140",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "19000",
       "rating": null,
       "target_price": null
     },
@@ -381,6 +465,9 @@
       "research_id": "98266",
       "ticker": "491000",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -394,6 +481,9 @@
       "research_id": "98265",
       "ticker": "389500",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "52000",
       "rating": null,
       "target_price": null
     },
@@ -407,6 +497,9 @@
       "research_id": "98264",
       "ticker": "058610",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "110000",
       "rating": null,
       "target_price": null
     },
@@ -420,6 +513,9 @@
       "research_id": "98263",
       "ticker": "009830",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "35000",
       "rating": null,
       "target_price": null
     },
@@ -433,6 +529,9 @@
       "research_id": "98262",
       "ticker": "322000",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "142000",
       "rating": null,
       "target_price": null
     },
@@ -446,6 +545,9 @@
       "research_id": "98298",
       "ticker": "051370",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "MarketPerform",
+      "source_goal_price": "6400",
       "rating": null,
       "target_price": null
     },
@@ -459,6 +561,9 @@
       "research_id": "98297",
       "ticker": "097520",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "24000",
       "rating": null,
       "target_price": null
     },
@@ -472,6 +577,9 @@
       "research_id": "98296",
       "ticker": "068790",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -485,6 +593,9 @@
       "research_id": "98295",
       "ticker": "007810",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "120000",
       "rating": null,
       "target_price": null
     },
@@ -498,6 +609,9 @@
       "research_id": "98294",
       "ticker": "060720",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "14000",
       "rating": null,
       "target_price": null
     },
@@ -511,6 +625,9 @@
       "research_id": "98293",
       "ticker": "005850",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "70000",
       "rating": null,
       "target_price": null
     },
@@ -524,6 +641,9 @@
       "research_id": "98292",
       "ticker": "402340",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "1500000",
       "rating": null,
       "target_price": null
     },
@@ -537,6 +657,9 @@
       "research_id": "98291",
       "ticker": "006260",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "295000",
       "rating": null,
       "target_price": null
     },
@@ -550,6 +673,9 @@
       "research_id": "98290",
       "ticker": "034730",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "880000",
       "rating": null,
       "target_price": null
     },
@@ -563,6 +689,9 @@
       "research_id": "98289",
       "ticker": "053210",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "MarketPerform",
+      "source_goal_price": "4600",
       "rating": null,
       "target_price": null
     },
@@ -576,6 +705,9 @@
       "research_id": "98279",
       "ticker": "078600",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "135000",
       "rating": null,
       "target_price": null
     },
@@ -589,6 +721,9 @@
       "research_id": "98299",
       "ticker": "007660",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "125000",
       "rating": null,
       "target_price": null
     },
@@ -602,6 +737,9 @@
       "research_id": "98278",
       "ticker": "125210",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "9200",
       "rating": null,
       "target_price": null
     },
@@ -615,6 +753,9 @@
       "research_id": "98274",
       "ticker": "001040",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "150000",
       "rating": null,
       "target_price": null
     },
@@ -628,6 +769,9 @@
       "research_id": "98287",
       "ticker": "053690",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "26000",
       "rating": null,
       "target_price": null
     },
@@ -641,6 +785,9 @@
       "research_id": "98282",
       "ticker": "336370",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "10000",
       "rating": null,
       "target_price": null
     },
@@ -654,6 +801,9 @@
       "research_id": "98281",
       "ticker": "393890",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "12000",
       "rating": null,
       "target_price": null
     },
@@ -667,6 +817,9 @@
       "research_id": "98280",
       "ticker": "086450",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "30000",
       "rating": null,
       "target_price": null
     },
@@ -680,6 +833,9 @@
       "research_id": "98275",
       "ticker": "214150",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "30000",
       "rating": null,
       "target_price": null
     },
@@ -693,6 +849,9 @@
       "research_id": "98273",
       "ticker": "214430",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "74000",
       "rating": null,
       "target_price": null
     },
@@ -706,6 +865,9 @@
       "research_id": "98267",
       "ticker": "006730",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "18000",
       "rating": null,
       "target_price": null
     },
@@ -719,6 +881,9 @@
       "research_id": "98312",
       "ticker": "178320",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "52000",
       "rating": null,
       "target_price": null
     },
@@ -732,6 +897,9 @@
       "research_id": "98261",
       "ticker": "100090",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "20000",
       "rating": null,
       "target_price": null
     },
@@ -745,6 +913,9 @@
       "research_id": "98260",
       "ticker": "105630",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "Hold",
+      "source_goal_price": "9300",
       "rating": null,
       "target_price": null
     },
@@ -758,6 +929,9 @@
       "research_id": "98259",
       "ticker": "081660",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "60000",
       "rating": null,
       "target_price": null
     },
@@ -771,6 +945,9 @@
       "research_id": "98258",
       "ticker": "004370",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "550000",
       "rating": null,
       "target_price": null
     },
@@ -784,6 +961,9 @@
       "research_id": "98257",
       "ticker": "001450",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "53000",
       "rating": null,
       "target_price": null
     },
@@ -797,6 +977,9 @@
       "research_id": "98256",
       "ticker": "032350",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "16000",
       "rating": null,
       "target_price": null
     },
@@ -810,6 +993,9 @@
       "research_id": "98251",
       "ticker": "475150",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -823,6 +1009,9 @@
       "research_id": "98250",
       "ticker": "100090",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "18000",
       "rating": null,
       "target_price": null
     },
@@ -836,6 +1025,9 @@
       "research_id": "98249",
       "ticker": "141080",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "140000",
       "rating": null,
       "target_price": null
     },
@@ -849,6 +1041,9 @@
       "research_id": "98248",
       "ticker": "034120",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "18000",
       "rating": null,
       "target_price": null
     },
@@ -862,6 +1057,9 @@
       "research_id": "98247",
       "ticker": "004370",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "540000",
       "rating": null,
       "target_price": null
     },
@@ -875,6 +1073,9 @@
       "research_id": "98198",
       "ticker": "004370",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "580000",
       "rating": null,
       "target_price": null
     },
@@ -888,6 +1089,9 @@
       "research_id": "98197",
       "ticker": "001450",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "OutPerform",
+      "source_goal_price": "42000",
       "rating": null,
       "target_price": null
     },
@@ -901,6 +1105,9 @@
       "research_id": "98196",
       "ticker": "034230",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "16000",
       "rating": null,
       "target_price": null
     },
@@ -914,6 +1121,9 @@
       "research_id": "98195",
       "ticker": "032350",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "17000",
       "rating": null,
       "target_price": null
     },
@@ -927,6 +1137,9 @@
       "research_id": "98194",
       "ticker": "114090",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "10000",
       "rating": null,
       "target_price": null
     },
@@ -940,6 +1153,9 @@
       "research_id": "98193",
       "ticker": "445680",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -953,6 +1169,9 @@
       "research_id": "98192",
       "ticker": "071280",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -966,6 +1185,9 @@
       "research_id": "98189",
       "ticker": "328130",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -979,6 +1201,9 @@
       "research_id": "98229",
       "ticker": "263860",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -992,6 +1217,9 @@
       "research_id": "98228",
       "ticker": "010280",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -1005,6 +1233,9 @@
       "research_id": "98227",
       "ticker": "372910",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -1018,6 +1249,9 @@
       "research_id": "98225",
       "ticker": "030520",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "21300",
       "rating": null,
       "target_price": null
     },
@@ -1031,6 +1265,9 @@
       "research_id": "98224",
       "ticker": "001530",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "40000",
       "rating": null,
       "target_price": null
     },
@@ -1044,6 +1281,9 @@
       "research_id": "98223",
       "ticker": "214150",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "34000",
       "rating": null,
       "target_price": null
     },
@@ -1057,6 +1297,9 @@
       "research_id": "98222",
       "ticker": "100090",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "20000",
       "rating": null,
       "target_price": null
     },
@@ -1070,6 +1313,9 @@
       "research_id": "98221",
       "ticker": "032350",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "17000",
       "rating": null,
       "target_price": null
     },
@@ -1083,6 +1329,9 @@
       "research_id": "98208",
       "ticker": "015760",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "40000",
       "rating": null,
       "target_price": null
     },
@@ -1096,6 +1345,9 @@
       "research_id": "98246",
       "ticker": "069960",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "120000",
       "rating": null,
       "target_price": null
     },
@@ -1109,6 +1361,9 @@
       "research_id": "98245",
       "ticker": "251970",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "108000",
       "rating": null,
       "target_price": null
     },
@@ -1122,6 +1377,9 @@
       "research_id": "98244",
       "ticker": "004170",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "380000",
       "rating": null,
       "target_price": null
     },
@@ -1135,6 +1393,9 @@
       "research_id": "98243",
       "ticker": "257720",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "31000",
       "rating": null,
       "target_price": null
     },
@@ -1148,6 +1409,9 @@
       "research_id": "98242",
       "ticker": "004370",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "570000",
       "rating": null,
       "target_price": null
     },
@@ -1161,6 +1425,9 @@
       "research_id": "98241",
       "ticker": "006800",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "40000",
       "rating": null,
       "target_price": null
     },
@@ -1174,6 +1441,9 @@
       "research_id": "98232",
       "ticker": "052400",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "38000",
       "rating": null,
       "target_price": null
     },
@@ -1187,6 +1457,9 @@
       "research_id": "98220",
       "ticker": "100090",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "14000",
       "rating": null,
       "target_price": null
     },
@@ -1200,6 +1473,9 @@
       "research_id": "98219",
       "ticker": "035420",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "280000",
       "rating": null,
       "target_price": null
     },
@@ -1213,6 +1489,9 @@
       "research_id": "98218",
       "ticker": "083650",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "80000",
       "rating": null,
       "target_price": null
     },
@@ -1226,6 +1505,9 @@
       "research_id": "98216",
       "ticker": "092870",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -1239,6 +1521,9 @@
       "research_id": "98213",
       "ticker": "014680",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "300000",
       "rating": null,
       "target_price": null
     },
@@ -1252,6 +1537,9 @@
       "research_id": "98212",
       "ticker": "170920",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "56000",
       "rating": null,
       "target_price": null
     },
@@ -1265,6 +1553,9 @@
       "research_id": "98211",
       "ticker": "081660",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "49000",
       "rating": null,
       "target_price": null
     },
@@ -1278,6 +1569,9 @@
       "research_id": "98210",
       "ticker": "039030",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "580000",
       "rating": null,
       "target_price": null
     },
@@ -1291,6 +1585,9 @@
       "research_id": "98209",
       "ticker": "095610",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "148000",
       "rating": null,
       "target_price": null
     },
@@ -1304,6 +1601,9 @@
       "research_id": "98207",
       "ticker": "356860",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "68000",
       "rating": null,
       "target_price": null
     },
@@ -1317,6 +1617,9 @@
       "research_id": "98204",
       "ticker": "192080",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "84000",
       "rating": null,
       "target_price": null
     },
@@ -1330,6 +1633,9 @@
       "research_id": "98203",
       "ticker": "036570",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "360000",
       "rating": null,
       "target_price": null
     },
@@ -1343,6 +1649,9 @@
       "research_id": "98200",
       "ticker": "078340",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "48000",
       "rating": null,
       "target_price": null
     },
@@ -1356,6 +1665,9 @@
       "research_id": "98240",
       "ticker": "458870",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -1369,6 +1681,9 @@
       "research_id": "98239",
       "ticker": "328130",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -1382,6 +1697,9 @@
       "research_id": "98233",
       "ticker": "073490",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "42000",
       "rating": null,
       "target_price": null
     },
@@ -1395,6 +1713,9 @@
       "research_id": "98188",
       "ticker": "214150",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "45000",
       "rating": null,
       "target_price": null
     },
@@ -1408,6 +1729,9 @@
       "research_id": "98238",
       "ticker": "034120",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "17000",
       "rating": null,
       "target_price": null
     },
@@ -1421,6 +1745,9 @@
       "research_id": "98237",
       "ticker": "319660",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "150000",
       "rating": null,
       "target_price": null
     },
@@ -1434,6 +1761,9 @@
       "research_id": "98236",
       "ticker": "004170",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "520000",
       "rating": null,
       "target_price": null
     },
@@ -1447,6 +1777,9 @@
       "research_id": "98235",
       "ticker": "009900",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "11700",
       "rating": null,
       "target_price": null
     },
@@ -1460,6 +1793,9 @@
       "research_id": "98234",
       "ticker": "139480",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "84000",
       "rating": null,
       "target_price": null
     },
@@ -1473,6 +1809,9 @@
       "research_id": "98226",
       "ticker": "004170",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "400000",
       "rating": null,
       "target_price": null
     },
@@ -1486,6 +1825,9 @@
       "research_id": "98217",
       "ticker": "178320",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "65000",
       "rating": null,
       "target_price": null
     },
@@ -1499,6 +1841,9 @@
       "research_id": "98214",
       "ticker": "064290",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "84000",
       "rating": null,
       "target_price": null
     },
@@ -1512,6 +1857,9 @@
       "research_id": "98206",
       "ticker": "001740",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "8000",
       "rating": null,
       "target_price": null
     },
@@ -1525,6 +1873,9 @@
       "research_id": "98205",
       "ticker": "029460",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -1538,6 +1889,9 @@
       "research_id": "98191",
       "ticker": "001450",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "58000",
       "rating": null,
       "target_price": null
     },
@@ -1551,6 +1905,9 @@
       "research_id": "98190",
       "ticker": "031210",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "56000",
       "rating": null,
       "target_price": null
     },
@@ -1564,6 +1921,9 @@
       "research_id": "98231",
       "ticker": "081660",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "50000",
       "rating": null,
       "target_price": null
     },
@@ -1577,6 +1937,9 @@
       "research_id": "98230",
       "ticker": "336370",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "10000",
       "rating": null,
       "target_price": null
     },
@@ -1590,6 +1953,9 @@
       "research_id": "98215",
       "ticker": "020150",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "60000",
       "rating": null,
       "target_price": null
     },
@@ -1603,6 +1969,9 @@
       "research_id": "98201",
       "ticker": "192080",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "74000",
       "rating": null,
       "target_price": null
     },
@@ -1616,6 +1985,9 @@
       "research_id": "98202",
       "ticker": "039570",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "10500",
       "rating": null,
       "target_price": null
     },
@@ -1629,6 +2001,9 @@
       "research_id": "98199",
       "ticker": "095610",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "160000",
       "rating": null,
       "target_price": null
     },
@@ -1642,6 +2017,9 @@
       "research_id": "98187",
       "ticker": "083650",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "70000",
       "rating": null,
       "target_price": null
     },
@@ -1655,6 +2033,9 @@
       "research_id": "98255",
       "ticker": "018670",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "300000",
       "rating": null,
       "target_price": null
     },
@@ -1668,6 +2049,9 @@
       "research_id": "98254",
       "ticker": "445680",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -1681,6 +2065,9 @@
       "research_id": "98253",
       "ticker": "475150",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "43000",
       "rating": null,
       "target_price": null
     },
@@ -1694,6 +2081,9 @@
       "research_id": "98252",
       "ticker": "100090",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "13000",
       "rating": null,
       "target_price": null
     },
@@ -1707,6 +2097,9 @@
       "research_id": "98185",
       "ticker": "483650",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "200000",
       "rating": null,
       "target_price": null
     },
@@ -1720,6 +2113,9 @@
       "research_id": "98180",
       "ticker": "000880",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "105000",
       "rating": null,
       "target_price": null
     },
@@ -1733,6 +2129,9 @@
       "research_id": "98177",
       "ticker": "003550",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "125000",
       "rating": null,
       "target_price": null
     },
@@ -1746,6 +2145,9 @@
       "research_id": "98173",
       "ticker": "000810",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "700000",
       "rating": null,
       "target_price": null
     },
@@ -1759,6 +2161,9 @@
       "research_id": "98171",
       "ticker": "005830",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "247000",
       "rating": null,
       "target_price": null
     },
@@ -1772,6 +2177,9 @@
       "research_id": "98169",
       "ticker": "088350",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "5300",
       "rating": null,
       "target_price": null
     },
@@ -1785,6 +2193,9 @@
       "research_id": "98132",
       "ticker": "147760",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -1798,6 +2209,9 @@
       "research_id": "98181",
       "ticker": "483650",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "185000",
       "rating": null,
       "target_price": null
     },
@@ -1811,6 +2225,9 @@
       "research_id": "98179",
       "ticker": "036460",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "55000",
       "rating": null,
       "target_price": null
     },
@@ -1824,6 +2241,9 @@
       "research_id": "98178",
       "ticker": "015760",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "40000",
       "rating": null,
       "target_price": null
     },
@@ -1837,6 +2257,9 @@
       "research_id": "98176",
       "ticker": "035420",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "340000",
       "rating": null,
       "target_price": null
     },
@@ -1850,6 +2273,9 @@
       "research_id": "98175",
       "ticker": "011200",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "24000",
       "rating": null,
       "target_price": null
     },
@@ -1863,6 +2289,9 @@
       "research_id": "98174",
       "ticker": "003550",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "125000",
       "rating": null,
       "target_price": null
     },
@@ -1876,6 +2305,9 @@
       "research_id": "98172",
       "ticker": "066970",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "140000",
       "rating": null,
       "target_price": null
     },
@@ -1889,6 +2321,9 @@
       "research_id": "98138",
       "ticker": "088350",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "7000",
       "rating": null,
       "target_price": null
     },
@@ -1902,6 +2337,9 @@
       "research_id": "98137",
       "ticker": "032830",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "400000",
       "rating": null,
       "target_price": null
     },
@@ -1915,6 +2353,9 @@
       "research_id": "98136",
       "ticker": "006800",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "53000",
       "rating": null,
       "target_price": null
     },
@@ -1928,6 +2369,9 @@
       "research_id": "98134",
       "ticker": "015760",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -1941,6 +2385,9 @@
       "research_id": "98133",
       "ticker": "214150",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "35000",
       "rating": null,
       "target_price": null
     },
@@ -1954,6 +2401,9 @@
       "research_id": "98161",
       "ticker": "263750",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "35000",
       "rating": null,
       "target_price": null
     },
@@ -1967,6 +2417,9 @@
       "research_id": "98156",
       "ticker": "035420",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "320000",
       "rating": null,
       "target_price": null
     },
@@ -1980,6 +2433,9 @@
       "research_id": "98155",
       "ticker": "192080",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "78000",
       "rating": null,
       "target_price": null
     },
@@ -1993,6 +2449,9 @@
       "research_id": "98153",
       "ticker": "054450",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "11500",
       "rating": null,
       "target_price": null
     },
@@ -2006,6 +2465,9 @@
       "research_id": "98152",
       "ticker": "452430",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -2019,6 +2481,9 @@
       "research_id": "98151",
       "ticker": "336370",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "13000",
       "rating": null,
       "target_price": null
     },
@@ -2032,6 +2497,9 @@
       "research_id": "98150",
       "ticker": "036460",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "59000",
       "rating": null,
       "target_price": null
     },
@@ -2045,6 +2513,9 @@
       "research_id": "98168",
       "ticker": "015760",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "43000",
       "rating": null,
       "target_price": null
     },
@@ -2058,6 +2529,9 @@
       "research_id": "98167",
       "ticker": "192080",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "84000",
       "rating": null,
       "target_price": null
     },
@@ -2071,6 +2545,9 @@
       "research_id": "98166",
       "ticker": "263860",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -2084,6 +2561,9 @@
       "research_id": "98146",
       "ticker": "187870",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -2097,6 +2577,9 @@
       "research_id": "98144",
       "ticker": "214150",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "35000",
       "rating": null,
       "target_price": null
     },
@@ -2110,6 +2593,9 @@
       "research_id": "98143",
       "ticker": "483650",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "290000",
       "rating": null,
       "target_price": null
     },
@@ -2123,6 +2609,9 @@
       "research_id": "98141",
       "ticker": "015760",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "40000",
       "rating": null,
       "target_price": null
     },
@@ -2136,6 +2625,9 @@
       "research_id": "98140",
       "ticker": "036460",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "46000",
       "rating": null,
       "target_price": null
     },
@@ -2149,6 +2641,9 @@
       "research_id": "98124",
       "ticker": "000910",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -2162,6 +2657,9 @@
       "research_id": "98123",
       "ticker": "001520",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -2175,6 +2673,9 @@
       "research_id": "98122",
       "ticker": "002200",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -2188,6 +2689,9 @@
       "research_id": "98186",
       "ticker": "003550",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "120000",
       "rating": null,
       "target_price": null
     },
@@ -2201,6 +2705,9 @@
       "research_id": "98184",
       "ticker": "011200",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "28000",
       "rating": null,
       "target_price": null
     },
@@ -2214,6 +2721,9 @@
       "research_id": "98121",
       "ticker": "035420",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "240000",
       "rating": null,
       "target_price": null
     },
@@ -2227,6 +2737,9 @@
       "research_id": "98120",
       "ticker": "0009K0",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -2240,6 +2753,9 @@
       "research_id": "98183",
       "ticker": "214150",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "45000",
       "rating": null,
       "target_price": null
     },
@@ -2253,6 +2769,9 @@
       "research_id": "98159",
       "ticker": "011200",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "Hold",
+      "source_goal_price": "23000",
       "rating": null,
       "target_price": null
     },
@@ -2266,6 +2785,9 @@
       "research_id": "98158",
       "ticker": "015760",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "40000",
       "rating": null,
       "target_price": null
     },
@@ -2279,6 +2801,9 @@
       "research_id": "98148",
       "ticker": "016360",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "99000",
       "rating": null,
       "target_price": null
     },
@@ -2292,6 +2817,9 @@
       "research_id": "98145",
       "ticker": "032830",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "294000",
       "rating": null,
       "target_price": null
     },
@@ -2305,6 +2833,9 @@
       "research_id": "98142",
       "ticker": "006800",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "Hold",
+      "source_goal_price": "23000",
       "rating": null,
       "target_price": null
     },
@@ -2318,6 +2849,9 @@
       "research_id": "98139",
       "ticker": "088350",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "5400",
       "rating": null,
       "target_price": null
     },
@@ -2331,6 +2865,9 @@
       "research_id": "98170",
       "ticker": "035420",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "260000",
       "rating": null,
       "target_price": null
     },
@@ -2344,6 +2881,9 @@
       "research_id": "98165",
       "ticker": "015760",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "중립",
+      "source_goal_price": "30000",
       "rating": null,
       "target_price": null
     },
@@ -2357,6 +2897,9 @@
       "research_id": "98164",
       "ticker": "009150",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -2370,6 +2913,9 @@
       "research_id": "98163",
       "ticker": "095340",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "200000",
       "rating": null,
       "target_price": null
     },
@@ -2383,6 +2929,9 @@
       "research_id": "98162",
       "ticker": "095610",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "160000",
       "rating": null,
       "target_price": null
     },
@@ -2396,6 +2945,9 @@
       "research_id": "98160",
       "ticker": "089890",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "73000",
       "rating": null,
       "target_price": null
     },
@@ -2409,6 +2961,9 @@
       "research_id": "98157",
       "ticker": "003550",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "110000",
       "rating": null,
       "target_price": null
     },
@@ -2422,6 +2977,9 @@
       "research_id": "98154",
       "ticker": "016360",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "105000",
       "rating": null,
       "target_price": null
     },
@@ -2435,6 +2993,9 @@
       "research_id": "98147",
       "ticker": "006800",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "29000",
       "rating": null,
       "target_price": null
     },
@@ -2448,6 +3009,9 @@
       "research_id": "98127",
       "ticker": "301300",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -2461,6 +3025,9 @@
       "research_id": "98126",
       "ticker": "322780",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -2474,6 +3041,9 @@
       "research_id": "98125",
       "ticker": "013870",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -2487,6 +3057,9 @@
       "research_id": "98149",
       "ticker": "119850",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "56000",
       "rating": null,
       "target_price": null
     },
@@ -2500,6 +3073,9 @@
       "research_id": "98135",
       "ticker": "015760",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "39000",
       "rating": null,
       "target_price": null
     },
@@ -2513,6 +3089,9 @@
       "research_id": "98131",
       "ticker": "009540",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -2526,6 +3105,9 @@
       "research_id": "98130",
       "ticker": "192080",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "91000",
       "rating": null,
       "target_price": null
     },
@@ -2539,6 +3121,9 @@
       "research_id": "98129",
       "ticker": "035420",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "320000",
       "rating": null,
       "target_price": null
     },
@@ -2552,6 +3137,9 @@
       "research_id": "98128",
       "ticker": "139480",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "100000",
       "rating": null,
       "target_price": null
     },
@@ -2565,6 +3153,9 @@
       "research_id": "98182",
       "ticker": "015760",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "중립",
+      "source_goal_price": "31000",
       "rating": null,
       "target_price": null
     },
@@ -2578,6 +3169,9 @@
       "research_id": "98102",
       "ticker": "000370",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "9700",
       "rating": null,
       "target_price": null
     },
@@ -2591,6 +3185,9 @@
       "research_id": "98101",
       "ticker": "257720",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "46000",
       "rating": null,
       "target_price": null
     },
@@ -2604,6 +3201,9 @@
       "research_id": "98100",
       "ticker": "192820",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "370000",
       "rating": null,
       "target_price": null
     },
@@ -2617,6 +3217,9 @@
       "research_id": "98099",
       "ticker": "280360",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "200000",
       "rating": null,
       "target_price": null
     },
@@ -2630,6 +3233,9 @@
       "research_id": "98098",
       "ticker": "003230",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "1800000",
       "rating": null,
       "target_price": null
     },
@@ -2643,6 +3249,9 @@
       "research_id": "98097",
       "ticker": "139480",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "Hold",
+      "source_goal_price": "67000",
       "rating": null,
       "target_price": null
     },
@@ -2656,6 +3265,9 @@
       "research_id": "98036",
       "ticker": "357230",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -2669,6 +3281,9 @@
       "research_id": "98035",
       "ticker": "246690",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -2682,6 +3297,9 @@
       "research_id": "98112",
       "ticker": "139480",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "Neutral",
+      "source_goal_price": "70000",
       "rating": null,
       "target_price": null
     },
@@ -2695,6 +3313,9 @@
       "research_id": "98111",
       "ticker": "095660",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "26000",
       "rating": null,
       "target_price": null
     },
@@ -2708,6 +3329,9 @@
       "research_id": "98110",
       "ticker": "036570",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "320000",
       "rating": null,
       "target_price": null
     },
@@ -2721,6 +3345,9 @@
       "research_id": "98109",
       "ticker": "035900",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "55000",
       "rating": null,
       "target_price": null
     },
@@ -2734,6 +3361,9 @@
       "research_id": "98108",
       "ticker": "120110",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "60000",
       "rating": null,
       "target_price": null
     },
@@ -2747,6 +3377,9 @@
       "research_id": "98107",
       "ticker": "006040",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "60000",
       "rating": null,
       "target_price": null
     },
@@ -2760,6 +3393,9 @@
       "research_id": "98106",
       "ticker": "425420",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "110000",
       "rating": null,
       "target_price": null
     },
@@ -2773,6 +3409,9 @@
       "research_id": "98105",
       "ticker": "020150",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "69000",
       "rating": null,
       "target_price": null
     },
@@ -2786,6 +3425,9 @@
       "research_id": "98104",
       "ticker": "257720",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "40000",
       "rating": null,
       "target_price": null
     },
@@ -2799,6 +3441,9 @@
       "research_id": "98103",
       "ticker": "192820",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "420000",
       "rating": null,
       "target_price": null
     },
@@ -2812,6 +3457,9 @@
       "research_id": "98046",
       "ticker": "494120",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -2825,6 +3473,9 @@
       "research_id": "98044",
       "ticker": "356860",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "60000",
       "rating": null,
       "target_price": null
     },
@@ -2838,6 +3489,9 @@
       "research_id": "98043",
       "ticker": "192820",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "400000",
       "rating": null,
       "target_price": null
     },
@@ -2851,6 +3505,9 @@
       "research_id": "98042",
       "ticker": "035900",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "60000",
       "rating": null,
       "target_price": null
     },
@@ -2864,6 +3521,9 @@
       "research_id": "98041",
       "ticker": "005430",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -2877,6 +3537,9 @@
       "research_id": "98040",
       "ticker": "257720",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "47000",
       "rating": null,
       "target_price": null
     },
@@ -2890,6 +3553,9 @@
       "research_id": "98039",
       "ticker": "138040",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "170000",
       "rating": null,
       "target_price": null
     },
@@ -2903,6 +3569,9 @@
       "research_id": "98038",
       "ticker": "003230",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "1850000",
       "rating": null,
       "target_price": null
     },
@@ -2916,6 +3585,9 @@
       "research_id": "98037",
       "ticker": "280360",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "170000",
       "rating": null,
       "target_price": null
     },
@@ -2929,6 +3601,9 @@
       "research_id": "98066",
       "ticker": "228850",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "10000",
       "rating": null,
       "target_price": null
     },
@@ -2942,6 +3617,9 @@
       "research_id": "98065",
       "ticker": "043150",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "24000",
       "rating": null,
       "target_price": null
     },
@@ -2955,6 +3633,9 @@
       "research_id": "98063",
       "ticker": "192820",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "420000",
       "rating": null,
       "target_price": null
     },
@@ -2968,6 +3649,9 @@
       "research_id": "98062",
       "ticker": "035900",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "55000",
       "rating": null,
       "target_price": null
     },
@@ -2981,6 +3665,9 @@
       "research_id": "98059",
       "ticker": "036570",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "380000",
       "rating": null,
       "target_price": null
     },
@@ -2994,6 +3681,9 @@
       "research_id": "98058",
       "ticker": "095660",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "23000",
       "rating": null,
       "target_price": null
     },
@@ -3007,6 +3697,9 @@
       "research_id": "98052",
       "ticker": "023530",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "120000",
       "rating": null,
       "target_price": null
     },
@@ -3020,6 +3713,9 @@
       "research_id": "98051",
       "ticker": "004170",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "430000",
       "rating": null,
       "target_price": null
     },
@@ -3033,6 +3729,9 @@
       "research_id": "98096",
       "ticker": "280360",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "165000",
       "rating": null,
       "target_price": null
     },
@@ -3046,6 +3745,9 @@
       "research_id": "98095",
       "ticker": "103590",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "125000",
       "rating": null,
       "target_price": null
     },
@@ -3059,6 +3761,9 @@
       "research_id": "98094",
       "ticker": "036570",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "340000",
       "rating": null,
       "target_price": null
     },
@@ -3072,6 +3777,9 @@
       "research_id": "98093",
       "ticker": "010140",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "31000",
       "rating": null,
       "target_price": null
     },
@@ -3085,6 +3793,9 @@
       "research_id": "98092",
       "ticker": "192820",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "363000",
       "rating": null,
       "target_price": null
     },
@@ -3098,6 +3809,9 @@
       "research_id": "98091",
       "ticker": "042660",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "104000",
       "rating": null,
       "target_price": null
     },
@@ -3111,6 +3825,9 @@
       "research_id": "98090",
       "ticker": "329180",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "643000",
       "rating": null,
       "target_price": null
     },
@@ -3124,6 +3841,9 @@
       "research_id": "98089",
       "ticker": "122640",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -3137,6 +3857,9 @@
       "research_id": "98088",
       "ticker": "462870",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "38000",
       "rating": null,
       "target_price": null
     },
@@ -3150,6 +3873,9 @@
       "research_id": "98060",
       "ticker": "138040",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "142000",
       "rating": null,
       "target_price": null
     },
@@ -3163,6 +3889,9 @@
       "research_id": "98057",
       "ticker": "122640",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "41000",
       "rating": null,
       "target_price": null
     },
@@ -3176,6 +3905,9 @@
       "research_id": "98056",
       "ticker": "120110",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "60000",
       "rating": null,
       "target_price": null
     },
@@ -3189,6 +3921,9 @@
       "research_id": "98050",
       "ticker": "192820",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "410000",
       "rating": null,
       "target_price": null
     },
@@ -3202,6 +3937,9 @@
       "research_id": "98049",
       "ticker": "003230",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "1750000",
       "rating": null,
       "target_price": null
     },
@@ -3215,6 +3953,9 @@
       "research_id": "98048",
       "ticker": "139480",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "78000",
       "rating": null,
       "target_price": null
     },
@@ -3228,6 +3969,9 @@
       "research_id": "98047",
       "ticker": "280360",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "170000",
       "rating": null,
       "target_price": null
     },
@@ -3241,6 +3985,9 @@
       "research_id": "98080",
       "ticker": "086280",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "270000",
       "rating": null,
       "target_price": null
     },
@@ -3254,6 +4001,9 @@
       "research_id": "98079",
       "ticker": "028670",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "8000",
       "rating": null,
       "target_price": null
     },
@@ -3267,6 +4017,9 @@
       "research_id": "98078",
       "ticker": "066970",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "125000",
       "rating": null,
       "target_price": null
     },
@@ -3280,6 +4033,9 @@
       "research_id": "98077",
       "ticker": "041510",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "105000",
       "rating": null,
       "target_price": null
     },
@@ -3293,6 +4049,9 @@
       "research_id": "98076",
       "ticker": "376300",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "26000",
       "rating": null,
       "target_price": null
     },
@@ -3306,6 +4065,9 @@
       "research_id": "98075",
       "ticker": "000270",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "130000",
       "rating": null,
       "target_price": null
     },
@@ -3319,6 +4081,9 @@
       "research_id": "98074",
       "ticker": "017670",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "115000",
       "rating": null,
       "target_price": null
     },
@@ -3332,6 +4097,9 @@
       "research_id": "98073",
       "ticker": "032640",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "21000",
       "rating": null,
       "target_price": null
     },
@@ -3345,6 +4113,9 @@
       "research_id": "98072",
       "ticker": "002380",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "540000",
       "rating": null,
       "target_price": null
     },
@@ -3358,6 +4129,9 @@
       "research_id": "98071",
       "ticker": "007070",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "33000",
       "rating": null,
       "target_price": null
     },
@@ -3371,6 +4145,9 @@
       "research_id": "98085",
       "ticker": "082740",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "60000",
       "rating": null,
       "target_price": null
     },
@@ -3384,6 +4161,9 @@
       "research_id": "98084",
       "ticker": "099190",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "35000",
       "rating": null,
       "target_price": null
     },
@@ -3397,6 +4177,9 @@
       "research_id": "98083",
       "ticker": "103590",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "120000",
       "rating": null,
       "target_price": null
     },
@@ -3410,6 +4193,9 @@
       "research_id": "98070",
       "ticker": "011070",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -3423,6 +4209,9 @@
       "research_id": "98069",
       "ticker": "439260",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "60000",
       "rating": null,
       "target_price": null
     },
@@ -3436,6 +4225,9 @@
       "research_id": "98068",
       "ticker": "036570",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "280000",
       "rating": null,
       "target_price": null
     },
@@ -3449,6 +4241,9 @@
       "research_id": "98032",
       "ticker": "043150",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "28500",
       "rating": null,
       "target_price": null
     },
@@ -3462,6 +4257,9 @@
       "research_id": "98031",
       "ticker": "145720",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "69000",
       "rating": null,
       "target_price": null
     },
@@ -3475,6 +4273,9 @@
       "research_id": "98030",
       "ticker": "098460",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "52500",
       "rating": null,
       "target_price": null
     },
@@ -3488,6 +4289,9 @@
       "research_id": "98087",
       "ticker": "046890",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "MarketPerform",
+      "source_goal_price": "9500",
       "rating": null,
       "target_price": null
     },
@@ -3501,6 +4305,9 @@
       "research_id": "98086",
       "ticker": "009150",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "2800000",
       "rating": null,
       "target_price": null
     },
@@ -3514,6 +4321,9 @@
       "research_id": "98118",
       "ticker": "036570",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "375000",
       "rating": null,
       "target_price": null
     },
@@ -3527,6 +4337,9 @@
       "research_id": "98117",
       "ticker": "192820",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "410000",
       "rating": null,
       "target_price": null
     },
@@ -3540,6 +4353,9 @@
       "research_id": "98116",
       "ticker": "139480",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "90000",
       "rating": null,
       "target_price": null
     },
@@ -3553,6 +4369,9 @@
       "research_id": "98115",
       "ticker": "280360",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "175000",
       "rating": null,
       "target_price": null
     },
@@ -3566,6 +4385,9 @@
       "research_id": "98114",
       "ticker": "003230",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -3579,6 +4401,9 @@
       "research_id": "98053",
       "ticker": "138040",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "149000",
       "rating": null,
       "target_price": null
     },
@@ -3592,6 +4417,9 @@
       "research_id": "98082",
       "ticker": "462870",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "35000",
       "rating": null,
       "target_price": null
     },
@@ -3605,6 +4433,9 @@
       "research_id": "98081",
       "ticker": "036570",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "300000",
       "rating": null,
       "target_price": null
     },
@@ -3618,6 +4449,9 @@
       "research_id": "98067",
       "ticker": "035900",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "53000",
       "rating": null,
       "target_price": null
     },
@@ -3631,6 +4465,9 @@
       "research_id": "98064",
       "ticker": "192820",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "370000",
       "rating": null,
       "target_price": null
     },
@@ -3644,6 +4481,9 @@
       "research_id": "98061",
       "ticker": "257720",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "38000",
       "rating": null,
       "target_price": null
     },
@@ -3657,6 +4497,9 @@
       "research_id": "98055",
       "ticker": "003540",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "30000",
       "rating": null,
       "target_price": null
     },
@@ -3670,6 +4513,9 @@
       "research_id": "98113",
       "ticker": "192820",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "390000",
       "rating": null,
       "target_price": null
     },
@@ -3683,6 +4529,9 @@
       "research_id": "98054",
       "ticker": "356860",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "62000",
       "rating": null,
       "target_price": null
     },
@@ -3696,6 +4545,9 @@
       "research_id": "98045",
       "ticker": "009150",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "1900000",
       "rating": null,
       "target_price": null
     },
@@ -3709,6 +4561,9 @@
       "research_id": "98034",
       "ticker": "036570",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "340000",
       "rating": null,
       "target_price": null
     },
@@ -3722,6 +4577,9 @@
       "research_id": "98033",
       "ticker": "192820",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -3735,6 +4593,9 @@
       "research_id": "98119",
       "ticker": "003230",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -3748,6 +4609,9 @@
       "research_id": "98028",
       "ticker": "259960",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "300000",
       "rating": null,
       "target_price": null
     },
@@ -3761,6 +4625,9 @@
       "research_id": "98027",
       "ticker": "462870",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "40000",
       "rating": null,
       "target_price": null
     },
@@ -3774,6 +4641,9 @@
       "research_id": "98025",
       "ticker": "034230",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "16000",
       "rating": null,
       "target_price": null
     },
@@ -3787,6 +4657,9 @@
       "research_id": "98023",
       "ticker": "306200",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "174000",
       "rating": null,
       "target_price": null
     },
@@ -3800,6 +4673,9 @@
       "research_id": "98020",
       "ticker": "004170",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "410000",
       "rating": null,
       "target_price": null
     },
@@ -3813,6 +4689,9 @@
       "research_id": "98018",
       "ticker": "383220",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "95000",
       "rating": null,
       "target_price": null
     },
@@ -3826,6 +4705,9 @@
       "research_id": "98015",
       "ticker": "097950",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "260000",
       "rating": null,
       "target_price": null
     },
@@ -3839,6 +4721,9 @@
       "research_id": "98014",
       "ticker": "114090",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "12000",
       "rating": null,
       "target_price": null
     },
@@ -3852,6 +4737,9 @@
       "research_id": "98012",
       "ticker": "000810",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "Hold",
+      "source_goal_price": "700000",
       "rating": null,
       "target_price": null
     },
@@ -3865,6 +4753,9 @@
       "research_id": "97965",
       "ticker": "054450",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -3878,6 +4769,9 @@
       "research_id": "97964",
       "ticker": "241790",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -3891,6 +4785,9 @@
       "research_id": "98019",
       "ticker": "034230",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "16000",
       "rating": null,
       "target_price": null
     },
@@ -3904,6 +4801,9 @@
       "research_id": "98017",
       "ticker": "009420",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "80000",
       "rating": null,
       "target_price": null
     },
@@ -3917,6 +4817,9 @@
       "research_id": "98016",
       "ticker": "004170",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "365000",
       "rating": null,
       "target_price": null
     },
@@ -3930,6 +4833,9 @@
       "research_id": "98013",
       "ticker": "097950",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "370000",
       "rating": null,
       "target_price": null
     },
@@ -3943,6 +4849,9 @@
       "research_id": "98011",
       "ticker": "000120",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "100000",
       "rating": null,
       "target_price": null
     },
@@ -3956,6 +4865,9 @@
       "research_id": "98010",
       "ticker": "030200",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "76000",
       "rating": null,
       "target_price": null
     },
@@ -3969,6 +4881,9 @@
       "research_id": "98009",
       "ticker": "030200",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "76000",
       "rating": null,
       "target_price": null
     },
@@ -3982,6 +4897,9 @@
       "research_id": "98008",
       "ticker": "218410",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "150000",
       "rating": null,
       "target_price": null
     },
@@ -3995,6 +4913,9 @@
       "research_id": "98007",
       "ticker": "259960",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "320000",
       "rating": null,
       "target_price": null
     },
@@ -4008,6 +4929,9 @@
       "research_id": "98006",
       "ticker": "071320",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "110000",
       "rating": null,
       "target_price": null
     },
@@ -4021,6 +4945,9 @@
       "research_id": "97970",
       "ticker": "009420",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "80000",
       "rating": null,
       "target_price": null
     },
@@ -4034,6 +4961,9 @@
       "research_id": "97969",
       "ticker": "039440",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -4047,6 +4977,9 @@
       "research_id": "97968",
       "ticker": "086900",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "MarketPerform",
+      "source_goal_price": "77000",
       "rating": null,
       "target_price": null
     },
@@ -4060,6 +4993,9 @@
       "research_id": "97967",
       "ticker": "004170",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "470000",
       "rating": null,
       "target_price": null
     },
@@ -4073,6 +5009,9 @@
       "research_id": "97966",
       "ticker": "097950",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "260000",
       "rating": null,
       "target_price": null
     },
@@ -4086,6 +5025,9 @@
       "research_id": "97995",
       "ticker": "034230",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "17000",
       "rating": null,
       "target_price": null
     },
@@ -4099,6 +5041,9 @@
       "research_id": "97991",
       "ticker": "259960",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "280000",
       "rating": null,
       "target_price": null
     },
@@ -4112,6 +5057,9 @@
       "research_id": "97989",
       "ticker": "092190",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -4125,6 +5073,9 @@
       "research_id": "97986",
       "ticker": "214180",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "19000",
       "rating": null,
       "target_price": null
     },
@@ -4138,6 +5089,9 @@
       "research_id": "97978",
       "ticker": "071320",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "104000",
       "rating": null,
       "target_price": null
     },
@@ -4151,6 +5105,9 @@
       "research_id": "97976",
       "ticker": "086900",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "100000",
       "rating": null,
       "target_price": null
     },
@@ -4164,6 +5121,9 @@
       "research_id": "98005",
       "ticker": "097950",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "260000",
       "rating": null,
       "target_price": null
     },
@@ -4177,6 +5137,9 @@
       "research_id": "98004",
       "ticker": "030200",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "73000",
       "rating": null,
       "target_price": null
     },
@@ -4190,6 +5153,9 @@
       "research_id": "98003",
       "ticker": "259960",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "300000",
       "rating": null,
       "target_price": null
     },
@@ -4203,6 +5169,9 @@
       "research_id": "98002",
       "ticker": "000120",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "100000",
       "rating": null,
       "target_price": null
     },
@@ -4216,6 +5185,9 @@
       "research_id": "98001",
       "ticker": "214180",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -4229,6 +5201,9 @@
       "research_id": "98029",
       "ticker": "009240",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": "40000",
       "rating": null,
       "target_price": null
     },
@@ -4242,6 +5217,9 @@
       "research_id": "97994",
       "ticker": "259960",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "270000",
       "rating": null,
       "target_price": null
     },
@@ -4255,6 +5233,9 @@
       "research_id": "97993",
       "ticker": "181710",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "87000",
       "rating": null,
       "target_price": null
     },
@@ -4268,6 +5249,9 @@
       "research_id": "97985",
       "ticker": "097950",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "260000",
       "rating": null,
       "target_price": null
     },
@@ -4281,6 +5265,9 @@
       "research_id": "97984",
       "ticker": "004170",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "380000",
       "rating": null,
       "target_price": null
     },
@@ -4294,6 +5281,9 @@
       "research_id": "97983",
       "ticker": "031430",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "16000",
       "rating": null,
       "target_price": null
     },
@@ -4307,6 +5297,9 @@
       "research_id": "97982",
       "ticker": "000120",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "100000",
       "rating": null,
       "target_price": null
     },
@@ -4320,6 +5313,9 @@
       "research_id": "97981",
       "ticker": "214180",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "21500",
       "rating": null,
       "target_price": null
     },
@@ -4333,6 +5329,9 @@
       "research_id": "97980",
       "ticker": "383220",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "84000",
       "rating": null,
       "target_price": null
     },
@@ -4346,6 +5345,9 @@
       "research_id": "97979",
       "ticker": "030200",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "68000",
       "rating": null,
       "target_price": null
     },
@@ -4359,6 +5361,9 @@
       "research_id": "98000",
       "ticker": "009240",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "51000",
       "rating": null,
       "target_price": null
     },
@@ -4372,6 +5377,9 @@
       "research_id": "97998",
       "ticker": "000120",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "120000",
       "rating": null,
       "target_price": null
     },
@@ -4385,6 +5393,9 @@
       "research_id": "97997",
       "ticker": "068270",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "350000",
       "rating": null,
       "target_price": null
     },
@@ -4398,6 +5409,9 @@
       "research_id": "97996",
       "ticker": "004170",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "421000",
       "rating": null,
       "target_price": null
     },
@@ -4411,6 +5425,9 @@
       "research_id": "97990",
       "ticker": "462870",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "42000",
       "rating": null,
       "target_price": null
     },
@@ -4424,6 +5441,9 @@
       "research_id": "97962",
       "ticker": "030200",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "73000",
       "rating": null,
       "target_price": null
     },
@@ -4437,6 +5457,9 @@
       "research_id": "97960",
       "ticker": "181710",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "95000",
       "rating": null,
       "target_price": null
     },
@@ -4450,6 +5473,9 @@
       "research_id": "97999",
       "ticker": "018260",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "320000",
       "rating": null,
       "target_price": null
     },
@@ -4463,6 +5489,9 @@
       "research_id": "98026",
       "ticker": "004170",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "400000",
       "rating": null,
       "target_price": null
     },
@@ -4476,6 +5505,9 @@
       "research_id": "98024",
       "ticker": "009420",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -4489,6 +5521,9 @@
       "research_id": "98022",
       "ticker": "259960",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "340000",
       "rating": null,
       "target_price": null
     },
@@ -4502,6 +5537,9 @@
       "research_id": "98021",
       "ticker": "181710",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "92000",
       "rating": null,
       "target_price": null
     },
@@ -4515,6 +5553,9 @@
       "research_id": "97988",
       "ticker": "030200",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "70000",
       "rating": null,
       "target_price": null
     },
@@ -4528,6 +5569,9 @@
       "research_id": "97977",
       "ticker": "071320",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "110000",
       "rating": null,
       "target_price": null
     },
@@ -4541,6 +5585,9 @@
       "research_id": "97975",
       "ticker": "122870",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "60000",
       "rating": null,
       "target_price": null
     },
@@ -4554,6 +5601,9 @@
       "research_id": "97974",
       "ticker": "000100",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "120000",
       "rating": null,
       "target_price": null
     },
@@ -4567,6 +5617,9 @@
       "research_id": "97992",
       "ticker": "383220",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "84000",
       "rating": null,
       "target_price": null
     },
@@ -4580,6 +5633,9 @@
       "research_id": "97987",
       "ticker": "031430",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "15000",
       "rating": null,
       "target_price": null
     },
@@ -4593,6 +5649,9 @@
       "research_id": "97973",
       "ticker": "259960",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "300000",
       "rating": null,
       "target_price": null
     },
@@ -4606,6 +5665,9 @@
       "research_id": "97971",
       "ticker": "030200",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "72000",
       "rating": null,
       "target_price": null
     },
@@ -4619,6 +5681,9 @@
       "research_id": "97972",
       "ticker": "030200",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "75000",
       "rating": null,
       "target_price": null
     },
@@ -4632,6 +5697,9 @@
       "research_id": "97963",
       "ticker": "259960",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "300000",
       "rating": null,
       "target_price": null
     },
@@ -4645,6 +5713,9 @@
       "research_id": "97961",
       "ticker": "004170",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "410000",
       "rating": null,
       "target_price": null
     },
@@ -4658,6 +5729,9 @@
       "research_id": "97958",
       "ticker": "181710",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "93000",
       "rating": null,
       "target_price": null
     },
@@ -4671,6 +5745,9 @@
       "research_id": "97956",
       "ticker": "089590",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "9000",
       "rating": null,
       "target_price": null
     },
@@ -4684,6 +5761,9 @@
       "research_id": "97955",
       "ticker": "251970",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "110000",
       "rating": null,
       "target_price": null
     },
@@ -4697,6 +5777,9 @@
       "research_id": "97954",
       "ticker": "005300",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "130000",
       "rating": null,
       "target_price": null
     },
@@ -4710,6 +5793,9 @@
       "research_id": "97923",
       "ticker": "189330",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -4723,6 +5809,9 @@
       "research_id": "97951",
       "ticker": "000150",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "1270000",
       "rating": null,
       "target_price": null
     },
@@ -4736,6 +5825,9 @@
       "research_id": "97950",
       "ticker": "011760",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "38000",
       "rating": null,
       "target_price": null
     },
@@ -4749,6 +5841,9 @@
       "research_id": "97949",
       "ticker": "052690",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "140000",
       "rating": null,
       "target_price": null
     },
@@ -4762,6 +5857,9 @@
       "research_id": "97948",
       "ticker": "051600",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "55000",
       "rating": null,
       "target_price": null
     },
@@ -4775,6 +5873,9 @@
       "research_id": "97947",
       "ticker": "122870",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "63000",
       "rating": null,
       "target_price": null
     },
@@ -4788,6 +5889,9 @@
       "research_id": "97946",
       "ticker": "247540",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "112000",
       "rating": null,
       "target_price": null
     },
@@ -4801,6 +5905,9 @@
       "research_id": "97945",
       "ticker": "251970",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "100000",
       "rating": null,
       "target_price": null
     },
@@ -4814,6 +5921,9 @@
       "research_id": "97927",
       "ticker": "052690",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "120000",
       "rating": null,
       "target_price": null
     },
@@ -4827,6 +5937,9 @@
       "research_id": "97925",
       "ticker": "122870",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "70000",
       "rating": null,
       "target_price": null
     },
@@ -4840,6 +5953,9 @@
       "research_id": "97924",
       "ticker": "005300",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "160000",
       "rating": null,
       "target_price": null
     },
@@ -4853,6 +5969,9 @@
       "research_id": "97940",
       "ticker": "122870",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "63000",
       "rating": null,
       "target_price": null
     },
@@ -4866,6 +5985,9 @@
       "research_id": "97938",
       "ticker": "052690",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "140000",
       "rating": null,
       "target_price": null
     },
@@ -4879,6 +6001,9 @@
       "research_id": "97935",
       "ticker": "089600",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "16000",
       "rating": null,
       "target_price": null
     },
@@ -4892,6 +6017,9 @@
       "research_id": "97934",
       "ticker": "234340",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "23000",
       "rating": null,
       "target_price": null
     },
@@ -4905,6 +6033,9 @@
       "research_id": "97930",
       "ticker": "051600",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "48000",
       "rating": null,
       "target_price": null
     },
@@ -4918,6 +6049,9 @@
       "research_id": "97932",
       "ticker": "009420",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "110000",
       "rating": null,
       "target_price": null
     },
@@ -4931,6 +6065,9 @@
       "research_id": "97931",
       "ticker": "196170",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "430000",
       "rating": null,
       "target_price": null
     },
@@ -4944,6 +6081,9 @@
       "research_id": "97926",
       "ticker": "005300",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "140000",
       "rating": null,
       "target_price": null
     },
@@ -4957,6 +6097,9 @@
       "research_id": "97957",
       "ticker": "009420",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "71000",
       "rating": null,
       "target_price": null
     },
@@ -4970,6 +6113,9 @@
       "research_id": "97936",
       "ticker": "052690",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "145000",
       "rating": null,
       "target_price": null
     },
@@ -4983,6 +6129,9 @@
       "research_id": "97944",
       "ticker": "118990",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -4996,6 +6145,9 @@
       "research_id": "97943",
       "ticker": "356860",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "60000",
       "rating": null,
       "target_price": null
     },
@@ -5009,6 +6161,9 @@
       "research_id": "97942",
       "ticker": "000150",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "1000000",
       "rating": null,
       "target_price": null
     },
@@ -5022,6 +6177,9 @@
       "research_id": "97941",
       "ticker": "196170",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "450000",
       "rating": null,
       "target_price": null
     },
@@ -5035,6 +6193,9 @@
       "research_id": "97952",
       "ticker": "000150",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "1200000",
       "rating": null,
       "target_price": null
     },
@@ -5048,6 +6209,9 @@
       "research_id": "97939",
       "ticker": "122870",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "63000",
       "rating": null,
       "target_price": null
     },
@@ -5061,6 +6225,9 @@
       "research_id": "97937",
       "ticker": "240810",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "120000",
       "rating": null,
       "target_price": null
     },
@@ -5074,6 +6241,9 @@
       "research_id": "97929",
       "ticker": "417030",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -5087,6 +6257,9 @@
       "research_id": "97933",
       "ticker": "196170",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "320000",
       "rating": null,
       "target_price": null
     },
@@ -5100,6 +6273,9 @@
       "research_id": "97928",
       "ticker": "096530",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "33000",
       "rating": null,
       "target_price": null
     },
@@ -5113,6 +6289,9 @@
       "research_id": "97922",
       "ticker": "251970",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "85000",
       "rating": null,
       "target_price": null
     },
@@ -5126,6 +6305,9 @@
       "research_id": "97953",
       "ticker": "000150",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -5139,6 +6321,9 @@
       "research_id": "97920",
       "ticker": "112610",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "74000",
       "rating": null,
       "target_price": null
     },
@@ -5152,6 +6337,9 @@
       "research_id": "97919",
       "ticker": "079550",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "670000",
       "rating": null,
       "target_price": null
     },
@@ -5165,6 +6353,9 @@
       "research_id": "97918",
       "ticker": "003230",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "1800000",
       "rating": null,
       "target_price": null
     },
@@ -5178,6 +6369,9 @@
       "research_id": "97917",
       "ticker": "023530",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "170000",
       "rating": null,
       "target_price": null
     },
@@ -5191,6 +6385,9 @@
       "research_id": "97916",
       "ticker": "021240",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "150000",
       "rating": null,
       "target_price": null
     },
@@ -5204,6 +6401,9 @@
       "research_id": "97828",
       "ticker": "0015G0",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -5217,6 +6417,9 @@
       "research_id": "97904",
       "ticker": "023530",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "120000",
       "rating": null,
       "target_price": null
     },
@@ -5230,6 +6433,9 @@
       "research_id": "97903",
       "ticker": "128940",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "720000",
       "rating": null,
       "target_price": null
     },
@@ -5243,6 +6449,9 @@
       "research_id": "97902",
       "ticker": "035250",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "19000",
       "rating": null,
       "target_price": null
     },
@@ -5256,6 +6465,9 @@
       "research_id": "97901",
       "ticker": "112610",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "80000",
       "rating": null,
       "target_price": null
     },
@@ -5269,6 +6481,9 @@
       "research_id": "97900",
       "ticker": "001740",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "10000",
       "rating": null,
       "target_price": null
     },
@@ -5282,6 +6497,9 @@
       "research_id": "97899",
       "ticker": "161890",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "160000",
       "rating": null,
       "target_price": null
     },
@@ -5295,6 +6513,9 @@
       "research_id": "97898",
       "ticker": "241710",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "155000",
       "rating": null,
       "target_price": null
     },
@@ -5308,6 +6529,9 @@
       "research_id": "97897",
       "ticker": "161390",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "80000",
       "rating": null,
       "target_price": null
     },
@@ -5321,6 +6545,9 @@
       "research_id": "97853",
       "ticker": "079550",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "950000",
       "rating": null,
       "target_price": null
     },
@@ -5334,6 +6561,9 @@
       "research_id": "97852",
       "ticker": "003230",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "1850000",
       "rating": null,
       "target_price": null
     },
@@ -5347,6 +6577,9 @@
       "research_id": "97851",
       "ticker": "490470",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "20000",
       "rating": null,
       "target_price": null
     },
@@ -5360,6 +6593,9 @@
       "research_id": "97848",
       "ticker": "161890",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "155000",
       "rating": null,
       "target_price": null
     },
@@ -5373,6 +6609,9 @@
       "research_id": "97844",
       "ticker": "293490",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "sell",
+      "source_opinion_text": "UnderPerform",
+      "source_goal_price": "10000",
       "rating": null,
       "target_price": null
     },
@@ -5386,6 +6625,9 @@
       "research_id": "97842",
       "ticker": "035250",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "18000",
       "rating": null,
       "target_price": null
     },
@@ -5399,6 +6641,9 @@
       "research_id": "97840",
       "ticker": "035760",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "58000",
       "rating": null,
       "target_price": null
     },
@@ -5412,6 +6657,9 @@
       "research_id": "97839",
       "ticker": "253450",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "41000",
       "rating": null,
       "target_price": null
     },
@@ -5425,6 +6673,9 @@
       "research_id": "97832",
       "ticker": "112610",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "76000",
       "rating": null,
       "target_price": null
     },
@@ -5438,6 +6689,9 @@
       "research_id": "97831",
       "ticker": "214450",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "480000",
       "rating": null,
       "target_price": null
     },
@@ -5451,6 +6705,9 @@
       "research_id": "97830",
       "ticker": "023530",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "130000",
       "rating": null,
       "target_price": null
     },
@@ -5464,6 +6721,9 @@
       "research_id": "97829",
       "ticker": "071050",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "250000",
       "rating": null,
       "target_price": null
     },
@@ -5477,6 +6737,9 @@
       "research_id": "97889",
       "ticker": "161890",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "170000",
       "rating": null,
       "target_price": null
     },
@@ -5490,6 +6753,9 @@
       "research_id": "97871",
       "ticker": "161390",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "80000",
       "rating": null,
       "target_price": null
     },
@@ -5503,6 +6769,9 @@
       "research_id": "97870",
       "ticker": "011780",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "177000",
       "rating": null,
       "target_price": null
     },
@@ -5516,6 +6785,9 @@
       "research_id": "97865",
       "ticker": "011170",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "75000",
       "rating": null,
       "target_price": null
     },
@@ -5529,6 +6801,9 @@
       "research_id": "97863",
       "ticker": "214450",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "370000",
       "rating": null,
       "target_price": null
     },
@@ -5542,6 +6817,9 @@
       "research_id": "97862",
       "ticker": "079550",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "670000",
       "rating": null,
       "target_price": null
     },
@@ -5555,6 +6833,9 @@
       "research_id": "97857",
       "ticker": "339770",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "4700",
       "rating": null,
       "target_price": null
     },
@@ -5568,6 +6849,9 @@
       "research_id": "97854",
       "ticker": "195870",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "50000",
       "rating": null,
       "target_price": null
     },
@@ -5581,6 +6865,9 @@
       "research_id": "97849",
       "ticker": "112610",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "80000",
       "rating": null,
       "target_price": null
     },
@@ -5594,6 +6881,9 @@
       "research_id": "97896",
       "ticker": "241710",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "123000",
       "rating": null,
       "target_price": null
     },
@@ -5607,6 +6897,9 @@
       "research_id": "97895",
       "ticker": "161890",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "157000",
       "rating": null,
       "target_price": null
     },
@@ -5620,6 +6913,9 @@
       "research_id": "97894",
       "ticker": "079550",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "1050000",
       "rating": null,
       "target_price": null
     },
@@ -5633,6 +6929,9 @@
       "research_id": "97893",
       "ticker": "214450",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "324000",
       "rating": null,
       "target_price": null
     },
@@ -5646,6 +6945,9 @@
       "research_id": "97892",
       "ticker": "003230",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "2000000",
       "rating": null,
       "target_price": null
     },
@@ -5659,6 +6961,9 @@
       "research_id": "97891",
       "ticker": "251270",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "46000",
       "rating": null,
       "target_price": null
     },
@@ -5672,6 +6977,9 @@
       "research_id": "97873",
       "ticker": "011170",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "73000",
       "rating": null,
       "target_price": null
     },
@@ -5685,6 +6993,9 @@
       "research_id": "97869",
       "ticker": "011780",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "130000",
       "rating": null,
       "target_price": null
     },
@@ -5698,6 +7009,9 @@
       "research_id": "97866",
       "ticker": "214450",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "410000",
       "rating": null,
       "target_price": null
     },
@@ -5711,6 +7025,9 @@
       "research_id": "97859",
       "ticker": "079550",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "430000",
       "rating": null,
       "target_price": null
     },
@@ -5724,6 +7041,9 @@
       "research_id": "97858",
       "ticker": "161390",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "79000",
       "rating": null,
       "target_price": null
     },
@@ -5737,6 +7057,9 @@
       "research_id": "97850",
       "ticker": "023530",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "130000",
       "rating": null,
       "target_price": null
     },
@@ -5750,6 +7073,9 @@
       "research_id": "97847",
       "ticker": "021240",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "130000",
       "rating": null,
       "target_price": null
     },
@@ -5763,6 +7089,9 @@
       "research_id": "97846",
       "ticker": "112610",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "68000",
       "rating": null,
       "target_price": null
     },
@@ -5776,6 +7105,9 @@
       "research_id": "97845",
       "ticker": "161890",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "153000",
       "rating": null,
       "target_price": null
     },
@@ -5789,6 +7121,9 @@
       "research_id": "97843",
       "ticker": "001740",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "9500",
       "rating": null,
       "target_price": null
     },
@@ -5802,6 +7137,9 @@
       "research_id": "97921",
       "ticker": "011170",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "중립",
+      "source_goal_price": "50000",
       "rating": null,
       "target_price": null
     },
@@ -5815,6 +7153,9 @@
       "research_id": "97890",
       "ticker": "079550",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "570000",
       "rating": null,
       "target_price": null
     },
@@ -5828,6 +7169,9 @@
       "research_id": "97874",
       "ticker": "214450",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "450000",
       "rating": null,
       "target_price": null
     },
@@ -5841,6 +7185,9 @@
       "research_id": "97872",
       "ticker": "112610",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "74000",
       "rating": null,
       "target_price": null
     },
@@ -5854,6 +7201,9 @@
       "research_id": "97864",
       "ticker": "011780",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "140000",
       "rating": null,
       "target_price": null
     },
@@ -5867,6 +7217,9 @@
       "research_id": "97827",
       "ticker": "023530",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "119000",
       "rating": null,
       "target_price": null
     },
@@ -5880,6 +7233,9 @@
       "research_id": "97888",
       "ticker": "035720",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "43000",
       "rating": null,
       "target_price": null
     },
@@ -5893,6 +7249,9 @@
       "research_id": "97887",
       "ticker": "018880",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "5400",
       "rating": null,
       "target_price": null
     },
@@ -5906,6 +7265,9 @@
       "research_id": "97886",
       "ticker": "028670",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "10000",
       "rating": null,
       "target_price": null
     },
@@ -5919,6 +7281,9 @@
       "research_id": "97885",
       "ticker": "253450",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "35000",
       "rating": null,
       "target_price": null
     },
@@ -5932,6 +7297,9 @@
       "research_id": "97884",
       "ticker": "066970",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "150000",
       "rating": null,
       "target_price": null
     },
@@ -5945,6 +7313,9 @@
       "research_id": "97883",
       "ticker": "035760",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "60000",
       "rating": null,
       "target_price": null
     },
@@ -5958,6 +7329,9 @@
       "research_id": "97882",
       "ticker": "079160",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "8500",
       "rating": null,
       "target_price": null
     },
@@ -5971,6 +7345,9 @@
       "research_id": "97881",
       "ticker": "161390",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "94000",
       "rating": null,
       "target_price": null
     },
@@ -5984,6 +7361,9 @@
       "research_id": "97880",
       "ticker": "005490",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "490000",
       "rating": null,
       "target_price": null
     },
@@ -5997,6 +7377,9 @@
       "research_id": "97879",
       "ticker": "079550",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "550000",
       "rating": null,
       "target_price": null
     },
@@ -6010,6 +7393,9 @@
       "research_id": "97878",
       "ticker": "214450",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "420000",
       "rating": null,
       "target_price": null
     },
@@ -6023,6 +7409,9 @@
       "research_id": "97877",
       "ticker": "069960",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "130000",
       "rating": null,
       "target_price": null
     },
@@ -6036,6 +7425,9 @@
       "research_id": "97876",
       "ticker": "023530",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "140000",
       "rating": null,
       "target_price": null
     },
@@ -6049,6 +7441,9 @@
       "research_id": "97875",
       "ticker": "282330",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "200000",
       "rating": null,
       "target_price": null
     },
@@ -6062,6 +7457,9 @@
       "research_id": "97912",
       "ticker": "003230",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "1860000",
       "rating": null,
       "target_price": null
     },
@@ -6075,6 +7473,9 @@
       "research_id": "97911",
       "ticker": "161890",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "170000",
       "rating": null,
       "target_price": null
     },
@@ -6088,6 +7489,9 @@
       "research_id": "97910",
       "ticker": "241710",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "150000",
       "rating": null,
       "target_price": null
     },
@@ -6101,6 +7505,9 @@
       "research_id": "97909",
       "ticker": "112610",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "80000",
       "rating": null,
       "target_price": null
     },
@@ -6114,6 +7521,9 @@
       "research_id": "97908",
       "ticker": "023530",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "135000",
       "rating": null,
       "target_price": null
     },
@@ -6127,6 +7537,9 @@
       "research_id": "97907",
       "ticker": "420770",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "160000",
       "rating": null,
       "target_price": null
     },
@@ -6140,6 +7553,9 @@
       "research_id": "97906",
       "ticker": "356860",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "45000",
       "rating": null,
       "target_price": null
     },
@@ -6153,6 +7569,9 @@
       "research_id": "97905",
       "ticker": "214450",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "530000",
       "rating": null,
       "target_price": null
     },
@@ -6166,6 +7585,9 @@
       "research_id": "97860",
       "ticker": "082740",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "69000",
       "rating": null,
       "target_price": null
     },
@@ -6179,6 +7601,9 @@
       "research_id": "97855",
       "ticker": "079550",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "810000",
       "rating": null,
       "target_price": null
     },
@@ -6192,6 +7617,9 @@
       "research_id": "97841",
       "ticker": "011170",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "70000",
       "rating": null,
       "target_price": null
     },
@@ -6205,6 +7633,9 @@
       "research_id": "97838",
       "ticker": "054950",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "35000",
       "rating": null,
       "target_price": null
     },
@@ -6218,6 +7649,9 @@
       "research_id": "97836",
       "ticker": "178920",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "22000",
       "rating": null,
       "target_price": null
     },
@@ -6231,6 +7665,9 @@
       "research_id": "97835",
       "ticker": "008930",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "없음",
+      "source_goal_price": null,
       "rating": null,
       "target_price": null
     },
@@ -6244,6 +7681,9 @@
       "research_id": "97834",
       "ticker": "066970",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "105000",
       "rating": null,
       "target_price": null
     },
@@ -6257,6 +7697,9 @@
       "research_id": "97833",
       "ticker": "247540",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "Hold",
+      "source_goal_price": "90000",
       "rating": null,
       "target_price": null
     },
@@ -6270,6 +7713,9 @@
       "research_id": "97867",
       "ticker": "161890",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "150000",
       "rating": null,
       "target_price": null
     },
@@ -6283,6 +7729,9 @@
       "research_id": "97856",
       "ticker": "079550",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "700000",
       "rating": null,
       "target_price": null
     },
@@ -6296,6 +7745,9 @@
       "research_id": "97837",
       "ticker": "251270",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "46000",
       "rating": null,
       "target_price": null
     },
@@ -6309,6 +7761,9 @@
       "research_id": "97868",
       "ticker": "458870",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "19000",
       "rating": null,
       "target_price": null
     },
@@ -6322,6 +7777,9 @@
       "research_id": "97861",
       "ticker": "214450",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "340000",
       "rating": null,
       "target_price": null
     },
@@ -6335,6 +7793,9 @@
       "research_id": "97915",
       "ticker": "079550",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "600000",
       "rating": null,
       "target_price": null
     },
@@ -6348,6 +7809,9 @@
       "research_id": "97914",
       "ticker": "012450",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "1250000",
       "rating": null,
       "target_price": null
     },
@@ -6361,6 +7825,9 @@
       "research_id": "97913",
       "ticker": "112610",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "88000",
       "rating": null,
       "target_price": null
     },
@@ -6374,6 +7841,9 @@
       "research_id": "97826",
       "ticker": "161890",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "160000",
       "rating": null,
       "target_price": null
     },
@@ -6387,6 +7857,9 @@
       "research_id": "97824",
       "ticker": "282330",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "Neutral",
+      "source_goal_price": "170000",
       "rating": null,
       "target_price": null
     },
@@ -6400,6 +7873,9 @@
       "research_id": "97823",
       "ticker": "326030",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "160000",
       "rating": null,
       "target_price": null
     },
@@ -6413,6 +7889,9 @@
       "research_id": "97822",
       "ticker": "018880",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "neutral",
+      "source_opinion_text": "Neutral",
+      "source_goal_price": "3900",
       "rating": null,
       "target_price": null
     },
@@ -6426,6 +7905,9 @@
       "research_id": "97821",
       "ticker": "251270",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "42000",
       "rating": null,
       "target_price": null
     },
@@ -6439,6 +7921,9 @@
       "research_id": "97820",
       "ticker": "089860",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "57000",
       "rating": null,
       "target_price": null
     },
@@ -6452,6 +7937,9 @@
       "research_id": "97819",
       "ticker": "306200",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "200000",
       "rating": null,
       "target_price": null
     },
@@ -6465,6 +7953,9 @@
       "research_id": "97818",
       "ticker": "033780",
       "verification_status": "ticker_matched_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "240000",
       "rating": null,
       "target_price": null
     },
@@ -6478,6 +7969,9 @@
       "research_id": "97817",
       "ticker": "032500",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "70000",
       "rating": null,
       "target_price": null
     },
@@ -6491,6 +7985,9 @@
       "research_id": "97816",
       "ticker": "035760",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "Buy",
+      "source_goal_price": "56000",
       "rating": null,
       "target_price": null
     },
@@ -6504,6 +8001,9 @@
       "research_id": "97825",
       "ticker": "247540",
       "verification_status": "candidate_unverified",
+      "source_opinion_type": "buy",
+      "source_opinion_text": "매수",
+      "source_goal_price": "120000",
       "rating": null,
       "target_price": null
     }
