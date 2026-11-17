@@ -23,6 +23,16 @@ class ReportDiscoveryTests(unittest.TestCase):
         self.assertEqual(row["rating"], None)
         self.assertEqual(row["verification_status"], "candidate_unverified")
 
+    def test_prefers_report_detail_link_over_auxiliary_image_link(self):
+        html = """
+        <table><tr><td>삼성전자</td>
+        <td><a href="/research/company_read.naver?nid=777">실적 분석</a><a href="/img/new.gif">NEW</a></td>
+        <td>한국투자증권</td><td></td><td>26.11.16</td><td>10</td></tr></table>
+        """
+        rows = parse_report_rows(html, asof=date(2026, 11, 17))
+        self.assertEqual(len(rows), 1)
+        self.assertTrue(rows[0]["detail_url"].endswith("company_read.naver?nid=777"))
+
     def test_parses_naver_two_digit_year_date(self):
         html = """
         <table><tr><td>삼성전자</td><td><a href="/r?id=2">반도체 업황 점검</a></td>
