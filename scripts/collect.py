@@ -347,6 +347,7 @@ def main():
         stock["history_observations"] = len(closes)
         stock["momentum_5d"] = (stock["close"] / closes[-6] - 1) * 100 if len(closes) >= 6 and closes[-6] else None
         stock["momentum_20d"] = (stock["close"] / closes[-21] - 1) * 100 if len(closes) >= 21 and closes[-21] else None
+        stock["momentum_60d"] = (stock["close"] / closes[-61] - 1) * 100 if len(closes) >= 61 and closes[-61] else None
         changes = [x.get("change_pct") for x in series[-20:] if x.get("change_pct") is not None]
         stock["volatility_20d"] = statistics.pstdev(changes) if len(changes) >= 5 else None
 
@@ -361,6 +362,7 @@ def main():
         "sales_growth": score_field(stocks, "sales_growth_pct"),
         "op_growth": score_field(stocks, "operating_profit_growth_pct"),
         "momentum20": score_field(stocks, "momentum_20d"),
+        "momentum60": score_field(stocks, "momentum_60d"),
         "momentum5": score_field(stocks, "momentum_5d"),
         "liquidity": score_field(stocks, "trading_value"),
         "volatility": score_field(stocks, "volatility_20d", reverse=True),
@@ -380,13 +382,14 @@ def main():
         # Momentum must have an actual 20-trading-day price observation.
         # Liquidity alone must never create a momentum score.
         mom_parts = [
-            (score_maps["momentum20"].get(t), 60),
-            (score_maps["momentum5"].get(t), 20),
-            (score_maps["liquidity"].get(t), 10),
-            (score_maps["volatility"].get(t), 10),
+            (score_maps["momentum60"].get(t), 60),
+            (score_maps["momentum20"].get(t), 20),
+            (score_maps["momentum5"].get(t), 10),
+            (score_maps["liquidity"].get(t), 5),
+            (score_maps["volatility"].get(t), 5),
         ]
         mom, mom_cov = weighted_score(mom_parts)
-        if x.get("momentum_20d") is None:
+        if x.get("momentum_60d") is None:
             mom, mom_cov = None, 0.0
 
         components = {
@@ -424,7 +427,7 @@ def main():
         x["risk_factors"] = [label for key, label in [
             ("roe_pct", "ROE 자료 부족"), ("sales_growth_pct", "매출성장 자료 부족"),
             ("operating_profit_growth_pct", "영업이익 성장 자료 부족"),
-            ("momentum_20d", "20거래일 주가 이력 부족"),
+            ("momentum_60d", "60거래일 주가 이력 부족"),
         ] if x.get(key) is None]
         x["financial_score"] = fin
         x["growth_score"] = growth
@@ -454,7 +457,7 @@ def main():
     perf_file.write_text(json.dumps(perf[-500:], ensure_ascii=False, indent=2), encoding="utf-8")
 
     def compact(items, list_key):
-        keys = ["ticker", "name", "close", "change_pct", "score", "provisional_score", "score_coverage_pct", "grade", "provisional_grade", "status", "official_recommendation_eligible", "component_scores", "component_coverage_pct", "financial_score", "growth_score", "momentum_score", "roe_pct", "sales_growth_pct", "operating_profit_growth_pct", "momentum_5d", "momentum_20d", "history_observations", "trading_value", "reason", "risk_factors"]
+        keys = ["ticker", "name", "close", "change_pct", "score", "provisional_score", "score_coverage_pct", "grade", "provisional_grade", "status", "official_recommendation_eligible", "component_scores", "component_coverage_pct", "financial_score", "growth_score", "momentum_score", "roe_pct", "sales_growth_pct", "operating_profit_growth_pct", "momentum_5d", "momentum_20d", "momentum_60d", "history_observations", "trading_value", "reason", "risk_factors"]
         out = []
         for x in items:
             row = {k: x.get(k) for k in keys}
