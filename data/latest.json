@@ -48,11 +48,12 @@
         "operating_profit_growth_pct": 197.8843625814488,
         "momentum_5d": null,
         "momentum_20d": null,
+        "momentum_60d": null,
         "history_observations": 1,
         "trading_value": 74713284250.0,
         "reason": "확보된 재무·성장·20일 주가 데이터의 상대평가. 미확보 항목은 점수에 포함하지 않음",
         "risk_factors": [
-          "20거래일 주가 이력 부족"
+          "60거래일 주가 이력 부족"
         ],
         "list_score": 98.2,
         "list_coverage_pct": 100.0
@@ -95,11 +96,12 @@
         "operating_profit_growth_pct": 636.8279928048329,
         "momentum_5d": null,
         "momentum_20d": null,
+        "momentum_60d": null,
         "history_observations": 1,
         "trading_value": 2900268070.0,
         "reason": "확보된 재무·성장·20일 주가 데이터의 상대평가. 미확보 항목은 점수에 포함하지 않음",
         "risk_factors": [
-          "20거래일 주가 이력 부족"
+          "60거래일 주가 이력 부족"
         ],
         "list_score": 97.8,
         "list_coverage_pct": 100.0
@@ -142,11 +144,12 @@
         "operating_profit_growth_pct": 400.52397950704017,
         "momentum_5d": null,
         "momentum_20d": null,
+        "momentum_60d": null,
         "history_observations": 1,
         "trading_value": 1717590375.0,
         "reason": "확보된 재무·성장·20일 주가 데이터의 상대평가. 미확보 항목은 점수에 포함하지 않음",
         "risk_factors": [
-          "20거래일 주가 이력 부족"
+          "60거래일 주가 이력 부족"
         ],
         "list_score": 95.7,
         "list_coverage_pct": 100.0
@@ -189,11 +192,12 @@
         "operating_profit_growth_pct": 101.15769935202228,
         "momentum_5d": null,
         "momentum_20d": null,
+        "momentum_60d": null,
         "history_observations": 1,
         "trading_value": 4807316656176.0,
         "reason": "확보된 재무·성장·20일 주가 데이터의 상대평가. 미확보 항목은 점수에 포함하지 않음",
         "risk_factors": [
-          "20거래일 주가 이력 부족"
+          "60거래일 주가 이력 부족"
         ],
         "list_score": 95.1,
         "list_coverage_pct": 100.0
@@ -236,11 +240,12 @@
         "operating_profit_growth_pct": 69.55451976519646,
         "momentum_5d": null,
         "momentum_20d": null,
+        "momentum_60d": null,
         "history_observations": 1,
         "trading_value": 19031276100.0,
         "reason": "확보된 재무·성장·20일 주가 데이터의 상대평가. 미확보 항목은 점수에 포함하지 않음",
         "risk_factors": [
-          "20거래일 주가 이력 부족"
+          "60거래일 주가 이력 부족"
         ],
         "list_score": 94.5,
         "list_coverage_pct": 100.0
@@ -283,11 +288,12 @@
         "operating_profit_growth_pct": 128.69308392582712,
         "momentum_5d": null,
         "momentum_20d": null,
+        "momentum_60d": null,
         "history_observations": 1,
         "trading_value": 5930775900.0,
         "reason": "확보된 재무·성장·20일 주가 데이터의 상대평가. 미확보 항목은 점수에 포함하지 않음",
         "risk_factors": [
-          "20거래일 주가 이력 부족"
+          "60거래일 주가 이력 부족"
         ],
         "list_score": 94.0,
         "list_coverage_pct": 100.0
@@ -330,12 +336,13 @@
         "operating_profit_growth_pct": null,
         "momentum_5d": null,
         "momentum_20d": null,
+        "momentum_60d": null,
         "history_observations": 1,
         "trading_value": 25737557800.0,
         "reason": "확보된 재무·성장·20일 주가 데이터의 상대평가. 미확보 항목은 점수에 포함하지 않음",
         "risk_factors": [
           "영업이익 성장 자료 부족",
-          "20거래일 주가 이력 부족"
+          "60거래일 주가 이력 부족"
         ],
         "list_score": 93.8,
         "list_coverage_pct": 75.0
@@ -378,11 +385,12 @@
         "operating_profit_growth_pct": 100.94902861231647,
         "momentum_5d": null,
         "momentum_20d": null,
+        "momentum_60d": null,
         "history_observations": 1,
         "trading_value": 101412815600.0,
         "reason": "확보된 재무·성장·20일 주가 데이터의 상대평가. 미확보 항목은 점수에 포함하지 않음",
         "risk_factors": [
-          "20거래일 주가 이력 부족"
+          "60거래일 주가 이력 부족"
         ],
         "list_score": 91.3,
         "list_coverage_pct": 100.0
@@ -425,11 +433,12 @@
         "operating_profit_growth_pct": 63.536632572482986,
         "momentum_5d": null,
         "momentum_20d": null,
+        "momentum_60d": null,
         "history_observations": 1,
         "trading_value": 20375234950.0,
         "reason": "확보된 재무·성장·20일 주가 데이터의 상대평가. 미확보 항목은 점수에 포함하지 않음",
         "risk_factors": [
-          "20거래일 주가 이력 부족"
+          "60거래일 주가 이력 부족"
         ],
         "list_score": 91.3,
         "list_coverage_pct": 100.0
@@ -472,11 +481,12 @@
         "operating_profit_growth_pct": 52.12865266262811,
         "momentum_5d": null,
         "momentum_20d": null,
+        "momentum_60d": null,
         "history_observations": 1,
         "trading_value": 78434448500.0,
         "reason": "확보된 재무·성장·20일 주가 데이터의 상대평가. 미확보 항목은 점수에 포함하지 않음",
         "risk_factors": [
-          "20거래일 주가 이력 부족"
+          "60거래일 주가 이력 부족"
         ],
         "list_score": 90.7,
         "list_coverage_pct": 100.0
@@ -521,12 +531,13 @@
         "operating_profit_growth_pct": 2868.570021254369,
         "momentum_5d": null,
         "momentum_20d": null,
+        "momentum_60d": null,
         "history_observations": 1,
         "trading_value": 7598824550.0,
         "reason": "확보된 재무·성장·20일 주가 데이터의 상대평가. 미확보 항목은 점수에 포함하지 않음",
         "risk_factors": [
           "매출성장 자료 부족",
-          "20거래일 주가 이력 부족"
+          "60거래일 주가 이력 부족"
         ],
         "list_score": 98.9,
         "list_coverage_pct": 50.0
@@ -569,11 +580,12 @@
         "operating_profit_growth_pct": 1084.7974177287429,
         "momentum_5d": null,
         "momentum_20d": null,
+        "momentum_60d": null,
         "history_observations": 1,
         "trading_value": 17836610525.0,
         "reason": "확보된 재무·성장·20일 주가 데이터의 상대평가. 미확보 항목은 점수에 포함하지 않음",
         "risk_factors": [
-          "20거래일 주가 이력 부족"
+          "60거래일 주가 이력 부족"
         ],
         "list_score": 98.3,
         "list_coverage_pct": 100.0
@@ -616,11 +628,12 @@
         "operating_profit_growth_pct": 636.8279928048329,
         "momentum_5d": null,
         "momentum_20d": null,
+        "momentum_60d": null,
         "history_observations": 1,
         "trading_value": 2900268070.0,
         "reason": "확보된 재무·성장·20일 주가 데이터의 상대평가. 미확보 항목은 점수에 포함하지 않음",
         "risk_factors": [
-          "20거래일 주가 이력 부족"
+          "60거래일 주가 이력 부족"
         ],
         "list_score": 97.4,
         "list_coverage_pct": 100.0
@@ -663,11 +676,12 @@
         "operating_profit_growth_pct": 400.52397950704017,
         "momentum_5d": null,
         "momentum_20d": null,
+        "momentum_60d": null,
         "history_observations": 1,
         "trading_value": 1717590375.0,
         "reason": "확보된 재무·성장·20일 주가 데이터의 상대평가. 미확보 항목은 점수에 포함하지 않음",
         "risk_factors": [
-          "20거래일 주가 이력 부족"
+          "60거래일 주가 이력 부족"
         ],
         "list_score": 97.2,
         "list_coverage_pct": 100.0
@@ -710,11 +724,12 @@
         "operating_profit_growth_pct": 197.8843625814488,
         "momentum_5d": null,
         "momentum_20d": null,
+        "momentum_60d": null,
         "history_observations": 1,
         "trading_value": 74713284250.0,
         "reason": "확보된 재무·성장·20일 주가 데이터의 상대평가. 미확보 항목은 점수에 포함하지 않음",
         "risk_factors": [
-          "20거래일 주가 이력 부족"
+          "60거래일 주가 이력 부족"
         ],
         "list_score": 96.4,
         "list_coverage_pct": 100.0
@@ -757,11 +772,12 @@
         "operating_profit_growth_pct": 267.4454974154648,
         "momentum_5d": null,
         "momentum_20d": null,
+        "momentum_60d": null,
         "history_observations": 1,
         "trading_value": 2547273310.0,
         "reason": "확보된 재무·성장·20일 주가 데이터의 상대평가. 미확보 항목은 점수에 포함하지 않음",
         "risk_factors": [
-          "20거래일 주가 이력 부족"
+          "60거래일 주가 이력 부족"
         ],
         "list_score": 93.9,
         "list_coverage_pct": 100.0
@@ -804,11 +820,12 @@
         "operating_profit_growth_pct": 3624.1805345436205,
         "momentum_5d": null,
         "momentum_20d": null,
+        "momentum_60d": null,
         "history_observations": 1,
         "trading_value": 3656902021.0,
         "reason": "확보된 재무·성장·20일 주가 데이터의 상대평가. 미확보 항목은 점수에 포함하지 않음",
         "risk_factors": [
-          "20거래일 주가 이력 부족"
+          "60거래일 주가 이력 부족"
         ],
         "list_score": 92.5,
         "list_coverage_pct": 100.0
@@ -851,11 +868,12 @@
         "operating_profit_growth_pct": 101.15769935202228,
         "momentum_5d": null,
         "momentum_20d": null,
+        "momentum_60d": null,
         "history_observations": 1,
         "trading_value": 4807316656176.0,
         "reason": "확보된 재무·성장·20일 주가 데이터의 상대평가. 미확보 항목은 점수에 포함하지 않음",
         "risk_factors": [
-          "20거래일 주가 이력 부족"
+          "60거래일 주가 이력 부족"
         ],
         "list_score": 91.0,
         "list_coverage_pct": 100.0
@@ -898,12 +916,13 @@
         "operating_profit_growth_pct": null,
         "momentum_5d": null,
         "momentum_20d": null,
+        "momentum_60d": null,
         "history_observations": 1,
         "trading_value": 25737557800.0,
         "reason": "확보된 재무·성장·20일 주가 데이터의 상대평가. 미확보 항목은 점수에 포함하지 않음",
         "risk_factors": [
           "영업이익 성장 자료 부족",
-          "20거래일 주가 이력 부족"
+          "60거래일 주가 이력 부족"
         ],
         "list_score": 90.9,
         "list_coverage_pct": 50.0
@@ -946,12 +965,13 @@
         "operating_profit_growth_pct": 121.40012830586903,
         "momentum_5d": null,
         "momentum_20d": null,
+        "momentum_60d": null,
         "history_observations": 1,
         "trading_value": 5718149255.0,
         "reason": "확보된 재무·성장·20일 주가 데이터의 상대평가. 미확보 항목은 점수에 포함하지 않음",
         "risk_factors": [
           "매출성장 자료 부족",
-          "20거래일 주가 이력 부족"
+          "60거래일 주가 이력 부족"
         ],
         "list_score": 90.4,
         "list_coverage_pct": 50.0
@@ -967,7 +987,7 @@
   },
   "data_quality": {
     "label": "v3.1 베타 · 데이터 커버리지 보정",
-    "note": "OpenDART 2025년 사업보고서: 재무지표 확보 285개사, 신규 성공 83개, 실패/자료없음 5개. 외국인·기관 수급, PER/PBR, 증권사 전망 공급자는 미연결이며 임의 추정하지 않습니다.",
+    "note": "OpenDART 2025년 사업보고서: 재무지표 확보 285개사, 신규 성공 0개, 실패/자료없음 5개. 외국인·기관 수급, PER/PBR, 증권사 전망 공급자는 미연결이며 임의 추정하지 않습니다.",
     "official_top10_count": 0,
     "coverage_gate": "7개 평가영역의 실제 확보 가중치가 100%일 때만 공식 추천 점수/등급 부여",
     "financial_universe_batch": 300,
