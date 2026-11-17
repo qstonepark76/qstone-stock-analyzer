@@ -116,6 +116,9 @@ def load_and_score_consensus(stocks, asof):
     # Normalize upside and revision across covered companies, while keeping the
     # rating score on a fixed 0-100 scale. All three inputs are required.
     for ticker, summary in summaries.items():
+        # Always expose verified report metadata, even when the minimum
+        # three-broker threshold is not met for consensus scoring.
+        universe[ticker].update(summary)
         if summary["analyst_broker_count"] < 3:
             continue
         rating_score = summary["analyst_rating_score"]
@@ -127,7 +130,6 @@ def load_and_score_consensus(stocks, asof):
         summary["analyst_consensus_coverage_pct"] = coverage
         if coverage:
             summary["analyst_consensus_score"] = round(sum(v*w for v, w in available) / coverage, 1)
-        universe[ticker].update(summary)
 
     note = (
         f"무료 공개 증권사 리포트: 원문 링크 기반 메타데이터 {len(reports)}건 중 "
