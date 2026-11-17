@@ -2,45 +2,53 @@
 <html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Q Stone Park | Stock Analyzer</title>
 <style>
-:root{--navy:#14243a;--navy2:#294766;--bg:#f3f6fa;--line:#e5eaf0;--muted:#718096;--red:#d94b4b;--blue:#3478c8;--green:#16845b}
+:root{--navy:#14243a;--navy2:#294766;--bg:#f3f6fa;--line:#e5eaf0;--muted:#718096;--red:#d94b4b;--blue:#3478c8;--green:#16845b;--amber:#9a6a16}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:#1d2939;font-family:Arial,"Malgun Gothic",sans-serif}
 header{background:linear-gradient(115deg,var(--navy),var(--navy2));color:white;padding:25px max(20px,calc((100% - 1380px)/2))}
 .brand{font-size:12px;letter-spacing:2px;color:#b9c9d9;font-weight:bold}.head{display:flex;justify-content:space-between;align-items:end;gap:15px;flex-wrap:wrap;margin-top:8px}h1{font-size:27px;margin:0 0 6px}.sub{font-size:12px;color:#c8d4df}.status{font-size:11px;border:1px solid #72869b;border-radius:20px;padding:8px 12px}
 main{max-width:1380px;margin:23px auto;padding:0 20px}.row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:15px}.muted{color:var(--muted);font-size:12px}
 .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}.card{background:white;border:1px solid var(--line);border-radius:13px;padding:17px;box-shadow:0 2px 8px #14243a08}.label{font-size:11px;color:var(--muted);font-weight:bold}.value{font-size:23px;font-weight:800;margin:9px 0 4px}.small{font-size:11px;color:var(--muted)}
-h2{font-size:18px;margin:25px 0 12px}.tablebox{overflow:auto;background:#fff;border:1px solid var(--line);border-radius:13px}table{width:100%;min-width:850px;border-collapse:collapse;font-size:12px}th{background:#f7f9fc;color:#68788d;text-align:right;padding:13px 11px;font-size:11px;white-space:nowrap}td{text-align:right;padding:13px 11px;border-top:1px solid #edf1f5;white-space:nowrap}th:first-child,td:first-child,th:nth-child(2),td:nth-child(2){text-align:left}.name{font-weight:bold;color:#203954}.code{display:block;color:#94a1b1;font-size:10px;margin-top:3px}.score{display:inline-block;padding:5px 8px;background:#eaf3ef;color:var(--green);border-radius:7px;font-weight:bold}.pos{color:var(--red);font-weight:bold}.neg{color:var(--blue);font-weight:bold}.tag{padding:4px 7px;border-radius:20px;background:#eef2f6;color:#607086;font-size:10px}.empty{text-align:center;padding:35px;color:var(--muted);line-height:1.8}
+h2{font-size:18px;margin:25px 0 12px}.tablebox{overflow:auto;background:#fff;border:1px solid var(--line);border-radius:13px}table{width:100%;min-width:1050px;border-collapse:collapse;font-size:12px}th{background:#f7f9fc;color:#68788d;text-align:right;padding:13px 10px;font-size:11px;white-space:nowrap}td{text-align:right;padding:12px 10px;border-top:1px solid #edf1f5;white-space:nowrap}th:first-child,td:first-child,th:nth-child(2),td:nth-child(2){text-align:left}.name{font-weight:bold;color:#203954}.code{display:block;color:#94a1b1;font-size:10px;margin-top:3px}.score{display:inline-block;padding:5px 8px;background:#eaf3ef;color:var(--green);border-radius:7px;font-weight:bold}.pos{color:var(--red);font-weight:bold}.neg{color:var(--blue);font-weight:bold}.tag{padding:4px 7px;border-radius:20px;background:#eef2f6;color:#607086;font-size:10px}.coverage{color:var(--amber);font-weight:bold}.empty{text-align:center;padding:35px;color:var(--muted);line-height:1.8}
 .bottom{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}.weights{display:grid;grid-template-columns:1fr auto;gap:10px;margin-top:14px;font-size:12px}.notice{margin-top:16px;background:#fff9eb;border:1px solid #f1dfb8;color:#806126;border-radius:10px;padding:12px 14px;font-size:11px;line-height:1.7}.footer{text-align:center;color:#9aa5b2;font-size:10px;padding:25px}
 @media(max-width:800px){.cards{grid-template-columns:repeat(2,1fr)}.bottom{grid-template-columns:1fr}}@media(max-width:450px){main{padding:0 11px}.value{font-size:20px}h1{font-size:22px}}
 </style></head><body>
-<header><div class="brand">Q STONE PARK</div><div class="head"><div><h1>Stock Analyzer</h1><div class="sub">KOSPI · Daily Ranking · Investment Performance Tracker</div></div><div class="status" id="status">데이터 연결 확인 중</div></div></header>
+<header><div class="brand">Q STONE PARK</div><div class="head"><div><h1>Stock Analyzer</h1><div class="sub">KOSPI · Fundamental + Momentum Ranking</div></div><div class="status" id="status">데이터 연결 확인 중</div></div></header>
 <main>
 <div class="row"><div class="muted" id="asof">기준일: 불러오는 중</div><div class="muted">업데이트: 한국시간 평일 19:00 이후 예정</div></div>
 <div class="cards">
-<div class="card"><div class="label">KOSPI 지수</div><div class="value" id="kospi">—</div><div class="small" id="kospiChg">데이터 미등록</div></div>
-<div class="card"><div class="label">분석 종목 수</div><div class="value" id="count">—</div><div class="small">KRX 유가증권시장 보통주 기준</div></div>
+<div class="card"><div class="label">분석 종목 수</div><div class="value" id="count">—</div><div class="small">KRX 유가증권시장</div></div>
 <div class="card"><div class="label">상승 / 하락 종목</div><div class="value" id="breadth">— / —</div><div class="small">당일 종가 기준</div></div>
-<div class="card"><div class="label">데이터 상태</div><div class="value" id="quality">—</div><div class="small" id="qualityNote">업데이트 파일 확인</div></div>
+<div class="card"><div class="label">재무 데이터 연결</div><div class="value" id="dartState">—</div><div class="small" id="dartNote">OpenDART 상태</div></div>
+<div class="card"><div class="label">종합평가 데이터 커버리지</div><div class="value" id="coverage">—</div><div class="small">TOP 10 평균 가중치 충족률</div></div>
 </div>
-<h2>추천 주식 TOP 10</h2><div class="tablebox"><table><thead><tr><th>순위</th><th>종목</th><th>종가</th><th>등락률</th><th>점수</th><th>20일 모멘텀</th><th>거래대금</th><th>평가 상태</th></tr></thead><tbody id="ranking"><tr><td colspan="8"><div class="empty">데이터 파일을 불러오고 있습니다.</div></td></tr></tbody></table></div>
+<h2>추천 주식 TOP 10</h2><div class="tablebox"><table><thead><tr><th>순위</th><th>종목</th><th>종가</th><th>등락률</th><th>종합점수</th><th>커버리지</th><th>ROE</th><th>매출 성장</th><th>영업이익 성장</th><th>20일 모멘텀</th><th>거래대금</th></tr></thead><tbody id="ranking"><tr><td colspan="11"><div class="empty">데이터를 불러오는 중입니다.</div></td></tr></tbody></table></div>
 <div class="bottom">
-<div class="card"><h2 style="margin:0">평가 기준 및 데이터 범위</h2><div class="weights"><span>주가 모멘텀 (20일)</span><b>30점</b><span>주가 추세 (5일)</span><b>20점</b><span>거래대금 / 유동성</span><b>20점</b><span>가격 안정성 (변동성 역점수)</span><b>15점</b><span>당일 거래 강도</span><b>15점</b></div><p class="small" style="line-height:1.7;margin-top:15px">초기 자동화 버전은 KRX 일별 시세 기반의 기술·거래 지표로 순위를 산출합니다. 재무 성장성, 외국인·기관 수급, 증권사 목표주가는 승인된 별도 데이터 소스가 연결되기 전까지 점수에 포함하지 않습니다.</p></div>
-<div class="card"><h2 style="margin:0">추천 성과 추적</h2><div class="value" id="perf">—</div><div class="small">누적 추천 종목의 평균 추적 수익률</div><p class="small" style="line-height:1.7;margin-top:15px">추천일 종가를 기준가로 기록합니다. 1주·1개월·3개월 수익률은 거래일 데이터가 누적된 이후 표시됩니다. 데이터가 없는 기간은 추정하지 않습니다.</p></div>
+<div class="card"><h2 style="margin:0">최종 평가 모델</h2><div class="weights">
+<span>실적 성장성·수익성</span><b>25점</b>
+<span>외국인 순매수</span><b>15점 · 미연결</b>
+<span>기관 순매수</span><b>15점 · 미연결</b>
+<span>주가 모멘텀</span><b>15점</b>
+<span>기업가치(PER/PBR)</span><b>15점 · 미연결</b>
+<span>증권사 전망</span><b>15점 · 미연결</b>
+</div><p class="small" style="line-height:1.7;margin-top:15px">연결된 평가 항목만 가중치를 재조정해 점수를 표시합니다. 커버리지 100% 미만은 잠정 점수이며 최종 종합점수로 간주하지 않습니다.</p></div>
+<div class="card"><h2 style="margin:0">미연결 데이터 공급원</h2>
+<p class="small" style="line-height:1.8">외국인·기관 종목별 수급, PER/PBR, 증권사 목표주가는 KRX 일별매매정보 API가 제공하지 않는 항목입니다. 해당 항목은 별도 증권사 API 또는 정식 데이터 제공 계약이 필요합니다. 연결 전에는 점수에 반영하지 않습니다.</p>
+<div class="tag">KRX: 시세·거래대금 연결</div> <div class="tag">OpenDART: 재무지표 선택 연결</div></div>
 </div>
-<div class="notice"><b>투자 데이터 유의사항</b><br>이 화면은 투자 분석 보조 도구이며 매수·매도 권유가 아닙니다. 자동 순위는 공개된 데이터와 설정된 산식에 따른 기계적 결과입니다. API 승인·제공 범위에 따라 데이터 항목이 달라질 수 있으며, 초기에는 재무·수급 정보가 빠진 기술적 스크리닝임을 명확히 표시합니다.</div>
-<div class="footer">Q Stone Park Stock Analyzer · Research support only</div></main>
+<div class="notice"><b>데이터 및 투자 유의사항</b><br>재무지표는 OpenDART에 공시된 최근 사업보고서 기준이며, 시장가격 기준의 PER/PBR이나 증권사 목표주가와는 다릅니다. 외국인·기관 수급은 별도 공급자가 연결되기 전까지 미반영됩니다. 점수는 종목 간 상대 백분위로 산출되며 투자 권유나 수익 보장이 아닙니다.</div>
+<div class="footer">Q Stone Park Stock Analyzer · KRX / OpenDART sources</div></main>
 <script>
-const n=(v,d=0)=>v==null?'—':Number(v).toLocaleString('ko-KR',{maximumFractionDigits:d});
+const n=(v,d=1)=>v==null?'—':Number(v).toLocaleString('ko-KR',{maximumFractionDigits:d});
 async function load(){try{const r=await fetch('data/latest.json?ts='+Date.now());if(!r.ok)throw Error('데이터 파일 없음');const d=await r.json();
 document.getElementById('asof').textContent='기준일: '+(d.as_of||'미지정')+' · KRX 일별 종가';
 document.getElementById('status').textContent='데이터 업데이트 완료';
-document.getElementById('kospi').textContent=n(d.market?.kospi,2);
-document.getElementById('kospiChg').textContent=d.market?.kospi_change_pct==null?'지수 등락 데이터 없음':n(d.market.kospi_change_pct,2)+'%';
-document.getElementById('count').textContent=n(d.market?.analyzed_count);
-document.getElementById('breadth').textContent=n(d.market?.advancers)+' / '+n(d.market?.decliners);
-document.getElementById('quality').textContent=d.data_quality?.label||'확인';
-document.getElementById('qualityNote').textContent=d.data_quality?.note||'';
-document.getElementById('perf').textContent=d.performance?.avg_return_pct==null?'성과 집계 대기':(d.performance.avg_return_pct>0?'+':'')+n(d.performance.avg_return_pct,2)+'%';
-const rows=d.top10||[];document.getElementById('ranking').innerHTML=rows.length?rows.map((s,i)=>`<tr><td>${i+1}</td><td><span class="name">${s.name}</span><span class="code">${s.ticker}</span></td><td>${n(s.close)}원</td><td class="${Number(s.change_pct)>=0?'pos':'neg'}">${s.change_pct==null?'—':(s.change_pct>0?'+':'')+n(s.change_pct,2)+'%'}</td><td><span class="score">${n(s.score,1)}</span></td><td>${s.momentum_20d==null?'—':n(s.momentum_20d,2)+'%'}</td><td>${s.trading_value==null?'—':n(s.trading_value/100000000,1)+'억원'}</td><td><span class="tag">${s.status||'기술지표 기준'}</span></td></tr>`).join(''):'<tr><td colspan="8"><div class="empty">추천 데이터가 아직 없습니다.</div></td></tr>';
-}catch(e){document.getElementById('status').textContent='데이터 미연결';document.getElementById('ranking').innerHTML='<tr><td colspan="8"><div class="empty">아직 최신 데이터가 생성되지 않았습니다.<br>GitHub 저장소에 API 인증정보를 등록하고 Actions를 실행하면 데이터가 표시됩니다.</div></td></tr>';document.getElementById('qualityNote').textContent=e.message;}}
+document.getElementById('count').textContent=n(d.market?.analyzed_count,0);
+document.getElementById('breadth').textContent=n(d.market?.advancers,0)+' / '+n(d.market?.decliners,0);
+document.getElementById('dartState').textContent=d.providers?.opendart==='connected'?'연결 완료':d.providers?.opendart==='not_configured'?'미연결':'자료 확인';
+document.getElementById('dartNote').textContent=d.data_quality?.note||'';
+const rows=d.top10||[];const cov=rows.length?rows.reduce((a,x)=>a+(Number(x.score_coverage_pct)||0),0)/rows.length:0;
+document.getElementById('coverage').textContent=n(cov,0)+'%';
+document.getElementById('ranking').innerHTML=rows.length?rows.map((s,i)=>`<tr><td>${i+1}</td><td><span class="name">${s.name}</span><span class="code">${s.ticker}</span></td><td>${n(s.close,0)}원</td><td class="${Number(s.change_pct)>=0?'pos':'neg'}">${s.change_pct==null?'—':(s.change_pct>0?'+':'')+n(s.change_pct,2)+'%'}</td><td><span class="score">${n(s.score)}</span></td><td class="coverage">${n(s.score_coverage_pct,0)}%</td><td>${s.roe_pct==null?'—':n(s.roe_pct,1)+'%'}</td><td>${s.sales_growth_pct==null?'—':n(s.sales_growth_pct,1)+'%'}</td><td>${s.operating_profit_growth_pct==null?'—':n(s.operating_profit_growth_pct,1)+'%'}</td><td>${s.momentum_20d==null?'—':n(s.momentum_20d,2)+'%'}</td><td>${s.trading_value==null?'—':n(s.trading_value/100000000,1)+'억원'}</td></tr>`).join(''):'<tr><td colspan="11"><div class="empty">추천 데이터가 아직 없습니다.</div></td></tr>';
+}catch(e){document.getElementById('status').textContent='데이터 미연결';document.getElementById('dartNote').textContent=e.message;}}
 load();
 </script></body></html>
