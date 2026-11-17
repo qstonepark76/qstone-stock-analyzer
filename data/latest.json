@@ -1,18 +1,123 @@
 {
-  "as_of": null,
+  "as_of": "2026-11-16",
   "market": {
     "kospi": null,
     "kospi_change_pct": null,
-    "analyzed_count": null,
-    "advancers": null,
-    "decliners": null
+    "analyzed_count": 936,
+    "advancers": 263,
+    "decliners": 615
   },
-  "top10": [],
+  "top10": [
+    {
+      "ticker": "180640",
+      "name": "한진칼",
+      "close": 215500.0,
+      "change_pct": 5.9,
+      "score": 98.7,
+      "momentum_20d": null,
+      "trading_value": 94599034400.0,
+      "status": "일부 지표 부족"
+    },
+    {
+      "ticker": "003230",
+      "name": "삼양식품",
+      "close": 1285000.0,
+      "change_pct": 6.2,
+      "score": 98.1,
+      "momentum_20d": null,
+      "trading_value": 78434448500.0,
+      "status": "일부 지표 부족"
+    },
+    {
+      "ticker": "000810",
+      "name": "삼성화재",
+      "close": 542000.0,
+      "change_pct": 2.46,
+      "score": 96.6,
+      "momentum_20d": null,
+      "trading_value": 92530205000.0,
+      "status": "일부 지표 부족"
+    },
+    {
+      "ticker": "008700",
+      "name": "아남전자",
+      "close": 1467.0,
+      "change_pct": 19.27,
+      "score": 96.1,
+      "momentum_20d": null,
+      "trading_value": 30877972883.0,
+      "status": "일부 지표 부족"
+    },
+    {
+      "ticker": "005830",
+      "name": "DB손해보험",
+      "close": 175600.0,
+      "change_pct": 7.33,
+      "score": 96.0,
+      "momentum_20d": null,
+      "trading_value": 31690576150.0,
+      "status": "일부 지표 부족"
+    },
+    {
+      "ticker": "033780",
+      "name": "KT&G",
+      "close": 180900.0,
+      "change_pct": 2.78,
+      "score": 95.7,
+      "momentum_20d": null,
+      "trading_value": 60984240100.0,
+      "status": "일부 지표 부족"
+    },
+    {
+      "ticker": "105560",
+      "name": "KB금융",
+      "close": 161600.0,
+      "change_pct": 1.64,
+      "score": 95.1,
+      "momentum_20d": null,
+      "trading_value": 132182323600.0,
+      "status": "일부 지표 부족"
+    },
+    {
+      "ticker": "035720",
+      "name": "카카오",
+      "close": 32450.0,
+      "change_pct": 2.37,
+      "score": 94.8,
+      "momentum_20d": null,
+      "trading_value": 49099995875.0,
+      "status": "일부 지표 부족"
+    },
+    {
+      "ticker": "086790",
+      "name": "하나금융지주",
+      "close": 126800.0,
+      "change_pct": 1.77,
+      "score": 94.8,
+      "momentum_20d": null,
+      "trading_value": 80960314950.0,
+      "status": "일부 지표 부족"
+    },
+    {
+      "ticker": "011200",
+      "name": "HMM",
+      "close": 22150.0,
+      "change_pct": 3.26,
+      "score": 94.5,
+      "momentum_20d": null,
+      "trading_value": 29849637425.0,
+      "status": "일부 지표 부족"
+    }
+  ],
   "performance": {
     "avg_return_pct": null
   },
   "data_quality": {
-    "label": "데이터 대기",
-    "note": "KRX API 인증정보 등록 후 자동 수집"
+    "label": "KRX 시세 수집 완료",
+    "note": "주가·거래 지표 기반. 재무·외국인/기관 수급·목표주가 미연결."
+  },
+  "method": {
+    "version": "0.1",
+    "score": "가용 기술지표의 가중평균 백분위. 누락 지표는 가중치 재정규화."
   }
 }
