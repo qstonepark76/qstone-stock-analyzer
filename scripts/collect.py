@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Q Stone Park Stock Analyzer v3.1-beta
+"""Q Stone Park Stock Analyzer v3.2-beta
 KRX daily market data + throttled/cached OpenDART annual financials.
 Unconnected data (foreign/institution flows, PER/PBR, analyst targets) are never fabricated.
 """
@@ -14,12 +14,12 @@ DART_KEY = os.getenv("DART_AUTH_KEY", "").strip()
 OUT = Path("data")
 OUT.mkdir(exist_ok=True)
 CACHE_FILE = OUT / "financial_cache.json"
-FINANCIAL_UNIVERSE = 120  # rotating batch; covers the full listed universe over repeated runs
+FINANCIAL_UNIVERSE = 300  # top-300 market-cap universe; rotating OpenDART batch
 CACHE_DAYS = 90
 UNIVERSE_STATE_FILE = OUT / "financial_universe_state.json"
 REQUEST_TIMEOUT = (8, 20)
 S = requests.Session()
-S.headers.update({"User-Agent": "QStonePark-StockAnalyzer/3.1-beta"})
+S.headers.update({"User-Agent": "QStonePark-StockAnalyzer/3.2-beta"})
 
 def parse_rows(payload):
     if isinstance(payload, list):
@@ -320,13 +320,17 @@ def grade_for(score):
 
 def main():
     asof, raw = latest_krx_rows()
-    stocks = normalize(raw)
-    if len(stocks) < 30:
-        raise RuntimeError(f"KRX 정상 종목 수 부족: {len(stocks)}")
-
+    all_stocks = normalize(raw)
+    if len(all_stocks) < 300:
+        raise RuntimeError(f"KRX 정상 종목 수 부족: {len(all_stocks)}")
+    cap_covered = [x for x in all_stocks if x.get("market_cap") is not None and x["market_cap"] > 0]
+    if len(cap_covered) < 300:
+        raise RuntimeError(f"시가총액 데이터가 있는 종목이 300개 미만입니다: {len(cap_covered)}개. 시총 상위 300개 분석을 보류합니다.")
+    # Save the full market snapshot so daily universe membership can change.
     history = OUT / "history"
     history.mkdir(exist_ok=True)
-    (history / f"{asof:%Y%m%d}.json").write_text(json.dumps(stocks, ensure_ascii=False), encoding="utf-8")
+    (history / f"{asof:%Y%m%d}.json").write_text(json.dumps(all_stocks, ensure_ascii=False), encoding="utf-8")
+    stocks = sorted(cap_covered, key=lambda x: x["market_cap"], reverse=True)[:300]
     snapshots = []
     for path in sorted(history.glob("*.json"))[-160:]:
         try:
@@ -467,12 +471,12 @@ def main():
         "lists": {k: compact(v, k) for k, v in lists.items()},
         "top10": compact(official, "overall"),
         "performance": {"snapshots": len(perf), "note": "공식 추천 종목의 추천일 종가 저장. 이후 거래일 관측치가 쌓이면 1주·1개월·3개월 수익률 계산 예정."},
-        "data_quality": {"label": "v3.1 베타 · 데이터 커버리지 보정", "note": dart_note + ". 외국인·기관 수급, PER/PBR, 증권사 전망 공급자는 미연결이며 임의 추정하지 않습니다.", "official_top10_count": len(official), "coverage_gate": "7개 평가영역의 실제 확보 가중치가 100%일 때만 공식 추천 점수/등급 부여", "financial_universe_batch": FINANCIAL_UNIVERSE, "financial_universe_total": len(stocks)},
+        "data_quality": {"label": "v3.1 베타 · 데이터 커버리지 보정", "note": dart_note + ". 외국인·기관 수급, PER/PBR, 증권사 전망 공급자는 미연결이며 임의 추정하지 않습니다.", "official_top10_count": len(official), "coverage_gate": "7개 평가영역의 실제 확보 가중치가 100%일 때만 공식 추천 점수/등급 부여", "financial_universe_batch": FINANCIAL_UNIVERSE, "financial_universe_total": len(stocks), "market_cap_covered_count": len(cap_covered), "universe_limit": 300},
         "providers": {"krx": "connected", "opendart": "connected" if financial else ("configured_no_data" if DART_KEY else "not_configured"), "investor_flows": "not_connected", "valuation": "not_connected", "analyst_consensus": "not_connected"},
-        "model": {"version": "3.1-beta", "weights": {"financial_health_profitability": 20, "growth": 20, "price_momentum": 15, "foreign_flow": 15, "institution_flow": 10, "valuation_per_pbr": 10, "broker_outlook": 10}, "grade_thresholds": {"S": 90, "A": 80, "B": 70, "C": 60, "excluded": 0}, "note": "확정 100점 배점 유지. 부분 데이터는 provisional_score로만 표시하고 공식 score/grade를 부여하지 않음. 모멘텀은 20거래일 가격 관측이 없으면 점수 미산출."}
+        "model": {"version": "3.2-beta", "weights": {"financial_health_profitability": 20, "growth": 20, "price_momentum": 15, "foreign_flow": 15, "institution_flow": 10, "valuation_per_pbr": 10, "broker_outlook": 10}, "grade_thresholds": {"S": 90, "A": 80, "B": 70, "C": 60, "excluded": 0}, "note": "확정 100점 배점 유지. 부분 데이터는 provisional_score로만 표시하고 공식 score/grade를 부여하지 않음. 모멘텀은 20거래일 가격 관측이 없으면 점수 미산출."}
     }
     (OUT / "latest.json").write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"[완료] v3.1-beta {asof}: KRX {len(stocks)}개 / DART 재무 {len(financial)}개 / 공식추천 가능 {len(official)}개", flush=True)
+    print(f"[완료] v3.2-beta {asof}: KRX {len(stocks)}개 / DART 재무 {len(financial)}개 / 공식추천 가능 {len(official)}개", flush=True)
 
 
 if __name__ == "__main__":
