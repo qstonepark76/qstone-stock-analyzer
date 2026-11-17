@@ -82,7 +82,7 @@ class RecommendationPerformanceTests(unittest.TestCase):
                 "tickers": [{"ticker": "005930", "close": 100}],
                 "returns": {},
             }]
-            update_recommendation_performance(perf, history)
+            update_recommendation_performance(perf, history, index_history)
             self.assertIsNone(perf[0]["returns"]["1w"])
             self.assertEqual(perf[0]["stock_returns"]["1w"], {})
 
