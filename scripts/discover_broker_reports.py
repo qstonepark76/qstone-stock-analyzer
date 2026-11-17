@@ -114,12 +114,12 @@ def attach_tickers(candidates, history_dir):
         return candidates
     names = {}
     for stock in rows if isinstance(rows, list) else []:
-        name = re.sub(r"\\s+", "", str(stock.get("name", ""))).casefold()
+        name = re.sub(r"\s+", "", str(stock.get("name", ""))).casefold()
         ticker = str(stock.get("ticker", "")).zfill(6)
         if name and ticker:
             names.setdefault(name, set()).add(ticker)
     for candidate in candidates:
-        key = re.sub(r"\\s+", "", str(candidate.get("company", ""))).casefold()
+        key = re.sub(r"\s+", "", str(candidate.get("company", ""))).casefold()
         matches = names.get(key, set())
         if len(matches) == 1:
             candidate["ticker"] = next(iter(matches))
