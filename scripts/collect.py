@@ -331,17 +331,18 @@ def collect_kis_investor_flows(stocks, asof):
                 date_text = txt(row, "stck_bsop_date")
                 if not date_text or date_text > asof.strftime("%Y%m%d"):
                     continue
-                foreign_value, institution_value = num(row, "frgn_ntby_tr_pbmn"), num(row, "orgn_ntby_tr_pbmn")
-                traded_value = num(row, "acml_tr_pbmn")
-                if foreign_value is not None and institution_value is not None and traded_value is not None and traded_value > 0:
-                    usable.append((date_text, foreign_value, institution_value, traded_value))
+                foreign_qty = num(row, "frgn_ntby_qty")
+                institution_qty = num(row, "orgn_ntby_qty")
+                traded_volume = num(row, "acml_vol")
+                if foreign_qty is not None and institution_qty is not None and traded_volume is not None and traded_volume > 0:
+                    usable.append((date_text, foreign_qty, institution_qty, traded_volume))
             usable.sort(key=lambda item: item[0], reverse=True)
             recent = usable[:5]
             if len(recent) == 5:
                 denominator = sum(item[3] for item in recent)
                 results[stock["ticker"]] = {
-                    "foreign_net_buy_value_5d": sum(item[1] for item in recent),
-                    "institution_net_buy_value_5d": sum(item[2] for item in recent),
+                    "foreign_net_buy_qty_5d": sum(item[1] for item in recent),
+                    "institution_net_buy_qty_5d": sum(item[2] for item in recent),
                     "foreign_flow_5d_pct": 100 * sum(item[1] for item in recent) / denominator,
                     "institution_flow_5d_pct": 100 * sum(item[2] for item in recent) / denominator,
                     "investor_flow_as_of": recent[0][0], "investor_flow_sessions": 5,
@@ -354,7 +355,7 @@ def collect_kis_investor_flows(stocks, asof):
         if index % 25 == 0:
             print(f"[KIS] {index}/{len(stocks)} 종목 처리, 확보 {len(results)}개", flush=True)
         time.sleep(0.4)
-    note = f"KIS 외국인·기관 일별 수급: 5거래일 확보 {len(results)}개사 / 오류·자료부족 {errors}개사"
+    note = f"KIS 외국인·기관 일별 순매수 수량/거래량 비율: 5거래일 확보 {len(results)}개사 / 오류·자료부족 {errors}개사"
     print("[KIS] " + note, flush=True)
     return results, note
 
@@ -543,7 +544,7 @@ def main():
     perf_file.write_text(json.dumps(perf[-500:], ensure_ascii=False, indent=2), encoding="utf-8")
 
     def compact(items, list_key):
-        keys = ["ticker", "name", "close", "change_pct", "score", "provisional_score", "score_coverage_pct", "grade", "provisional_grade", "status", "official_recommendation_eligible", "component_scores", "component_coverage_pct", "financial_score", "growth_score", "momentum_score", "roe_pct", "sales_growth_pct", "operating_profit_growth_pct", "momentum_5d", "momentum_20d", "momentum_60d", "history_observations", "trading_value", "foreign_net_buy_value_5d", "institution_net_buy_value_5d", "foreign_flow_5d_pct", "institution_flow_5d_pct", "investor_flow_as_of", "investor_flow_sessions", "reason", "risk_factors"]
+        keys = ["ticker", "name", "close", "change_pct", "score", "provisional_score", "score_coverage_pct", "grade", "provisional_grade", "status", "official_recommendation_eligible", "component_scores", "component_coverage_pct", "financial_score", "growth_score", "momentum_score", "roe_pct", "sales_growth_pct", "operating_profit_growth_pct", "momentum_5d", "momentum_20d", "momentum_60d", "history_observations", "trading_value", "foreign_net_buy_qty_5d", "institution_net_buy_qty_5d", "foreign_flow_5d_pct", "institution_flow_5d_pct", "investor_flow_as_of", "investor_flow_sessions", "reason", "risk_factors"]
         out = []
         for x in items:
             row = {k: x.get(k) for k in keys}
