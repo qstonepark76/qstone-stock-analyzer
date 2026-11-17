@@ -53,6 +53,9 @@ class ReportDiscoveryTests(unittest.TestCase):
                 "title": "메모리 업황 및 실적 전망",
                 "brokerName": "한국투자증권",
                 "publishedAt": "2026-11-16",
+                "opinionType": "BUY",
+                "opinionText": "매수",
+                "goalPrice": 120000,
             }],
         }
         rows = parse_api_items(payload, asof=date(2026, 11, 17))
@@ -61,6 +64,9 @@ class ReportDiscoveryTests(unittest.TestCase):
         self.assertEqual(rows[0]["published_at"], "2026-11-16")
         self.assertEqual(rows[0]["rating"], None)
         self.assertEqual(rows[0]["target_price"], None)
+        self.assertEqual(rows[0]["source_opinion_type"], "BUY")
+        self.assertEqual(rows[0]["source_opinion_text"], "매수")
+        self.assertEqual(rows[0]["source_goal_price"], 120000)
         self.assertTrue(rows[0]["detail_url"].endswith("/98765"))
 
     def test_attaches_ticker_only_for_unique_exact_company_name(self):
