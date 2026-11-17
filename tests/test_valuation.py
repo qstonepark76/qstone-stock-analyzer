@@ -3,7 +3,7 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-from collect import calculate_valuation
+from collect import calculate_valuation, has_financial_metrics
 
 
 class ValuationTests(unittest.TestCase):
@@ -31,6 +31,14 @@ class ValuationTests(unittest.TestCase):
         per, pbr = calculate_valuation(1_000, 100, 500, "USD")
         self.assertIsNone(per)
         self.assertIsNone(pbr)
+
+    def test_financial_cache_requires_real_values_not_only_present_keys(self):
+        self.assertFalse(has_financial_metrics({
+            "roe_pct": None, "sales_growth_pct": None,
+            "operating_profit_growth_pct": None, "net_income": None,
+            "equity_total": None, "financial_currency": "KRW",
+        }))
+        self.assertTrue(has_financial_metrics({"net_income": 100, "equity_total": None}))
 
     def test_missing_market_cap_produces_no_valuation(self):
         per, pbr = calculate_valuation(None, 100, 500, "KRW")
