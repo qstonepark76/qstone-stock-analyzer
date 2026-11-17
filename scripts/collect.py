@@ -10,7 +10,7 @@ import xml.etree.ElementTree as ET
 from analyst_consensus import load_and_score_consensus
 
 KRX_URL = os.getenv("KRX_API_BASE", "https://data-dbg.krx.co.kr/svc/apis/sto/stk_bydd_trd")
-KRX_KEY = os.environ["KRX_AUTH_KEY"].strip()
+KRX_KEY = os.getenv("KRX_AUTH_KEY", "").strip()
 DART_KEY = os.getenv("DART_AUTH_KEY", "").strip()
 OUT = Path("data")
 OUT.mkdir(exist_ok=True)
