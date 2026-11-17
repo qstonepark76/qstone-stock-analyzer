@@ -13,100 +13,160 @@
       "name": "한진칼",
       "close": 215500.0,
       "change_pct": 5.9,
-      "score": 98.7,
+      "score": 98.6,
+      "score_coverage_pct": 0,
+      "status": "종합평가 일부항목 미연결",
       "momentum_20d": null,
       "trading_value": 94599034400.0,
-      "status": "일부 지표 부족"
+      "technical_score": 98.6,
+      "financial_score": null,
+      "roe_pct": null,
+      "sales_growth_pct": null,
+      "operating_profit_growth_pct": null
     },
     {
       "ticker": "003230",
       "name": "삼양식품",
       "close": 1285000.0,
       "change_pct": 6.2,
-      "score": 98.1,
+      "score": 98.0,
+      "score_coverage_pct": 0,
+      "status": "종합평가 일부항목 미연결",
       "momentum_20d": null,
       "trading_value": 78434448500.0,
-      "status": "일부 지표 부족"
+      "technical_score": 98.0,
+      "financial_score": null,
+      "roe_pct": null,
+      "sales_growth_pct": null,
+      "operating_profit_growth_pct": null
     },
     {
       "ticker": "000810",
       "name": "삼성화재",
       "close": 542000.0,
       "change_pct": 2.46,
-      "score": 96.6,
+      "score": 97.0,
+      "score_coverage_pct": 0,
+      "status": "종합평가 일부항목 미연결",
       "momentum_20d": null,
       "trading_value": 92530205000.0,
-      "status": "일부 지표 부족"
-    },
-    {
-      "ticker": "008700",
-      "name": "아남전자",
-      "close": 1467.0,
-      "change_pct": 19.27,
-      "score": 96.1,
-      "momentum_20d": null,
-      "trading_value": 30877972883.0,
-      "status": "일부 지표 부족"
-    },
-    {
-      "ticker": "005830",
-      "name": "DB손해보험",
-      "close": 175600.0,
-      "change_pct": 7.33,
-      "score": 96.0,
-      "momentum_20d": null,
-      "trading_value": 31690576150.0,
-      "status": "일부 지표 부족"
-    },
-    {
-      "ticker": "033780",
-      "name": "KT&G",
-      "close": 180900.0,
-      "change_pct": 2.78,
-      "score": 95.7,
-      "momentum_20d": null,
-      "trading_value": 60984240100.0,
-      "status": "일부 지표 부족"
+      "technical_score": 97.0,
+      "financial_score": null,
+      "roe_pct": null,
+      "sales_growth_pct": null,
+      "operating_profit_growth_pct": null
     },
     {
       "ticker": "105560",
       "name": "KB금융",
       "close": 161600.0,
       "change_pct": 1.64,
-      "score": 95.1,
+      "score": 96.0,
+      "score_coverage_pct": 0,
+      "status": "종합평가 일부항목 미연결",
       "momentum_20d": null,
       "trading_value": 132182323600.0,
-      "status": "일부 지표 부족"
+      "technical_score": 96.0,
+      "financial_score": null,
+      "roe_pct": null,
+      "sales_growth_pct": null,
+      "operating_profit_growth_pct": null
     },
     {
-      "ticker": "035720",
-      "name": "카카오",
-      "close": 32450.0,
-      "change_pct": 2.37,
-      "score": 94.8,
+      "ticker": "033780",
+      "name": "KT&G",
+      "close": 180900.0,
+      "change_pct": 2.78,
+      "score": 95.9,
+      "score_coverage_pct": 0,
+      "status": "종합평가 일부항목 미연결",
       "momentum_20d": null,
-      "trading_value": 49099995875.0,
-      "status": "일부 지표 부족"
+      "trading_value": 60984240100.0,
+      "technical_score": 95.9,
+      "financial_score": null,
+      "roe_pct": null,
+      "sales_growth_pct": null,
+      "operating_profit_growth_pct": null
+    },
+    {
+      "ticker": "005830",
+      "name": "DB손해보험",
+      "close": 175600.0,
+      "change_pct": 7.33,
+      "score": 95.4,
+      "score_coverage_pct": 0,
+      "status": "종합평가 일부항목 미연결",
+      "momentum_20d": null,
+      "trading_value": 31690576150.0,
+      "technical_score": 95.4,
+      "financial_score": null,
+      "roe_pct": null,
+      "sales_growth_pct": null,
+      "operating_profit_growth_pct": null
+    },
+    {
+      "ticker": "008700",
+      "name": "아남전자",
+      "close": 1467.0,
+      "change_pct": 19.27,
+      "score": 95.4,
+      "score_coverage_pct": 0,
+      "status": "종합평가 일부항목 미연결",
+      "momentum_20d": null,
+      "trading_value": 30877972883.0,
+      "technical_score": 95.4,
+      "financial_score": null,
+      "roe_pct": null,
+      "sales_growth_pct": null,
+      "operating_profit_growth_pct": null
     },
     {
       "ticker": "086790",
       "name": "하나금융지주",
       "close": 126800.0,
       "change_pct": 1.77,
-      "score": 94.8,
+      "score": 95.4,
+      "score_coverage_pct": 0,
+      "status": "종합평가 일부항목 미연결",
       "momentum_20d": null,
       "trading_value": 80960314950.0,
-      "status": "일부 지표 부족"
+      "technical_score": 95.4,
+      "financial_score": null,
+      "roe_pct": null,
+      "sales_growth_pct": null,
+      "operating_profit_growth_pct": null
     },
     {
-      "ticker": "011200",
-      "name": "HMM",
-      "close": 22150.0,
-      "change_pct": 3.26,
-      "score": 94.5,
+      "ticker": "035720",
+      "name": "카카오",
+      "close": 32450.0,
+      "change_pct": 2.37,
+      "score": 95.0,
+      "score_coverage_pct": 0,
+      "status": "종합평가 일부항목 미연결",
       "momentum_20d": null,
-      "trading_value": 29849637425.0,
-      "status": "일부 지표 부족"
+      "trading_value": 49099995875.0,
+      "technical_score": 95.0,
+      "financial_score": null,
+      "roe_pct": null,
+      "sales_growth_pct": null,
+      "operating_profit_growth_pct": null
+    },
+    {
+      "ticker": "278470",
+      "name": "에이피알",
+      "close": 240000.0,
+      "change_pct": 1.69,
+      "score": 94.6,
+      "score_coverage_pct": 0,
+      "status": "종합평가 일부항목 미연결",
+      "momentum_20d": null,
+      "trading_value": 74713284250.0,
+      "technical_score": 94.6,
+      "financial_score": null,
+      "roe_pct": null,
+      "sales_growth_pct": null,
+      "operating_profit_growth_pct": null
     }
   ],
   "performance": {
@@ -114,10 +174,26 @@
   },
   "data_quality": {
     "label": "KRX 시세 수집 완료",
-    "note": "주가·거래 지표 기반. 재무·외국인/기관 수급·목표주가 미연결."
+    "note": "OpenDART 미연결: DART_AUTH_KEY 등록 시 재무지표 반영. 외국인·기관 수급, PER/PBR, 증권사 목표주가는 아직 별도 공급자 미연결."
   },
-  "method": {
-    "version": "0.1",
-    "score": "가용 기술지표의 가중평균 백분위. 누락 지표는 가중치 재정규화."
-  }
+  "providers": {
+    "krx": "connected",
+    "opendart": "not_configured",
+    "investor_flows": "not_connected",
+    "valuation": "not_connected",
+    "analyst_consensus": "not_connected"
+  },
+  "model": {
+    "version": "0.2",
+    "weights": {
+      "fundamentals": 25,
+      "foreign_flow": 15,
+      "institution_flow": 15,
+      "momentum": 15,
+      "valuation": 15,
+      "analyst_consensus": 15
+    },
+    "note": "사용 가능한 항목만 가중치 재정규화. score_coverage_pct를 반드시 함께 확인."
+  },
+  "financial_year": null
 }
