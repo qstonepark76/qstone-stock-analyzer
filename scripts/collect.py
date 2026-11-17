@@ -331,8 +331,10 @@ def main():
     history.mkdir(exist_ok=True)
     (history / f"{asof:%Y%m%d}.json").write_text(json.dumps(all_stocks, ensure_ascii=False), encoding="utf-8")
     stocks = sorted(cap_covered, key=lambda x: x["market_cap"], reverse=True)[:300]
+    history_files = sorted(history.glob("*.json"))[-160:]
+    history_sessions_available = len(history_files)
     snapshots = []
-    for path in sorted(history.glob("*.json"))[-160:]:
+    for path in history_files:
         try:
             snapshots.append(json.loads(path.read_text(encoding="utf-8")))
         except Exception:
@@ -423,7 +425,7 @@ def main():
         x["provisional_grade"] = grade_for(provisional_score) if not eligible else None
         x["official_recommendation_eligible"] = eligible
         x["status"] = "공식 추천 심사 가능" if eligible else "잠정 평가·공식추천 제외"
-        x["reason"] = "확보된 재무·성장·20일 주가 데이터의 상대평가. 미확보 항목은 점수에 포함하지 않음"
+        x["reason"] = "확보된 재무·성장 데이터의 상대평가. 60거래일 모멘텀 및 미연결 항목은 점수에 포함하지 않음"
         x["risk_factors"] = [label for key, label in [
             ("roe_pct", "ROE 자료 부족"), ("sales_growth_pct", "매출성장 자료 부족"),
             ("operating_profit_growth_pct", "영업이익 성장 자료 부족"),
@@ -474,9 +476,9 @@ def main():
         "lists": {k: compact(v, k) for k, v in lists.items()},
         "top10": compact(official, "overall"),
         "performance": {"snapshots": len(perf), "note": "공식 추천 종목의 추천일 종가 저장. 이후 거래일 관측치가 쌓이면 1주·1개월·3개월 수익률 계산 예정."},
-        "data_quality": {"label": "v3.1 베타 · 데이터 커버리지 보정", "note": dart_note + ". 외국인·기관 수급, PER/PBR, 증권사 전망 공급자는 미연결이며 임의 추정하지 않습니다.", "official_top10_count": len(official), "coverage_gate": "7개 평가영역의 실제 확보 가중치가 100%일 때만 공식 추천 점수/등급 부여", "financial_universe_batch": FINANCIAL_UNIVERSE, "financial_universe_total": len(stocks), "market_cap_covered_count": len(cap_covered), "universe_limit": 300},
+        "data_quality": {"label": "v3.2 베타 · 시가총액 상위 300개 · 가격 이력 누적", "note": dart_note + ". 외국인·기관 수급, PER/PBR, 증권사 전망 공급자는 미연결이며 임의 추정하지 않습니다.", "official_top10_count": len(official), "coverage_gate": "7개 평가영역의 실제 확보 가중치가 100%일 때만 공식 추천 점수/등급 부여", "financial_universe_batch": FINANCIAL_UNIVERSE, "financial_universe_total": len(stocks), "market_cap_covered_count": len(cap_covered), "universe_limit": 300, "history_sessions_available": history_sessions_available, "history_sessions_required": 61, "history_progress_pct": round(min(history_sessions_available, 61) / 61 * 100, 1),
         "providers": {"krx": "connected", "opendart": "connected" if financial else ("configured_no_data" if DART_KEY else "not_configured"), "investor_flows": "not_connected", "valuation": "not_connected", "analyst_consensus": "not_connected"},
-        "model": {"version": "3.2-beta", "weights": {"financial_health_profitability": 20, "growth": 20, "price_momentum": 15, "foreign_flow": 15, "institution_flow": 10, "valuation_per_pbr": 10, "broker_outlook": 10}, "grade_thresholds": {"S": 90, "A": 80, "B": 70, "C": 60, "excluded": 0}, "note": "확정 100점 배점 유지. 부분 데이터는 provisional_score로만 표시하고 공식 score/grade를 부여하지 않음. 모멘텀은 20거래일 가격 관측이 없으면 점수 미산출."}
+        "model": {"version": "3.2-beta", "weights": {"financial_health_profitability": 20, "growth": 20, "price_momentum": 15, "foreign_flow": 15, "institution_flow": 10, "valuation_per_pbr": 10, "broker_outlook": 10}, "grade_thresholds": {"S": 90, "A": 80, "B": 70, "C": 60, "excluded": 0}, "note": "확정 100점 배점 유지. 부분 데이터는 provisional_score로만 표시하고 공식 score/grade를 부여하지 않음. 모멘텀은 현재 종가를 포함해 61개 거래일 종가(직전 60거래일 비교)가 누적되어야 산출."}
     }
     (OUT / "latest.json").write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"[완료] v3.2-beta {asof}: KRX {len(stocks)}개 / DART 재무 {len(financial)}개 / 공식추천 가능 {len(official)}개", flush=True)
