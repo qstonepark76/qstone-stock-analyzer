@@ -188,6 +188,11 @@ def parse_api_items(payload, asof=None):
         if not (nid and company and title and broker and published):
             continue
         item_code = _pick(item, "itemCode", "stockCode", "code")
+        # Preserve explicit source fields for a separate verification step.
+        # Do not map opinionType to a score or goalPrice to target_price here.
+        source_opinion_type = _pick(item, "opinionType")
+        source_opinion_text = _pick(item, "opinionText")
+        source_goal_price = _pick(item, "goalPrice")
         detail_url = f"https://stock.naver.com/research/company/{nid}"
         found.append({
             "company": str(company).strip(),
@@ -199,6 +204,9 @@ def parse_api_items(payload, asof=None):
             "research_id": str(nid),
             "ticker": str(item_code).zfill(6) if item_code else None,
             "verification_status": "candidate_unverified",
+            "source_opinion_type": str(source_opinion_type).strip() if source_opinion_type not in (None, "") else None,
+            "source_opinion_text": str(source_opinion_text).strip() if source_opinion_text not in (None, "") else None,
+            "source_goal_price": source_goal_price,
             "rating": None,
             "target_price": None,
         })
