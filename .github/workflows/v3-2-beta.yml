@@ -40,7 +40,13 @@ jobs:
       - name: Run unit tests
         run: python -m unittest discover -s tests -v
 
-      - name: Collect KRX and rotating OpenDART batch
+      - name: Discover public brokerage report candidates
+        run: python -u scripts/discover_broker_reports.py
+
+      - name: Verify and promote explicit brokerage report fields
+        run: python -u scripts/verify_broker_reports.py
+
+      - name: Collect KRX, OpenDART, KIS and verified analyst consensus
         env:
           KRX_AUTH_KEY: ${{ secrets.KRX_AUTH_KEY }}
           DART_AUTH_KEY: ${{ secrets.DART_AUTH_KEY }}
@@ -49,9 +55,6 @@ jobs:
           KIS_BATCH_SIZE: "100"
           DART_BATCH_SIZE: "100"
         run: python -u scripts/collect.py
-
-      - name: Discover public brokerage report candidates
-        run: python -u scripts/discover_broker_reports.py
 
       - name: Save beta data to v3-2-beta
         run: |
