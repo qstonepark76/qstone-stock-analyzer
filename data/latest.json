@@ -1,0 +1,18 @@
+{
+  "as_of": null,
+  "market": {
+    "kospi": null,
+    "kospi_change_pct": null,
+    "analyzed_count": null,
+    "advancers": null,
+    "decliners": null
+  },
+  "top10": [],
+  "performance": {
+    "avg_return_pct": null
+  },
+  "data_quality": {
+    "label": "데이터 대기",
+    "note": "KRX API 인증정보 등록 후 자동 수집"
+  }
+}
