@@ -95,7 +95,7 @@ def load_and_score_consensus(stocks, asof):
         upside = (avg_target / stock["close"] - 1) * 100 if avg_target is not None and stock.get("close") else None
         revision = sum(revisions) / len(revisions) if revisions else None
         summaries[ticker] = {
-            "analyst_report_count": len(fresh),
+            "analyst_report_count": sum(1 for r in rows if (asof - r["published"]).days <= 90),
             "analyst_broker_count": len(fresh),
             "analyst_avg_target_price": round(avg_target, 2) if avg_target is not None else None,
             "analyst_avg_upside_pct": round(upside, 2) if upside is not None else None,
