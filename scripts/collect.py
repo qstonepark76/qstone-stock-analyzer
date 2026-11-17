@@ -46,6 +46,34 @@ def request_with_retry(method, url, attempts=3, **kwargs):
             time.sleep(delay)
     raise last_error
 
+def kis_request_with_retry(url, *, headers, params, timeout=REQUEST_TIMEOUT, attempts=4):
+    """Retry KIS transient 5xx/429 responses with a slower, provider-friendly backoff."""
+    last_error = None
+    for attempt in range(attempts):
+        try:
+            response = S.get(url, headers=headers, params=params, timeout=timeout)
+            if response.status_code == 429 or response.status_code >= 500:
+                response.raise_for_status()
+            response.raise_for_status()
+            return response
+        except requests.RequestException as exc:
+            last_error = exc
+            if attempt + 1 >= attempts:
+                raise
+            retry_after = response.headers.get("Retry-After") if "response" in locals() else None
+            try:
+                delay = float(retry_after)
+            except (TypeError, ValueError):
+                delay = min(1.5 * (2 ** attempt), 12.0)
+            print(
+                f"[KIS RETRY] {params.get('FID_INPUT_ISCD', '')} "
+                f"HTTP/API 오류: {str(exc)[:100]} / {attempt + 1}/{attempts}, "
+                f"{delay:.1f}s 후 재시도",
+                flush=True,
+            )
+            time.sleep(max(1.0, delay))
+    raise last_error
+
 
 def has_financial_metrics(metrics):
     """A cache entry is valid only when at least one actual financial value exists."""
@@ -480,7 +508,7 @@ def collect_kis_investor_flows(stocks, asof):
                   "FID_INPUT_DATE_1": asof.strftime("%Y%m%d"),
                   "FID_ORG_ADJ_PRC": "", "FID_ETC_CLS_CODE": ""}
         try:
-            response = request_with_retry("GET", endpoint, headers=headers, params=params, timeout=REQUEST_TIMEOUT)
+            response = kis_request_with_retry(endpoint, headers=headers, params=params, timeout=REQUEST_TIMEOUT)
             response.raise_for_status()
             payload = response.json()
             if str(payload.get("rt_cd", "")) != "0":
@@ -518,7 +546,9 @@ def collect_kis_investor_flows(stocks, asof):
             print(f"[KIS] {stock['ticker']} 조회 실패: {str(exc)[:120]}", flush=True)
         if index % 25 == 0:
             print(f"[KIS] {index}/{len(selected)} 종목 처리, 이번 회차 확보 {len(results)}개", flush=True)
-        time.sleep(API_PAUSE_SECONDS)
+        # KIS per-ticker endpoint is sensitive to burst traffic; use a dedicated
+        # interval rather than the shorter general public-API pause.
+        time.sleep(float(os.getenv("KIS_REQUEST_PAUSE_SECONDS", "0.65")))
     # Persist each successful 5-session result so rotating batches build
     # universe-wide coverage over subsequent runs.
     try:
