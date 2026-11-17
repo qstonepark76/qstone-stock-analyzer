@@ -49,6 +49,35 @@ def get_krx_day(day):
         raise RuntimeError(f"KRX 응답 구조를 해석할 수 없습니다: {response.text[:250]}")
     return rows
 
+def get_krx_kospi_day(day):
+    """Fetch the KOSPI composite index close from the KRX index API."""
+    endpoint = "https://data-dbg.krx.co.kr/svc/apis/idx/kospi_dd_trd"
+    response = S.get(endpoint, headers={"AUTH_KEY": KRX_KEY, "Content-Type": "application/json"},
+                     params={"basDd": day.strftime("%Y%m%d")}, timeout=REQUEST_TIMEOUT)
+    response.raise_for_status()
+    rows = parse_rows(response.json())
+    if rows is None:
+        raise RuntimeError(f"KRX 지수 응답 구조를 해석할 수 없습니다: {response.text[:250]}")
+    for row in rows:
+        name = txt(row, "IDX_NM", "idxNm", "idx_nm").replace(" ", "").upper()
+        close = num(row, "CLSPRC_IDX", "clsprcIdx", "close")
+        if close and (name in ("코스피", "KOSPI", "코스피종합") or name.startswith("코스피종합")):
+            return {"date": day.isoformat(), "name": txt(row, "IDX_NM", "idxNm", "idx_nm"),
+                    "close": close, "change_pct": num(row, "FLUC_RT", "flucRt", "change_pct")}
+    raise RuntimeError("KRX 지수 응답에서 KOSPI 종합지수를 찾지 못했습니다.")
+
+
+def latest_krx_kospi(asof):
+    errors = []
+    for offset in range(10):
+        day = asof - dt.timedelta(days=offset)
+        try:
+            return get_krx_kospi_day(day)
+        except Exception as exc:
+            errors.append(f"{day}:{str(exc)[:90]}")
+    raise RuntimeError("최근 KOSPI 지수 데이터 수집 실패: " + " | ".join(errors[-3:]))
+
+
 def latest_krx_rows():
     errors = []
     for offset in range(10):
@@ -424,18 +453,26 @@ def grade_for(score):
         return None
     return "S" if score >= 90 else "A" if score >= 80 else "B" if score >= 70 else "C" if score >= 60 else "제외"
 
-def update_recommendation_performance(perf, history_dir):
-    """Calculate realized returns from later trading-day snapshots; never estimate missing prices."""
-    files = sorted(history_dir.glob("*.json"))
-    dates = [p.stem for p in files]
+def update_recommendation_performance(perf, history_dir, index_history_dir):
+    """Calculate stock and KOSPI returns over later trading sessions; never estimate missing prices."""
     snapshots = {}
-    for path in files:
+    for path in sorted(history_dir.glob("*.json")):
         try:
             rows = json.loads(path.read_text(encoding="utf-8"))
-            snapshots[path.stem] = {x.get("ticker"): x.get("close") for x in rows if x.get("ticker") and x.get("close")}
+            if isinstance(rows, list):
+                snapshots[path.stem] = {x.get("ticker"): x.get("close") for x in rows if x.get("ticker") and x.get("close")}
         except Exception:
             continue
+    dates = sorted(snapshots)
     date_index = {day: i for i, day in enumerate(dates)}
+    index_snapshots = {}
+    for path in sorted(index_history_dir.glob("*.json")):
+        try:
+            item = json.loads(path.read_text(encoding="utf-8"))
+            if item.get("close") is not None:
+                index_snapshots[path.stem] = item["close"]
+        except Exception:
+            continue
     horizons = {"1w": 5, "1m": 21, "3m": 63}
     for record in perf:
         start_day = str(record.get("as_of", "")).replace("-", "")
@@ -445,12 +482,15 @@ def update_recommendation_performance(perf, history_dir):
         base = {x.get("ticker"): x.get("close") for x in record.get("tickers", []) if x.get("ticker") and x.get("close")}
         per_stock = record.setdefault("stock_returns", {})
         aggregate = record.setdefault("returns", {})
+        benchmark = {}
         for label, offset in horizons.items():
             target = start + offset
             if target >= len(dates):
                 aggregate[label] = None
+                benchmark[label] = None
                 continue
-            target_prices = snapshots.get(dates[target], {})
+            target_day = dates[target]
+            target_prices = snapshots.get(target_day, {})
             values = {}
             for ticker, initial in base.items():
                 later = target_prices.get(ticker)
@@ -458,12 +498,29 @@ def update_recommendation_performance(perf, history_dir):
                     values[ticker] = round((later / initial - 1) * 100, 2)
             per_stock[label] = values
             aggregate[label] = round(sum(values.values()) / len(values), 2) if values else None
-        # KOSPI index history is not part of equity snapshots; keep it explicitly unavailable.
-        record["kospi_returns"] = {"1w": None, "1m": None, "3m": None}
+            start_index = index_snapshots.get(start_day)
+            target_index = index_snapshots.get(target_day)
+            benchmark[label] = round((target_index / start_index - 1) * 100, 2) if start_index and target_index else None
+        record["kospi_returns"] = benchmark
+        record["excess_returns"] = {
+            label: round(aggregate[label] - benchmark[label], 2)
+            if aggregate.get(label) is not None and benchmark.get(label) is not None else None
+            for label in horizons
+        }
+
 
 def main():
     asof, raw = latest_krx_rows()
     all_stocks = normalize(raw)
+    index_history = OUT / "index_history"
+    index_history.mkdir(exist_ok=True)
+    kospi = None
+    try:
+        kospi = latest_krx_kospi(asof)
+        (index_history / f"{asof:%Y%m%d}.json").write_text(json.dumps(kospi, ensure_ascii=False, indent=2), encoding="utf-8")
+        print(f"[KOSPI] {kospi['date']} 종가 {kospi['close']}", flush=True)
+    except Exception as exc:
+        print(f"[KOSPI] 지수 데이터 미확보: {str(exc)[:180]}", flush=True)
     if len(all_stocks) < 300:
         raise RuntimeError(f"KRX 정상 종목 수 부족: {len(all_stocks)}")
     cap_covered = [x for x in all_stocks if x.get("market_cap") is not None and x["market_cap"] > 0]
@@ -628,7 +685,7 @@ def main():
         perf = []
     if not any(p.get("as_of") == asof.isoformat() for p in perf):
         perf.append({"as_of": asof.isoformat(), "tickers": [{"ticker": x["ticker"], "name": x["name"], "close": x["close"]} for x in official], "returns": {"1w": None, "1m": None, "3m": None}})
-    update_recommendation_performance(perf, history)
+    update_recommendation_performance(perf, history, index_history)
     perf_file.write_text(json.dumps(perf[-500:], ensure_ascii=False, indent=2), encoding="utf-8")
 
     def compact(items, list_key):
@@ -646,12 +703,12 @@ def main():
 
     result = {
         "as_of": asof.isoformat(),
-        "market": {"kospi": None, "kospi_change_pct": None, "analyzed_count": len(stocks), "advancers": sum(1 for x in stocks if (x.get("change_pct") or 0) > 0), "decliners": sum(1 for x in stocks if (x.get("change_pct") or 0) < 0)},
+        "market": {"kospi": kospi.get("close") if kospi else None, "kospi_change_pct": kospi.get("change_pct") if kospi else None, "analyzed_count": len(stocks), "advancers": sum(1 for x in stocks if (x.get("change_pct") or 0) > 0), "decliners": sum(1 for x in stocks if (x.get("change_pct") or 0) < 0)},
         "lists": {k: compact(v, k) for k, v in lists.items()},
         "top10": compact(official, "overall"),
-        "performance": {"snapshots": len(perf), "note": "추천일 종가 대비 실제 후속 거래일 종가로 1주(5일)·1개월(21일)·3개월(63일) 평균수익률 계산. KOSPI 지수 이력은 별도 연결 전까지 미제공."},
+        "performance": {"snapshots": len(perf), "note": "추천일 종가 대비 실제 후속 거래일 종가로 1주(5일)·1개월(21일)·3개월(63일) 평균수익률 계산. KOSPI 지수 이력이 확보된 구간은 동일 거래일 기준 상대성과도 계산."},
         "data_quality": {"label": "v3.2 베타 · 시가총액 상위 300개 · 가격 이력 누적", "note": dart_note + ". " + kis_note + ". " + analyst_note + ". PER/PBR은 KRX 시가총액과 OpenDART 최신 연간 순이익·자본총계로 산출하며 적자·자본잠식은 제외합니다.", "official_top10_count": len(official), "coverage_gate": "7개 평가영역의 실제 확보 가중치가 100%일 때만 공식 추천 점수/등급 부여", "financial_universe_batch": FINANCIAL_UNIVERSE, "financial_universe_total": len(stocks), "market_cap_covered_count": len(cap_covered), "universe_limit": 300, "history_sessions_available": history_sessions_available, "history_sessions_required": 61, "history_progress_pct": round(min(history_sessions_available, 61) / 61 * 100, 1)},
-        "providers": {"krx": "connected", "opendart": "connected" if financial else ("configured_no_data" if DART_KEY else "not_configured"), "investor_flows": "connected" if investor_flows else ("configured_no_data" if os.getenv("KIS_APP_KEY") and os.getenv("KIS_APP_SECRET") else "not_configured"), "valuation": "connected" if any(x.get("per") is not None or x.get("pbr") is not None for x in stocks) else "configured_no_data", "analyst_consensus": "connected" if analyst_data else "configured_no_data"},
+        "providers": {"krx": "connected", "kospi_index": "connected" if kospi else "configured_no_data", "opendart": "connected" if financial else ("configured_no_data" if DART_KEY else "not_configured"), "investor_flows": "connected" if investor_flows else ("configured_no_data" if os.getenv("KIS_APP_KEY") and os.getenv("KIS_APP_SECRET") else "not_configured"), "valuation": "connected" if any(x.get("per") is not None or x.get("pbr") is not None for x in stocks) else "configured_no_data", "analyst_consensus": "connected" if analyst_data else "configured_no_data"},
         "model": {"version": "3.2-beta", "weights": {"financial_health_profitability": 20, "growth": 20, "price_momentum": 15, "foreign_flow": 15, "institution_flow": 10, "valuation_per_pbr": 10, "broker_outlook": 10}, "grade_thresholds": {"S": 90, "A": 80, "B": 70, "C": 60, "excluded": 0}, "note": "확정 100점 배점 유지. 부분 데이터는 provisional_score로만 표시하고 공식 score/grade를 부여하지 않음. 모멘텀은 현재 종가를 포함해 61개 거래일 종가(직전 60거래일 비교)가 누적되어야 산출."}
     }
     (OUT / "latest.json").write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
