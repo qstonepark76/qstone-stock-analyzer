@@ -71,6 +71,8 @@ class RecommendationPerformanceTests(unittest.TestCase):
     def test_missing_ticker_price_is_not_fabricated(self):
         with tempfile.TemporaryDirectory() as tmp:
             history = Path(tmp)
+            index_history = history / "index"
+            index_history.mkdir()
             (history / "20261102.json").write_text(
                 json.dumps([{"ticker": "005930", "close": 100}]), encoding="utf-8"
             )
