@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Q Stone Park Stock Analyzer v2.1
+"""Q Stone Park Stock Analyzer v3.1-beta
 KRX daily market data + throttled/cached OpenDART annual financials.
 Unconnected data (foreign/institution flows, PER/PBR, analyst targets) are never fabricated.
 """
@@ -14,11 +14,12 @@ DART_KEY = os.getenv("DART_AUTH_KEY", "").strip()
 OUT = Path("data")
 OUT.mkdir(exist_ok=True)
 CACHE_FILE = OUT / "financial_cache.json"
-FINANCIAL_UNIVERSE = 50
-CACHE_DAYS = 30
+FINANCIAL_UNIVERSE = 120  # rotating batch; covers the full listed universe over repeated runs
+CACHE_DAYS = 90
+UNIVERSE_STATE_FILE = OUT / "financial_universe_state.json"
 REQUEST_TIMEOUT = (8, 20)
 S = requests.Session()
-S.headers.update({"User-Agent": "QStonePark-StockAnalyzer/2.1"})
+S.headers.update({"User-Agent": "QStonePark-StockAnalyzer/3.1-beta"})
 
 def parse_rows(payload):
     if isinstance(payload, list):
@@ -213,12 +214,22 @@ def collect_dart(stocks):
         corp_map = download_corp_map()
     except Exception as exc:
         return {}, f"DART 기업코드 파일 오류: {str(exc)[:160]}"
-    # Prioritize liquid names; only a bounded set is queried in a run.
-    selected = sorted(
-        stocks,
-        key=lambda x: (x.get("trading_value") or 0),
-        reverse=True
-    )[:FINANCIAL_UNIVERSE]
+    # Rotate through the full KRX universe in bounded batches. A fixed top-120
+    # selection would repeatedly hit the same firms and never broaden coverage.
+    ordered = sorted(stocks, key=lambda x: (x.get("trading_value") or 0), reverse=True)
+    try:
+        state = json.loads(UNIVERSE_STATE_FILE.read_text(encoding="utf-8"))
+        offset = int(state.get("offset", 0)) % max(1, len(ordered))
+    except Exception:
+        offset = 0
+    if not ordered:
+        selected = []
+    else:
+        end = offset + min(FINANCIAL_UNIVERSE, len(ordered))
+        selected = ordered[offset:end] if end <= len(ordered) else ordered[offset:] + ordered[:end-len(ordered)]
+        next_offset = (offset + len(selected)) % len(ordered)
+        UNIVERSE_STATE_FILE.write_text(json.dumps({"offset": next_offset, "universe_size": len(ordered), "batch_size": len(selected), "updated_at": dt.datetime.now(dt.timezone.utc).isoformat()}, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"[DART] 순환 배치 offset={offset}, 다음 offset={((offset + len(selected)) % max(1,len(ordered)))}", flush=True)
     now = dt.datetime.now(dt.timezone.utc)
     results = {}
     todo = []
@@ -290,6 +301,23 @@ def score_field(stocks, field, reverse=False):
     scores = percentile([s.get(field) for s in stocks], not reverse)
     return {s["ticker"]: score for s, score in zip(stocks, scores)}
 
+def safe_pct(a, b):
+    return ((a / b) - 1) * 100 if a is not None and b not in (None, 0) else None
+
+def weighted_score(parts):
+    """Return weighted score and fraction of the component's own weight observed."""
+    usable = [(v, w) for v, w in parts if v is not None and math.isfinite(v)]
+    if not usable:
+        return None, 0.0
+    observed_weight = sum(w for _, w in usable)
+    score = sum(v*w for v, w in usable) / observed_weight
+    return round(score, 1), observed_weight / sum(w for _, w in parts) * 100
+
+def grade_for(score):
+    if score is None:
+        return None
+    return "S" if score >= 90 else "A" if score >= 80 else "B" if score >= 70 else "C" if score >= 60 else "제외"
+
 def main():
     asof, raw = latest_krx_rows()
     stocks = normalize(raw)
@@ -300,7 +328,7 @@ def main():
     history.mkdir(exist_ok=True)
     (history / f"{asof:%Y%m%d}.json").write_text(json.dumps(stocks, ensure_ascii=False), encoding="utf-8")
     snapshots = []
-    for path in sorted(history.glob("*.json"))[-35:]:
+    for path in sorted(history.glob("*.json"))[-160:]:
         try:
             snapshots.append(json.loads(path.read_text(encoding="utf-8")))
         except Exception:
@@ -312,9 +340,10 @@ def main():
     for stock in stocks:
         series = by_ticker.get(stock["ticker"], [])
         closes = [item["close"] for item in series]
+        stock["history_observations"] = len(closes)
         stock["momentum_5d"] = (stock["close"] / closes[-6] - 1) * 100 if len(closes) >= 6 and closes[-6] else None
         stock["momentum_20d"] = (stock["close"] / closes[-21] - 1) * 100 if len(closes) >= 21 and closes[-21] else None
-        changes = [item.get("change_pct") for item in series[-20:] if item.get("change_pct") is not None]
+        changes = [x.get("change_pct") for x in series[-20:] if x.get("change_pct") is not None]
         stock["volatility_20d"] = statistics.pstdev(changes) if len(changes) >= 5 else None
 
     financial, dart_note = collect_dart(stocks)
@@ -323,72 +352,128 @@ def main():
         stock.update(metrics)
         stock["financial_metrics_available"] = any(v is not None for v in metrics.values())
 
-    p20 = score_field(stocks, "momentum_20d")
-    p5 = score_field(stocks, "momentum_5d")
-    pvalue = score_field(stocks, "trading_value")
-    pvol = score_field(stocks, "volatility_20d", reverse=True)
-    pday = score_field(stocks, "change_pct")
-    proe = score_field(stocks, "roe_pct")
-    psales = score_field(stocks, "sales_growth_pct")
-    pop = score_field(stocks, "operating_profit_growth_pct")
+    score_maps = {
+        "roe": score_field(stocks, "roe_pct"),
+        "sales_growth": score_field(stocks, "sales_growth_pct"),
+        "op_growth": score_field(stocks, "operating_profit_growth_pct"),
+        "momentum20": score_field(stocks, "momentum_20d"),
+        "momentum5": score_field(stocks, "momentum_5d"),
+        "liquidity": score_field(stocks, "trading_value"),
+        "volatility": score_field(stocks, "volatility_20d", reverse=True),
+    }
 
-    for stock in stocks:
-        ticker = stock["ticker"]
-        technical_parts = [(p20[ticker], 35), (p5[ticker], 20), (pvalue[ticker], 20), (pvol[ticker], 15), (pday[ticker], 10)]
-        technical = [(v, w) for v, w in technical_parts if v is not None]
-        stock["technical_score"] = round(sum(v*w for v,w in technical)/sum(w for _,w in technical), 1) if technical else None
-        fin_parts = [(proe[ticker], 35), (psales[ticker], 30), (pop[ticker], 35)]
-        fin = [(v,w) for v,w in fin_parts if v is not None]
-        stock["financial_score"] = round(sum(v*w for v,w in fin)/sum(w for _,w in fin), 1) if fin else None
-        # Current connected target model: fundamentals 25 + momentum 15.
-        # Unconnected factors remain unavailable and are not imputed.
-        model_parts = [
-            (stock["financial_score"], 25),
-            (None, 15), (None, 15),
-            (p20[ticker], 15),
-            (None, 15), (None, 15),
+    for x in stocks:
+        t = x["ticker"]
+        fin, fin_cov = weighted_score([
+            (score_maps["roe"].get(t), 50),
+            (score_maps["sales_growth"].get(t), 25),
+            (score_maps["op_growth"].get(t), 25),
+        ])
+        growth, growth_cov = weighted_score([
+            (score_maps["sales_growth"].get(t), 50),
+            (score_maps["op_growth"].get(t), 50),
+        ])
+        # Momentum must have an actual 20-trading-day price observation.
+        # Liquidity alone must never create a momentum score.
+        mom_parts = [
+            (score_maps["momentum20"].get(t), 60),
+            (score_maps["momentum5"].get(t), 20),
+            (score_maps["liquidity"].get(t), 10),
+            (score_maps["volatility"].get(t), 10),
         ]
-        available = [(v,w) for v,w in model_parts if v is not None]
-        stock["score"] = round(sum(v*w for v,w in available)/sum(w for _,w in available), 1) if available else stock["technical_score"]
-        stock["score_coverage_pct"] = round(sum(w for _,w in available), 0)
-        stock["status"] = "잠정 평가" if stock["score_coverage_pct"] < 100 else "종합평가 완료"
+        mom, mom_cov = weighted_score(mom_parts)
+        if x.get("momentum_20d") is None:
+            mom, mom_cov = None, 0.0
 
-    ranked = sorted(stocks, key=lambda x: (x.get("score") is not None, x.get("score") or -1), reverse=True)
-    advancers = sum(1 for x in stocks if (x.get("change_pct") or 0) > 0)
-    decliners = sum(1 for x in stocks if (x.get("change_pct") or 0) < 0)
-    fields = (
-        "ticker","name","close","change_pct","score","score_coverage_pct","status",
-        "momentum_20d","trading_value","technical_score","financial_score",
-        "roe_pct","sales_growth_pct","operating_profit_growth_pct",
-    )
-    top10 = [{key: stock.get(key) for key in fields} for stock in ranked[:10]]
-    avg_coverage = round(sum(x["score_coverage_pct"] for x in top10)/len(top10), 1) if top10 else 0
+        components = {
+            "financial": fin, "growth": growth, "momentum": mom,
+            "foreign_flow": None, "institution_flow": None,
+            "valuation": None, "analyst_outlook": None,
+        }
+        component_coverage = {
+            "financial": round(fin_cov, 1), "growth": round(growth_cov, 1),
+            "momentum": round(mom_cov, 1), "foreign_flow": 0,
+            "institution_flow": 0, "valuation": 0, "analyst_outlook": 0,
+        }
+        # The approved seven category weights remain unchanged.
+        category_weights = {
+            "financial": 20, "growth": 20, "momentum": 15,
+            "foreign_flow": 15, "institution_flow": 10,
+            "valuation": 10, "analyst_outlook": 10,
+        }
+        score_parts = [(components[k], category_weights[k] * component_coverage[k] / 100) for k in category_weights if components[k] is not None and component_coverage[k] > 0]
+        effective_weights = [w for _, w in score_parts]
+        provisional_score = round(sum(v*w for v, w in score_parts) / sum(effective_weights), 1) if effective_weights else None
+        covered_points = sum(category_weights[k] * component_coverage[k] / 100 for k in category_weights)
+        coverage_pct = round(covered_points, 1)
+        eligible = coverage_pct >= 99.99 and provisional_score is not None
+        x["component_scores"] = components
+        x["component_coverage_pct"] = component_coverage
+        x["score_coverage_pct"] = coverage_pct
+        x["provisional_score"] = provisional_score
+        x["score"] = provisional_score if eligible else None
+        x["grade"] = grade_for(provisional_score) if eligible else None
+        x["provisional_grade"] = grade_for(provisional_score) if not eligible else None
+        x["official_recommendation_eligible"] = eligible
+        x["status"] = "공식 추천 심사 가능" if eligible else "잠정 평가·공식추천 제외"
+        x["reason"] = "확보된 재무·성장·20일 주가 데이터의 상대평가. 미확보 항목은 점수에 포함하지 않음"
+        x["risk_factors"] = [label for key, label in [
+            ("roe_pct", "ROE 자료 부족"), ("sales_growth_pct", "매출성장 자료 부족"),
+            ("operating_profit_growth_pct", "영업이익 성장 자료 부족"),
+            ("momentum_20d", "20거래일 주가 이력 부족"),
+        ] if x.get(key) is None]
+        x["financial_score"] = fin
+        x["growth_score"] = growth
+        x["momentum_score"] = mom
+
+    # Category lists only include stocks with real data for that category.
+    def top(field, coverage_field=None, minimum_coverage=0):
+        pool = [x for x in stocks if x.get(field) is not None and (coverage_field is None or x.get(coverage_field, 0) >= minimum_coverage)]
+        return sorted(pool, key=lambda z: z[field], reverse=True)[:10]
+
+    official = top("score", "score_coverage_pct", 99.99)
+    lists = {
+        "overall": official,
+        "financial": top("financial_score", "component_coverage_pct" if False else None),
+        "growth": top("growth_score"),
+        "undervalued": [],
+        "momentum": top("momentum_score"),
+    }
+
+    perf_file = OUT / "recommendation_history.json"
+    try:
+        perf = json.loads(perf_file.read_text(encoding="utf-8"))
+    except Exception:
+        perf = []
+    if not any(p.get("as_of") == asof.isoformat() for p in perf):
+        perf.append({"as_of": asof.isoformat(), "tickers": [{"ticker": x["ticker"], "name": x["name"], "close": x["close"]} for x in official], "returns": {"1w": None, "1m": None, "3m": None}})
+    perf_file.write_text(json.dumps(perf[-500:], ensure_ascii=False, indent=2), encoding="utf-8")
+
+    def compact(items, list_key):
+        keys = ["ticker", "name", "close", "change_pct", "score", "provisional_score", "score_coverage_pct", "grade", "provisional_grade", "status", "official_recommendation_eligible", "component_scores", "component_coverage_pct", "financial_score", "growth_score", "momentum_score", "roe_pct", "sales_growth_pct", "operating_profit_growth_pct", "momentum_5d", "momentum_20d", "history_observations", "trading_value", "reason", "risk_factors"]
+        out = []
+        for x in items:
+            row = {k: x.get(k) for k in keys}
+            if list_key == "financial": row["list_score"] = x.get("financial_score"); row["list_coverage_pct"] = x.get("component_coverage_pct", {}).get("financial", 0)
+            elif list_key == "growth": row["list_score"] = x.get("growth_score"); row["list_coverage_pct"] = x.get("component_coverage_pct", {}).get("growth", 0)
+            elif list_key == "momentum": row["list_score"] = x.get("momentum_score"); row["list_coverage_pct"] = x.get("component_coverage_pct", {}).get("momentum", 0)
+            else: row["list_score"] = x.get("score"); row["list_coverage_pct"] = x.get("score_coverage_pct", 0)
+            out.append(row)
+        return out
+
     result = {
         "as_of": asof.isoformat(),
-        "market": {"kospi": None, "kospi_change_pct": None, "analyzed_count": len(stocks),
-                   "advancers": advancers, "decliners": decliners},
-        "top10": top10,
-        "performance": {"avg_return_pct": None},
-        "data_quality": {
-            "label": "KRX 시세 수집 완료",
-            "note": dart_note + ". 외국인·기관 수급, PER/PBR, 증권사 목표주가는 별도 공급자 미연결.",
-        },
-        "providers": {
-            "krx": "connected",
-            "opendart": "connected" if financial else ("configured_no_data" if DART_KEY else "not_configured"),
-            "investor_flows": "not_connected", "valuation": "not_connected",
-            "analyst_consensus": "not_connected",
-        },
-        "model": {
-            "version": "2.1",
-            "weights": {"fundamentals":25,"foreign_flow":15,"institution_flow":15,
-                        "momentum":15,"valuation":15,"analyst_consensus":15},
-            "top10_average_coverage_pct": avg_coverage,
-            "note": "연결된 항목만 가중치를 재정규화한 잠정 점수. 데이터 커버리지를 함께 확인하세요.",
-        },
+        "market": {"kospi": None, "kospi_change_pct": None, "analyzed_count": len(stocks), "advancers": sum(1 for x in stocks if (x.get("change_pct") or 0) > 0), "decliners": sum(1 for x in stocks if (x.get("change_pct") or 0) < 0)},
+        "lists": {k: compact(v, k) for k, v in lists.items()},
+        "top10": compact(official, "overall"),
+        "performance": {"snapshots": len(perf), "note": "공식 추천 종목의 추천일 종가 저장. 이후 거래일 관측치가 쌓이면 1주·1개월·3개월 수익률 계산 예정."},
+        "data_quality": {"label": "v3.1 베타 · 데이터 커버리지 보정", "note": dart_note + ". 외국인·기관 수급, PER/PBR, 증권사 전망 공급자는 미연결이며 임의 추정하지 않습니다.", "official_top10_count": len(official), "coverage_gate": "7개 평가영역의 실제 확보 가중치가 100%일 때만 공식 추천 점수/등급 부여", "financial_universe_batch": FINANCIAL_UNIVERSE, "financial_universe_total": len(stocks)},
+        "providers": {"krx": "connected", "opendart": "connected" if financial else ("configured_no_data" if DART_KEY else "not_configured"), "investor_flows": "not_connected", "valuation": "not_connected", "analyst_consensus": "not_connected"},
+        "model": {"version": "3.1-beta", "weights": {"financial_health_profitability": 20, "growth": 20, "price_momentum": 15, "foreign_flow": 15, "institution_flow": 10, "valuation_per_pbr": 10, "broker_outlook": 10}, "grade_thresholds": {"S": 90, "A": 80, "B": 70, "C": 60, "excluded": 0}, "note": "확정 100점 배점 유지. 부분 데이터는 provisional_score로만 표시하고 공식 score/grade를 부여하지 않음. 모멘텀은 20거래일 가격 관측이 없으면 점수 미산출."}
     }
     (OUT / "latest.json").write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"[완료] {asof}: KRX {len(stocks)}개 종목 / DART 재무 확보 {len(financial)}개 / TOP10 {len(top10)}개 / 평균 커버리지 {avg_coverage}%", flush=True)
+    print(f"[완료] v3.1-beta {asof}: KRX {len(stocks)}개 / DART 재무 {len(financial)}개 / 공식추천 가능 {len(official)}개", flush=True)
+
 
 if __name__ == "__main__":
     main()
