@@ -197,6 +197,7 @@ def extract_financial(items):
     net_now = amount(net) if net else None
     equity_now = amount(equity) if equity else None
     equity_prev = previous_amount(equity) if equity else None
+    financial_currency = (equity or net or {}).get("currency")
     sales_growth = ((sales_now / sales_prev) - 1) * 100 if sales_now is not None and sales_prev not in (None, 0) else None
     op_growth = ((op_now / op_prev) - 1) * 100 if op_now is not None and op_prev not in (None, 0) else None
     avg_equity = ((equity_now + equity_prev) / 2) if equity_now is not None and equity_prev not in (None, 0) else None
@@ -205,7 +206,16 @@ def extract_financial(items):
         "roe_pct": roe, "sales_growth_pct": sales_growth,
         "operating_profit_growth_pct": op_growth,
         "net_income": net_now, "equity_total": equity_now,
+        "financial_currency": financial_currency,
     }
+
+def calculate_valuation(market_cap, net_income, equity_total, currency):
+    """Calculate PER/PBR only when KRX market cap and DART amounts share KRW units."""
+    if str(currency or "").upper() != "KRW" or market_cap is None or market_cap <= 0:
+        return None, None
+    per = market_cap / net_income if net_income is not None and net_income > 0 else None
+    pbr = market_cap / equity_total if equity_total is not None and equity_total > 0 else None
+    return per, pbr
 
 def collect_dart(stocks):
     if not DART_KEY:
@@ -444,10 +454,9 @@ def main():
         market_cap = stock.get("market_cap")
         net_income = metrics.get("net_income")
         equity_total = metrics.get("equity_total")
-        # KRX market cap and OpenDART statement amounts are both KRW.
-        # Exclude loss-making firms and negative/zero equity from valuation ratios.
-        stock["per"] = market_cap / net_income if market_cap and market_cap > 0 and net_income is not None and net_income > 0 else None
-        stock["pbr"] = market_cap / equity_total if market_cap and market_cap > 0 and equity_total is not None and equity_total > 0 else None
+        stock["per"], stock["pbr"] = calculate_valuation(
+            market_cap, net_income, equity_total, metrics.get("financial_currency")
+        )
         stock["valuation_as_of"] = asof.isoformat() if stock["per"] is not None or stock["pbr"] is not None else None
 
     score_maps = {
