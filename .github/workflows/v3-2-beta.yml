@@ -46,6 +46,8 @@ jobs:
           DART_AUTH_KEY: ${{ secrets.DART_AUTH_KEY }}
           KIS_APP_KEY: ${{ secrets.KIS_APP_KEY }}
           KIS_APP_SECRET: ${{ secrets.KIS_APP_SECRET }}
+          KIS_BATCH_SIZE: "100"
+          DART_BATCH_SIZE: "100"
         run: python -u scripts/collect.py
 
       - name: Discover public brokerage report candidates
