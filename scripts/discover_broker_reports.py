@@ -103,6 +103,30 @@ def parse_report_rows(html, asof=None):
     return found
 
 
+def attach_tickers(candidates, history_dir):
+    """Attach ticker only when a candidate company name matches one unique KRX name."""
+    snapshots = sorted(Path(history_dir).glob("*.json"))
+    if not snapshots:
+        return candidates
+    try:
+        rows = json.loads(snapshots[-1].read_text(encoding="utf-8"))
+    except Exception:
+        return candidates
+    names = {}
+    for stock in rows if isinstance(rows, list) else []:
+        name = re.sub(r"\\s+", "", str(stock.get("name", ""))).casefold()
+        ticker = str(stock.get("ticker", "")).zfill(6)
+        if name and ticker:
+            names.setdefault(name, set()).add(ticker)
+    for candidate in candidates:
+        key = re.sub(r"\\s+", "", str(candidate.get("company", ""))).casefold()
+        matches = names.get(key, set())
+        if len(matches) == 1:
+            candidate["ticker"] = next(iter(matches))
+            candidate["verification_status"] = "ticker_matched_unverified"
+    return candidates
+
+
 def discover(pages=3):
     session = requests.Session()
     session.headers.update(HEADERS)
@@ -120,6 +144,8 @@ def discover(pages=3):
             errors.append(f"page {page}: {str(exc)[:160]}")
             print(f"[REPORT DISCOVERY] page {page} failed: {exc}", flush=True)
 
+    candidates = attach_tickers(list(candidates.values()), OUT / "history")
+    candidates = {row["detail_url"]: row for row in candidates}
     OUT.mkdir(exist_ok=True)
     payload = {
         "schema_version": 1,
