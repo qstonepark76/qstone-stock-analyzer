@@ -13,7 +13,7 @@ permissions:
 
 concurrency:
   group: qstone-v3-2-beta
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   validate-and-collect:
