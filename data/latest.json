@@ -294,8 +294,8 @@
         "net_income": null,
         "equity_total": null,
         "score": null,
-        "provisional_score": 53.2,
-        "score_coverage_pct": 80.0,
+        "provisional_score": 56.0,
+        "score_coverage_pct": 88.0,
         "grade": null,
         "provisional_grade": "제외",
         "status": "잠정 평가·공식추천 제외",
@@ -307,7 +307,7 @@
           "foreign_flow": 12.751677852348994,
           "institution_flow": 22.14765100671141,
           "valuation": null,
-          "analyst_outlook": null
+          "analyst_outlook": 84.8
         },
         "component_coverage_pct": {
           "financial": 100.0,
@@ -316,7 +316,7 @@
           "foreign_flow": 100,
           "institution_flow": 100,
           "valuation": 0.0,
-          "analyst_outlook": 0
+          "analyst_outlook": 80
         },
         "financial_score": 94.5,
         "growth_score": 89.3,
@@ -342,14 +342,18 @@
           "PER 산출 자료 부족 또는 적자",
           "PBR 산출 자료 부족 또는 자본잠식"
         ],
-        "analyst_report_count": null,
-        "analyst_broker_count": null,
-        "analyst_avg_target_price": null,
-        "analyst_avg_upside_pct": null,
-        "analyst_consensus_score": null,
-        "analyst_consensus_coverage_pct": null,
-        "analyst_latest_report_date": null,
-        "analyst_sources": null,
+        "analyst_report_count": 3,
+        "analyst_broker_count": 3,
+        "analyst_avg_target_price": 225000.0,
+        "analyst_avg_upside_pct": 80.43,
+        "analyst_consensus_score": 84.8,
+        "analyst_consensus_coverage_pct": 80,
+        "analyst_latest_report_date": "2026-11-13",
+        "analyst_sources": [
+          "https://stock.naver.com/research/company/98143",
+          "https://stock.naver.com/research/company/98181",
+          "https://stock.naver.com/research/company/98185"
+        ],
         "list_score": 94.5,
         "list_coverage_pct": 100.0
       },
@@ -642,8 +646,8 @@
         "net_income": 388673674725.0,
         "equity_total": 1271540001153.0,
         "score": null,
-        "provisional_score": 68.9,
-        "score_coverage_pct": 90.0,
+        "provisional_score": 68.1,
+        "score_coverage_pct": 98.0,
         "grade": null,
         "provisional_grade": "C",
         "status": "잠정 평가·공식추천 제외",
@@ -655,7 +659,7 @@
           "foreign_flow": 41.946308724832214,
           "institution_flow": 75.83892617449665,
           "valuation": 16.5,
-          "analyst_outlook": null
+          "analyst_outlook": 59.2
         },
         "component_coverage_pct": {
           "financial": 100.0,
@@ -664,7 +668,7 @@
           "foreign_flow": 100,
           "institution_flow": 100,
           "valuation": 100.0,
-          "analyst_outlook": 0
+          "analyst_outlook": 80
         },
         "financial_score": 90.7,
         "growth_score": 84.1,
@@ -687,14 +691,21 @@
         "investor_flow_sessions": 5,
         "reason": "확보된 재무·성장 데이터의 상대평가. 60거래일 모멘텀 및 미연결 항목은 점수에 포함하지 않음",
         "risk_factors": [],
-        "analyst_report_count": null,
-        "analyst_broker_count": null,
-        "analyst_avg_target_price": null,
-        "analyst_avg_upside_pct": null,
-        "analyst_consensus_score": null,
-        "analyst_consensus_coverage_pct": null,
-        "analyst_latest_report_date": null,
-        "analyst_sources": null,
+        "analyst_report_count": 9,
+        "analyst_broker_count": 6,
+        "analyst_avg_target_price": 1850000.0,
+        "analyst_avg_upside_pct": 43.97,
+        "analyst_consensus_score": 59.2,
+        "analyst_consensus_coverage_pct": 80,
+        "analyst_latest_report_date": "2026-11-12",
+        "analyst_sources": [
+          "https://stock.naver.com/research/company/97892",
+          "https://stock.naver.com/research/company/98038",
+          "https://stock.naver.com/research/company/98049",
+          "https://stock.naver.com/research/company/98098",
+          "https://stock.naver.com/research/company/98114",
+          "https://stock.naver.com/research/company/98119"
+        ],
         "list_score": 90.7,
         "list_coverage_pct": 100.0
       }
@@ -1059,8 +1070,8 @@
         "net_income": 27596636822.0,
         "equity_total": 368224737001.0,
         "score": null,
-        "provisional_score": 52.5,
-        "score_coverage_pct": 90.0,
+        "provisional_score": 54.8,
+        "score_coverage_pct": 98.0,
         "grade": null,
         "provisional_grade": "제외",
         "status": "잠정 평가·공식추천 제외",
@@ -1072,7 +1083,7 @@
           "foreign_flow": 32.88590604026846,
           "institution_flow": 11.409395973154362,
           "valuation": 25.7,
-          "analyst_outlook": null
+          "analyst_outlook": 81.5
         },
         "component_coverage_pct": {
           "financial": 100.0,
@@ -1081,7 +1092,7 @@
           "foreign_flow": 100,
           "institution_flow": 100,
           "valuation": 100.0,
-          "analyst_outlook": 0
+          "analyst_outlook": 80
         },
         "financial_score": 74.5,
         "growth_score": 93.9,
@@ -1104,14 +1115,18 @@
         "investor_flow_sessions": 5,
         "reason": "확보된 재무·성장 데이터의 상대평가. 60거래일 모멘텀 및 미연결 항목은 점수에 포함하지 않음",
         "risk_factors": [],
-        "analyst_report_count": null,
-        "analyst_broker_count": null,
-        "analyst_avg_target_price": null,
-        "analyst_avg_upside_pct": null,
-        "analyst_consensus_score": null,
-        "analyst_consensus_coverage_pct": null,
-        "analyst_latest_report_date": null,
-        "analyst_sources": null,
+        "analyst_report_count": 3,
+        "analyst_broker_count": 3,
+        "analyst_avg_target_price": 16666.67,
+        "analyst_avg_upside_pct": 69.89,
+        "analyst_consensus_score": 81.5,
+        "analyst_consensus_coverage_pct": 80,
+        "analyst_latest_report_date": "2026-11-16",
+        "analyst_sources": [
+          "https://stock.naver.com/research/company/98195",
+          "https://stock.naver.com/research/company/98221",
+          "https://stock.naver.com/research/company/98256"
+        ],
         "list_score": 93.9,
         "list_coverage_pct": 100.0
       },
@@ -1432,7 +1447,7 @@
           "foreign_flow": 100,
           "institution_flow": 100,
           "valuation": 100.0,
-          "analyst_outlook": 0
+          "analyst_outlook": 0.0
         },
         "financial_score": 58.4,
         "growth_score": 87.1,
@@ -1455,14 +1470,16 @@
         "investor_flow_sessions": 5,
         "reason": "확보된 재무·성장 데이터의 상대평가. 60거래일 모멘텀 및 미연결 항목은 점수에 포함하지 않음",
         "risk_factors": [],
-        "analyst_report_count": null,
-        "analyst_broker_count": null,
-        "analyst_avg_target_price": null,
-        "analyst_avg_upside_pct": null,
+        "analyst_report_count": 1,
+        "analyst_broker_count": 1,
+        "analyst_avg_target_price": 105000.0,
+        "analyst_avg_upside_pct": 42.47,
         "analyst_consensus_score": null,
-        "analyst_consensus_coverage_pct": null,
-        "analyst_latest_report_date": null,
-        "analyst_sources": null,
+        "analyst_consensus_coverage_pct": 0.0,
+        "analyst_latest_report_date": "2026-11-13",
+        "analyst_sources": [
+          "https://stock.naver.com/research/company/98180"
+        ],
         "list_score": 99.0,
         "list_coverage_pct": 100.0
       },
@@ -1568,7 +1585,7 @@
           "foreign_flow": 100,
           "institution_flow": 100,
           "valuation": 100.0,
-          "analyst_outlook": 0
+          "analyst_outlook": 0.0
         },
         "financial_score": 47.9,
         "growth_score": 31.4,
@@ -1591,14 +1608,16 @@
         "investor_flow_sessions": 5,
         "reason": "확보된 재무·성장 데이터의 상대평가. 60거래일 모멘텀 및 미연결 항목은 점수에 포함하지 않음",
         "risk_factors": [],
-        "analyst_report_count": null,
-        "analyst_broker_count": null,
-        "analyst_avg_target_price": null,
-        "analyst_avg_upside_pct": null,
+        "analyst_report_count": 1,
+        "analyst_broker_count": 1,
+        "analyst_avg_target_price": 9700.0,
+        "analyst_avg_upside_pct": 54.21,
         "analyst_consensus_score": null,
-        "analyst_consensus_coverage_pct": null,
-        "analyst_latest_report_date": null,
-        "analyst_sources": null,
+        "analyst_consensus_coverage_pct": 0.0,
+        "analyst_latest_report_date": "2026-11-12",
+        "analyst_sources": [
+          "https://stock.naver.com/research/company/98102"
+        ],
         "list_score": 94.5,
         "list_coverage_pct": 100.0
       },
@@ -1614,8 +1633,8 @@
         "net_income": 836319000000.0,
         "equity_total": 16623385000000.0,
         "score": null,
-        "provisional_score": 49.9,
-        "score_coverage_pct": 90.0,
+        "provisional_score": 51.8,
+        "score_coverage_pct": 98.0,
         "grade": null,
         "provisional_grade": "제외",
         "status": "잠정 평가·공식추천 제외",
@@ -1627,7 +1646,7 @@
           "foreign_flow": 62.080536912751676,
           "institution_flow": 12.080536912751677,
           "valuation": 94.0,
-          "analyst_outlook": null
+          "analyst_outlook": 73.1
         },
         "component_coverage_pct": {
           "financial": 100.0,
@@ -1636,7 +1655,7 @@
           "foreign_flow": 100,
           "institution_flow": 100,
           "valuation": 100.0,
-          "analyst_outlook": 0
+          "analyst_outlook": 80
         },
         "financial_score": 48.1,
         "growth_score": 58.7,
@@ -1659,14 +1678,18 @@
         "investor_flow_sessions": 5,
         "reason": "확보된 재무·성장 데이터의 상대평가. 60거래일 모멘텀 및 미연결 항목은 점수에 포함하지 않음",
         "risk_factors": [],
-        "analyst_report_count": null,
-        "analyst_broker_count": null,
-        "analyst_avg_target_price": null,
-        "analyst_avg_upside_pct": null,
-        "analyst_consensus_score": null,
-        "analyst_consensus_coverage_pct": null,
-        "analyst_latest_report_date": null,
-        "analyst_sources": null,
+        "analyst_report_count": 3,
+        "analyst_broker_count": 3,
+        "analyst_avg_target_price": 5900.0,
+        "analyst_avg_upside_pct": 55.47,
+        "analyst_consensus_score": 73.1,
+        "analyst_consensus_coverage_pct": 80,
+        "analyst_latest_report_date": "2026-11-13",
+        "analyst_sources": [
+          "https://stock.naver.com/research/company/98138",
+          "https://stock.naver.com/research/company/98139",
+          "https://stock.naver.com/research/company/98169"
+        ],
         "list_score": 94.0,
         "list_coverage_pct": 100.0
       },
@@ -1818,8 +1841,8 @@
         "net_income": 338886000000.0,
         "equity_total": 2301416000000.0,
         "score": null,
-        "provisional_score": 60.4,
-        "score_coverage_pct": 90.0,
+        "provisional_score": 61.8,
+        "score_coverage_pct": 98.0,
         "grade": null,
         "provisional_grade": "C",
         "status": "잠정 평가·공식추천 제외",
@@ -1831,7 +1854,7 @@
           "foreign_flow": 4.3624161073825505,
           "institution_flow": 67.11409395973155,
           "valuation": 92.8,
-          "analyst_outlook": null
+          "analyst_outlook": 77.3
         },
         "component_coverage_pct": {
           "financial": 100.0,
@@ -1840,7 +1863,7 @@
           "foreign_flow": 100,
           "institution_flow": 100,
           "valuation": 100.0,
-          "analyst_outlook": 0
+          "analyst_outlook": 80
         },
         "financial_score": 78.0,
         "growth_score": 75.2,
@@ -1863,14 +1886,18 @@
         "investor_flow_sessions": 5,
         "reason": "확보된 재무·성장 데이터의 상대평가. 60거래일 모멘텀 및 미연결 항목은 점수에 포함하지 않음",
         "risk_factors": [],
-        "analyst_report_count": null,
-        "analyst_broker_count": null,
-        "analyst_avg_target_price": null,
-        "analyst_avg_upside_pct": null,
-        "analyst_consensus_score": null,
-        "analyst_consensus_coverage_pct": null,
-        "analyst_latest_report_date": null,
-        "analyst_sources": null,
+        "analyst_report_count": 3,
+        "analyst_broker_count": 3,
+        "analyst_avg_target_price": 108000.0,
+        "analyst_avg_upside_pct": 63.88,
+        "analyst_consensus_score": 77.3,
+        "analyst_consensus_coverage_pct": 80,
+        "analyst_latest_report_date": "2026-11-11",
+        "analyst_sources": [
+          "https://stock.naver.com/research/company/97977",
+          "https://stock.naver.com/research/company/97978",
+          "https://stock.naver.com/research/company/98006"
+        ],
         "list_score": 92.8,
         "list_coverage_pct": 100.0
       },
@@ -1886,8 +1913,8 @@
         "net_income": 8666656000000.0,
         "equity_total": 49322944000000.0,
         "score": null,
-        "provisional_score": 52.5,
-        "score_coverage_pct": 90.0,
+        "provisional_score": 52.9,
+        "score_coverage_pct": 98.0,
         "grade": null,
         "provisional_grade": "제외",
         "status": "잠정 평가·공식추천 제외",
@@ -1899,7 +1926,7 @@
           "foreign_flow": 9.395973154362416,
           "institution_flow": 26.845637583892618,
           "valuation": 92.3,
-          "analyst_outlook": null
+          "analyst_outlook": 58.3
         },
         "component_coverage_pct": {
           "financial": 100.0,
@@ -1908,7 +1935,7 @@
           "foreign_flow": 100,
           "institution_flow": 100,
           "valuation": 100.0,
-          "analyst_outlook": 0
+          "analyst_outlook": 80
         },
         "financial_score": 75.2,
         "growth_score": 61.4,
@@ -1931,14 +1958,24 @@
         "investor_flow_sessions": 5,
         "reason": "확보된 재무·성장 데이터의 상대평가. 60거래일 모멘텀 및 미연결 항목은 점수에 포함하지 않음",
         "risk_factors": [],
-        "analyst_report_count": null,
-        "analyst_broker_count": null,
-        "analyst_avg_target_price": null,
-        "analyst_avg_upside_pct": null,
-        "analyst_consensus_score": null,
-        "analyst_consensus_coverage_pct": null,
-        "analyst_latest_report_date": null,
-        "analyst_sources": null,
+        "analyst_report_count": 9,
+        "analyst_broker_count": 9,
+        "analyst_avg_target_price": 37875.0,
+        "analyst_avg_upside_pct": 41.32,
+        "analyst_consensus_score": 58.3,
+        "analyst_consensus_coverage_pct": 80,
+        "analyst_latest_report_date": "2026-11-16",
+        "analyst_sources": [
+          "https://stock.naver.com/research/company/98134",
+          "https://stock.naver.com/research/company/98135",
+          "https://stock.naver.com/research/company/98141",
+          "https://stock.naver.com/research/company/98158",
+          "https://stock.naver.com/research/company/98165",
+          "https://stock.naver.com/research/company/98168",
+          "https://stock.naver.com/research/company/98178",
+          "https://stock.naver.com/research/company/98182",
+          "https://stock.naver.com/research/company/98208"
+        ],
         "list_score": 92.3,
         "list_coverage_pct": 100.0
       },
@@ -2391,7 +2428,7 @@
           "foreign_flow": 100,
           "institution_flow": 100,
           "valuation": 50.0,
-          "analyst_outlook": 0
+          "analyst_outlook": 0.0
         },
         "financial_score": 2.2,
         "growth_score": 3.6,
@@ -2416,14 +2453,16 @@
         "risk_factors": [
           "PER 산출 자료 부족 또는 적자"
         ],
-        "analyst_report_count": null,
-        "analyst_broker_count": null,
-        "analyst_avg_target_price": null,
-        "analyst_avg_upside_pct": null,
+        "analyst_report_count": 1,
+        "analyst_broker_count": 1,
+        "analyst_avg_target_price": 9000.0,
+        "analyst_avg_upside_pct": 24.48,
         "analyst_consensus_score": null,
-        "analyst_consensus_coverage_pct": null,
-        "analyst_latest_report_date": null,
-        "analyst_sources": null,
+        "analyst_consensus_coverage_pct": 0.0,
+        "analyst_latest_report_date": "2026-11-10",
+        "analyst_sources": [
+          "https://stock.naver.com/research/company/97956"
+        ],
         "list_score": 90.3,
         "list_coverage_pct": 100.0
       },
@@ -2580,8 +2619,8 @@
         "net_income": null,
         "equity_total": null,
         "score": null,
-        "provisional_score": 45.0,
-        "score_coverage_pct": 80.0,
+        "provisional_score": 45.9,
+        "score_coverage_pct": 88.0,
         "grade": null,
         "provisional_grade": "제외",
         "status": "잠정 평가·공식추천 제외",
@@ -2593,7 +2632,7 @@
           "foreign_flow": 15.100671140939598,
           "institution_flow": 90.60402684563758,
           "valuation": null,
-          "analyst_outlook": null
+          "analyst_outlook": 55.6
         },
         "component_coverage_pct": {
           "financial": 100.0,
@@ -2602,7 +2641,7 @@
           "foreign_flow": 100,
           "institution_flow": 100,
           "valuation": 0.0,
-          "analyst_outlook": 0
+          "analyst_outlook": 80
         },
         "financial_score": 26.8,
         "growth_score": 29.4,
@@ -2628,14 +2667,20 @@
           "PER 산출 자료 부족 또는 적자",
           "PBR 산출 자료 부족 또는 자본잠식"
         ],
-        "analyst_report_count": null,
-        "analyst_broker_count": null,
-        "analyst_avg_target_price": null,
-        "analyst_avg_upside_pct": null,
-        "analyst_consensus_score": null,
-        "analyst_consensus_coverage_pct": null,
-        "analyst_latest_report_date": null,
-        "analyst_sources": null,
+        "analyst_report_count": 5,
+        "analyst_broker_count": 5,
+        "analyst_avg_target_price": 176000.0,
+        "analyst_avg_upside_pct": 28.0,
+        "analyst_consensus_score": 55.6,
+        "analyst_consensus_coverage_pct": 80,
+        "analyst_latest_report_date": "2026-11-12",
+        "analyst_sources": [
+          "https://stock.naver.com/research/company/98037",
+          "https://stock.naver.com/research/company/98047",
+          "https://stock.naver.com/research/company/98096",
+          "https://stock.naver.com/research/company/98099",
+          "https://stock.naver.com/research/company/98115"
+        ],
         "list_score": 89.3,
         "list_coverage_pct": 100.0
       },
@@ -3287,8 +3332,8 @@
         "net_income": null,
         "equity_total": null,
         "score": null,
-        "provisional_score": 32.6,
-        "score_coverage_pct": 80.0,
+        "provisional_score": 37.2,
+        "score_coverage_pct": 88.0,
         "grade": null,
         "provisional_grade": "제외",
         "status": "잠정 평가·공식추천 제외",
@@ -3300,7 +3345,7 @@
           "foreign_flow": 97.6510067114094,
           "institution_flow": 3.3557046979865772,
           "valuation": null,
-          "analyst_outlook": null
+          "analyst_outlook": 83.1
         },
         "component_coverage_pct": {
           "financial": 100.0,
@@ -3309,7 +3354,7 @@
           "foreign_flow": 100,
           "institution_flow": 100,
           "valuation": 0.0,
-          "analyst_outlook": 0
+          "analyst_outlook": 80
         },
         "financial_score": 17.0,
         "growth_score": 13.4,
@@ -3335,14 +3380,18 @@
           "PER 산출 자료 부족 또는 적자",
           "PBR 산출 자료 부족 또는 자본잠식"
         ],
-        "analyst_report_count": null,
-        "analyst_broker_count": null,
-        "analyst_avg_target_price": null,
-        "analyst_avg_upside_pct": null,
-        "analyst_consensus_score": null,
-        "analyst_consensus_coverage_pct": null,
-        "analyst_latest_report_date": null,
-        "analyst_sources": null,
+        "analyst_report_count": 3,
+        "analyst_broker_count": 3,
+        "analyst_avg_target_price": 9166.67,
+        "analyst_avg_upside_pct": 72.31,
+        "analyst_consensus_score": 83.1,
+        "analyst_consensus_coverage_pct": 80,
+        "analyst_latest_report_date": "2026-11-16",
+        "analyst_sources": [
+          "https://stock.naver.com/research/company/97843",
+          "https://stock.naver.com/research/company/97900",
+          "https://stock.naver.com/research/company/98206"
+        ],
         "list_score": 97.6510067114094,
         "list_coverage_pct": 100
       },
@@ -4006,7 +4055,7 @@
           "foreign_flow": 100,
           "institution_flow": 100,
           "valuation": 0.0,
-          "analyst_outlook": 0
+          "analyst_outlook": 0.0
         },
         "financial_score": 61.9,
         "growth_score": 41.9,
@@ -4032,14 +4081,17 @@
           "PER 산출 자료 부족 또는 적자",
           "PBR 산출 자료 부족 또는 자본잠식"
         ],
-        "analyst_report_count": null,
-        "analyst_broker_count": null,
-        "analyst_avg_target_price": null,
-        "analyst_avg_upside_pct": null,
+        "analyst_report_count": 2,
+        "analyst_broker_count": 2,
+        "analyst_avg_target_price": 185000.0,
+        "analyst_avg_upside_pct": 29.55,
         "analyst_consensus_score": null,
-        "analyst_consensus_coverage_pct": null,
-        "analyst_latest_report_date": null,
-        "analyst_sources": null,
+        "analyst_consensus_coverage_pct": 0.0,
+        "analyst_latest_report_date": "2026-11-09",
+        "analyst_sources": [
+          "https://stock.naver.com/research/company/97824",
+          "https://stock.naver.com/research/company/97875"
+        ],
         "list_score": 97.6510067114094,
         "list_coverage_pct": 100
       },
@@ -4123,8 +4175,8 @@
         "net_income": null,
         "equity_total": null,
         "score": null,
-        "provisional_score": 40.6,
-        "score_coverage_pct": 80.0,
+        "provisional_score": 43.8,
+        "score_coverage_pct": 88.0,
         "grade": null,
         "provisional_grade": "제외",
         "status": "잠정 평가·공식추천 제외",
@@ -4136,7 +4188,7 @@
           "foreign_flow": 12.416107382550335,
           "institution_flow": 96.97986577181209,
           "valuation": null,
-          "analyst_outlook": null
+          "analyst_outlook": 75.4
         },
         "component_coverage_pct": {
           "financial": 100.0,
@@ -4145,7 +4197,7 @@
           "foreign_flow": 100,
           "institution_flow": 100,
           "valuation": 0.0,
-          "analyst_outlook": 0
+          "analyst_outlook": 80
         },
         "financial_score": 21.0,
         "growth_score": 35.7,
@@ -4171,14 +4223,20 @@
           "PER 산출 자료 부족 또는 적자",
           "PBR 산출 자료 부족 또는 자본잠식"
         ],
-        "analyst_report_count": null,
-        "analyst_broker_count": null,
-        "analyst_avg_target_price": null,
-        "analyst_avg_upside_pct": null,
-        "analyst_consensus_score": null,
-        "analyst_consensus_coverage_pct": null,
-        "analyst_latest_report_date": null,
-        "analyst_sources": null,
+        "analyst_report_count": 5,
+        "analyst_broker_count": 5,
+        "analyst_avg_target_price": 85250.0,
+        "analyst_avg_upside_pct": 67.81,
+        "analyst_consensus_score": 75.4,
+        "analyst_consensus_coverage_pct": 80,
+        "analyst_latest_report_date": "2026-11-11",
+        "analyst_sources": [
+          "https://stock.naver.com/research/company/97932",
+          "https://stock.naver.com/research/company/97957",
+          "https://stock.naver.com/research/company/97970",
+          "https://stock.naver.com/research/company/98017",
+          "https://stock.naver.com/research/company/98024"
+        ],
         "list_score": 96.97986577181209,
         "list_coverage_pct": 100
       }
@@ -4191,7 +4249,7 @@
   },
   "data_quality": {
     "label": "v3.2 베타 · 시가총액 상위 300개 · 가격 이력 누적",
-    "note": "OpenDART 2025년 사업보고서: 실제 재무값이 확인된 캐시 포함 286개사, 이번 회차 신규 성공 0개, 실패/자료없음 1개. KIS 외국인·기관 5거래일 수급: 이번 회차 100개 중 신규 100개사, 최근 7일 이내 유효 캐시 포함 298개사 / 오류·자료부족 0개사. 무료 공개 증권사 리포트 원장 비어 있음: 검증된 자료 입력 전 컨센서스 점수 미산출. PER/PBR은 KRX 시가총액과 OpenDART 최신 연간 순이익·자본총계로 산출하며 적자·자본잠식은 제외합니다.",
+    "note": "OpenDART 2025년 사업보고서: 실제 재무값이 확인된 캐시 포함 286개사, 이번 회차 신규 성공 0개, 실패/자료없음 1개. KIS 외국인·기관 5거래일 수급: 이번 회차 100개 중 신규 99개사, 최근 7일 이내 유효 캐시 포함 298개사 / 오류·자료부족 1개사. 무료 공개 증권사 리포트: 원문 링크 기반 메타데이터 343건 중 분석대상 종목 97개사. 최근 90일 내 3개 이상 증권사 자료를 기준으로 산출. PER/PBR은 KRX 시가총액과 OpenDART 최신 연간 순이익·자본총계로 산출하며 적자·자본잠식은 제외합니다.",
     "official_top10_count": 0,
     "coverage_gate": "7개 평가영역의 실제 확보 가중치가 100%일 때만 공식 추천 점수/등급 부여",
     "financial_universe_batch": 100,
@@ -4211,7 +4269,7 @@
     "opendart": "connected",
     "investor_flows": "connected",
     "valuation": "connected",
-    "analyst_consensus": "configured_no_data"
+    "analyst_consensus": "connected"
   },
   "model": {
     "version": "3.2-beta",
