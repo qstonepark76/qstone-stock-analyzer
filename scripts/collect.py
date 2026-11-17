@@ -574,6 +574,7 @@ def main():
             if list_key == "financial": row["list_score"] = x.get("financial_score"); row["list_coverage_pct"] = x.get("component_coverage_pct", {}).get("financial", 0)
             elif list_key == "growth": row["list_score"] = x.get("growth_score"); row["list_coverage_pct"] = x.get("component_coverage_pct", {}).get("growth", 0)
             elif list_key == "momentum": row["list_score"] = x.get("momentum_score"); row["list_coverage_pct"] = x.get("component_coverage_pct", {}).get("momentum", 0)
+            elif list_key == "undervalued": row["list_score"] = x.get("component_scores", {}).get("valuation"); row["list_coverage_pct"] = x.get("component_coverage_pct", {}).get("valuation", 0)
             else: row["list_score"] = x.get("score"); row["list_coverage_pct"] = x.get("score_coverage_pct", 0)
             out.append(row)
         return out
