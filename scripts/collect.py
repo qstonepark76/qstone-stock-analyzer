@@ -517,7 +517,8 @@ def main():
     kospi = None
     try:
         kospi = latest_krx_kospi(asof)
-        (index_history / f"{asof:%Y%m%d}.json").write_text(json.dumps(kospi, ensure_ascii=False, indent=2), encoding="utf-8")
+        index_day = dt.date.fromisoformat(kospi["date"])
+        (index_history / f"{index_day:%Y%m%d}.json").write_text(json.dumps(kospi, ensure_ascii=False, indent=2), encoding="utf-8")
         print(f"[KOSPI] {kospi['date']} 종가 {kospi['close']}", flush=True)
     except Exception as exc:
         print(f"[KOSPI] 지수 데이터 미확보: {str(exc)[:180]}", flush=True)
