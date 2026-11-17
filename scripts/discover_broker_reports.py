@@ -137,45 +137,136 @@ def attach_tickers(candidates, history_dir):
     return candidates
 
 
+def _pick(item, *keys):
+    """Pick the first non-empty value from a Naver API item or nested object."""
+    if not isinstance(item, dict):
+        return None
+    for key in keys:
+        value = item.get(key)
+        if value not in (None, ""):
+            return value
+    for value in item.values():
+        if isinstance(value, dict):
+            found = _pick(value, *keys)
+            if found not in (None, ""):
+                return found
+    return None
+
+
+def _api_date(value, asof):
+    if value in (None, ""):
+        return None
+    text = str(value).strip()
+    # Naver v2 commonly returns ISO dates; also accept compact and dotted forms.
+    match = re.search(r"(20\\d{2}|\\d{2})[-./]?(\\d{1,2})[-./]?(\\d{1,2})", text)
+    if not match:
+        return None
+    year = int(match.group(1))
+    if year < 100:
+        year += 2000
+    try:
+        parsed = datetime(year, int(match.group(2)), int(match.group(3))).date()
+    except ValueError:
+        return None
+    return parsed if parsed <= asof else None
+
+
+def parse_api_items(payload, asof=None):
+    """Normalize public Naver Stock Research v2 company-list items."""
+    asof = asof or datetime.now().date()
+    items = payload.get("items", []) if isinstance(payload, dict) else []
+    found = []
+    for item in items if isinstance(items, list) else []:
+        if not isinstance(item, dict):
+            continue
+        nid = _pick(item, "nid", "researchId", "id")
+        company = _pick(item, "itemName", "stockName", "companyName", "company", "name")
+        title = _pick(item, "title", "researchTitle", "reportTitle")
+        broker = _pick(item, "brokerName", "broker", "securitiesName", "writerName")
+        date_value = _pick(item, "publishedAt", "publishDate", "regDate", "date", "createdAt", "writeDate")
+        published = _api_date(date_value, asof)
+        if not (nid and company and title and broker and published):
+            continue
+        item_code = _pick(item, "itemCode", "stockCode", "code")
+        detail_url = f"https://stock.naver.com/research/company/{nid}"
+        found.append({
+            "company": str(company).strip(),
+            "title": str(title).strip(),
+            "broker": str(broker).strip(),
+            "published_at": published.isoformat(),
+            "discovery_source": "Naver Stock Research API v2",
+            "detail_url": detail_url,
+            "research_id": str(nid),
+            "ticker": str(item_code).zfill(6) if item_code else None,
+            "verification_status": "candidate_unverified",
+            "rating": None,
+            "target_price": None,
+        })
+    return found
+
+
 def discover(pages=10):
+    """Discover public reports through the current Naver Stock Research v2 API."""
     session = requests.Session()
-    session.headers.update(HEADERS)
+    session.headers.update({
+        **HEADERS,
+        "Accept": "application/json, text/plain, */*",
+        "Referer": "https://stock.naver.com/research/company",
+    })
     candidates = {}
     errors = []
-    for page in range(1, pages + 1):
+    total_count = None
+    page_size = int(__import__("os").getenv("REPORT_DISCOVERY_PAGE_SIZE", "50"))
+    base_url = "https://stock.naver.com/api/stockSecurity/researches/v2/company"
+
+    for page in range(pages):
         try:
-            response = session.get(LIST_URL, params={"page": page}, timeout=TIMEOUT)
+            response = session.get(
+                base_url,
+                params={"index": page, "size": page_size},
+                timeout=TIMEOUT,
+            )
             response.raise_for_status()
-            response.encoding = response.apparent_encoding or "euc-kr"
-            page_rows = parse_report_rows(response.text)
+            payload = response.json()
+            page_rows = parse_api_items(payload)
             for row in page_rows:
                 candidates[row["detail_url"]] = row
-            if not page_rows:
-                diagnostic = ResearchTableParser()
-                diagnostic.feed(response.text)
-                title = re.search(r"<title[^>]*>(.*?)</title>", response.text, re.I | re.S)
-                title_text = re.sub(r"\\s+", " ", title.group(1)).strip() if title else "title unavailable"
-                print(
-                    f"[REPORT DISCOVERY] page {page}: 후보 0건 / HTTP {response.status_code} / "
-                    f"최종 URL {response.url} / 파싱 행 {len(diagnostic.rows)} / "
-                    f"본문 {len(response.text)}자 / title={title_text[:100]}",
-                    flush=True,
-                )
-                if page == 1 and diagnostic.rows:
-                    print(f"[REPORT DISCOVERY] page 1 첫 행 구조: {diagnostic.rows[0][:5]}", flush=True)
-            time.sleep(0.4)
+            if isinstance(payload, dict):
+                total_count = payload.get("totalCount", total_count)
+                has_next = payload.get("hasNext")
+                items = payload.get("items")
+                if page == 0:
+                    sample_keys = sorted(items[0].keys()) if isinstance(items, list) and items and isinstance(items[0], dict) else []
+                    print(
+                        f"[REPORT DISCOVERY] v2 응답 totalCount={total_count}, "
+                        f"hasNext={has_next}, 첫 항목 필드={sample_keys[:30]}",
+                        flush=True,
+                    )
+                if has_next is False or (isinstance(items, list) and not items):
+                    break
+            else:
+                raise ValueError("Naver research API 응답이 JSON 객체가 아닙니다.")
+            print(
+                f"[REPORT DISCOVERY] v2 page {page + 1}: 원본 {len(payload.get('items', []))}건 / "
+                f"정규화 후보 {len(page_rows)}건 / 누적 {len(candidates)}건",
+                flush=True,
+            )
+            time.sleep(0.25)
         except Exception as exc:
-            errors.append(f"page {page}: {str(exc)[:160]}")
-            print(f"[REPORT DISCOVERY] page {page} failed: {exc}", flush=True)
+            errors.append(f"v2 page {page}: {str(exc)[:180]}")
+            print(f"[REPORT DISCOVERY] v2 page {page + 1} failed: {exc}", flush=True)
+            break
 
+    # Keep the KRX exact-name match as an independent verification step.
     candidates = attach_tickers(list(candidates.values()), OUT / "history")
     candidates = {row["detail_url"]: row for row in candidates}
     OUT.mkdir(exist_ok=True)
     payload = {
-        "schema_version": 1,
-        "source": "Naver Finance Research",
+        "schema_version": 2,
+        "source": "Naver Stock Research API v2",
         "collected_at": datetime.now().astimezone().isoformat(),
         "candidate_count": len(candidates),
+        "source_total_count": total_count,
         "verified_for_scoring": 0,
         "errors": errors,
         "candidates": sorted(candidates.values(), key=lambda x: (x["published_at"], x["broker"]), reverse=True),
