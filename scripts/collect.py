@@ -15,8 +15,8 @@ DART_KEY = os.getenv("DART_AUTH_KEY", "").strip()
 OUT = Path("data")
 OUT.mkdir(exist_ok=True)
 CACHE_FILE = OUT / "financial_cache.json"
-FINANCIAL_UNIVERSE = int(os.getenv("DART_BATCH_SIZE", "60"))  # rotating daily batch
-KIS_UNIVERSE = int(os.getenv("KIS_BATCH_SIZE", "60"))
+FINANCIAL_UNIVERSE = int(os.getenv("DART_BATCH_SIZE", "100"))  # 3-run coverage across top 300
+KIS_UNIVERSE = int(os.getenv("KIS_BATCH_SIZE", "100"))  # 3-run coverage across top 300
 KIS_STATE_FILE = OUT / "kis_universe_state.json"
 KIS_FLOW_CACHE_FILE = OUT / "kis_flow_cache.json"
 CACHE_DAYS = 90
@@ -25,6 +25,37 @@ REQUEST_TIMEOUT = (5, 12)
 API_PAUSE_SECONDS = 0.2
 S = requests.Session()
 S.headers.update({"User-Agent": "QStonePark-StockAnalyzer/3.2-beta"})
+
+def request_with_retry(method, url, attempts=3, **kwargs):
+    """Retry transient provider failures without hiding final HTTP/API errors."""
+    last_error = None
+    for attempt in range(attempts):
+        try:
+            response = S.request(method, url, **kwargs)
+            if response.status_code == 429 or response.status_code >= 500:
+                response.raise_for_status()
+                raise requests.RequestException(f"Transient HTTP {response.status_code}")
+            response.raise_for_status()
+            return response
+        except requests.RequestException as exc:
+            last_error = exc
+            if attempt + 1 >= attempts:
+                raise
+            delay = min(0.8 * (2 ** attempt), 5.0)
+            print(f"[API RETRY] {method} {url}: {str(exc)[:100]} / {attempt + 1}/{attempts}, {delay:.1f}s 후 재시도", flush=True)
+            time.sleep(delay)
+    raise last_error
+
+
+def has_financial_metrics(metrics):
+    """A cache entry is valid only when at least one actual financial value exists."""
+    if not isinstance(metrics, dict):
+        return False
+    return any(metrics.get(key) is not None for key in (
+        "roe_pct", "sales_growth_pct", "operating_profit_growth_pct",
+        "net_income", "equity_total",
+    ))
+
 
 def parse_rows(payload):
     if isinstance(payload, list):
@@ -248,8 +279,8 @@ def dart_company_financial(corp_code, year):
     endpoint = "https://opendart.fss.or.kr/api/fnlttSinglAcntAll.json"
     last_message = ""
     for fs_div in ("CFS", "OFS"):
-        response = S.get(
-            endpoint,
+        response = request_with_retry(
+            "GET", endpoint,
             params={
                 "crtfc_key": DART_KEY, "corp_code": corp_code,
                 "bsns_year": str(year), "reprt_code": "11011",
@@ -340,7 +371,7 @@ def collect_dart(stocks):
             try:
                 saved = dt.datetime.fromisoformat(cached.get("cached_at", "").replace("Z", "+00:00"))
                 cached_metrics = cached.get("metrics", {})
-                fresh = (now - saved).days < CACHE_DAYS and cached.get("financial_year") == year and "net_income" in cached_metrics and "equity_total" in cached_metrics and "financial_currency" in cached_metrics
+                fresh = (now - saved).days < CACHE_DAYS and cached.get("financial_year") == year and has_financial_metrics(cached_metrics)
             except Exception:
                 fresh = False
         if fresh:
@@ -391,14 +422,14 @@ def collect_dart(stocks):
             fresh = (
                 (now - saved).days < CACHE_DAYS
                 and cached.get("financial_year") == year
-                and all(key in metrics for key in ("net_income", "equity_total", "financial_currency"))
+                and has_financial_metrics(metrics)
             )
         except Exception:
             fresh = False
             metrics = {}
         if fresh:
             results.setdefault(ticker, metrics)
-    note = f"OpenDART {year}년 사업보고서: 재무지표 유효 캐시 포함 {len(results)}개사, 이번 회차 신규 성공 {successes}개, 실패/자료없음 {failures}개"
+    note = f"OpenDART {year}년 사업보고서: 실제 재무값이 확인된 캐시 포함 {len(results)}개사, 이번 회차 신규 성공 {successes}개, 실패/자료없음 {failures}개"
     print("[DART] " + note, flush=True)
     return results, note
 
@@ -449,7 +480,7 @@ def collect_kis_investor_flows(stocks, asof):
                   "FID_INPUT_DATE_1": asof.strftime("%Y%m%d"),
                   "FID_ORG_ADJ_PRC": "", "FID_ETC_CLS_CODE": ""}
         try:
-            response = S.get(endpoint, headers=headers, params=params, timeout=REQUEST_TIMEOUT)
+            response = request_with_retry("GET", endpoint, headers=headers, params=params, timeout=REQUEST_TIMEOUT)
             response.raise_for_status()
             payload = response.json()
             if str(payload.get("rt_cd", "")) != "0":
