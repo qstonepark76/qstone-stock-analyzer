@@ -158,7 +158,7 @@ def _api_date(value, asof):
         return None
     text = str(value).strip()
     # Naver v2 commonly returns ISO dates; also accept compact and dotted forms.
-    match = re.search(r"(20\\d{2}|\\d{2})[-./]?(\\d{1,2})[-./]?(\\d{1,2})", text)
+    match = re.search(r"(20\d{2}|\d{2})[-./]?(\d{1,2})[-./]?(\d{1,2})", text)
     if not match:
         return None
     year = int(match.group(1))
