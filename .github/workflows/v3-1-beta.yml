@@ -1,16 +1,16 @@
-name: Q Stone Park v3.0 Beta Validation
+name: Q Stone Park v3.1 Beta Validation
 
 on:
   workflow_dispatch:
   push:
     branches:
-      - v3-beta
+      - v3-1-beta
 
 permissions:
   contents: write
 
 concurrency:
-  group: qstone-v3-beta
+  group: qstone-v3-1-beta
   cancel-in-progress: false
 
 jobs:
@@ -18,10 +18,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout v3-beta branch
+      - name: Checkout v3.1 beta branch
         uses: actions/checkout@v4
         with:
-          ref: v3-beta
+          ref: v3-1-beta
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -31,23 +31,26 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Collect KRX and cached OpenDART data
+      - name: Compile collector
+        run: python -m py_compile scripts/collect.py
+
+      - name: Collect KRX and rotating OpenDART batch
         env:
           KRX_AUTH_KEY: ${{ secrets.KRX_AUTH_KEY }}
           DART_AUTH_KEY: ${{ secrets.DART_AUTH_KEY }}
         run: python -u scripts/collect.py
 
-      - name: Save beta data to v3-beta
+      - name: Save beta data to v3-1-beta
         run: |
           git config user.name "QStonePark Bot"
           git config user.email "actions@users.noreply.github.com"
           git add data/
-          git diff --cached --quiet || git commit -m "Beta data update"
-          git push origin HEAD:v3-beta
+          git diff --cached --quiet || git commit -m "v3.1 beta data update"
+          git push origin HEAD:v3-1-beta
 
       - name: Upload validation data
         uses: actions/upload-artifact@v4
         with:
-          name: qstone-v3-beta-data
+          name: qstone-v3-1-beta-data
           path: data/
           if-no-files-found: warn
