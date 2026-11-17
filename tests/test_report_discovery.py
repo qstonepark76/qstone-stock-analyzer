@@ -1,7 +1,7 @@
 import unittest
 from datetime import date
 
-from scripts.discover_broker_reports import attach_tickers, parse_report_rows
+from scripts.discover_broker_reports import attach_tickers, parse_report_rows, parse_api_items
 
 
 class ReportDiscoveryTests(unittest.TestCase):
@@ -41,6 +41,27 @@ class ReportDiscoveryTests(unittest.TestCase):
         rows = parse_report_rows(html, asof=date(2026, 11, 17))
         self.assertEqual(len(rows), 1)
         self.assertEqual(rows[0]["published_at"], "2026-08-10")
+
+    def test_parses_current_naver_research_v2_item_without_inventing_consensus(self):
+        payload = {
+            "totalCount": 125,
+            "hasNext": True,
+            "items": [{
+                "nid": 98765,
+                "itemName": "삼성전자",
+                "itemCode": "005930",
+                "title": "메모리 업황 및 실적 전망",
+                "brokerName": "한국투자증권",
+                "publishedAt": "2026-11-16",
+            }],
+        }
+        rows = parse_api_items(payload, asof=date(2026, 11, 17))
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0]["ticker"], "005930")
+        self.assertEqual(rows[0]["published_at"], "2026-11-16")
+        self.assertEqual(rows[0]["rating"], None)
+        self.assertEqual(rows[0]["target_price"], None)
+        self.assertTrue(rows[0]["detail_url"].endswith("/98765"))
 
     def test_attaches_ticker_only_for_unique_exact_company_name(self):
         import json
