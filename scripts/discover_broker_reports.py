@@ -79,7 +79,7 @@ def parse_report_rows(html, asof=None):
         company, title, broker = cells[0]["text"], cells[1]["text"], cells[2]["text"]
         date_text = cells[4]["text"]
         href = cells[1]["href"]
-        match = re.search(r"(20\\d{2})[.\\-/](\\d{1,2})[.\\-/](\\d{1,2})", date_text)
+        match = re.search(r"(20\d{2})[.\-/](\d{1,2})[.\-/](\d{1,2})", date_text)
         if not (company and title and broker and href and match):
             continue
         try:
