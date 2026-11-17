@@ -1,6 +1,8 @@
 name: Q Stone Park v3.2 Beta Validation
 
 on:
+  schedule:
+    - cron: '15 10 * * 1-5' # 평일 19:15 KST
   workflow_dispatch:
   push:
     branches:
