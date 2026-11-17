@@ -1,7 +1,7 @@
 import unittest
 from datetime import date
 
-from scripts.discover_broker_reports import parse_report_rows
+from scripts.discover_broker_reports import attach_tickers, parse_report_rows
 
 
 class ReportDiscoveryTests(unittest.TestCase):
@@ -22,6 +22,29 @@ class ReportDiscoveryTests(unittest.TestCase):
         self.assertEqual(row["target_price"], None)
         self.assertEqual(row["rating"], None)
         self.assertEqual(row["verification_status"], "candidate_unverified")
+
+    def test_attaches_ticker_only_for_unique_exact_company_name(self):
+        import json
+        import tempfile
+        from pathlib import Path
+
+        with tempfile.TemporaryDirectory() as tmp:
+            history = Path(tmp)
+            (history / "20261117.json").write_text(json.dumps([
+                {"ticker": "005930", "name": "삼성전자"},
+                {"ticker": "000660", "name": "SK하이닉스"},
+                {"ticker": "012345", "name": "중복회사"},
+                {"ticker": "012346", "name": "중복회사"},
+            ], ensure_ascii=False), encoding="utf-8")
+            candidates = [
+                {"company": "삼성전자", "ticker": None, "verification_status": "candidate_unverified"},
+                {"company": "중복회사", "ticker": None, "verification_status": "candidate_unverified"},
+            ]
+            result = attach_tickers(candidates, history)
+            self.assertEqual(result[0]["ticker"], "005930")
+            self.assertEqual(result[0]["verification_status"], "ticker_matched_unverified")
+            self.assertIsNone(result[1]["ticker"])
+            self.assertEqual(result[1]["verification_status"], "candidate_unverified")
 
     def test_rejects_future_or_invalid_dates(self):
         html = """
