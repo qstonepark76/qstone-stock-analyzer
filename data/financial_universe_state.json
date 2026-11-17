@@ -1,6 +1,6 @@
 {
-  "offset": 120,
+  "offset": 220,
   "universe_size": 300,
-  "batch_size": 60,
-  "updated_at": "2026-11-17T10:32:11.740217+00:00"
+  "batch_size": 100,
+  "updated_at": "2026-11-17T10:56:03.790890+00:00"
 }
