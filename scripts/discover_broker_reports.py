@@ -37,7 +37,7 @@ class ResearchTableParser(HTMLParser):
         if tag == "tr":
             self._row = []
         elif tag == "td" and self._row is not None:
-            self._cell = {"text": [], "href": ""}
+            self._cell = {"text": [], "href": "", "hrefs": []}
         elif tag == "a" and self._cell is not None:
             self._in_anchor = True
             self._anchor_href = attrs.get("href", "")
@@ -52,13 +52,20 @@ class ResearchTableParser(HTMLParser):
     def handle_endtag(self, tag):
         if tag == "a" and self._in_anchor:
             if self._cell is not None and self._anchor_href:
-                self._cell["href"] = self._anchor_href
+                self._cell["hrefs"].append(self._anchor_href)
+                # Prefer a report-detail URL over image, PDF, or auxiliary links.
+                if ("company_read" in self._anchor_href or "nid=" in self._anchor_href) and not self._cell["href"]:
+                    self._cell["href"] = self._anchor_href
             self._in_anchor = False
             self._anchor_href = None
             self._anchor_text = []
         elif tag == "td" and self._cell is not None:
             text = " ".join(" ".join(self._cell["text"]).split())
-            self._row.append({"text": text, "href": self._cell["href"]})
+            href = self._cell["href"] or next(
+                (item for item in self._cell["hrefs"] if "file.naver" not in item and not item.lower().endswith((".png", ".jpg", ".gif"))),
+                ""
+            )
+            self._row.append({"text": text, "href": href})
             self._cell = None
         elif tag == "tr" and self._row is not None:
             if self._row:
@@ -140,8 +147,22 @@ def discover(pages=10):
             response = session.get(LIST_URL, params={"page": page}, timeout=TIMEOUT)
             response.raise_for_status()
             response.encoding = response.apparent_encoding or "euc-kr"
-            for row in parse_report_rows(response.text):
+            page_rows = parse_report_rows(response.text)
+            for row in page_rows:
                 candidates[row["detail_url"]] = row
+            if not page_rows:
+                diagnostic = ResearchTableParser()
+                diagnostic.feed(response.text)
+                title = re.search(r"<title[^>]*>(.*?)</title>", response.text, re.I | re.S)
+                title_text = re.sub(r"\\s+", " ", title.group(1)).strip() if title else "title unavailable"
+                print(
+                    f"[REPORT DISCOVERY] page {page}: 후보 0건 / HTTP {response.status_code} / "
+                    f"최종 URL {response.url} / 파싱 행 {len(diagnostic.rows)} / "
+                    f"본문 {len(response.text)}자 / title={title_text[:100]}",
+                    flush=True,
+                )
+                if page == 1 and diagnostic.rows:
+                    print(f"[REPORT DISCOVERY] page 1 첫 행 구조: {diagnostic.rows[0][:5]}", flush=True)
             time.sleep(0.4)
         except Exception as exc:
             errors.append(f"page {page}: {str(exc)[:160]}")
