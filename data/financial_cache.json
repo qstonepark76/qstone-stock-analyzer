@@ -1298,14 +1298,17 @@
     }
   },
   "002960": {
-    "cached_at": "2026-11-17T04:35:22.900810+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00158149",
     "fs_div": "OFS",
     "metrics": {
       "roe_pct": 36.03977363814086,
       "sales_growth_pct": 5.4375585804396165,
-      "operating_profit_growth_pct": 14.854205932599873
+      "operating_profit_growth_pct": 14.854205932599873,
+      "net_income": 48227962489.0,
+      "equity_total": 140361831154.0,
+      "financial_currency": "KRW"
     }
   },
   "082740": {
@@ -1573,14 +1576,17 @@
     }
   },
   "064960": {
-    "cached_at": "2026-11-17T04:35:22.900810+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00398792",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 6.936299275889109,
       "sales_growth_pct": 3.86789086340511,
-      "operating_profit_growth_pct": 4.509240993649399
+      "operating_profit_growth_pct": 4.509240993649399,
+      "net_income": 69508148662.0,
+      "equity_total": 1019390057900.0,
+      "financial_currency": "KRW"
     }
   },
   "051630": {
@@ -1606,14 +1612,17 @@
     }
   },
   "089590": {
-    "cached_at": "2026-11-17T04:35:22.900810+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00555874",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": -38.850303301814584,
       "sales_growth_pct": -18.38271389425704,
-      "operating_profit_growth_pct": -239.72816836418122
+      "operating_profit_growth_pct": -239.72816836418122,
+      "net_income": -116400560741.0,
+      "equity_total": 275152877297.0,
+      "financial_currency": "KRW"
     }
   },
   "271560": {
@@ -1661,14 +1670,17 @@
     }
   },
   "195870": {
-    "cached_at": "2026-11-17T04:35:22.900810+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "01032413",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 4.25126189824386,
       "sales_growth_pct": 8.35884129281148,
-      "operating_profit_growth_pct": -18.24996563642265
+      "operating_profit_growth_pct": -18.24996563642265,
+      "net_income": 23820804171.0,
+      "equity_total": 564369713446.0,
+      "financial_currency": "KRW"
     }
   },
   "036460": {
@@ -1694,25 +1706,31 @@
     }
   },
   "006110": {
-    "cached_at": "2026-11-17T04:35:22.900810+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00126779",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": -10.784796961223792,
       "sales_growth_pct": 7.835797570339587,
-      "operating_profit_growth_pct": 84.00793795439425
+      "operating_profit_growth_pct": 84.00793795439425,
+      "net_income": -24888579643.0,
+      "equity_total": 217939022961.0,
+      "financial_currency": "KRW"
     }
   },
   "006340": {
-    "cached_at": "2026-11-17T04:35:22.900810+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00260392",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 9.715492840936182,
       "sales_growth_pct": 12.982653819642787,
-      "operating_profit_growth_pct": -34.78246540901683
+      "operating_profit_growth_pct": -34.78246540901683,
+      "net_income": 12916455490.0,
+      "equity_total": 152048393291.0,
+      "financial_currency": "KRW"
     }
   },
   "011780": {
@@ -1859,14 +1877,17 @@
     }
   },
   "003570": {
-    "cached_at": "2026-11-17T04:35:22.900810+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00134477",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 7.431482024555288,
       "sales_growth_pct": 15.87888410893794,
-      "operating_profit_growth_pct": -22.669375838083727
+      "operating_profit_growth_pct": -22.669375838083727,
+      "net_income": 61574936460.0,
+      "equity_total": 866792976548.0,
+      "financial_currency": "KRW"
     }
   },
   "000240": {
@@ -1969,14 +1990,17 @@
     }
   },
   "069260": {
-    "cached_at": "2026-11-17T04:35:22.900810+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00426086",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 6.640621264179625,
       "sales_growth_pct": -5.095572187583186,
-      "operating_profit_growth_pct": -18.796299598789812
+      "operating_profit_growth_pct": -18.796299598789812,
+      "net_income": 59207938448.0,
+      "equity_total": 908316322259.0,
+      "financial_currency": "KRW"
     }
   },
   "034230": {
@@ -2167,36 +2191,45 @@
     }
   },
   "003470": {
-    "cached_at": "2026-11-17T04:35:22.900810+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00117601",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 5.402543566542227,
       "sales_growth_pct": -10.145929420563672,
-      "operating_profit_growth_pct": 4.882170890434501
+      "operating_profit_growth_pct": 4.882170890434501,
+      "net_income": 95631538000.0,
+      "equity_total": 1905932821000.0,
+      "financial_currency": "KRW"
     }
   },
   "079900": {
-    "cached_at": "2026-11-17T04:35:22.900810+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00372129",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 18.808845857030498,
       "sales_growth_pct": 12.294748791091358,
-      "operating_profit_growth_pct": -8.378593899799869
+      "operating_profit_growth_pct": -8.378593899799869,
+      "net_income": 29246401890.0,
+      "equity_total": 156587716209.0,
+      "financial_currency": "KRW"
     }
   },
   "005180": {
-    "cached_at": "2026-11-17T04:35:22.900810+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00124726",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 7.582592307230918,
       "sales_growth_pct": 1.8144338406002047,
-      "operating_profit_growth_pct": -32.693600070252124
+      "operating_profit_growth_pct": -32.693600070252124,
+      "net_income": 55565434852.0,
+      "equity_total": 743761731819.0,
+      "financial_currency": "KRW"
     }
   },
   "009970": {
@@ -2233,25 +2266,31 @@
     }
   },
   "005690": {
-    "cached_at": "2026-11-17T04:35:22.900810+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00145163",
     "fs_div": "OFS",
     "metrics": {
       "roe_pct": 38.3126548488181,
       "sales_growth_pct": 75.8816426798159,
-      "operating_profit_growth_pct": 636.8279928048329
+      "operating_profit_growth_pct": 636.8279928048329,
+      "net_income": 40288986397.0,
+      "equity_total": 123877690491.0,
+      "financial_currency": "KRW"
     }
   },
   "017960": {
-    "cached_at": "2026-11-17T04:35:22.900810+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00159795",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 19.297813028510724,
       "sales_growth_pct": 22.52395479131262,
-      "operating_profit_growth_pct": 188.1434275228706
+      "operating_profit_growth_pct": 188.1434275228706,
+      "net_income": 101743537476.0,
+      "equity_total": 580170310439.0,
+      "financial_currency": "KRW"
     }
   },
   "004710": {
@@ -2266,14 +2305,17 @@
     }
   },
   "004490": {
-    "cached_at": "2026-11-17T04:35:22.900810+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00133858",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 8.921342381366127,
       "sales_growth_pct": 4.006982856893093,
-      "operating_profit_growth_pct": -14.417734616798128
+      "operating_profit_growth_pct": -14.417734616798128,
+      "net_income": 141430242693.0,
+      "equity_total": 1662766161144.0,
+      "financial_currency": "KRW"
     }
   },
   "002900": {
@@ -2288,14 +2330,17 @@
     }
   },
   "100090": {
-    "cached_at": "2026-11-17T04:35:22.900810+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00480367",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 4.909635193725971,
       "sales_growth_pct": 45.69355838236835,
-      "operating_profit_growth_pct": 42.37646439207574
+      "operating_profit_growth_pct": 42.37646439207574,
+      "net_income": 37510843066.0,
+      "equity_total": 814544413186.0,
+      "financial_currency": "KRW"
     }
   },
   "013580": {
@@ -2343,14 +2388,17 @@
     }
   },
   "090460": {
-    "cached_at": "2026-11-17T04:35:22.900810+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00447609",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 5.307504773605833,
       "sales_growth_pct": 2.1783876481145104,
-      "operating_profit_growth_pct": -37.99391347751933
+      "operating_profit_growth_pct": -37.99391347751933,
+      "net_income": 40648029171.0,
+      "equity_total": 790820471433.0,
+      "financial_currency": "KRW"
     }
   },
   "097230": {
@@ -2387,14 +2435,17 @@
     }
   },
   "005880": {
-    "cached_at": "2026-11-17T04:35:22.900810+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00113535",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 7.365972168378077,
       "sales_growth_pct": -26.912894049602578,
-      "operating_profit_growth_pct": -36.962183057214574
+      "operating_profit_growth_pct": -36.962183057214574,
+      "net_income": 173260065058.0,
+      "equity_total": 2414654404485.0,
+      "financial_currency": "KRW"
     }
   },
   "004310": {
@@ -2409,14 +2460,17 @@
     }
   },
   "032350": {
-    "cached_at": "2026-11-17T04:35:22.900810+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00231372",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 8.101347235673984,
       "sales_growth_pct": 38.59853140155609,
-      "operating_profit_growth_pct": 267.4454974154648
+      "operating_profit_growth_pct": 267.4454974154648,
+      "net_income": 27596636822.0,
+      "equity_total": 368224737001.0,
+      "financial_currency": "KRW"
     }
   },
   "007310": {
@@ -2508,25 +2562,31 @@
     }
   },
   "453340": {
-    "cached_at": "2026-11-17T05:57:22.709045+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "01721809",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 12.536321624707067,
       "sales_growth_pct": 2.6075601714250496,
-      "operating_profit_growth_pct": 10.466416757964403
+      "operating_profit_growth_pct": 10.466416757964403,
+      "net_income": 87737987000.0,
+      "equity_total": 729519039000.0,
+      "financial_currency": "KRW"
     }
   },
   "001680": {
-    "cached_at": "2026-11-17T05:57:22.709045+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00121941",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": -23.822623712585315,
       "sales_growth_pct": 3.43515827434282,
-      "operating_profit_growth_pct": -4.3284607636098205
+      "operating_profit_growth_pct": -4.3284607636098205,
+      "net_income": -303088987280.0,
+      "equity_total": 1096948855862.0,
+      "financial_currency": "KRW"
     }
   },
   "006040": {
@@ -2541,25 +2601,31 @@
     }
   },
   "456040": {
-    "cached_at": "2026-11-17T05:57:22.709045+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "01760738",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": -5.691794758131603,
       "sales_growth_pct": -9.292547674809626,
-      "operating_profit_growth_pct": -99.60139935637613
+      "operating_profit_growth_pct": -99.60139935637613,
+      "net_income": -68483852000.0,
+      "equity_total": 1164784174000.0,
+      "financial_currency": "KRW"
     }
   },
   "298050": {
-    "cached_at": "2026-11-17T05:57:22.709045+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "01316254",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 1.5780828167680456,
       "sales_growth_pct": -0.8511303279804205,
-      "operating_profit_growth_pct": -28.349020139667267
+      "operating_profit_growth_pct": -28.349020139667267,
+      "net_income": 15653332610.0,
+      "equity_total": 826502232236.0,
+      "financial_currency": "KRW"
     }
   },
   "003240": {
@@ -2596,14 +2662,17 @@
     }
   },
   "006650": {
-    "cached_at": "2026-11-17T05:57:22.709045+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00260383",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 2.8744892168042995,
       "sales_growth_pct": 19.56068029736755,
-      "operating_profit_growth_pct": -187.93887802223674
+      "operating_profit_growth_pct": -187.93887802223674,
+      "net_income": 55896051028.0,
+      "equity_total": 2081469764215.0,
+      "financial_currency": "KRW"
     }
   },
   "005300": {
@@ -2629,25 +2698,31 @@
     }
   },
   "499790": {
-    "cached_at": "2026-11-17T05:57:22.709045+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "01882845",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 2.3999810504942936,
       "sales_growth_pct": 1156.9496717788365,
-      "operating_profit_growth_pct": -204343.8723126584
+      "operating_profit_growth_pct": -204343.8723126584,
+      "net_income": 29943929968.0,
+      "equity_total": 1258600788881.0,
+      "financial_currency": "KRW"
     }
   },
   "071320": {
-    "cached_at": "2026-11-17T05:57:22.709045+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00159698",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 14.831984401482384,
       "sales_growth_pct": 11.984309485730925,
-      "operating_profit_growth_pct": 61.49928950851064
+      "operating_profit_growth_pct": 61.49928950851064,
+      "net_income": 338886000000.0,
+      "equity_total": 2301416000000.0,
+      "financial_currency": "KRW"
     }
   },
   "361610": {
@@ -2684,47 +2759,59 @@
     }
   },
   "077970": {
-    "cached_at": "2026-11-17T05:57:22.709045+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00480455",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 22.257842638816026,
       "sales_growth_pct": 8.933374361830882,
-      "operating_profit_growth_pct": 64.76835777774848
+      "operating_profit_growth_pct": 64.76835777774848,
+      "net_income": 68948215486.0,
+      "equity_total": 342971092433.0,
+      "financial_currency": "KRW"
     }
   },
   "000400": {
-    "cached_at": "2026-11-17T05:57:22.709045+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00113562",
     "fs_div": "OFS",
     "metrics": {
       "roe_pct": 7.292666346058904,
       "sales_growth_pct": -12.272024811791283,
-      "operating_profit_growth_pct": 108.415698142365
+      "operating_profit_growth_pct": 108.415698142365,
+      "net_income": 51331000000.0,
+      "equity_total": 613504000000.0,
+      "financial_currency": "KRW"
     }
   },
   "000640": {
-    "cached_at": "2026-11-17T05:57:22.709045+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00116824",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 8.257079606571075,
       "sales_growth_pct": null,
-      "operating_profit_growth_pct": 19.097842415843182
+      "operating_profit_growth_pct": 19.097842415843182,
+      "net_income": 91466489869.0,
+      "equity_total": 1151530812147.0,
+      "financial_currency": "KRW"
     }
   },
   "003850": {
-    "cached_at": "2026-11-17T05:57:22.709045+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00123143",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 7.8899013748851985,
       "sales_growth_pct": 0.031529348427206116,
-      "operating_profit_growth_pct": -7.670388699338659
+      "operating_profit_growth_pct": -7.670388699338659,
+      "net_income": 64302934599.0,
+      "equity_total": 845502782078.0,
+      "financial_currency": "KRW"
     }
   },
   "004800": {
@@ -2783,36 +2870,45 @@
     }
   },
   "017940": {
-    "cached_at": "2026-11-17T05:57:22.709045+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00165583",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 4.441457262468261,
       "sales_growth_pct": -7.146709937874752,
-      "operating_profit_growth_pct": 45.031532999552226
+      "operating_profit_growth_pct": 45.031532999552226,
+      "net_income": 114200487289.0,
+      "equity_total": 2609252670735.0,
+      "financial_currency": "KRW"
     }
   },
   "025540": {
-    "cached_at": "2026-11-17T05:57:22.709045+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00157070",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 9.486551599784624,
       "sales_growth_pct": -4.433819771456915,
-      "operating_profit_growth_pct": -18.714254205605187
+      "operating_profit_growth_pct": -18.714254205605187,
+      "net_income": 106155718000.0,
+      "equity_total": 1161783464000.0,
+      "financial_currency": "KRW"
     }
   },
   "002350": {
-    "cached_at": "2026-11-17T05:57:22.709045+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00173874",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 7.701041740753101,
       "sales_growth_pct": 11.99769684947456,
-      "operating_profit_growth_pct": -1.0686829531121878
+      "operating_profit_growth_pct": -1.0686829531121878,
+      "net_income": 151173987164.0,
+      "equity_total": 2054456537364.0,
+      "financial_currency": "KRW"
     }
   },
   "012630": {
@@ -2860,14 +2956,17 @@
     }
   },
   "003300": {
-    "cached_at": "2026-11-17T05:57:22.709045+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00162993",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 2.6617840840550633,
       "sales_growth_pct": null,
-      "operating_profit_growth_pct": -55.883256857094324
+      "operating_profit_growth_pct": -55.883256857094324,
+      "net_income": 61940513546.0,
+      "equity_total": 2349825497227.0,
+      "financial_currency": "KRW"
     }
   },
   "300720": {
@@ -2882,14 +2981,17 @@
     }
   },
   "001530": {
-    "cached_at": "2026-11-17T05:57:22.709045+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00118345",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": -1.8378448856607141,
       "sales_growth_pct": -7.729316375708772,
-      "operating_profit_growth_pct": -119.77781852142353
+      "operating_profit_growth_pct": -119.77781852142353,
+      "net_income": -9968597538.0,
+      "equity_total": 520481606131.0,
+      "financial_currency": "KRW"
     }
   },
   "079160": {
@@ -2904,25 +3006,31 @@
     }
   },
   "365550": {
-    "cached_at": "2026-11-17T05:57:22.709045+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "01437186",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": -0.3081354547058516,
       "sales_growth_pct": 1.4667551214044172,
-      "operating_profit_growth_pct": -9.910856745342201
+      "operating_profit_growth_pct": -9.910856745342201,
+      "net_income": -3436388048.0,
+      "equity_total": 1165201595965.0,
+      "financial_currency": "KRW"
     }
   },
   "317450": {
-    "cached_at": "2026-11-17T05:57:22.709045+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00179489",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 12.280998481621664,
       "sales_growth_pct": 6.613685724509355,
-      "operating_profit_growth_pct": -0.2760596454319253
+      "operating_profit_growth_pct": -0.2760596454319253,
+      "net_income": 81435216634.0,
+      "equity_total": 794378106390.0,
+      "financial_currency": "KRW"
     }
   },
   "330590": {
@@ -2948,113 +3056,143 @@
     }
   },
   "002840": {
-    "cached_at": "2026-11-17T05:57:22.709045+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00121932",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 10.65601456517171,
       "sales_growth_pct": 1.2252724222630462,
-      "operating_profit_growth_pct": -27.255151737838514
+      "operating_profit_growth_pct": -27.255151737838514,
+      "net_income": 43521733029.0,
+      "equity_total": 416384564328.0,
+      "financial_currency": "KRW"
     }
   },
   "383800": {
-    "cached_at": "2026-11-17T05:57:22.709045+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "01562589",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 7.00838090610956,
       "sales_growth_pct": 1.5243527647333721,
-      "operating_profit_growth_pct": -14.497779088176287
+      "operating_profit_growth_pct": -14.497779088176287,
+      "net_income": 135595000000.0,
+      "equity_total": 2000182000000.0,
+      "financial_currency": "KRW"
     }
   },
   "001060": {
-    "cached_at": "2026-11-17T05:57:22.709045+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00149947",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 17.60338688208394,
       "sales_growth_pct": 7.773726191096353,
-      "operating_profit_growth_pct": 14.514633956040157
+      "operating_profit_growth_pct": 14.514633956040157,
+      "net_income": 61511192817.0,
+      "equity_total": 369369599885.0,
+      "financial_currency": "KRW"
     }
   },
   "014820": {
-    "cached_at": "2026-11-17T05:57:22.709045+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00132637",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 6.324006860990687,
       "sales_growth_pct": 2.894291924912551,
-      "operating_profit_growth_pct": -28.016980976982563
+      "operating_profit_growth_pct": -28.016980976982563,
+      "net_income": 53724930722.0,
+      "equity_total": 862644280784.0,
+      "financial_currency": "KRW"
     }
   },
   "036530": {
-    "cached_at": "2026-11-17T05:57:22.709045+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00225159",
     "fs_div": "CFS",
     "metrics": {
-      "roe_pct": 9.706188327000675,
+      "roe_pct": 5.7405961788043935,
       "sales_growth_pct": 22.805664363806134,
-      "operating_profit_growth_pct": 30.064513939558914
+      "operating_profit_growth_pct": 30.064513939558914,
+      "net_income": 129921212176.0,
+      "equity_total": 2393211855066.0,
+      "financial_currency": "KRW"
     }
   },
   "293940": {
-    "cached_at": "2026-11-17T05:57:22.709045+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "01276594",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 1.3780107836713382,
       "sales_growth_pct": 20.723429229975075,
-      "operating_profit_growth_pct": 13.309728213482996
+      "operating_profit_growth_pct": 13.309728213482996,
+      "net_income": 11311947161.0,
+      "equity_total": 813938485823.0,
+      "financial_currency": "KRW"
     }
   },
   "284740": {
-    "cached_at": "2026-11-17T05:57:22.709045+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "01267684",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 11.543633924144867,
       "sales_growth_pct": 6.066337433435742,
-      "operating_profit_growth_pct": -0.363419008446042
+      "operating_profit_growth_pct": -0.363419008446042,
+      "net_income": 134319541308.0,
+      "equity_total": 1266323716076.0,
+      "financial_currency": "KRW"
     }
   },
   "005810": {
-    "cached_at": "2026-11-17T05:57:22.709045+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00155531",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 6.49965159626434,
       "sales_growth_pct": -3.75262041301454,
-      "operating_profit_growth_pct": -36.22797844348998
+      "operating_profit_growth_pct": -36.22797844348998,
+      "net_income": 74363461619.0,
+      "equity_total": 1172765563682.0,
+      "financial_currency": "KRW"
     }
   },
   "093050": {
-    "cached_at": "2026-11-17T05:57:22.709045+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00593032",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 6.493947800277803,
       "sales_growth_pct": -3.7744406883175152,
-      "operating_profit_growth_pct": 33.27383707748428
+      "operating_profit_growth_pct": 33.27383707748428,
+      "net_income": 117526580469.0,
+      "equity_total": 1846793949430.0,
+      "financial_currency": "KRW"
     }
   },
   "009410": {
-    "cached_at": "2026-11-17T05:57:22.709045+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00153861",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 16.37982965533216,
       "sales_growth_pct": -19.049046007604918,
-      "operating_profit_growth_pct": 155.73443457175117
+      "operating_profit_growth_pct": 155.73443457175117,
+      "net_income": 95829321273.0,
+      "equity_total": 642890379557.0,
+      "financial_currency": "KRW"
     }
   },
   "451800": {
@@ -3069,58 +3207,73 @@
     }
   },
   "007700": {
-    "cached_at": "2026-11-17T05:57:22.709045+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00126487",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 10.492460619401758,
       "sales_growth_pct": 1.8700551263802767,
-      "operating_profit_growth_pct": 4.281816549315387
+      "operating_profit_growth_pct": 4.281816549315387,
+      "net_income": 367905656969.0,
+      "equity_total": 3642862629037.0,
+      "financial_currency": "KRW"
     }
   },
   "268280": {
-    "cached_at": "2026-11-17T05:57:22.709045+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "01234297",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 14.342509466622666,
       "sales_growth_pct": 4.487878412644397,
-      "operating_profit_growth_pct": 11.427003488495169
+      "operating_profit_growth_pct": 11.427003488495169,
+      "net_income": 61302751052.0,
+      "equity_total": 448498102489.0,
+      "financial_currency": "KRW"
     }
   },
   "058650": {
-    "cached_at": "2026-11-17T05:57:22.709045+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00377610",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 2.7531788063558116,
       "sales_growth_pct": 9.876627206675703,
-      "operating_profit_growth_pct": 76.90732715680626
+      "operating_profit_growth_pct": 76.90732715680626,
+      "net_income": 85883534732.0,
+      "equity_total": 3088757914675.0,
+      "financial_currency": "KRW"
     }
   },
   "001570": {
-    "cached_at": "2026-11-17T05:57:22.709045+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00106119",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": -14.45730614847022,
       "sales_growth_pct": -33.14196797614311,
-      "operating_profit_growth_pct": -20.25160732319603
+      "operating_profit_growth_pct": -20.25160732319603,
+      "net_income": -69041847124.0,
+      "equity_total": 460577235489.0,
+      "financial_currency": "KRW"
     }
   },
   "011810": {
-    "cached_at": "2026-11-17T05:57:22.709045+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00138297",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": -480.8524163837318,
       "sales_growth_pct": -22.52814689538536,
-      "operating_profit_growth_pct": 611.2756918130669
+      "operating_profit_growth_pct": 611.2756918130669,
+      "net_income": -166411000000.0,
+      "equity_total": -49442000000.0,
+      "financial_currency": "KRW"
     }
   },
   "000080": {
@@ -3201,25 +3354,31 @@
     }
   },
   "248070": {
-    "cached_at": "2026-11-17T05:57:22.709045+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "01159233",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 2.8455265824011446,
       "sales_growth_pct": 6.635810750303106,
-      "operating_profit_growth_pct": -32.693674447416
+      "operating_profit_growth_pct": -32.693674447416,
+      "net_income": 14186712359.0,
+      "equity_total": 562770784623.0,
+      "financial_currency": "KRW"
     }
   },
   "285130": {
-    "cached_at": "2026-11-17T05:57:22.709045+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "01267170",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 0.8843522297896397,
       "sales_growth_pct": 36.18109011920851,
-      "operating_profit_growth_pct": -99.54098265135951
+      "operating_profit_growth_pct": -99.54098265135951,
+      "net_income": 27297323639.0,
+      "equity_total": 3140439052968.0,
+      "financial_currency": "KRW"
     }
   },
   "069620": {
@@ -3278,14 +3437,17 @@
     }
   },
   "214320": {
-    "cached_at": "2026-11-17T05:57:22.709045+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00565154",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 10.255126781125877,
       "sales_growth_pct": 1.2007349860448713,
-      "operating_profit_growth_pct": 4.5848227874239145
+      "operating_profit_growth_pct": 4.5848227874239145,
+      "net_income": 108971717082.0,
+      "equity_total": 1093334133590.0,
+      "financial_currency": "KRW"
     }
   },
   "383220": {
@@ -3300,14 +3462,17 @@
     }
   },
   "000370": {
-    "cached_at": "2026-11-17T05:57:22.709045+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00135917",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 10.328572046313225,
       "sales_growth_pct": 0.2506786335343625,
-      "operating_profit_growth_pct": -1.409838798543439
+      "operating_profit_growth_pct": -1.409838798543439,
+      "net_income": 292332865000.0,
+      "equity_total": 2707580443000.0,
+      "financial_currency": "KRW"
     }
   },
   "085620": {
@@ -3333,25 +3498,31 @@
     }
   },
   "000670": {
-    "cached_at": "2026-11-17T05:57:22.709045+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00141307",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 0.7715263339582824,
       "sales_growth_pct": 4.361029511373649,
-      "operating_profit_growth_pct": 61.59650298145583
+      "operating_profit_growth_pct": 61.59650298145583,
+      "net_income": 30876821465.0,
+      "equity_total": 4018786224502.0,
+      "financial_currency": "KRW"
     }
   },
   "100840": {
-    "cached_at": "2026-11-17T05:57:22.709045+00:00",
+    "cached_at": "2026-11-17T09:52:46.706273+00:00",
     "financial_year": 2025,
     "corp_code": "00648721",
     "fs_div": "CFS",
     "metrics": {
       "roe_pct": 25.147487746687254,
       "sales_growth_pct": 105.97812013768264,
-      "operating_profit_growth_pct": 400.52397950704017
+      "operating_profit_growth_pct": 400.52397950704017,
+      "net_income": 84373067879.0,
+      "equity_total": 364744033303.0,
+      "financial_currency": "KRW"
     }
   },
   "030610": {

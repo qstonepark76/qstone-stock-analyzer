@@ -6,6 +6,21 @@
       "1w": null,
       "1m": null,
       "3m": null
+    },
+    "stock_returns": {
+      "1w": {},
+      "1m": {},
+      "3m": {}
+    },
+    "kospi_returns": {
+      "1w": null,
+      "1m": null,
+      "3m": null
+    },
+    "excess_returns": {
+      "1w": null,
+      "1m": null,
+      "3m": null
     }
   }
 ]
