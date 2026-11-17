@@ -29,11 +29,44 @@ class RecommendationPerformanceTests(unittest.TestCase):
                 "tickers": [{"ticker": "005930", "close": 100}],
                 "returns": {"1w": None, "1m": None, "3m": None},
             }]
-            update_recommendation_performance(perf, history)
+            index_history = history / "index"
+            index_history.mkdir()
+            update_recommendation_performance(perf, history, index_history)
             self.assertEqual(perf[0]["returns"]["1w"], 10.0)
             self.assertIsNone(perf[0]["returns"]["1m"])
             self.assertEqual(perf[0]["stock_returns"]["1w"]["005930"], 10.0)
             self.assertIsNone(perf[0]["kospi_returns"]["1w"])
+
+    def test_calculates_kospi_benchmark_and_excess_return(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            history = root / "history"
+            index_history = root / "index"
+            history.mkdir()
+            index_history.mkdir()
+            dates = [
+                ("20261102", 100), ("20261103", 101), ("20261104", 102),
+                ("20261105", 103), ("20261106", 104), ("20261109", 110),
+            ]
+            for day, close in dates:
+                (history / f"{day}.json").write_text(
+                    json.dumps([{"ticker": "005930", "close": close}]), encoding="utf-8"
+                )
+            for day, close in [
+                ("20261102", 2500), ("20261103", 2510), ("20261104", 2520),
+                ("20261105", 2530), ("20261106", 2540), ("20261109", 2550),
+            ]:
+                (index_history / f"{day}.json").write_text(
+                    json.dumps({"close": close}), encoding="utf-8"
+                )
+            perf = [{
+                "as_of": "2026-11-02",
+                "tickers": [{"ticker": "005930", "close": 100}],
+                "returns": {},
+            }]
+            update_recommendation_performance(perf, history, index_history)
+            self.assertEqual(perf[0]["kospi_returns"]["1w"], 2.0)
+            self.assertEqual(perf[0]["excess_returns"]["1w"], 8.0)
 
     def test_missing_ticker_price_is_not_fabricated(self):
         with tempfile.TemporaryDirectory() as tmp:
