@@ -636,14 +636,9 @@ def main():
     (history / f"{asof:%Y%m%d}.json").write_text(json.dumps(all_stocks, ensure_ascii=False), encoding="utf-8")
     # A single latest-day snapshot is not enough for momentum. Backfill real
     # historical KRX sessions before calculating 5/20/60-session returns.
-    backfill_krx_history(asof, history, target_sessions=61, max_calendar_days=110)
+    history_sessions_available = backfill_krx_history(asof, history, target_sessions=61, max_calendar_days=110)
     stocks = sorted(cap_covered, key=lambda x: x["market_cap"], reverse=True)[:300]
     history_files = sorted(history.glob("*.json"))[-160:]
-    history_sessions_available = sum(
-        1 for path in history_files
-        if path.stem.isdigit() and path.exists()
-        and isinstance(json.loads(path.read_text(encoding="utf-8")), list)
-    )
     snapshots = []
     for path in history_files:
         try:
