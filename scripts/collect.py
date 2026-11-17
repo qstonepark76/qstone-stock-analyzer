@@ -253,7 +253,7 @@ def collect_dart(stocks):
             try:
                 saved = dt.datetime.fromisoformat(cached.get("cached_at", "").replace("Z", "+00:00"))
                 cached_metrics = cached.get("metrics", {})
-            fresh = (now - saved).days < CACHE_DAYS and cached.get("financial_year") == year and "net_income" in cached_metrics and "equity_total" in cached_metrics and "financial_currency" in cached_metrics
+                fresh = (now - saved).days < CACHE_DAYS and cached.get("financial_year") == year and "net_income" in cached_metrics and "equity_total" in cached_metrics and "financial_currency" in cached_metrics
             except Exception:
                 fresh = False
         if fresh:
