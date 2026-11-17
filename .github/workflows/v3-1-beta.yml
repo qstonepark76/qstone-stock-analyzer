@@ -46,6 +46,10 @@ jobs:
           git config user.email "actions@users.noreply.github.com"
           git add data/
           git diff --cached --quiet || git commit -m "v3.1 beta data update"
+
+          git fetch origin v3-1-beta
+          git pull --rebase origin v3-1-beta
+
           git push origin HEAD:v3-1-beta
 
       - name: Upload validation data
