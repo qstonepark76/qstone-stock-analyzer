@@ -18,6 +18,7 @@ CACHE_FILE = OUT / "financial_cache.json"
 FINANCIAL_UNIVERSE = int(os.getenv("DART_BATCH_SIZE", "60"))  # rotating daily batch
 KIS_UNIVERSE = int(os.getenv("KIS_BATCH_SIZE", "60"))
 KIS_STATE_FILE = OUT / "kis_universe_state.json"
+KIS_FLOW_CACHE_FILE = OUT / "kis_flow_cache.json"
 CACHE_DAYS = 90
 UNIVERSE_STATE_FILE = OUT / "financial_universe_state.json"
 REQUEST_TIMEOUT = (5, 12)
@@ -325,7 +326,25 @@ def collect_dart(stocks):
         # Be gentle to the public API and avoid burst requests.
         time.sleep(API_PAUSE_SECONDS)
     save_cache(cache)
-    note = f"OpenDART {year}년 사업보고서: 재무지표 확보 {len(results)}개사, 신규 성공 {successes}개, 실패/자료없음 {failures}개"
+    # Reuse valid cached financials for the entire top-300 universe, not only
+    # today's rotating batch. This lets daily batches accumulate coverage.
+    for stock in stocks:
+        ticker = stock["ticker"]
+        cached = cache.get(ticker) or {}
+        try:
+            saved = dt.datetime.fromisoformat(cached.get("cached_at", "").replace("Z", "+00:00"))
+            metrics = cached.get("metrics", {})
+            fresh = (
+                (now - saved).days < CACHE_DAYS
+                and cached.get("financial_year") == year
+                and all(key in metrics for key in ("net_income", "equity_total", "financial_currency"))
+            )
+        except Exception:
+            fresh = False
+            metrics = {}
+        if fresh:
+            results.setdefault(ticker, metrics)
+    note = f"OpenDART {year}년 사업보고서: 재무지표 유효 캐시 포함 {len(results)}개사, 이번 회차 신규 성공 {successes}개, 실패/자료없음 {failures}개"
     print("[DART] " + note, flush=True)
     return results, note
 
@@ -413,11 +432,40 @@ def collect_kis_investor_flows(stocks, asof):
             errors += 1
             print(f"[KIS] {stock['ticker']} 조회 실패: {str(exc)[:120]}", flush=True)
         if index % 25 == 0:
-            print(f"[KIS] {index}/{len(stocks)} 종목 처리, 확보 {len(results)}개", flush=True)
+            print(f"[KIS] {index}/{len(selected)} 종목 처리, 이번 회차 확보 {len(results)}개", flush=True)
         time.sleep(API_PAUSE_SECONDS)
-    note = f"KIS 외국인·기관 일별 순매수 수량/거래량 비율: 이번 회차 {len(selected)}개 중 5거래일 확보 {len(results)}개사 / 오류·자료부족 {errors}개사"
+    # Persist each successful 5-session result so rotating batches build
+    # universe-wide coverage over subsequent runs.
+    try:
+        flow_cache = json.loads(KIS_FLOW_CACHE_FILE.read_text(encoding="utf-8"))
+        if not isinstance(flow_cache, dict):
+            flow_cache = {}
+    except Exception:
+        flow_cache = {}
+    for ticker, metrics in results.items():
+        flow_cache[ticker] = {"as_of": asof.isoformat(), "metrics": metrics}
+    merged = {}
+    for stock in stocks:
+        ticker = stock["ticker"]
+        item = flow_cache.get(ticker) or {}
+        try:
+            cached_day = dt.date.fromisoformat(item.get("as_of", ""))
+            age = (asof - cached_day).days
+            metrics = item.get("metrics", {})
+            if 0 <= age <= 7 and metrics.get("investor_flow_sessions") == 5:
+                merged[ticker] = metrics
+        except Exception:
+            continue
+    flow_cache = {ticker: item for ticker, item in flow_cache.items() if ticker in merged}
+    KIS_FLOW_CACHE_FILE.write_text(
+        json.dumps(flow_cache, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
+    note = (
+        f"KIS 외국인·기관 5거래일 수급: 이번 회차 {len(selected)}개 중 신규 {len(results)}개사, "
+        f"최근 7일 이내 유효 캐시 포함 {len(merged)}개사 / 오류·자료부족 {errors}개사"
+    )
     print("[KIS] " + note, flush=True)
-    return results, note
+    return merged, note
 
 def percentile(values, higher=True):
     valid = sorted(v for v in values if v is not None and math.isfinite(v))
