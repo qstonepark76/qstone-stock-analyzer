@@ -83,7 +83,10 @@ def parse_report_rows(html, asof=None):
         if not (company and title and broker and href and match):
             continue
         try:
-            year = int(match.group(1))\n            if year < 100:\n                year += 2000\n            published = datetime(year, int(match.group(2)), int(match.group(3))).date()
+            year = int(match.group(1))
+            if year < 100:
+                year += 2000
+            published = datetime(year, int(match.group(2)), int(match.group(3))).date()
         except ValueError:
             continue
         if published > asof:
