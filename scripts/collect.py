@@ -284,6 +284,80 @@ def collect_dart(stocks):
     print("[DART] " + note, flush=True)
     return results, note
 
+
+def kis_access_token(app_key, app_secret):
+    response = S.post(
+        "https://openapi.koreainvestment.com:9443/oauth2/tokenP",
+        json={"grant_type": "client_credentials", "appkey": app_key, "appsecret": app_secret},
+        timeout=REQUEST_TIMEOUT,
+    )
+    response.raise_for_status()
+    payload = response.json()
+    token = payload.get("access_token")
+    if not token:
+        raise RuntimeError(f"KIS token response missing access_token: {payload.get('msg1', 'unknown response')}")
+    return token
+
+def collect_kis_investor_flows(stocks, asof):
+    app_key = os.getenv("KIS_APP_KEY", "").strip()
+    app_secret = os.getenv("KIS_APP_SECRET", "").strip()
+    if not app_key or not app_secret:
+        return {}, "KIS 인증정보 미등록"
+    try:
+        token = kis_access_token(app_key, app_secret)
+    except Exception as exc:
+        return {}, f"KIS 토큰 발급 실패: {str(exc)[:140]}"
+    endpoint = "https://openapi.koreainvestment.com:9443/uapi/domestic-stock/v1/quotations/investor-trade-by-stock-daily"
+    headers = {"authorization": f"Bearer {token}", "appkey": app_key, "appsecret": app_secret,
+               "tr_id": "FHPTJ04160001", "custtype": "P"}
+    results, errors = {}, 0
+    for index, stock in enumerate(stocks, start=1):
+        params = {"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": stock["ticker"],
+                  "FID_INPUT_DATE_1": asof.strftime("%Y%m%d"),
+                  "FID_ORG_ADJ_PRC": "", "FID_ETC_CLS_CODE": ""}
+        try:
+            response = S.get(endpoint, headers=headers, params=params, timeout=REQUEST_TIMEOUT)
+            response.raise_for_status()
+            payload = response.json()
+            if str(payload.get("rt_cd", "")) != "0":
+                errors += 1
+                print(f"[KIS] {stock['ticker']} 응답 오류 {payload.get('msg_cd', '')}: {payload.get('msg1', '')[:100]}", flush=True)
+                continue
+            rows = payload.get("output2") or []
+            if isinstance(rows, dict):
+                rows = [rows]
+            usable = []
+            for row in rows:
+                date_text = txt(row, "stck_bsop_date")
+                if not date_text or date_text > asof.strftime("%Y%m%d"):
+                    continue
+                foreign_value, institution_value = num(row, "frgn_ntby_tr_pbmn"), num(row, "orgn_ntby_tr_pbmn")
+                traded_value = num(row, "acml_tr_pbmn")
+                if foreign_value is not None and institution_value is not None and traded_value is not None and traded_value > 0:
+                    usable.append((date_text, foreign_value, institution_value, traded_value))
+            usable.sort(key=lambda item: item[0], reverse=True)
+            recent = usable[:5]
+            if len(recent) == 5:
+                denominator = sum(item[3] for item in recent)
+                results[stock["ticker"]] = {
+                    "foreign_net_buy_value_5d": sum(item[1] for item in recent),
+                    "institution_net_buy_value_5d": sum(item[2] for item in recent),
+                    "foreign_flow_5d_pct": 100 * sum(item[1] for item in recent) / denominator,
+                    "institution_flow_5d_pct": 100 * sum(item[2] for item in recent) / denominator,
+                    "investor_flow_as_of": recent[0][0], "investor_flow_sessions": 5,
+                }
+            else:
+                errors += 1
+        except Exception as exc:
+            errors += 1
+            print(f"[KIS] {stock['ticker']} 조회 실패: {str(exc)[:120]}", flush=True)
+        if index % 25 == 0:
+            print(f"[KIS] {index}/{len(stocks)} 종목 처리, 확보 {len(results)}개", flush=True)
+        time.sleep(0.4)
+    note = f"KIS 외국인·기관 일별 수급: 5거래일 확보 {len(results)}개사 / 오류·자료부족 {errors}개사"
+    print("[KIS] " + note, flush=True)
+    return results, note
+
 def percentile(values, higher=True):
     valid = sorted(v for v in values if v is not None and math.isfinite(v))
     output = []
@@ -353,6 +427,10 @@ def main():
         changes = [x.get("change_pct") for x in series[-20:] if x.get("change_pct") is not None]
         stock["volatility_20d"] = statistics.pstdev(changes) if len(changes) >= 5 else None
 
+    investor_flows, kis_note = collect_kis_investor_flows(stocks, asof)
+    for stock in stocks:
+        stock.update(investor_flows.get(stock["ticker"], {}))
+
     financial, dart_note = collect_dart(stocks)
     for stock in stocks:
         metrics = financial.get(stock["ticker"], {})
@@ -366,6 +444,8 @@ def main():
         "momentum20": score_field(stocks, "momentum_20d"),
         "momentum60": score_field(stocks, "momentum_60d"),
         "momentum5": score_field(stocks, "momentum_5d"),
+        "foreign_flow": score_field(stocks, "foreign_flow_5d_pct"),
+        "institution_flow": score_field(stocks, "institution_flow_5d_pct"),
         "liquidity": score_field(stocks, "trading_value"),
         "volatility": score_field(stocks, "volatility_20d", reverse=True),
     }
@@ -396,13 +476,15 @@ def main():
 
         components = {
             "financial": fin, "growth": growth, "momentum": mom,
-            "foreign_flow": None, "institution_flow": None,
+            "foreign_flow": score_maps["foreign_flow"].get(t), "institution_flow": score_maps["institution_flow"].get(t),
             "valuation": None, "analyst_outlook": None,
         }
         component_coverage = {
             "financial": round(fin_cov, 1), "growth": round(growth_cov, 1),
-            "momentum": round(mom_cov, 1), "foreign_flow": 0,
-            "institution_flow": 0, "valuation": 0, "analyst_outlook": 0,
+            "momentum": round(mom_cov, 1),
+            "foreign_flow": 100 if x.get("foreign_flow_5d_pct") is not None else 0,
+            "institution_flow": 100 if x.get("institution_flow_5d_pct") is not None else 0,
+            "valuation": 0, "analyst_outlook": 0,
         }
         # The approved seven category weights remain unchanged.
         category_weights = {
@@ -430,6 +512,8 @@ def main():
             ("roe_pct", "ROE 자료 부족"), ("sales_growth_pct", "매출성장 자료 부족"),
             ("operating_profit_growth_pct", "영업이익 성장 자료 부족"),
             ("momentum_60d", "60거래일 주가 이력 부족"),
+            ("foreign_flow_5d_pct", "외국인 수급 자료 부족"),
+            ("institution_flow_5d_pct", "기관 수급 자료 부족"),
         ] if x.get(key) is None]
         x["financial_score"] = fin
         x["growth_score"] = growth
@@ -459,7 +543,7 @@ def main():
     perf_file.write_text(json.dumps(perf[-500:], ensure_ascii=False, indent=2), encoding="utf-8")
 
     def compact(items, list_key):
-        keys = ["ticker", "name", "close", "change_pct", "score", "provisional_score", "score_coverage_pct", "grade", "provisional_grade", "status", "official_recommendation_eligible", "component_scores", "component_coverage_pct", "financial_score", "growth_score", "momentum_score", "roe_pct", "sales_growth_pct", "operating_profit_growth_pct", "momentum_5d", "momentum_20d", "momentum_60d", "history_observations", "trading_value", "reason", "risk_factors"]
+        keys = ["ticker", "name", "close", "change_pct", "score", "provisional_score", "score_coverage_pct", "grade", "provisional_grade", "status", "official_recommendation_eligible", "component_scores", "component_coverage_pct", "financial_score", "growth_score", "momentum_score", "roe_pct", "sales_growth_pct", "operating_profit_growth_pct", "momentum_5d", "momentum_20d", "momentum_60d", "history_observations", "trading_value", "foreign_net_buy_value_5d", "institution_net_buy_value_5d", "foreign_flow_5d_pct", "institution_flow_5d_pct", "investor_flow_as_of", "investor_flow_sessions", "reason", "risk_factors"]
         out = []
         for x in items:
             row = {k: x.get(k) for k in keys}
@@ -476,8 +560,8 @@ def main():
         "lists": {k: compact(v, k) for k, v in lists.items()},
         "top10": compact(official, "overall"),
         "performance": {"snapshots": len(perf), "note": "공식 추천 종목의 추천일 종가 저장. 이후 거래일 관측치가 쌓이면 1주·1개월·3개월 수익률 계산 예정."},
-        "data_quality": {"label": "v3.2 베타 · 시가총액 상위 300개 · 가격 이력 누적", "note": dart_note + ". 외국인·기관 수급, PER/PBR, 증권사 전망 공급자는 미연결이며 임의 추정하지 않습니다.", "official_top10_count": len(official), "coverage_gate": "7개 평가영역의 실제 확보 가중치가 100%일 때만 공식 추천 점수/등급 부여", "financial_universe_batch": FINANCIAL_UNIVERSE, "financial_universe_total": len(stocks), "market_cap_covered_count": len(cap_covered), "universe_limit": 300, "history_sessions_available": history_sessions_available, "history_sessions_required": 61, "history_progress_pct": round(min(history_sessions_available, 61) / 61 * 100, 1),
-        "providers": {"krx": "connected", "opendart": "connected" if financial else ("configured_no_data" if DART_KEY else "not_configured"), "investor_flows": "not_connected", "valuation": "not_connected", "analyst_consensus": "not_connected"},
+        "data_quality": {"label": "v3.2 베타 · 시가총액 상위 300개 · 가격 이력 누적", "note": dart_note + ". " + kis_note + ". PER/PBR 및 증권사 전망 공급자는 미연결이며 임의 추정하지 않습니다.", "official_top10_count": len(official), "coverage_gate": "7개 평가영역의 실제 확보 가중치가 100%일 때만 공식 추천 점수/등급 부여", "financial_universe_batch": FINANCIAL_UNIVERSE, "financial_universe_total": len(stocks), "market_cap_covered_count": len(cap_covered), "universe_limit": 300, "history_sessions_available": history_sessions_available, "history_sessions_required": 61, "history_progress_pct": round(min(history_sessions_available, 61) / 61 * 100, 1),
+        "providers": {"krx": "connected", "opendart": "connected" if financial else ("configured_no_data" if DART_KEY else "not_configured"), "investor_flows": "connected" if investor_flows else ("configured_no_data" if os.getenv("KIS_APP_KEY") and os.getenv("KIS_APP_SECRET") else "not_configured"), "valuation": "not_connected", "analyst_consensus": "not_connected"},
         "model": {"version": "3.2-beta", "weights": {"financial_health_profitability": 20, "growth": 20, "price_momentum": 15, "foreign_flow": 15, "institution_flow": 10, "valuation_per_pbr": 10, "broker_outlook": 10}, "grade_thresholds": {"S": 90, "A": 80, "B": 70, "C": 60, "excluded": 0}, "note": "확정 100점 배점 유지. 부분 데이터는 provisional_score로만 표시하고 공식 score/grade를 부여하지 않음. 모멘텀은 현재 종가를 포함해 61개 거래일 종가(직전 60거래일 비교)가 누적되어야 산출."}
     }
     (OUT / "latest.json").write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
