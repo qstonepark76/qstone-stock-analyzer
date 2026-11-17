@@ -186,8 +186,8 @@ def extract_financial(items):
     sales = pick_account(items, ["매출액", "수익(매출액)", "영업수익"])
     op = pick_account(items, ["영업이익", "영업이익(손실)"])
     net = pick_account(items, [
-        "당기순이익", "당기순이익(손실)",
         "지배기업의 소유주에게 귀속되는 당기순이익",
+        "당기순이익", "당기순이익(손실)",
     ])
     equity = pick_account(items, ["자본총계"])
     sales_now = amount(sales) if sales else None
@@ -204,6 +204,7 @@ def extract_financial(items):
     return {
         "roe_pct": roe, "sales_growth_pct": sales_growth,
         "operating_profit_growth_pct": op_growth,
+        "net_income": net_now, "equity_total": equity_now,
     }
 
 def collect_dart(stocks):
@@ -241,7 +242,8 @@ def collect_dart(stocks):
         if cached:
             try:
                 saved = dt.datetime.fromisoformat(cached.get("cached_at", "").replace("Z", "+00:00"))
-                fresh = (now - saved).days < CACHE_DAYS and cached.get("financial_year") == year
+                cached_metrics = cached.get("metrics", {})
+            fresh = (now - saved).days < CACHE_DAYS and cached.get("financial_year") == year and "net_income" in cached_metrics and "equity_total" in cached_metrics
             except Exception:
                 fresh = False
         if fresh:
@@ -439,6 +441,14 @@ def main():
         metrics = financial.get(stock["ticker"], {})
         stock.update(metrics)
         stock["financial_metrics_available"] = any(v is not None for v in metrics.values())
+        market_cap = stock.get("market_cap")
+        net_income = metrics.get("net_income")
+        equity_total = metrics.get("equity_total")
+        # KRX market cap and OpenDART statement amounts are both KRW.
+        # Exclude loss-making firms and negative/zero equity from valuation ratios.
+        stock["per"] = market_cap / net_income if market_cap and market_cap > 0 and net_income is not None and net_income > 0 else None
+        stock["pbr"] = market_cap / equity_total if market_cap and market_cap > 0 and equity_total is not None and equity_total > 0 else None
+        stock["valuation_as_of"] = asof.isoformat() if stock["per"] is not None or stock["pbr"] is not None else None
 
     score_maps = {
         "roe": score_field(stocks, "roe_pct"),
@@ -454,6 +464,8 @@ def main():
         "analyst_upside": score_field(stocks, "analyst_upside_pct"),
         "analyst_revision": score_field(stocks, "analyst_target_revision_pct"),
         "volatility": score_field(stocks, "volatility_20d", reverse=True),
+        "per": score_field(stocks, "per", reverse=True),
+        "pbr": score_field(stocks, "pbr", reverse=True),
     }
 
     for x in stocks:
@@ -480,17 +492,21 @@ def main():
         if x.get("momentum_60d") is None:
             mom, mom_cov = None, 0.0
 
+        valuation, valuation_cov = weighted_score([
+            (score_maps["per"].get(t), 50),
+            (score_maps["pbr"].get(t), 50),
+        ])
         components = {
             "financial": fin, "growth": growth, "momentum": mom,
             "foreign_flow": score_maps["foreign_flow"].get(t), "institution_flow": score_maps["institution_flow"].get(t),
-            "valuation": None, "analyst_outlook": x.get("analyst_consensus_score"),
+            "valuation": valuation, "analyst_outlook": x.get("analyst_consensus_score"),
         }
         component_coverage = {
             "financial": round(fin_cov, 1), "growth": round(growth_cov, 1),
             "momentum": round(mom_cov, 1),
             "foreign_flow": 100 if x.get("foreign_flow_5d_pct") is not None else 0,
             "institution_flow": 100 if x.get("institution_flow_5d_pct") is not None else 0,
-            "valuation": 0, "analyst_outlook": x.get("analyst_consensus_coverage_pct", 0),
+            "valuation": round(valuation_cov, 1), "analyst_outlook": x.get("analyst_consensus_coverage_pct", 0),
         }
         # The approved seven category weights remain unchanged.
         category_weights = {
@@ -520,6 +536,8 @@ def main():
             ("momentum_60d", "60거래일 주가 이력 부족"),
             ("foreign_flow_5d_pct", "외국인 수급 자료 부족"),
             ("institution_flow_5d_pct", "기관 수급 자료 부족"),
+            ("per", "PER 산출 자료 부족 또는 적자"),
+            ("pbr", "PBR 산출 자료 부족 또는 자본잠식"),
         ] if x.get(key) is None]
         x["financial_score"] = fin
         x["growth_score"] = growth
@@ -535,7 +553,7 @@ def main():
         "overall": official,
         "financial": top("financial_score", "component_coverage_pct" if False else None),
         "growth": top("growth_score"),
-        "undervalued": [],
+        "undervalued": sorted([x for x in stocks if x.get("component_scores", {}).get("valuation") is not None], key=lambda z: z["component_scores"]["valuation"], reverse=True)[:10],
         "momentum": top("momentum_score"),
     }
 
@@ -549,7 +567,7 @@ def main():
     perf_file.write_text(json.dumps(perf[-500:], ensure_ascii=False, indent=2), encoding="utf-8")
 
     def compact(items, list_key):
-        keys = ["ticker", "name", "close", "change_pct", "score", "provisional_score", "score_coverage_pct", "grade", "provisional_grade", "status", "official_recommendation_eligible", "component_scores", "component_coverage_pct", "financial_score", "growth_score", "momentum_score", "roe_pct", "sales_growth_pct", "operating_profit_growth_pct", "momentum_5d", "momentum_20d", "momentum_60d", "history_observations", "trading_value", "foreign_net_buy_qty_5d", "institution_net_buy_qty_5d", "foreign_flow_5d_pct", "institution_flow_5d_pct", "investor_flow_as_of", "investor_flow_sessions", "reason", "risk_factors", "analyst_report_count", "analyst_broker_count", "analyst_avg_target_price", "analyst_avg_upside_pct", "analyst_consensus_score", "analyst_consensus_coverage_pct", "analyst_latest_report_date", "analyst_sources"]
+        keys = ["ticker", "name", "close", "change_pct", "market_cap", "per", "pbr", "valuation_as_of", "net_income", "equity_total", "score", "provisional_score", "score_coverage_pct", "grade", "provisional_grade", "status", "official_recommendation_eligible", "component_scores", "component_coverage_pct", "financial_score", "growth_score", "momentum_score", "roe_pct", "sales_growth_pct", "operating_profit_growth_pct", "momentum_5d", "momentum_20d", "momentum_60d", "history_observations", "trading_value", "foreign_net_buy_qty_5d", "institution_net_buy_qty_5d", "foreign_flow_5d_pct", "institution_flow_5d_pct", "investor_flow_as_of", "investor_flow_sessions", "reason", "risk_factors", "analyst_report_count", "analyst_broker_count", "analyst_avg_target_price", "analyst_avg_upside_pct", "analyst_consensus_score", "analyst_consensus_coverage_pct", "analyst_latest_report_date", "analyst_sources"]
         out = []
         for x in items:
             row = {k: x.get(k) for k in keys}
@@ -566,8 +584,8 @@ def main():
         "lists": {k: compact(v, k) for k, v in lists.items()},
         "top10": compact(official, "overall"),
         "performance": {"snapshots": len(perf), "note": "공식 추천 종목의 추천일 종가 저장. 이후 거래일 관측치가 쌓이면 1주·1개월·3개월 수익률 계산 예정."},
-        "data_quality": {"label": "v3.2 베타 · 시가총액 상위 300개 · 가격 이력 누적", "note": dart_note + ". " + kis_note + ". " + analyst_note + ". PER/PBR은 미연결이며 임의 추정하지 않습니다.", "official_top10_count": len(official), "coverage_gate": "7개 평가영역의 실제 확보 가중치가 100%일 때만 공식 추천 점수/등급 부여", "financial_universe_batch": FINANCIAL_UNIVERSE, "financial_universe_total": len(stocks), "market_cap_covered_count": len(cap_covered), "universe_limit": 300, "history_sessions_available": history_sessions_available, "history_sessions_required": 61, "history_progress_pct": round(min(history_sessions_available, 61) / 61 * 100, 1)},
-        "providers": {"krx": "connected", "opendart": "connected" if financial else ("configured_no_data" if DART_KEY else "not_configured"), "investor_flows": "connected" if investor_flows else ("configured_no_data" if os.getenv("KIS_APP_KEY") and os.getenv("KIS_APP_SECRET") else "not_configured"), "valuation": "not_connected", "analyst_consensus": "connected" if analyst_data else "configured_no_data"},
+        "data_quality": {"label": "v3.2 베타 · 시가총액 상위 300개 · 가격 이력 누적", "note": dart_note + ". " + kis_note + ". " + analyst_note + ". PER/PBR은 KRX 시가총액과 OpenDART 최신 연간 순이익·자본총계로 산출하며 적자·자본잠식은 제외합니다.", "official_top10_count": len(official), "coverage_gate": "7개 평가영역의 실제 확보 가중치가 100%일 때만 공식 추천 점수/등급 부여", "financial_universe_batch": FINANCIAL_UNIVERSE, "financial_universe_total": len(stocks), "market_cap_covered_count": len(cap_covered), "universe_limit": 300, "history_sessions_available": history_sessions_available, "history_sessions_required": 61, "history_progress_pct": round(min(history_sessions_available, 61) / 61 * 100, 1)},
+        "providers": {"krx": "connected", "opendart": "connected" if financial else ("configured_no_data" if DART_KEY else "not_configured"), "investor_flows": "connected" if investor_flows else ("configured_no_data" if os.getenv("KIS_APP_KEY") and os.getenv("KIS_APP_SECRET") else "not_configured"), "valuation": "connected" if any(x.get("per") is not None or x.get("pbr") is not None for x in stocks) else "configured_no_data", "analyst_consensus": "connected" if analyst_data else "configured_no_data"},
         "model": {"version": "3.2-beta", "weights": {"financial_health_profitability": 20, "growth": 20, "price_momentum": 15, "foreign_flow": 15, "institution_flow": 10, "valuation_per_pbr": 10, "broker_outlook": 10}, "grade_thresholds": {"S": 90, "A": 80, "B": 70, "C": 60, "excluded": 0}, "note": "확정 100점 배점 유지. 부분 데이터는 provisional_score로만 표시하고 공식 score/grade를 부여하지 않음. 모멘텀은 현재 종가를 포함해 61개 거래일 종가(직전 60거래일 비교)가 누적되어야 산출."}
     }
     (OUT / "latest.json").write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
