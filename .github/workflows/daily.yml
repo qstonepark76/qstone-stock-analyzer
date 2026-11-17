@@ -29,11 +29,11 @@ jobs:
           python-version: "3.12"
       - name: Install dependencies
         run: pip install -r requirements.txt
-      - name: Collect KRX and OpenDART data
+      - name: Collect KRX and cached OpenDART data
         env:
           KRX_AUTH_KEY: ${{ secrets.KRX_AUTH_KEY }}
           DART_AUTH_KEY: ${{ secrets.DART_AUTH_KEY }}
-        run: python scripts/collect.py
+        run: python -u scripts/collect.py
       - name: Save daily data
         run: |
           git config user.name "QStonePark Bot"
