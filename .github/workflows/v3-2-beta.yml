@@ -9,21 +9,19 @@ on:
       - v3-2-beta
 
 permissions:
-  contents: write
-  pages: write
-  id-token: write
+  contents: read
 
+# 데이터 저장 과정에서 발생하는 push가 현재 실행을 취소하지 않도록 대기시킵니다.
 concurrency:
   group: qstone-v3-2-beta
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   validate-and-collect:
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout v3.2 beta branch
@@ -82,6 +80,25 @@ jobs:
           name: qstone-v3-2-beta-data
           path: data/
           if-no-files-found: warn
+
+  deploy-beta-pages:
+    name: Deploy v3.2 beta to GitHub Pages
+    needs: validate-and-collect
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout latest v3.2 beta branch
+        uses: actions/checkout@v4
+        with:
+          ref: v3-2-beta
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
