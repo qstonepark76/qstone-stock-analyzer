@@ -124,7 +124,7 @@ def update_recommendation_performance(history, price_history_dir, index_history_
                 excess[label] = round(averages[label] - benchmark, 2) if averages[label] is not None and benchmark is not None else None
                 positive = sum(1 for value in values.values() if value > 0)
                 outperform = sum(1 for value in values.values() if benchmark is not None and value > benchmark)
-                counts[label] = {"evaluated": len(values), "positive": positive, "outperform": outperform}
+                counts[label] = {"evaluated": len(values), "positive": positive, "outperform": outperform, "benchmark_evaluated": len(values) if benchmark is not None else 0}
                 success_rates[label] = {
                     "absolute": round(100 * positive / len(values), 1) if values else None,
                     "outperform": round(100 * outperform / len(values), 1) if values and benchmark is not None else None,
