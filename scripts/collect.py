@@ -19,6 +19,7 @@ FINANCIAL_UNIVERSE = int(os.getenv("DART_BATCH_SIZE", "100"))  # 3-run coverage 
 KIS_UNIVERSE = int(os.getenv("KIS_BATCH_SIZE", "100"))  # 3-run coverage across top 300
 KIS_STATE_FILE = OUT / "kis_universe_state.json"
 KIS_FLOW_CACHE_FILE = OUT / "kis_flow_cache.json"
+SECTOR_CACHE_FILE = OUT / "sector_industry_cache.json"
 CACHE_DAYS = 90
 UNIVERSE_STATE_FILE = OUT / "financial_universe_state.json"
 REQUEST_TIMEOUT = (5, 12)
@@ -271,10 +272,20 @@ def classify_sector(sector_value, industry_value=None):
             return sector_name, "medium"
     return None, None
 
+def _listing_value(value):
+    """Normalize provider cells; pandas NaN/NaT must not become the literal text 'nan'."""
+    if value is None:
+        return ""
+    if isinstance(value, float) and math.isnan(value):
+        return ""
+    text = str(value).strip()
+    return "" if text.lower() in ("", "nan", "none", "nat", "<na>") else text
+
+
 def _listing_ticker(row):
     for key in ("Code", "Symbol", "ticker", "Ticker", "ISU_CD", "isuCd"):
-        value = row.get(key)
-        if value in (None, ""):
+        value = _listing_value(row.get(key))
+        if not value:
             continue
         raw = str(value).strip()
         # KRX ISIN format: KR + security type + six-digit issue code + check digit.
@@ -288,6 +299,111 @@ def _listing_ticker(row):
         if len(digits) > 6:
             return digits[-6:]
     return ""
+
+def classify_industry_code(industry_code):
+    """Map an actual KSIC industry code (OpenDART induty_code) to the 12 house sectors."""
+    code = "".join(ch for ch in str(industry_code or "") if ch.isdigit())
+    if len(code) < 2:
+        return None
+    prefix = int(code[:2])
+    if prefix == 28 and code.startswith(("2820", "28202")):
+        return "2차전지·소재"
+    if prefix in (5, 19, 20, 22, 35):
+        return "에너지·화학"
+    if prefix in (21, 27, 86):
+        return "바이오·헬스케어"
+    if prefix == 26:
+        return "반도체·전자"
+    if prefix == 30:
+        return "자동차·모빌리티"
+    if prefix in (24, 25, 29, 31, 34, 6, 7, 8):
+        return "산업재·방산"
+    if prefix in (23, 36, 37, 38, 39, 41, 42):
+        return "건설·인프라"
+    if prefix in (10, 11, 12, 13, 14, 15, 16, 17, 18, 32, 33, 45, 46, 47, 55, 56):
+        return "소비재·유통"
+    if prefix in (49, 50, 51, 52):
+        return "운송·물류"
+    if prefix in (58, 59, 60, 61, 90, 91):
+        return "통신·미디어·엔터"
+    if prefix in (62, 63):
+        return "IT·소프트웨어"
+    if prefix in (64, 65, 66):
+        return "금융"
+    if prefix == 28:
+        return "산업재·방산"
+    return None
+
+
+def load_dart_sector_classification(stocks):
+    """Fetch official OpenDART company KSIC codes, cache them, and classify without name guessing."""
+    if not DART_KEY:
+        return {}, "OpenDART 업종코드: DART_AUTH_KEY 미등록"
+    try:
+        cache = json.loads(SECTOR_CACHE_FILE.read_text(encoding="utf-8"))
+        if not isinstance(cache, dict):
+            cache = {}
+    except Exception:
+        cache = {}
+    try:
+        corp_map = download_corp_map()
+    except Exception as exc:
+        return {}, f"OpenDART 업종코드: 기업코드 파일 오류 ({str(exc)[:120]})"
+
+    now = dt.datetime.now(dt.timezone.utc)
+    results, requested, errors = {}, 0, 0
+    endpoint = "https://opendart.fss.or.kr/api/company.json"
+    for stock in stocks:
+        ticker = stock["ticker"]
+        cached = cache.get(ticker) or {}
+        code = _listing_value(cached.get("industry_code"))
+        try:
+            saved = dt.datetime.fromisoformat(str(cached.get("cached_at", "")).replace("Z", "+00:00"))
+            fresh = bool(code) and (now - saved).days < 365
+        except Exception:
+            fresh = False
+        if not fresh:
+            corp_code = corp_map.get(ticker)
+            if not corp_code:
+                errors += 1
+                continue
+            try:
+                response = request_with_retry(
+                    "GET", endpoint,
+                    params={"crtfc_key": DART_KEY, "corp_code": corp_code},
+                    timeout=REQUEST_TIMEOUT,
+                )
+                payload = response.json()
+                if payload.get("status") == "000":
+                    code = _listing_value(payload.get("induty_code"))
+                    cache[ticker] = {
+                        "corp_code": corp_code, "industry_code": code or None,
+                        "cached_at": now.isoformat(),
+                    }
+                    requested += 1
+                else:
+                    errors += 1
+                    continue
+            except Exception as exc:
+                errors += 1
+                print(f"[SECTOR DART] {ticker} 업종코드 조회 실패: {str(exc)[:100]}", flush=True)
+                continue
+            if code:
+                time.sleep(float(os.getenv("DART_COMPANY_PAUSE_SECONDS", "0.2")))
+        category = classify_industry_code(code)
+        if category:
+            results[ticker] = {
+                "sector": category,
+                "sector_industry_code": code,
+                "sector_source": "OpenDART KSIC",
+                "sector_confidence": "high",
+            }
+
+    SECTOR_CACHE_FILE.write_text(json.dumps(cache, ensure_ascii=False, indent=2), encoding="utf-8")
+    note = f"OpenDART KSIC 업종코드: {len(results)}/{len(stocks)}개 분류, 이번 회차 신규 조회 {requested}개, 미확보 {errors}개"
+    print("[SECTOR DART] " + note, flush=True)
+    return results, note
+
 
 def load_sector_classification():
     """Load KRX listing metadata, preferring KRX-DESC; log schema and never guess unknown sectors."""
@@ -314,8 +430,8 @@ def load_sector_classification():
                 ticker = _listing_ticker(row)
                 if not ticker:
                     continue
-                sector_raw = next((str(row.get(k)).strip() for k in ("Sector", "sector", "업종", "업종명") if row.get(k) not in (None, "")), "")
-                industry_raw = next((str(row.get(k)).strip() for k in ("Industry", "industry", "주요제품", "주요 제품") if row.get(k) not in (None, "")), "")
+                sector_raw = next((_listing_value(row.get(k)) for k in ("Sector", "sector", "업종", "업종명") if _listing_value(row.get(k))), "")
+                industry_raw = next((_listing_value(row.get(k)) for k in ("Industry", "industry", "주요제품", "주요 제품", "Products") if _listing_value(row.get(k))), "")
                 raw_sector_count += bool(sector_raw)
                 raw_industry_count += bool(industry_raw)
                 category, confidence = classify_sector(sector_raw, industry_raw)
@@ -843,6 +959,11 @@ def main():
         stock.update(investor_flows.get(stock["ticker"], {}))
 
     financial, dart_note = collect_dart(stocks)
+    dart_sector_map, sector_note = load_dart_sector_classification(stocks)
+    for stock in stocks:
+        official_sector = dart_sector_map.get(stock["ticker"])
+        if official_sector:
+            stock.update(official_sector)
     for stock in stocks:
         metrics = financial.get(stock["ticker"], {})
         stock.update(metrics)
@@ -984,7 +1105,7 @@ def main():
     perf_file.write_text(json.dumps(perf[-500:], ensure_ascii=False, indent=2), encoding="utf-8")
 
     def compact(items, list_key):
-        keys = ["ticker", "name", "sector", "sector_raw", "sector_industry", "sector_source", "sector_confidence", "close", "change_pct", "market_cap", "per", "pbr", "valuation_as_of", "net_income", "equity_total", "score", "provisional_score", "score_coverage_pct", "grade", "provisional_grade", "status", "official_recommendation_eligible", "component_scores", "component_coverage_pct", "financial_score", "growth_score", "momentum_score", "foreign_flow_score", "institution_flow_score", "roe_pct", "sales_growth_pct", "operating_profit_growth_pct", "momentum_5d", "momentum_20d", "momentum_60d", "history_observations", "trading_value", "foreign_net_buy_qty_5d", "institution_net_buy_qty_5d", "foreign_flow_5d_pct", "institution_flow_5d_pct", "investor_flow_as_of", "investor_flow_sessions", "reason", "risk_factors", "analyst_report_count", "analyst_broker_count", "analyst_avg_target_price", "analyst_avg_upside_pct", "analyst_rating_score", "analyst_consensus_score", "analyst_consensus_coverage_pct", "analyst_latest_report_date", "analyst_target_revision_pct", "analyst_recent_reports", "analyst_monthly_report_counts", "analyst_sources"]
+        keys = ["ticker", "name", "sector", "sector_raw", "sector_industry", "sector_industry_code", "sector_source", "sector_confidence", "close", "change_pct", "market_cap", "per", "pbr", "valuation_as_of", "net_income", "equity_total", "score", "provisional_score", "score_coverage_pct", "grade", "provisional_grade", "status", "official_recommendation_eligible", "component_scores", "component_coverage_pct", "financial_score", "growth_score", "momentum_score", "foreign_flow_score", "institution_flow_score", "roe_pct", "sales_growth_pct", "operating_profit_growth_pct", "momentum_5d", "momentum_20d", "momentum_60d", "history_observations", "trading_value", "foreign_net_buy_qty_5d", "institution_net_buy_qty_5d", "foreign_flow_5d_pct", "institution_flow_5d_pct", "investor_flow_as_of", "investor_flow_sessions", "reason", "risk_factors", "analyst_report_count", "analyst_broker_count", "analyst_avg_target_price", "analyst_avg_upside_pct", "analyst_rating_score", "analyst_consensus_score", "analyst_consensus_coverage_pct", "analyst_latest_report_date", "analyst_target_revision_pct", "analyst_recent_reports", "analyst_monthly_report_counts", "analyst_sources"]
         out = []
         for x in items:
             row = {k: x.get(k) for k in keys}
@@ -1008,15 +1129,36 @@ def main():
         for sector, items in sorted(sector_groups.items())
     }
 
+    def average_metric(items, key):
+        values = [float(item[key]) for item in items if item.get(key) is not None and math.isfinite(float(item[key]))]
+        return round(sum(values) / len(values), 2) if values else None
+
+    sector_summary = {}
+    sector_names = sorted({x.get("sector") for x in stocks if x.get("sector")})
+    for sector in sector_names:
+        items = [x for x in stocks if x.get("sector") == sector]
+        scored = [x for x in items if x.get("score") is not None]
+        sector_summary[sector] = {
+            "stock_count": len(items),
+            "scored_count": len(scored),
+            "average_score": average_metric(scored, "score"),
+            "advancer_pct": round(100 * sum(1 for x in items if (x.get("change_pct") or 0) > 0) / len(items), 1) if items else None,
+            "average_change_pct": average_metric(items, "change_pct"),
+            "average_foreign_flow_5d_pct": average_metric(items, "foreign_flow_5d_pct"),
+            "average_institution_flow_5d_pct": average_metric(items, "institution_flow_5d_pct"),
+            "average_analyst_upside_pct": average_metric(items, "analyst_avg_upside_pct"),
+        }
+
     result = {
         "as_of": asof.isoformat(),
         "market": {"kospi": kospi.get("close") if kospi else None, "kospi_change_pct": kospi.get("change_pct") if kospi else None, "analyzed_count": len(stocks), "advancers": sum(1 for x in stocks if (x.get("change_pct") or 0) > 0), "decliners": sum(1 for x in stocks if (x.get("change_pct") or 0) < 0)},
         "lists": {k: compact(v, k) for k, v in lists.items()},
         "sector_top5": sector_top5,
+        "sector_summary": sector_summary,
         "top15": compact(official, "overall"),
         "analyst_upgrades_in_top15": compact(analyst_upgrades_in_top15, "overall"),
         "performance": {"snapshots": len(perf), "note": "추천일 종가 대비 실제 후속 거래일 종가로 1주(5일)·1개월(21일)·3개월(63일) 평균수익률 계산. KOSPI 지수 이력이 확보된 구간은 동일 거래일 기준 상대성과도 계산."},
-        "data_quality": {"label": "v3.2 베타 · 시가총액 상위 300개 · 가격 이력 누적", "note": dart_note + ". " + kis_note + ". " + analyst_note + ". PER/PBR은 KRX 시가총액과 OpenDART 최신 연간 순이익·자본총계로 산출하며 적자·자본잠식은 제외합니다.", "official_top15_count": len(official), "sector_classified_count": sum(1 for x in stocks if x.get("sector")), "sector_unclassified_count": sum(1 for x in stocks if not x.get("sector")), "sector_classification_pct": round(100 * sum(1 for x in stocks if x.get("sector")) / len(stocks), 1) if stocks else 0, "sector_classification_source_count": len(sector_map), "sector_count": len(sector_top5), "coverage_gate": "7개 평가영역의 실제 확보 가중치가 100%일 때만 공식 추천 점수/등급 부여", "financial_universe_batch": FINANCIAL_UNIVERSE, "financial_universe_total": len(stocks), "market_cap_covered_count": len(cap_covered), "universe_limit": 300, "history_sessions_available": history_sessions_available, "history_sessions_required": 61, "history_progress_pct": round(min(history_sessions_available, 61) / 61 * 100, 1), "kis_flow_coverage_count": len(investor_flows), "foreign_flow_coverage_count": sum(1 for x in stocks if x.get("foreign_flow_5d_pct") is not None), "institution_flow_coverage_count": sum(1 for x in stocks if x.get("institution_flow_5d_pct") is not None), "analyst_covered_stock_count": len(analyst_data), "analyst_three_broker_count": sum(1 for x in analyst_data.values() if x.get("analyst_broker_count", 0) >= 3), "analyst_full_factor_coverage_count": sum(1 for x in analyst_data.values() if x.get("analyst_consensus_coverage_pct", 0) >= 99.99), "analyst_revision_covered_count": sum(1 for x in analyst_data.values() if x.get("analyst_target_revision_pct") is not None), "analyst_upgrades_in_top15_count": len(analyst_upgrades_in_top15)},
+        "data_quality": {"label": "v3.2 베타 · 시가총액 상위 300개 · 가격 이력 누적", "note": dart_note + ". " + sector_note + ". " + kis_note + ". " + analyst_note + ". PER/PBR은 KRX 시가총액과 OpenDART 최신 연간 순이익·자본총계로 산출하며 적자·자본잠식은 제외합니다.", "official_top15_count": len(official), "sector_classified_count": sum(1 for x in stocks if x.get("sector")), "sector_unclassified_count": sum(1 for x in stocks if not x.get("sector")), "sector_classification_pct": round(100 * sum(1 for x in stocks if x.get("sector")) / len(stocks), 1) if stocks else 0, "sector_classification_source_count": sum(1 for x in stocks if x.get("sector")), "sector_classification_sources": {"opendart_ksic": sum(1 for x in stocks if x.get("sector_source") == "OpenDART KSIC"), "fdr_krx_desc": sum(1 for x in stocks if x.get("sector_source") == "KRX-DESC")}, "sector_count": len(sector_summary), "coverage_gate": "7개 평가영역의 실제 확보 가중치가 100%일 때만 공식 추천 점수/등급 부여", "financial_universe_batch": FINANCIAL_UNIVERSE, "financial_universe_total": len(stocks), "market_cap_covered_count": len(cap_covered), "universe_limit": 300, "history_sessions_available": history_sessions_available, "history_sessions_required": 61, "history_progress_pct": round(min(history_sessions_available, 61) / 61 * 100, 1), "kis_flow_coverage_count": len(investor_flows), "foreign_flow_coverage_count": sum(1 for x in stocks if x.get("foreign_flow_5d_pct") is not None), "institution_flow_coverage_count": sum(1 for x in stocks if x.get("institution_flow_5d_pct") is not None), "analyst_covered_stock_count": len(analyst_data), "analyst_three_broker_count": sum(1 for x in analyst_data.values() if x.get("analyst_broker_count", 0) >= 3), "analyst_full_factor_coverage_count": sum(1 for x in analyst_data.values() if x.get("analyst_consensus_coverage_pct", 0) >= 99.99), "analyst_revision_covered_count": sum(1 for x in analyst_data.values() if x.get("analyst_target_revision_pct") is not None), "analyst_upgrades_in_top15_count": len(analyst_upgrades_in_top15)},
         "providers": {"krx": "connected", "kospi_index": "connected" if kospi else "configured_no_data", "opendart": "connected" if financial else ("configured_no_data" if DART_KEY else "not_configured"), "investor_flows": "connected" if investor_flows else ("configured_no_data" if os.getenv("KIS_APP_KEY") and os.getenv("KIS_APP_SECRET") else "not_configured"), "valuation": "connected" if any(x.get("per") is not None or x.get("pbr") is not None for x in stocks) else "configured_no_data", "analyst_consensus": "connected" if analyst_data else "configured_no_data"},
         "model": {"version": "3.2-beta", "weights": {"financial_health_profitability": 20, "growth": 20, "price_momentum": 15, "foreign_flow": 15, "institution_flow": 10, "valuation_per_pbr": 10, "broker_outlook": 10}, "grade_thresholds": {"S": 90, "A": 80, "B": 70, "C": 60, "excluded": 0}, "note": "확정 100점 배점 유지. 부분 데이터는 provisional_score로만 표시하고 공식 score/grade를 부여하지 않음. 모멘텀은 현재 종가를 포함해 61개 거래일 종가(직전 60거래일 비교)가 누적되어야 산출."}
     }
