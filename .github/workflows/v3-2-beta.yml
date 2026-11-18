@@ -10,6 +10,8 @@ on:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 concurrency:
   group: qstone-v3-2-beta
@@ -19,6 +21,9 @@ jobs:
   validate-and-collect:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
       - name: Checkout v3.2 beta branch
@@ -77,3 +82,15 @@ jobs:
           name: qstone-v3-2-beta-data
           path: data/
           if-no-files-found: warn
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload v3.2 beta website
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy v3.2 beta website
+        id: deployment
+        uses: actions/deploy-pages@v4
