@@ -34,7 +34,15 @@ def _stock_snapshot(items, strategy_key="overall"):
             "ticker": ticker,
             "name": item.get("name", ticker),
             "close": float(close),
-            "score": item.get("list_score") if item.get("list_score") is not None else (\n                item.get("financial_score") if strategy_key == "financial" else\n                item.get("growth_score") if strategy_key == "growth" else\n                (item.get("component_scores") or {}).get("valuation") if strategy_key == "undervalued" else\n                item.get("momentum_score") if strategy_key == "momentum" else\n                item.get("foreign_flow_score") if strategy_key == "foreign_flow" else\n                item.get("institution_flow_score") if strategy_key == "institution_flow" else\n                item.get("score")\n            ),
+            "score": item.get("list_score") if item.get("list_score") is not None else (
+                item.get("financial_score") if strategy_key == "financial" else
+                item.get("growth_score") if strategy_key == "growth" else
+                (item.get("component_scores") or {}).get("valuation") if strategy_key == "undervalued" else
+                item.get("momentum_score") if strategy_key == "momentum" else
+                item.get("foreign_flow_score") if strategy_key == "foreign_flow" else
+                item.get("institution_flow_score") if strategy_key == "institution_flow" else
+                item.get("score")
+            ),
             "sector": item.get("sector"),
         })
     return output
