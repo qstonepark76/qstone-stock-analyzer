@@ -51,10 +51,38 @@ class SectorClassificationTests(unittest.TestCase):
             "107": "소비재·유통",
             "591": "통신·미디어·엔터",
             "493": "운송·물류",
+            "72129": "건설·인프라",
+            "7212": "건설·인프라",
+            "71310": "통신·미디어·엔터",
+            "75320": "IT·소프트웨어",
+            "75210": "소비재·유통",
+            "76110": "자동차·모빌리티",
+            "762": "소비재·유통",
+            "969": "소비재·유통",
         }
         for code, expected in examples.items():
             with self.subTest(code=code):
                 self.assertEqual(collect.classify_industry_code(code), expected)
+
+    def test_preferred_shares_inherit_the_same_issuer_sector_and_verified_overrides_apply(self):
+        stocks = [
+            {"ticker": "005930"},
+            {"ticker": "005935"},
+            {"ticker": "326030"},
+            {"ticker": "395400"},
+        ]
+        mapped = collect.apply_sector_overrides(stocks, {
+            "005930": {
+                "sector": "반도체·전자",
+                "sector_industry_code": "264",
+                "sector_source": "OpenDART industry code",
+                "sector_confidence": "high",
+            }
+        })
+        self.assertEqual(mapped["005935"]["sector"], "반도체·전자")
+        self.assertEqual(mapped["005935"]["sector_source"], "Same issuer ordinary share")
+        self.assertEqual(mapped["326030"]["sector"], "바이오·헬스케어")
+        self.assertEqual(mapped["395400"]["sector"], "금융")
 
     def test_nan_listing_cells_are_not_treated_as_real_sector_text(self):
         frame = FakeFrame([
