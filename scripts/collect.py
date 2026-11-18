@@ -236,6 +236,7 @@ def normalize(rows):
             "volume": num(row, "ACC_TRDVOL", "accTrdVol", "volume"),
             "trading_value": num(row, "ACC_TRDVAL", "accTrdVal", "trading_value"),
             "market_cap": num(row, "MKTCAP", "mkcap", "market_cap"),
+            "sector": txt(row, "SECT_NM", "SECT_NM_KOR", "IDX_IND_NM", "INDUSTRY_NM", "IND_NM", "sector", "industry"),
         })
     return result
 
@@ -836,7 +837,7 @@ def main():
     # Category lists only include stocks with real data for that category.
     def top(field, coverage_field=None, minimum_coverage=0):
         pool = [x for x in stocks if x.get(field) is not None and (coverage_field is None or x.get(coverage_field, 0) >= minimum_coverage)]
-        return sorted(pool, key=lambda z: z[field], reverse=True)[:10]
+        return sorted(pool, key=lambda z: z[field], reverse=True)[:15]
 
     official = top("score", "score_coverage_pct", 99.99)
     lists = {
@@ -860,7 +861,7 @@ def main():
     perf_file.write_text(json.dumps(perf[-500:], ensure_ascii=False, indent=2), encoding="utf-8")
 
     def compact(items, list_key):
-        keys = ["ticker", "name", "close", "change_pct", "market_cap", "per", "pbr", "valuation_as_of", "net_income", "equity_total", "score", "provisional_score", "score_coverage_pct", "grade", "provisional_grade", "status", "official_recommendation_eligible", "component_scores", "component_coverage_pct", "financial_score", "growth_score", "momentum_score", "foreign_flow_score", "institution_flow_score", "roe_pct", "sales_growth_pct", "operating_profit_growth_pct", "momentum_5d", "momentum_20d", "momentum_60d", "history_observations", "trading_value", "foreign_net_buy_qty_5d", "institution_net_buy_qty_5d", "foreign_flow_5d_pct", "institution_flow_5d_pct", "investor_flow_as_of", "investor_flow_sessions", "reason", "risk_factors", "analyst_report_count", "analyst_broker_count", "analyst_avg_target_price", "analyst_avg_upside_pct", "analyst_consensus_score", "analyst_consensus_coverage_pct", "analyst_latest_report_date", "analyst_sources"]
+        keys = ["ticker", "name", "sector", "close", "change_pct", "market_cap", "per", "pbr", "valuation_as_of", "net_income", "equity_total", "score", "provisional_score", "score_coverage_pct", "grade", "provisional_grade", "status", "official_recommendation_eligible", "component_scores", "component_coverage_pct", "financial_score", "growth_score", "momentum_score", "foreign_flow_score", "institution_flow_score", "roe_pct", "sales_growth_pct", "operating_profit_growth_pct", "momentum_5d", "momentum_20d", "momentum_60d", "history_observations", "trading_value", "foreign_net_buy_qty_5d", "institution_net_buy_qty_5d", "foreign_flow_5d_pct", "institution_flow_5d_pct", "investor_flow_as_of", "investor_flow_sessions", "reason", "risk_factors", "analyst_report_count", "analyst_broker_count", "analyst_avg_target_price", "analyst_avg_upside_pct", "analyst_consensus_score", "analyst_consensus_coverage_pct", "analyst_latest_report_date", "analyst_sources"]
         out = []
         for x in items:
             row = {k: x.get(k) for k in keys}
@@ -878,9 +879,9 @@ def main():
         "as_of": asof.isoformat(),
         "market": {"kospi": kospi.get("close") if kospi else None, "kospi_change_pct": kospi.get("change_pct") if kospi else None, "analyzed_count": len(stocks), "advancers": sum(1 for x in stocks if (x.get("change_pct") or 0) > 0), "decliners": sum(1 for x in stocks if (x.get("change_pct") or 0) < 0)},
         "lists": {k: compact(v, k) for k, v in lists.items()},
-        "top10": compact(official, "overall"),
+        "top15": compact(official, "overall"),
         "performance": {"snapshots": len(perf), "note": "추천일 종가 대비 실제 후속 거래일 종가로 1주(5일)·1개월(21일)·3개월(63일) 평균수익률 계산. KOSPI 지수 이력이 확보된 구간은 동일 거래일 기준 상대성과도 계산."},
-        "data_quality": {"label": "v3.2 베타 · 시가총액 상위 300개 · 가격 이력 누적", "note": dart_note + ". " + kis_note + ". " + analyst_note + ". PER/PBR은 KRX 시가총액과 OpenDART 최신 연간 순이익·자본총계로 산출하며 적자·자본잠식은 제외합니다.", "official_top10_count": len(official), "coverage_gate": "7개 평가영역의 실제 확보 가중치가 100%일 때만 공식 추천 점수/등급 부여", "financial_universe_batch": FINANCIAL_UNIVERSE, "financial_universe_total": len(stocks), "market_cap_covered_count": len(cap_covered), "universe_limit": 300, "history_sessions_available": history_sessions_available, "history_sessions_required": 61, "history_progress_pct": round(min(history_sessions_available, 61) / 61 * 100, 1), "kis_flow_coverage_count": len(investor_flows), "foreign_flow_coverage_count": sum(1 for x in stocks if x.get("foreign_flow_5d_pct") is not None), "institution_flow_coverage_count": sum(1 for x in stocks if x.get("institution_flow_5d_pct") is not None), "analyst_covered_stock_count": len(analyst_data), "analyst_three_broker_count": sum(1 for x in analyst_data.values() if x.get("analyst_broker_count", 0) >= 3), "analyst_full_factor_coverage_count": sum(1 for x in analyst_data.values() if x.get("analyst_consensus_coverage_pct", 0) >= 99.99), "analyst_revision_covered_count": sum(1 for x in analyst_data.values() if x.get("analyst_target_revision_pct") is not None)},
+        "data_quality": {"label": "v3.2 베타 · 시가총액 상위 300개 · 가격 이력 누적", "note": dart_note + ". " + kis_note + ". " + analyst_note + ". PER/PBR은 KRX 시가총액과 OpenDART 최신 연간 순이익·자본총계로 산출하며 적자·자본잠식은 제외합니다.", "official_top15_count": len(official), "coverage_gate": "7개 평가영역의 실제 확보 가중치가 100%일 때만 공식 추천 점수/등급 부여", "financial_universe_batch": FINANCIAL_UNIVERSE, "financial_universe_total": len(stocks), "market_cap_covered_count": len(cap_covered), "universe_limit": 300, "history_sessions_available": history_sessions_available, "history_sessions_required": 61, "history_progress_pct": round(min(history_sessions_available, 61) / 61 * 100, 1), "kis_flow_coverage_count": len(investor_flows), "foreign_flow_coverage_count": sum(1 for x in stocks if x.get("foreign_flow_5d_pct") is not None), "institution_flow_coverage_count": sum(1 for x in stocks if x.get("institution_flow_5d_pct") is not None), "analyst_covered_stock_count": len(analyst_data), "analyst_three_broker_count": sum(1 for x in analyst_data.values() if x.get("analyst_broker_count", 0) >= 3), "analyst_full_factor_coverage_count": sum(1 for x in analyst_data.values() if x.get("analyst_consensus_coverage_pct", 0) >= 99.99), "analyst_revision_covered_count": sum(1 for x in analyst_data.values() if x.get("analyst_target_revision_pct") is not None)},
         "providers": {"krx": "connected", "kospi_index": "connected" if kospi else "configured_no_data", "opendart": "connected" if financial else ("configured_no_data" if DART_KEY else "not_configured"), "investor_flows": "connected" if investor_flows else ("configured_no_data" if os.getenv("KIS_APP_KEY") and os.getenv("KIS_APP_SECRET") else "not_configured"), "valuation": "connected" if any(x.get("per") is not None or x.get("pbr") is not None for x in stocks) else "configured_no_data", "analyst_consensus": "connected" if analyst_data else "configured_no_data"},
         "model": {"version": "3.2-beta", "weights": {"financial_health_profitability": 20, "growth": 20, "price_momentum": 15, "foreign_flow": 15, "institution_flow": 10, "valuation_per_pbr": 10, "broker_outlook": 10}, "grade_thresholds": {"S": 90, "A": 80, "B": 70, "C": 60, "excluded": 0}, "note": "확정 100점 배점 유지. 부분 데이터는 provisional_score로만 표시하고 공식 score/grade를 부여하지 않음. 모멘텀은 현재 종가를 포함해 61개 거래일 종가(직전 60거래일 비교)가 누적되어야 산출."}
     }
