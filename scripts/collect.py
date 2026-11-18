@@ -306,6 +306,9 @@ def classify_industry_code(industry_code):
     if len(code) < 2:
         return None
     prefix = int(code[:2])
+    # KSIC 582 is software publishing; other 58-61 codes are media/broadcast/telecom.
+    if code.startswith("582"):
+        return "IT·소프트웨어"
     if prefix == 28 and code.startswith(("2820", "28202")):
         return "2차전지·소재"
     if prefix in (5, 19, 20, 22, 35):
