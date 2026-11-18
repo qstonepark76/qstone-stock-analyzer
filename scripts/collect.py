@@ -1164,6 +1164,19 @@ def main():
             perf = []
     except Exception:
         perf = []
+    # Migrate the last published recommendation snapshot into the strategy-aware ledger
+    # before today's latest.json is replaced. This preserves the original recommendation date/price.
+    previous_latest = {}
+    try:
+        previous_latest = json.loads((OUT / "latest.json").read_text(encoding="utf-8"))
+    except Exception:
+        previous_latest = {}
+    previous_day = previous_latest.get("as_of")
+    previous_lists = previous_latest.get("lists", {})
+    if previous_day and previous_lists:
+        perf = update_recommendation_performance(
+            perf, history, index_history, as_of=previous_day, lists=previous_lists
+        )
     perf = update_recommendation_performance(
         perf, history, index_history, as_of=asof.isoformat(), lists=lists
     )
