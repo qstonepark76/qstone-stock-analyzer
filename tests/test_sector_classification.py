@@ -25,7 +25,7 @@ class SectorClassificationTests(unittest.TestCase):
         self.assertEqual(confidence, "high")
 
     def test_major_product_is_used_when_sector_is_too_broad(self):
-        sector, confidence = collect.classify_sector("기타 금융업", "반도체 장비 및 부품")
+        sector, confidence = collect.classify_sector("기타 제조업", "반도체 장비 및 부품")
         self.assertEqual(sector, "반도체·전자")
         self.assertEqual(confidence, "medium")
 
