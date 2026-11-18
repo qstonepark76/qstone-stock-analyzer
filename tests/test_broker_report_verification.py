@@ -49,6 +49,35 @@ class BrokerReportVerificationTests(unittest.TestCase):
         self.assertIsNone(report)
         self.assertEqual(status, "invalid_metadata")
 
+    def test_derives_previous_target_from_earlier_report_by_same_broker(self):
+        older = {
+            **self.base,
+            "published_at": "2026-10-20",
+            "source_goal_price": "100000",
+            "detail_url": "https://stock.naver.com/research/company/10000",
+            "research_id": "10000",
+        }
+        newer = {
+            **self.base,
+            "published_at": "2026-11-16",
+            "source_goal_price": "120000",
+        }
+        old_report, _ = verify_candidate(older, self.krx, date(2026, 11, 17))
+        new_report, _ = verify_candidate(newer, self.krx, date(2026, 11, 17))
+        merged = merge_ledger([old_report], [new_report])
+        latest = next(x for x in merged if x["published_at"] == "2026-11-16")
+        self.assertEqual(latest["previous_target_price"], 100000)
+        self.assertEqual(latest["previous_target_source_date"], "2026-10-20")
+        self.assertEqual(latest["previous_target_method"], "same_broker_previous_verified_report")
+
+    def test_does_not_use_same_day_report_as_previous_target(self):
+        first = {**self.base, "source_goal_price": "100000"}
+        second = {**self.base, "source_goal_price": "120000", "detail_url": "https://stock.naver.com/research/company/12346"}
+        a, _ = verify_candidate(first, self.krx, date(2026, 11, 17))
+        b, _ = verify_candidate(second, self.krx, date(2026, 11, 17))
+        merged = merge_ledger([], [a, b])
+        self.assertTrue(all(x.get("previous_target_price") is None for x in merged))
+
     def test_merges_without_duplicate_source_reports(self):
         report, _ = verify_candidate(self.base, self.krx, date(2026, 11, 17))
         merged = merge_ledger([report], [report])
