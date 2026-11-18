@@ -153,7 +153,7 @@ def update_recommendation_performance(history, price_history_dir, index_history_
             record["excess_returns"] = overall["excess_returns"]
             record["stock_returns"] = overall["stock_returns"]
 
-    return records[-500:]
+    return records
 
 
 def build_performance_summary(history, as_of=None):
