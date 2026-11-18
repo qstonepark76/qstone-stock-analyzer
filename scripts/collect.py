@@ -236,61 +236,104 @@ def normalize(rows):
             "volume": num(row, "ACC_TRDVOL", "accTrdVol", "volume"),
             "trading_value": num(row, "ACC_TRDVAL", "accTrdVal", "trading_value"),
             "market_cap": num(row, "MKTCAP", "mkcap", "market_cap"),
-            "sector": txt(row, "SECT_NM", "SECT_NM_KOR", "IDX_IND_NM", "INDUSTRY_NM", "IND_NM", "sector", "industry"),
+            "sector_raw": txt(row, "SECT_NM", "SECT_NM_KOR", "IDX_IND_NM", "INDUSTRY_NM", "IND_NM", "sector", "industry"),
         })
     return result
 
-SECTOR_KEYWORDS = [
-    ("반도체", ("반도체", "메모리", "웨이퍼")),
-    ("자동차", ("자동차", "완성차", "자동차 부품", "차량")),
-    ("은행", ("은행업", "은행", "저축은행")),
-    ("증권", ("증권", "투자매매", "금융투자")),
-    ("보험", ("보험업", "손해보험", "생명보험", "보험")),
-    ("바이오·제약", ("의약품", "제약", "바이오", "생명과학", "의료용 물질", "진단")),
-    ("2차전지", ("2차전지", "축전지", "배터리", "전지", "양극재", "음극재")),
-    ("IT·소프트웨어", ("소프트웨어", "정보서비스", "컴퓨터 프로그래밍", "시스템 통합", "게임", "전자상거래")),
-    ("전기전자·부품", ("전자부품", "전자제품", "전기장비", "디스플레이", "광학", "통신장비")),
-    ("방산·우주항공", ("항공기", "우주", "방위", "무기", "항공우주")),
-    ("조선·해운", ("선박", "조선", "해운", "선박 구성")),
-    ("기계·중공업", ("일반 목적용 기계", "특수 목적용 기계", "기계장비", "산업용 로봇", "엔진", "터빈")),
-    ("철강·금속", ("1차 철강", "철강", "제철", "비철금속", "금속", "강관")),
-    ("화학·소재", ("화학물질", "화학제품", "합성고무", "플라스틱", "고무", "정밀화학", "소재")),
-    ("에너지·정유", ("원유", "정유", "석유", "가스", "전력", "에너지", "태양광", "풍력")),
-    ("건설·건자재", ("건설업", "건축", "토목", "시멘트", "콘크리트", "건자재")),
-    ("음식료", ("식료품", "음료", "식품", "육류", "곡물", "제과")),
-    ("유통·소비재", ("종합 소매", "백화점", "대형마트", "유통", "생활용품", "가구", "화장품", "섬유", "의복")),
-    ("통신", ("전기 통신", "무선 통신", "통신업")),
-    ("운송·물류", ("항공 운송", "육상 운송", "운송", "물류", "택배", "창고")),
-    ("미디어·엔터", ("방송", "영화", "영상", "음악", "엔터테인먼트", "광고", "출판")),
-    ("금융지주", ("금융지주", "지주회사")),
+# Twelve investment-oriented sectors. Match official KRX sector first, then
+# the issuer's disclosed major products (Industry); never force unknowns into "Other".
+SECTOR_RULES = [
+    ("반도체·전자", ("반도체", "전자부품", "전자제품", "디스플레이", "광학", "전기장비", "통신장비", "전자기기")),
+    ("바이오·헬스케어", ("의약품", "제약", "바이오", "생명과학", "의료기기", "의료용 물질", "진단", "병원", "건강관리")),
+    ("자동차·모빌리티", ("자동차", "자동차부품", "자동차용", "차량", "완성차", "모빌리티")),
+    ("2차전지·소재", ("2차전지", "이차전지", "축전지", "배터리", "양극재", "음극재", "전지소재")),
+    ("금융", ("은행", "증권", "보험", "금융", "신용카드", "캐피탈", "자산운용", "투자업", "지주회사")),
+    ("IT·소프트웨어", ("소프트웨어", "정보서비스", "컴퓨터프로그래밍", "시스템통합", "게임", "전자상거래", "인터넷", "데이터처리", "IT서비스")),
+    ("산업재·방산", ("방위", "방산", "무기", "항공기", "우주항공", "조선", "선박", "기계장비", "산업용로봇", "철강", "제철", "비철금속", "금속", "엔진", "터빈", "철도차량")),
+    ("에너지·화학", ("원유", "정유", "석유", "가스", "전력", "에너지", "화학물질", "화학제품", "정밀화학", "합성고무", "플라스틱", "태양광", "풍력")),
+    ("건설·인프라", ("건설", "건축", "토목", "시멘트", "콘크리트", "건자재", "건축자재", "인프라")),
+    ("소비재·유통", ("식료품", "음료", "식품", "음식료", "육류", "곡물", "제과", "종합소매", "백화점", "대형마트", "유통", "생활용품", "가구", "화장품", "섬유", "의복", "패션")),
+    ("통신·미디어·엔터", ("전기통신", "무선통신", "통신업", "방송", "영화", "영상", "음악", "엔터테인먼트", "광고", "출판", "콘텐츠")),
+    ("운송·물류", ("항공운송", "육상운송", "해상운송", "운송", "물류", "택배", "창고", "해운", "항만")),
 ]
 
-def classify_sector(value):
-    text_value = str(value or "").replace(" ", "").lower()
-    if not text_value:
-        return None
-    for sector, keywords in SECTOR_KEYWORDS:
-        if any(str(keyword).replace(" ", "").lower() in text_value for keyword in keywords):
-            return sector
-    return "기타"
+def classify_sector(sector_value, industry_value=None):
+    """Map official KRX sector / disclosed major products into the 12 house sectors."""
+    sector_text = str(sector_value or "").replace(" ", "").lower()
+    industry_text = str(industry_value or "").replace(" ", "").lower()
+    for sector_name, keywords in SECTOR_RULES:
+        normalized = tuple(str(k).replace(" ", "").lower() for k in keywords)
+        if any(k in sector_text for k in normalized):
+            return sector_name, "high"
+    for sector_name, keywords in SECTOR_RULES:
+        normalized = tuple(str(k).replace(" ", "").lower() for k in keywords)
+        if any(k in industry_text for k in normalized):
+            return sector_name, "medium"
+    return None, None
+
+def _listing_ticker(row):
+    for key in ("Code", "Symbol", "ticker", "Ticker", "ISU_CD", "isuCd"):
+        value = row.get(key)
+        if value not in (None, ""):
+            digits = "".join(ch for ch in str(value).strip() if ch.isdigit())
+            if len(digits) >= 6:
+                return digits[-6:]
+    return ""
 
 def load_sector_classification():
-    """Load KRX listing industry metadata; never infer sectors from ticker digits."""
+    """Load KRX listing metadata, preferring KRX-DESC; log schema and never guess unknown sectors."""
     try:
         import FinanceDataReader as fdr
-        frame = fdr.StockListing("KRX")
-        result = {}
-        for row in frame.to_dict("records"):
-            ticker = str(row.get("Code") or row.get("Symbol") or "").zfill(6)
-            raw = " ".join(str(row.get(k) or "") for k in ("Sector", "Industry"))
-            sector = classify_sector(raw)
-            if ticker and sector:
-                result[ticker] = sector
-        print(f"[SECTOR] KRX 업종분류 {len(result)}개 종목 매칭", flush=True)
-        return result
     except Exception as exc:
-        print(f"[SECTOR] 업종분류 수집 실패: {str(exc)[:180]}", flush=True)
+        print(f"[SECTOR] FinanceDataReader 불러오기 실패: {str(exc)[:180]}", flush=True)
         return {}
+
+    best = {}
+    for listing_name in ("KRX-DESC", "KRX"):
+        try:
+            frame = fdr.StockListing(listing_name)
+            if frame is None or not hasattr(frame, "to_dict"):
+                print(f"[SECTOR] {listing_name} 응답이 DataFrame 형식이 아닙니다.", flush=True)
+                continue
+            records = frame.to_dict("records")
+            columns = list(getattr(frame, "columns", []))
+            print(f"[SECTOR] {listing_name} 행={len(records)}, 컬럼={columns[:18]}", flush=True)
+            mapped = {}
+            raw_sector_count = 0
+            raw_industry_count = 0
+            for row in records:
+                ticker = _listing_ticker(row)
+                if not ticker:
+                    continue
+                sector_raw = next((str(row.get(k)).strip() for k in ("Sector", "sector", "업종", "업종명") if row.get(k) not in (None, "")), "")
+                industry_raw = next((str(row.get(k)).strip() for k in ("Industry", "industry", "주요제품", "주요 제품") if row.get(k) not in (None, "")), "")
+                raw_sector_count += bool(sector_raw)
+                raw_industry_count += bool(industry_raw)
+                category, confidence = classify_sector(sector_raw, industry_raw)
+                if not category:
+                    continue
+                mapped[ticker] = {
+                    "sector": category,
+                    "sector_raw": sector_raw,
+                    "sector_industry": industry_raw,
+                    "sector_source": listing_name,
+                    "sector_confidence": confidence,
+                }
+            print(
+                f"[SECTOR] {listing_name}: 업종값 {raw_sector_count}건, 주요제품값 {raw_industry_count}건, "
+                f"분류성공 {len(mapped)}종목",
+                flush=True,
+            )
+            if len(mapped) > len(best):
+                best = mapped
+            # A non-empty DESC result is preferred; KRX is only a fallback.
+            if listing_name == "KRX-DESC" and mapped:
+                break
+        except Exception as exc:
+            print(f"[SECTOR] {listing_name} 수집 실패: {str(exc)[:180]}", flush=True)
+
+    print(f"[SECTOR] 최종 KRX 업종분류 {len(best)}개 종목 매칭", flush=True)
+    return best
 
 def load_cache():
     if CACHE_FILE.exists():
@@ -754,7 +797,16 @@ def main():
     stocks = sorted(cap_covered, key=lambda x: x["market_cap"], reverse=True)[:300]
     sector_map = load_sector_classification()
     for stock in stocks:
-        stock["sector"] = sector_map.get(stock["ticker"]) or stock.get("sector") or None
+        metadata = sector_map.get(stock["ticker"])
+        if metadata:
+            stock.update(metadata)
+        else:
+            # Last-resort classification uses only an actual KRX daily sector field.
+            fallback, confidence = classify_sector(stock.get("sector_raw"))
+            stock["sector"] = fallback
+            stock["sector_source"] = "KRX daily field" if fallback else None
+            stock["sector_confidence"] = confidence
+            stock["sector_industry"] = None
     history_files = sorted(history.glob("*.json"))[-160:]
     snapshots = []
     for path in history_files:
@@ -923,7 +975,7 @@ def main():
     perf_file.write_text(json.dumps(perf[-500:], ensure_ascii=False, indent=2), encoding="utf-8")
 
     def compact(items, list_key):
-        keys = ["ticker", "name", "sector", "close", "change_pct", "market_cap", "per", "pbr", "valuation_as_of", "net_income", "equity_total", "score", "provisional_score", "score_coverage_pct", "grade", "provisional_grade", "status", "official_recommendation_eligible", "component_scores", "component_coverage_pct", "financial_score", "growth_score", "momentum_score", "foreign_flow_score", "institution_flow_score", "roe_pct", "sales_growth_pct", "operating_profit_growth_pct", "momentum_5d", "momentum_20d", "momentum_60d", "history_observations", "trading_value", "foreign_net_buy_qty_5d", "institution_net_buy_qty_5d", "foreign_flow_5d_pct", "institution_flow_5d_pct", "investor_flow_as_of", "investor_flow_sessions", "reason", "risk_factors", "analyst_report_count", "analyst_broker_count", "analyst_avg_target_price", "analyst_avg_upside_pct", "analyst_rating_score", "analyst_consensus_score", "analyst_consensus_coverage_pct", "analyst_latest_report_date", "analyst_target_revision_pct", "analyst_recent_reports", "analyst_monthly_report_counts", "analyst_sources"]
+        keys = ["ticker", "name", "sector", "sector_raw", "sector_industry", "sector_source", "sector_confidence", "close", "change_pct", "market_cap", "per", "pbr", "valuation_as_of", "net_income", "equity_total", "score", "provisional_score", "score_coverage_pct", "grade", "provisional_grade", "status", "official_recommendation_eligible", "component_scores", "component_coverage_pct", "financial_score", "growth_score", "momentum_score", "foreign_flow_score", "institution_flow_score", "roe_pct", "sales_growth_pct", "operating_profit_growth_pct", "momentum_5d", "momentum_20d", "momentum_60d", "history_observations", "trading_value", "foreign_net_buy_qty_5d", "institution_net_buy_qty_5d", "foreign_flow_5d_pct", "institution_flow_5d_pct", "investor_flow_as_of", "investor_flow_sessions", "reason", "risk_factors", "analyst_report_count", "analyst_broker_count", "analyst_avg_target_price", "analyst_avg_upside_pct", "analyst_rating_score", "analyst_consensus_score", "analyst_consensus_coverage_pct", "analyst_latest_report_date", "analyst_target_revision_pct", "analyst_recent_reports", "analyst_monthly_report_counts", "analyst_sources"]
         out = []
         for x in items:
             row = {k: x.get(k) for k in keys}
@@ -955,7 +1007,7 @@ def main():
         "top15": compact(official, "overall"),
         "analyst_upgrades_in_top15": compact(analyst_upgrades_in_top15, "overall"),
         "performance": {"snapshots": len(perf), "note": "추천일 종가 대비 실제 후속 거래일 종가로 1주(5일)·1개월(21일)·3개월(63일) 평균수익률 계산. KOSPI 지수 이력이 확보된 구간은 동일 거래일 기준 상대성과도 계산."},
-        "data_quality": {"label": "v3.2 베타 · 시가총액 상위 300개 · 가격 이력 누적", "note": dart_note + ". " + kis_note + ". " + analyst_note + ". PER/PBR은 KRX 시가총액과 OpenDART 최신 연간 순이익·자본총계로 산출하며 적자·자본잠식은 제외합니다.", "official_top15_count": len(official), "sector_classified_count": sum(1 for x in stocks if x.get("sector")), "sector_count": len(sector_top5), "coverage_gate": "7개 평가영역의 실제 확보 가중치가 100%일 때만 공식 추천 점수/등급 부여", "financial_universe_batch": FINANCIAL_UNIVERSE, "financial_universe_total": len(stocks), "market_cap_covered_count": len(cap_covered), "universe_limit": 300, "history_sessions_available": history_sessions_available, "history_sessions_required": 61, "history_progress_pct": round(min(history_sessions_available, 61) / 61 * 100, 1), "kis_flow_coverage_count": len(investor_flows), "foreign_flow_coverage_count": sum(1 for x in stocks if x.get("foreign_flow_5d_pct") is not None), "institution_flow_coverage_count": sum(1 for x in stocks if x.get("institution_flow_5d_pct") is not None), "analyst_covered_stock_count": len(analyst_data), "analyst_three_broker_count": sum(1 for x in analyst_data.values() if x.get("analyst_broker_count", 0) >= 3), "analyst_full_factor_coverage_count": sum(1 for x in analyst_data.values() if x.get("analyst_consensus_coverage_pct", 0) >= 99.99), "analyst_revision_covered_count": sum(1 for x in analyst_data.values() if x.get("analyst_target_revision_pct") is not None), "analyst_upgrades_in_top15_count": len(analyst_upgrades_in_top15)},
+        "data_quality": {"label": "v3.2 베타 · 시가총액 상위 300개 · 가격 이력 누적", "note": dart_note + ". " + kis_note + ". " + analyst_note + ". PER/PBR은 KRX 시가총액과 OpenDART 최신 연간 순이익·자본총계로 산출하며 적자·자본잠식은 제외합니다.", "official_top15_count": len(official), "sector_classified_count": sum(1 for x in stocks if x.get("sector")), "sector_unclassified_count": sum(1 for x in stocks if not x.get("sector")), "sector_classification_pct": round(100 * sum(1 for x in stocks if x.get("sector")) / len(stocks), 1) if stocks else 0, "sector_classification_source_count": len(sector_map), "sector_count": len(sector_top5), "coverage_gate": "7개 평가영역의 실제 확보 가중치가 100%일 때만 공식 추천 점수/등급 부여", "financial_universe_batch": FINANCIAL_UNIVERSE, "financial_universe_total": len(stocks), "market_cap_covered_count": len(cap_covered), "universe_limit": 300, "history_sessions_available": history_sessions_available, "history_sessions_required": 61, "history_progress_pct": round(min(history_sessions_available, 61) / 61 * 100, 1), "kis_flow_coverage_count": len(investor_flows), "foreign_flow_coverage_count": sum(1 for x in stocks if x.get("foreign_flow_5d_pct") is not None), "institution_flow_coverage_count": sum(1 for x in stocks if x.get("institution_flow_5d_pct") is not None), "analyst_covered_stock_count": len(analyst_data), "analyst_three_broker_count": sum(1 for x in analyst_data.values() if x.get("analyst_broker_count", 0) >= 3), "analyst_full_factor_coverage_count": sum(1 for x in analyst_data.values() if x.get("analyst_consensus_coverage_pct", 0) >= 99.99), "analyst_revision_covered_count": sum(1 for x in analyst_data.values() if x.get("analyst_target_revision_pct") is not None), "analyst_upgrades_in_top15_count": len(analyst_upgrades_in_top15)},
         "providers": {"krx": "connected", "kospi_index": "connected" if kospi else "configured_no_data", "opendart": "connected" if financial else ("configured_no_data" if DART_KEY else "not_configured"), "investor_flows": "connected" if investor_flows else ("configured_no_data" if os.getenv("KIS_APP_KEY") and os.getenv("KIS_APP_SECRET") else "not_configured"), "valuation": "connected" if any(x.get("per") is not None or x.get("pbr") is not None for x in stocks) else "configured_no_data", "analyst_consensus": "connected" if analyst_data else "configured_no_data"},
         "model": {"version": "3.2-beta", "weights": {"financial_health_profitability": 20, "growth": 20, "price_momentum": 15, "foreign_flow": 15, "institution_flow": 10, "valuation_per_pbr": 10, "broker_outlook": 10}, "grade_thresholds": {"S": 90, "A": 80, "B": 70, "C": 60, "excluded": 0}, "note": "확정 100점 배점 유지. 부분 데이터는 provisional_score로만 표시하고 공식 score/grade를 부여하지 않음. 모멘텀은 현재 종가를 포함해 61개 거래일 종가(직전 60거래일 비교)가 누적되어야 산출."}
     }
