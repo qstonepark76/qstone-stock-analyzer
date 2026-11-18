@@ -106,11 +106,34 @@ def verify_candidate(row, krx_names, asof):
 
 
 def merge_ledger(existing, verified):
+    """Merge unique reports and derive prior target from the same broker's older report."""
     by_key = {}
     for report in existing + verified:
         key = (report.get("ticker"), report.get("broker"), report.get("published_at"), report.get("source_url"))
         by_key[key] = report
-    return sorted(by_key.values(), key=lambda r: (r.get("published_at", ""), r.get("ticker", ""), r.get("broker", "")), reverse=True)
+
+    reports = list(by_key.values())
+    grouped = {}
+    for report in reports:
+        grouped.setdefault((report.get("ticker"), report.get("broker")), []).append(report)
+
+    for rows in grouped.values():
+        rows.sort(key=lambda r: (r.get("published_at", ""), r.get("source_url", "")))
+        prior_target = None
+        prior_date = None
+        for report in rows:
+            current_date = str(report.get("published_at") or "")
+            current_target = normalize_target(report.get("target_price"))
+            # Only a strictly earlier report from the same broker can be the baseline.
+            if prior_target is not None and prior_date and prior_date < current_date:
+                report["previous_target_price"] = prior_target
+                report["previous_target_source_date"] = prior_date
+                report["previous_target_method"] = "same_broker_previous_verified_report"
+            if current_target is not None:
+                prior_target = current_target
+                prior_date = current_date
+
+    return sorted(reports, key=lambda r: (r.get("published_at", ""), r.get("ticker", ""), r.get("broker", "")), reverse=True)
 
 
 def main():
