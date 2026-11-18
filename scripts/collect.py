@@ -301,7 +301,7 @@ def _listing_ticker(row):
     return ""
 
 def classify_industry_code(industry_code):
-    """Map an actual KSIC industry code (OpenDART induty_code) to the 12 house sectors."""
+    """Map OpenDART's official company industry code to the 12 house sectors."""
     code = "".join(ch for ch in str(industry_code or "") if ch.isdigit())
     if len(code) < 2:
         return None
@@ -309,7 +309,7 @@ def classify_industry_code(industry_code):
     # KSIC 582 is software publishing; other 58-61 codes are media/broadcast/telecom.
     if code.startswith("582"):
         return "IT·소프트웨어"
-    if prefix == 28 and code.startswith(("2820", "28202")):
+    if prefix == 28 and (code == "282" or code.startswith("2820")):
         return "2차전지·소재"
     if prefix in (5, 19, 20, 22, 35):
         return "에너지·화학"
@@ -339,7 +339,7 @@ def classify_industry_code(industry_code):
 
 
 def load_dart_sector_classification(stocks):
-    """Fetch official OpenDART company KSIC codes, cache them, and classify without name guessing."""
+    """Fetch official OpenDART company industry codes, cache them, and classify without name guessing."""
     if not DART_KEY:
         return {}, "OpenDART 업종코드: DART_AUTH_KEY 미등록"
     try:
@@ -398,12 +398,12 @@ def load_dart_sector_classification(stocks):
             results[ticker] = {
                 "sector": category,
                 "sector_industry_code": code,
-                "sector_source": "OpenDART KSIC",
+                "sector_source": "OpenDART industry code",
                 "sector_confidence": "high",
             }
 
     SECTOR_CACHE_FILE.write_text(json.dumps(cache, ensure_ascii=False, indent=2), encoding="utf-8")
-    note = f"OpenDART KSIC 업종코드: {len(results)}/{len(stocks)}개 분류, 이번 회차 신규 조회 {requested}개, 미확보 {errors}개"
+    note = f"OpenDART 업종코드: {len(results)}/{len(stocks)}개 분류, 이번 회차 신규 조회 {requested}개, 미확보 {errors}개"
     print("[SECTOR DART] " + note, flush=True)
     return results, note
 
@@ -1161,7 +1161,7 @@ def main():
         "top15": compact(official, "overall"),
         "analyst_upgrades_in_top15": compact(analyst_upgrades_in_top15, "overall"),
         "performance": {"snapshots": len(perf), "note": "추천일 종가 대비 실제 후속 거래일 종가로 1주(5일)·1개월(21일)·3개월(63일) 평균수익률 계산. KOSPI 지수 이력이 확보된 구간은 동일 거래일 기준 상대성과도 계산."},
-        "data_quality": {"label": "v3.2 베타 · 시가총액 상위 300개 · 가격 이력 누적", "note": dart_note + ". " + sector_note + ". " + kis_note + ". " + analyst_note + ". PER/PBR은 KRX 시가총액과 OpenDART 최신 연간 순이익·자본총계로 산출하며 적자·자본잠식은 제외합니다.", "official_top15_count": len(official), "sector_classified_count": sum(1 for x in stocks if x.get("sector")), "sector_unclassified_count": sum(1 for x in stocks if not x.get("sector")), "sector_classification_pct": round(100 * sum(1 for x in stocks if x.get("sector")) / len(stocks), 1) if stocks else 0, "sector_classification_source_count": sum(1 for x in stocks if x.get("sector")), "sector_classification_sources": {"opendart_ksic": sum(1 for x in stocks if x.get("sector_source") == "OpenDART KSIC"), "fdr_krx_desc": sum(1 for x in stocks if x.get("sector_source") == "KRX-DESC")}, "sector_count": len(sector_summary), "coverage_gate": "7개 평가영역의 실제 확보 가중치가 100%일 때만 공식 추천 점수/등급 부여", "financial_universe_batch": FINANCIAL_UNIVERSE, "financial_universe_total": len(stocks), "market_cap_covered_count": len(cap_covered), "universe_limit": 300, "history_sessions_available": history_sessions_available, "history_sessions_required": 61, "history_progress_pct": round(min(history_sessions_available, 61) / 61 * 100, 1), "kis_flow_coverage_count": len(investor_flows), "foreign_flow_coverage_count": sum(1 for x in stocks if x.get("foreign_flow_5d_pct") is not None), "institution_flow_coverage_count": sum(1 for x in stocks if x.get("institution_flow_5d_pct") is not None), "analyst_covered_stock_count": len(analyst_data), "analyst_three_broker_count": sum(1 for x in analyst_data.values() if x.get("analyst_broker_count", 0) >= 3), "analyst_full_factor_coverage_count": sum(1 for x in analyst_data.values() if x.get("analyst_consensus_coverage_pct", 0) >= 99.99), "analyst_revision_covered_count": sum(1 for x in analyst_data.values() if x.get("analyst_target_revision_pct") is not None), "analyst_upgrades_in_top15_count": len(analyst_upgrades_in_top15)},
+        "data_quality": {"label": "v3.2 베타 · 시가총액 상위 300개 · 가격 이력 누적", "note": dart_note + ". " + sector_note + ". " + kis_note + ". " + analyst_note + ". PER/PBR은 KRX 시가총액과 OpenDART 최신 연간 순이익·자본총계로 산출하며 적자·자본잠식은 제외합니다.", "official_top15_count": len(official), "sector_classified_count": sum(1 for x in stocks if x.get("sector")), "sector_unclassified_count": sum(1 for x in stocks if not x.get("sector")), "sector_classification_pct": round(100 * sum(1 for x in stocks if x.get("sector")) / len(stocks), 1) if stocks else 0, "sector_classification_source_count": sum(1 for x in stocks if x.get("sector")), "sector_classification_sources": {"opendart_industry_code": sum(1 for x in stocks if x.get("sector_source") == "OpenDART industry code"), "fdr_krx_desc": sum(1 for x in stocks if x.get("sector_source") == "KRX-DESC")}, "sector_count": len(sector_summary), "coverage_gate": "7개 평가영역의 실제 확보 가중치가 100%일 때만 공식 추천 점수/등급 부여", "financial_universe_batch": FINANCIAL_UNIVERSE, "financial_universe_total": len(stocks), "market_cap_covered_count": len(cap_covered), "universe_limit": 300, "history_sessions_available": history_sessions_available, "history_sessions_required": 61, "history_progress_pct": round(min(history_sessions_available, 61) / 61 * 100, 1), "kis_flow_coverage_count": len(investor_flows), "foreign_flow_coverage_count": sum(1 for x in stocks if x.get("foreign_flow_5d_pct") is not None), "institution_flow_coverage_count": sum(1 for x in stocks if x.get("institution_flow_5d_pct") is not None), "analyst_covered_stock_count": len(analyst_data), "analyst_three_broker_count": sum(1 for x in analyst_data.values() if x.get("analyst_broker_count", 0) >= 3), "analyst_full_factor_coverage_count": sum(1 for x in analyst_data.values() if x.get("analyst_consensus_coverage_pct", 0) >= 99.99), "analyst_revision_covered_count": sum(1 for x in analyst_data.values() if x.get("analyst_target_revision_pct") is not None), "analyst_upgrades_in_top15_count": len(analyst_upgrades_in_top15)},
         "providers": {"krx": "connected", "kospi_index": "connected" if kospi else "configured_no_data", "opendart": "connected" if financial else ("configured_no_data" if DART_KEY else "not_configured"), "investor_flows": "connected" if investor_flows else ("configured_no_data" if os.getenv("KIS_APP_KEY") and os.getenv("KIS_APP_SECRET") else "not_configured"), "valuation": "connected" if any(x.get("per") is not None or x.get("pbr") is not None for x in stocks) else "configured_no_data", "analyst_consensus": "connected" if analyst_data else "configured_no_data"},
         "model": {"version": "3.2-beta", "weights": {"financial_health_profitability": 20, "growth": 20, "price_momentum": 15, "foreign_flow": 15, "institution_flow": 10, "valuation_per_pbr": 10, "broker_outlook": 10}, "grade_thresholds": {"S": 90, "A": 80, "B": 70, "C": 60, "excluded": 0}, "note": "확정 100점 배점 유지. 부분 데이터는 provisional_score로만 표시하고 공식 score/grade를 부여하지 않음. 모멘텀은 현재 종가를 포함해 61개 거래일 종가(직전 60거래일 비교)가 누적되어야 산출."}
     }
