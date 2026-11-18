@@ -72,6 +72,7 @@ def load_and_score_consensus(stocks, asof):
             "published": published, "broker": broker, "target": target,
             "previous": previous, "rating_score": rating_score,
             "source_url": url, "rating": str(report.get("rating", "")).strip(),
+            "title": str(report.get("title", "")).strip(),
         })
 
     target_upside, target_revision = {}, {}
@@ -90,6 +91,29 @@ def load_and_score_consensus(stocks, asof):
             (r["target"] / r["previous"] - 1) * 100
             for r in fresh if r["target"] is not None and r["previous"] not in (None, 0)
         ]
+        recent_rows = [r for r in rows if (asof - r["published"]).days <= 90]
+        recent_rows.sort(key=lambda r: r["published"], reverse=True)
+        recent_reports = [{
+            "published_at": r["published"].isoformat(), "broker": r["broker"],
+            "rating": r["rating"], "target_price": r["target"],
+            "previous_target_price": r["previous"],
+            "target_revision_pct": round((r["target"] / r["previous"] - 1) * 100, 2)
+                if r["target"] is not None and r["previous"] not in (None, 0) else None,
+            "title": r["title"], "source_url": r["source_url"],
+        } for r in recent_rows[:5]]
+        month_keys = []
+        for offset in (2, 1, 0):
+            year, month = asof.year, asof.month - offset
+            while month <= 0:
+                year -= 1
+                month += 12
+            month_keys.append(f"{year:04d}-{month:02d}")
+        monthly_counts = {key: 0 for key in month_keys}
+        for r in rows:
+            key = r["published"].strftime("%Y-%m")
+            if key in monthly_counts:
+                monthly_counts[key] += 1
+        monthly_report_counts = [{"month": key, "count": monthly_counts[key]} for key in month_keys]
         stock = universe[ticker]
         avg_target = sum(usable_targets) / len(usable_targets) if usable_targets else None
         upside = (avg_target / stock["close"] - 1) * 100 if avg_target is not None and stock.get("close") else None
@@ -102,8 +126,10 @@ def load_and_score_consensus(stocks, asof):
             "analyst_latest_report_date": max((r["published"] for r in fresh), default=None).isoformat() if fresh else None,
             "analyst_rating_score": sum(usable_ratings) / len(usable_ratings) if usable_ratings else None,
             "analyst_upside_pct": upside,
-            "analyst_target_revision_pct": revision,
             "analyst_sources": sorted({r["source_url"] for r in fresh}),
+            "analyst_target_revision_pct": round(revision, 2) if revision is not None else None,
+            "analyst_recent_reports": recent_reports,
+            "analyst_monthly_report_counts": monthly_report_counts,
             "analyst_consensus_score": None,
             "analyst_consensus_coverage_pct": 0.0,
         }
