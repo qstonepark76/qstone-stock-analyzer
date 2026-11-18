@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "source": "Naver Stock Research API v2",
-  "collected_at": "2026-11-18T04:05:53.350136+00:00",
+  "collected_at": "2026-11-18T05:42:35.159275+00:00",
   "candidate_count": 1500,
   "source_total_count": "90365",
   "verified_for_scoring": 1139,
@@ -99,9 +99,9 @@
       "verification_status": "verified",
       "source_opinion_type": "buy",
       "source_opinion_text": "Buy",
-      "source_goal_price": "210000",
+      "source_goal_price": "310000",
       "rating": "매수",
-      "target_price": 210000
+      "target_price": 310000
     },
     {
       "company": "대한해운",
