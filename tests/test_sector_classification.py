@@ -36,6 +36,34 @@ class SectorClassificationTests(unittest.TestCase):
         self.assertEqual(collect._listing_ticker({"ISU_CD": "KR7005930003"}), "005930")
         self.assertEqual(collect._listing_ticker({"Symbol": 5930}), "005930")
 
+    def test_official_ksic_codes_map_to_the_twelve_house_sectors(self):
+        examples = {
+            "26110": "반도체·전자",
+            "21210": "바이오·헬스케어",
+            "30110": "자동차·모빌리티",
+            "28202": "2차전지·소재",
+            "64110": "금융",
+            "62010": "IT·소프트웨어",
+            "29210": "산업재·방산",
+            "20129": "에너지·화학",
+            "41100": "건설·인프라",
+            "10710": "소비재·유통",
+            "59111": "통신·미디어·엔터",
+            "49300": "운송·물류",
+        }
+        for code, expected in examples.items():
+            with self.subTest(code=code):
+                self.assertEqual(collect.classify_industry_code(code), expected)
+
+    def test_nan_listing_cells_are_not_treated_as_real_sector_text(self):
+        frame = FakeFrame([
+            {"Code": "005930", "Name": "삼성전자", "Sector": float("nan"), "Industry": float("nan")}
+        ])
+        fake_module = SimpleNamespace(StockListing=lambda name: frame)
+        with patch.dict(sys.modules, {"FinanceDataReader": fake_module}):
+            result = collect.load_sector_classification()
+        self.assertEqual(result, {})
+
     def test_listing_prefers_krx_desc_and_keeps_source_metadata(self):
         calls = []
 
