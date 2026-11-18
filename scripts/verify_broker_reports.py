@@ -94,6 +94,7 @@ def verify_candidate(row, krx_names, asof):
         "company": company,
         "broker": broker,
         "published_at": published,
+        "title": str(row.get("title") or "").strip() or None,
         "rating": rating,
         "target_price": target,
         "previous_target_price": None,
