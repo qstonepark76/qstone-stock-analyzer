@@ -41,6 +41,9 @@ jobs:
         run: python -m unittest discover -s tests -v
 
       - name: Discover public brokerage report candidates
+        env:
+          REPORT_DISCOVERY_PAGES: "30"
+          REPORT_DISCOVERY_PAGE_SIZE: "50"
         run: python -u scripts/discover_broker_reports.py
 
       - name: Verify and promote explicit brokerage report fields
