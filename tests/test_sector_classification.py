@@ -33,8 +33,8 @@ class SectorClassificationTests(unittest.TestCase):
         self.assertEqual(collect.classify_sector("분류 불명 업종", "특이 사업"), (None, None))
 
     def test_ticker_normalization_accepts_isin_and_numeric_code(self):
-        self.assertEqual(collect._listing_ticker({"Code": "KR7005930003"}), "930003")
-        self.assertEqual(collect._listing_ticker({"Symbol": 5930}), "")
+        self.assertEqual(collect._listing_ticker({"ISU_CD": "KR7005930003"}), "005930")
+        self.assertEqual(collect._listing_ticker({"Symbol": 5930}), "005930")
 
     def test_listing_prefers_krx_desc_and_keeps_source_metadata(self):
         calls = []
