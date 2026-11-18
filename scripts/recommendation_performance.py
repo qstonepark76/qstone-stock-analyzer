@@ -168,7 +168,7 @@ def build_performance_summary(history, as_of=None):
         horizons = {}
         for horizon in HORIZONS:
             returns, benchmarks, excess = [], [], []
-            evaluated = positive = outperform = 0
+            evaluated = positive = outperform = benchmark_evaluated = 0
             completed_days = 0
             for record in history:
                 result = (record.get("strategy_results") or {}).get(key)
@@ -181,7 +181,7 @@ def build_performance_summary(history, as_of=None):
                 count = result.get("counts", {}).get(horizon, {})
                 evaluated += int(count.get("evaluated", 0))
                 positive += int(count.get("positive", 0))
-                outperform += int(count.get("outperform", 0))
+                outperform += int(count.get("outperform", 0))\n                benchmark_evaluated += int(count.get("benchmark_evaluated", 0))
                 # Weight average returns by actual stock observations, not by days.
                 stock_values = list((result.get("stock_returns", {}).get(horizon) or {}).values())
                 returns.extend(stock_values)
@@ -196,7 +196,7 @@ def build_performance_summary(history, as_of=None):
                 "average_kospi_return": round(sum(benchmarks) / len(benchmarks), 2) if benchmarks else None,
                 "average_excess_return": round(sum(excess) / len(excess), 2) if excess else None,
                 "absolute_success_rate": round(100 * positive / evaluated, 1) if evaluated else None,
-                "outperform_success_rate": round(100 * outperform / evaluated, 1) if evaluated and benchmarks else None,
+                "outperform_success_rate": round(100 * outperform / benchmark_evaluated, 1) if benchmark_evaluated else None,
                 "evaluated_count": evaluated,
                 "completed_recommendation_days": completed_days,
             }
