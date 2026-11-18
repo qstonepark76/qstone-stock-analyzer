@@ -36,21 +36,21 @@ class SectorClassificationTests(unittest.TestCase):
         self.assertEqual(collect._listing_ticker({"ISU_CD": "KR7005930003"}), "005930")
         self.assertEqual(collect._listing_ticker({"Symbol": 5930}), "005930")
 
-    def test_official_ksic_codes_map_to_the_twelve_house_sectors(self):
+    def test_opendart_industry_codes_map_to_the_twelve_house_sectors(self):
         examples = {
-            "26110": "반도체·전자",
-            "21210": "바이오·헬스케어",
-            "30110": "자동차·모빌리티",
-            "28202": "2차전지·소재",
-            "64110": "금융",
-            "62010": "IT·소프트웨어",
-            "58221": "IT·소프트웨어",
-            "29210": "산업재·방산",
-            "20129": "에너지·화학",
-            "41100": "건설·인프라",
-            "10710": "소비재·유통",
-            "59111": "통신·미디어·엔터",
-            "49300": "운송·물류",
+            "264": "반도체·전자",
+            "212": "바이오·헬스케어",
+            "301": "자동차·모빌리티",
+            "282": "2차전지·소재",
+            "641": "금융",
+            "620": "IT·소프트웨어",
+            "582": "IT·소프트웨어",
+            "292": "산업재·방산",
+            "201": "에너지·화학",
+            "411": "건설·인프라",
+            "107": "소비재·유통",
+            "591": "통신·미디어·엔터",
+            "493": "운송·물류",
         }
         for code, expected in examples.items():
             with self.subTest(code=code):
