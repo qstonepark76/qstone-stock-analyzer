@@ -22,5 +22,80 @@
       "1m": null,
       "3m": null
     }
+  },
+  {
+    "as_of": "2026-11-17",
+    "tickers": [
+      {
+        "ticker": "068270",
+        "name": "셀트리온",
+        "close": 213000.0
+      },
+      {
+        "ticker": "003230",
+        "name": "삼양식품",
+        "close": 1271000.0
+      },
+      {
+        "ticker": "086280",
+        "name": "현대글로비스",
+        "close": 201000.0
+      },
+      {
+        "ticker": "128940",
+        "name": "한미약품",
+        "close": 448500.0
+      },
+      {
+        "ticker": "161390",
+        "name": "한국타이어앤테크놀로지",
+        "close": 63600.0
+      },
+      {
+        "ticker": "062040",
+        "name": "산일전기",
+        "close": 111000.0
+      },
+      {
+        "ticker": "010140",
+        "name": "삼성중공업",
+        "close": 16000.0
+      },
+      {
+        "ticker": "079550",
+        "name": "LIG디펜스앤에어로스페이스",
+        "close": 345500.0
+      },
+      {
+        "ticker": "192820",
+        "name": "코스맥스",
+        "close": 292500.0
+      },
+      {
+        "ticker": "214320",
+        "name": "이노션",
+        "close": 17450.0
+      }
+    ],
+    "returns": {
+      "1w": null,
+      "1m": null,
+      "3m": null
+    },
+    "stock_returns": {
+      "1w": {},
+      "1m": {},
+      "3m": {}
+    },
+    "kospi_returns": {
+      "1w": null,
+      "1m": null,
+      "3m": null
+    },
+    "excess_returns": {
+      "1w": null,
+      "1m": null,
+      "3m": null
+    }
   }
 ]
