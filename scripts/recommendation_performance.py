@@ -21,7 +21,7 @@ def _read_json(path, default):
         return default
 
 
-def _stock_snapshot(items):
+def _stock_snapshot(items, strategy_key="overall"):
     output = []
     seen = set()
     for item in items or []:
@@ -34,7 +34,7 @@ def _stock_snapshot(items):
             "ticker": ticker,
             "name": item.get("name", ticker),
             "close": float(close),
-            "score": item.get("list_score", item.get("score")),
+            "score": item.get("list_score") if item.get("list_score") is not None else (\n                item.get("financial_score") if strategy_key == "financial" else\n                item.get("growth_score") if strategy_key == "growth" else\n                (item.get("component_scores") or {}).get("valuation") if strategy_key == "undervalued" else\n                item.get("momentum_score") if strategy_key == "momentum" else\n                item.get("foreign_flow_score") if strategy_key == "foreign_flow" else\n                item.get("institution_flow_score") if strategy_key == "institution_flow" else\n                item.get("score")\n            ),
             "sector": item.get("sector"),
         })
     return output
@@ -57,7 +57,7 @@ def update_recommendation_performance(history, price_history_dir, index_history_
         strategies = record.setdefault("strategies", {})
         for key, items in (lists or {}).items():
             if key in STRATEGY_LABELS and (key not in strategies or not strategies[key]):
-                strategies[key] = _stock_snapshot(items)
+                strategies[key] = _stock_snapshot(items, key)
         if not record.get("tickers") and strategies.get("overall"):
             record["tickers"] = strategies["overall"]
 
