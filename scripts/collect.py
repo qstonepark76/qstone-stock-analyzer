@@ -274,10 +274,19 @@ def classify_sector(sector_value, industry_value=None):
 def _listing_ticker(row):
     for key in ("Code", "Symbol", "ticker", "Ticker", "ISU_CD", "isuCd"):
         value = row.get(key)
-        if value not in (None, ""):
-            digits = "".join(ch for ch in str(value).strip() if ch.isdigit())
-            if len(digits) >= 6:
-                return digits[-6:]
+        if value in (None, ""):
+            continue
+        raw = str(value).strip()
+        # KRX ISIN format: KR + security type + six-digit issue code + check digit.
+        if key in ("ISU_CD", "isuCd") and raw.upper().startswith("KR") and len(raw) == 12:
+            digits = "".join(ch for ch in raw[3:9] if ch.isdigit())
+            if len(digits) == 6:
+                return digits
+        digits = "".join(ch for ch in raw if ch.isdigit())
+        if 1 <= len(digits) <= 6:
+            return digits.zfill(6)
+        if len(digits) > 6:
+            return digits[-6:]
     return ""
 
 def load_sector_classification():
