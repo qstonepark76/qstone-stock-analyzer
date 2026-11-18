@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Q Stone Park | Equity Intelligence v3.2</title>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Q Stone Park | Equity Intelligence v3.2</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root{color-scheme:light;--bg:#f3f6fa;--paper:#fff;--ink:#192b40;--muted:#718198;--line:#e3eaf1;--navy:#122b46;--navy2:#244e70;--soft:#edf3f8;--green:#16845b;--red:#d34d58;--gold:#a8792b;--shadow:0 7px 24px rgba(23,45,68,.06)}
 :root[data-theme=dark]{color-scheme:dark;--bg:#0d1724;--paper:#142235;--ink:#e4edf6;--muted:#9bacc0;--line:#2a3b50;--navy:#d8e6f3;--navy2:#9cb8d2;--soft:#20344a;--green:#52c59a;--red:#ff7d86;--gold:#d8b56f;--shadow:0 8px 26px rgba(0,0,0,.2)}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px Inter,Arial,'Malgun Gothic',sans-serif;transition:background .2s,color .2s}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px 'Noto Sans KR',Pretendard,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;transition:background .2s,color .2s}
 header{background:linear-gradient(115deg,#10243d,#214d70);color:#fff;padding:25px max(20px,calc((100% - 1440px)/2));position:relative;overflow:hidden}header:after{content:"";position:absolute;width:390px;height:390px;border:1px solid #ffffff18;border-radius:50%;right:8%;top:-290px;box-shadow:0 0 0 42px #ffffff08,0 0 0 86px #ffffff06}.brand{font-size:11px;letter-spacing:2.5px;color:#b6cce0;font-weight:800}.head{display:flex;justify-content:space-between;align-items:end;gap:18px;position:relative;z-index:1}h1{font-size:27px;letter-spacing:-.7px;margin:8px 0}.sub{font-size:12px;color:#d0deeb}.version{font-size:10px;border:1px solid #ffffff45;border-radius:30px;padding:8px 12px;white-space:nowrap}
 main{max-width:1440px;margin:auto;padding:22px 20px 40px}.toolbar,.sectionhead,.row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.muted,.asof{color:var(--muted);font-size:11px}button,input{font:inherit}button{cursor:pointer;border:1px solid var(--line);background:var(--paper);color:var(--ink);padding:9px 12px;border-radius:9px;font-weight:700}button.primary{background:#173653;color:white;border-color:#173653}button.active{background:#173653;color:white}.toolbar{margin-bottom:15px}.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.card,.panel{background:var(--paper);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}.card{padding:16px;min-height:108px}.label{font-size:10px;color:var(--muted);font-weight:700}.big{font-size:26px;font-weight:850;color:var(--navy);margin:8px 0 4px;letter-spacing:-.6px}.foot{font-size:10px;color:var(--muted)}
 .grid2{display:grid;grid-template-columns:1.1fr 1fr;gap:12px;margin-top:13px}.panel{padding:17px}.sectionhead{margin:23px 0 11px}.sectionhead h2{font-size:16px;margin:0}.marketval{font-size:25px;font-weight:850;color:var(--navy);margin:8px 0}.brokergrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.broker{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:10px}.broker b{display:block;font-size:19px;color:var(--navy);margin:5px 0}
@@ -70,6 +70,30 @@ tbody tr:hover{background:var(--soft)}
  .performance-kpi b{font-size:18px}
  th,td{padding:11px 9px}
 }
+
+
+/* Typography refresh: Noto Sans KR + larger, calmer reading scale */
+body{font-size:15px;line-height:1.65;letter-spacing:-.18px}
+button,input,select,textarea{font-family:inherit}
+h1{font-weight:800;letter-spacing:-.8px}
+.sectionhead h2{font-size:20px;letter-spacing:-.45px;font-weight:800}
+.sectionhead>.muted,.muted,.asof{font-size:12px;line-height:1.65}
+.label,.foot{font-size:11px;line-height:1.55}
+.card .label{font-size:12px}
+.card .foot{font-size:11px}
+table{font-size:13px;line-height:1.65}
+th{font-size:12px;line-height:1.45;font-weight:700}
+td{font-size:13px}
+.stock{font-size:13px;font-weight:800}
+.ticker{font-size:11px}
+.tabs button{font-size:12px}
+.weight small{font-size:12px;line-height:1.6}
+.performance-kpi small{font-size:12px}
+.performance-kpi b{font-size:22px}
+.performance-note,.notice{font-size:12px;line-height:1.85}
+.detailnote,.detail-note{font-size:12px;line-height:1.8}
+@media(max-width:900px){.sectionhead h2{font-size:19px}}
+@media(max-width:560px){body{font-size:14px}.sectionhead h2{font-size:18px}table{font-size:12px}td{font-size:12px}}
 
 </style></head><body>
 <header><div class="brand">Q STONE PARK · INVESTMENT RESEARCH</div><div class="head"><div><h1>국내 주식 인텔리전스 대시보드</h1><div class="sub">KOSPI · KOSDAQ 시가총액 상위 300종목 | 정량 분석 · 수급 · 밸류에이션 · 증권사 전망</div></div><div class="version">EQUITY INTELLIGENCE · v3.2 BETA</div></div></header>
