@@ -181,7 +181,8 @@ def build_performance_summary(history, as_of=None):
                 count = result.get("counts", {}).get(horizon, {})
                 evaluated += int(count.get("evaluated", 0))
                 positive += int(count.get("positive", 0))
-                outperform += int(count.get("outperform", 0))\n                benchmark_evaluated += int(count.get("benchmark_evaluated", 0))
+                outperform += int(count.get("outperform", 0))
+                benchmark_evaluated += int(count.get("benchmark_evaluated", 0))
                 # Weight average returns by actual stock observations, not by days.
                 stock_values = list((result.get("stock_returns", {}).get(horizon) or {}).values())
                 returns.extend(stock_values)
