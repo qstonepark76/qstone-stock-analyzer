@@ -77,5 +77,40 @@ class AnalystConsensusTests(unittest.TestCase):
         self.assertIsNone(stocks[0]["analyst_consensus_score"])
 
 
+    def test_recent_five_reports_and_three_month_trend_are_exposed(self):
+        dates = [
+            "2026-11-16", "2026-11-10", "2026-10-20",
+            "2026-10-02", "2026-09-15", "2026-09-03",
+            "2026-08-01",
+        ]
+        reports = []
+        for index, published_at in enumerate(dates):
+            reports.append({
+                **self.report(f"증권사{index+1}", target=110),
+                "published_at": published_at,
+                "previous_target_price": 100,
+                "title": f"테스트 리포트 {index+1}",
+            })
+        self.write_reports(reports)
+        with patch("analyst_consensus.LEDGER", self.ledger):
+            stocks = self.stock()
+            summaries, _ = load_and_score_consensus(stocks, date(2026, 11, 17))
+
+        summary = summaries["005930"]
+        self.assertEqual(summary["analyst_report_count"], 6)
+        self.assertEqual(len(summary["analyst_recent_reports"]), 5)
+        self.assertEqual(summary["analyst_recent_reports"][0]["published_at"], "2026-11-16")
+        self.assertEqual(summary["analyst_recent_reports"][0]["target_revision_pct"], 10.0)
+        self.assertEqual(
+            summary["analyst_monthly_report_counts"],
+            [
+                {"month": "2026-09", "count": 2},
+                {"month": "2026-10", "count": 2},
+                {"month": "2026-11", "count": 2},
+            ],
+        )
+        self.assertEqual(summary["analyst_target_revision_pct"], 10.0)
+
+
 if __name__ == "__main__":
     unittest.main()
