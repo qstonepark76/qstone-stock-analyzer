@@ -170,7 +170,7 @@ def build_performance_summary(history, as_of=None):
         },
         "strategy_labels": STRATEGY_LABELS,
         "strategies": {},
-        "snapshot_count": len(history),
+        "snapshot_count": sum(1 for record in history if record.get("strategies") or record.get("tickers")),
     }
     for key, label in STRATEGY_LABELS.items():
         horizons = {}
