@@ -39,6 +39,16 @@ def main():
     messages = read(MESSAGES, [])
     latest = read(LATEST, {})
     stocks = latest.get("stocks", []) if isinstance(latest, dict) else []
+    if not stocks and isinstance(latest, dict):
+        # Current Q Stone Park snapshots expose candidates under strategy lists.
+        seen = set()
+        for rows in latest.get("lists", {}).values():
+            if isinstance(rows, list):
+                for stock in rows:
+                    ticker = str(stock.get("ticker", "")).zfill(6)
+                    if ticker and ticker not in seen:
+                        stocks.append(stock)
+                        seen.add(ticker)
     by_name = {}
     for stock in stocks:
         name = str(stock.get("name", "")).strip()
