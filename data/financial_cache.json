@@ -3994,5 +3994,33 @@
       "equity_total": 968715489174.0,
       "financial_currency": "KRW"
     }
+  },
+  "039130": {
+    "cached_at": "2026-11-20T01:30:17.547624+00:00",
+    "financial_year": 2025,
+    "corp_code": "00269940",
+    "fs_div": "CFS",
+    "metrics": {
+      "roe_pct": 27.66591602660714,
+      "sales_growth_pct": -4.817334629596381,
+      "operating_profit_growth_pct": 13.173615998123612,
+      "net_income": 48091672930.0,
+      "equity_total": 167123092679.0,
+      "financial_currency": "KRW"
+    }
+  },
+  "114090": {
+    "cached_at": "2026-11-20T01:30:17.547624+00:00",
+    "financial_year": 2025,
+    "corp_code": "00557508",
+    "fs_div": "CFS",
+    "metrics": {
+      "roe_pct": 11.011107297467845,
+      "sales_growth_pct": 6.699765552574211,
+      "operating_profit_growth_pct": 37.364846239255,
+      "net_income": 47072361742.0,
+      "equity_total": 441452020522.0,
+      "financial_currency": "KRW"
+    }
   }
 }
