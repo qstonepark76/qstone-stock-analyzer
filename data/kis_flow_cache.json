@@ -209,992 +209,992 @@
     }
   },
   "016360": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -512641.0,
-      "institution_net_buy_qty_5d": 536266.0,
-      "foreign_flow_5d_pct": -26.765739669438748,
-      "institution_flow_5d_pct": 27.99923562409413,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -456494.0,
+      "institution_net_buy_qty_5d": 342866.0,
+      "foreign_flow_5d_pct": -31.242809439627354,
+      "institution_flow_5d_pct": 23.46601949056783,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "000500": {
-    "as_of": "2026-11-19",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -46776.0,
-      "institution_net_buy_qty_5d": 38770.0,
-      "foreign_flow_5d_pct": -11.582604303114794,
-      "institution_flow_5d_pct": 9.600170361547814,
-      "investor_flow_as_of": "20261119",
+      "foreign_net_buy_qty_5d": -47128.0,
+      "institution_net_buy_qty_5d": 37234.0,
+      "foreign_flow_5d_pct": -12.580113874481812,
+      "institution_flow_5d_pct": 9.939058733713626,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "007660": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -1367555.0,
-      "institution_net_buy_qty_5d": 766653.0,
-      "foreign_flow_5d_pct": -17.455326372756744,
-      "institution_flow_5d_pct": 9.785477241977892,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -1079671.0,
+      "institution_net_buy_qty_5d": -363600.0,
+      "foreign_flow_5d_pct": -15.884375354472954,
+      "institution_flow_5d_pct": -5.349369279054792,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "000100": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -27245.0,
-      "institution_net_buy_qty_5d": 230762.0,
-      "foreign_flow_5d_pct": -2.2050694339903623,
-      "institution_flow_5d_pct": 18.67668316118495,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -37598.0,
+      "institution_net_buy_qty_5d": 237293.0,
+      "foreign_flow_5d_pct": -3.4969321159145847,
+      "institution_flow_5d_pct": 22.070256731254844,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "128940": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 11500.0,
-      "institution_net_buy_qty_5d": 7652.0,
-      "foreign_flow_5d_pct": 1.7198473373772178,
-      "institution_flow_5d_pct": 1.1443714630965627,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -60661.0,
+      "institution_net_buy_qty_5d": 109527.0,
+      "foreign_flow_5d_pct": -11.877545426065163,
+      "institution_flow_5d_pct": 21.445606203007518,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "006260": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 5681.0,
-      "institution_net_buy_qty_5d": -2424.0,
-      "foreign_flow_5d_pct": 0.8662886978374043,
-      "institution_flow_5d_pct": -0.3696327765460074,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -36507.0,
+      "institution_net_buy_qty_5d": 24833.0,
+      "foreign_flow_5d_pct": -5.475932267456249,
+      "institution_flow_5d_pct": 3.724869915296821,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "175330": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 3024546.0,
-      "institution_net_buy_qty_5d": -3022070.0,
-      "foreign_flow_5d_pct": 63.72579425846595,
-      "institution_flow_5d_pct": -63.67362607633747,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": 2901780.0,
+      "institution_net_buy_qty_5d": -2888691.0,
+      "foreign_flow_5d_pct": 59.82289267058342,
+      "institution_flow_5d_pct": -59.553050765902405,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "005387": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -15153.0,
-      "institution_net_buy_qty_5d": 33825.0,
-      "foreign_flow_5d_pct": -2.2065087128917598,
-      "institution_flow_5d_pct": 4.925437683202255,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -121801.0,
+      "institution_net_buy_qty_5d": 50693.0,
+      "foreign_flow_5d_pct": -17.726771279955525,
+      "institution_flow_5d_pct": 7.377798347261397,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "009830": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -722510.0,
-      "institution_net_buy_qty_5d": -1126078.0,
-      "foreign_flow_5d_pct": -4.166929559275872,
-      "institution_flow_5d_pct": -6.494425965384916,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -995510.0,
+      "institution_net_buy_qty_5d": -819418.0,
+      "foreign_flow_5d_pct": -6.94923292547691,
+      "institution_flow_5d_pct": -5.720009387478215,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "029780": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 24909.0,
-      "institution_net_buy_qty_5d": -7528.0,
-      "foreign_flow_5d_pct": 6.391938290042956,
-      "institution_flow_5d_pct": -1.93177210837221,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -5313.0,
+      "institution_net_buy_qty_5d": 70351.0,
+      "foreign_flow_5d_pct": -1.7452517196297295,
+      "institution_flow_5d_pct": 23.109392758831376,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "088980": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -349695.0,
-      "institution_net_buy_qty_5d": 878433.0,
-      "foreign_flow_5d_pct": -10.013111436327927,
-      "institution_flow_5d_pct": 25.152911875628334,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -491705.0,
+      "institution_net_buy_qty_5d": 794207.0,
+      "foreign_flow_5d_pct": -12.863366123203477,
+      "institution_flow_5d_pct": 20.777041963394847,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "047040": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 741590.0,
-      "institution_net_buy_qty_5d": -531435.0,
-      "foreign_flow_5d_pct": 4.423254368589221,
-      "institution_flow_5d_pct": -3.169773305156775,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": 282299.0,
+      "institution_net_buy_qty_5d": -466011.0,
+      "foreign_flow_5d_pct": 1.9895943073861502,
+      "institution_flow_5d_pct": -3.28436456657419,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "271560": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 18724.0,
-      "institution_net_buy_qty_5d": 3214.0,
-      "foreign_flow_5d_pct": 4.2847270214236355,
-      "institution_flow_5d_pct": 0.735479205664151,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -51605.0,
+      "institution_net_buy_qty_5d": 84076.0,
+      "foreign_flow_5d_pct": -12.746161084998283,
+      "institution_flow_5d_pct": 20.766325731660025,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "377300": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -1183.0,
-      "institution_net_buy_qty_5d": 24219.0,
-      "foreign_flow_5d_pct": -0.20559968021689637,
-      "institution_flow_5d_pct": 4.209145101583274,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -19960.0,
+      "institution_net_buy_qty_5d": 35722.0,
+      "foreign_flow_5d_pct": -3.6112709285453235,
+      "institution_flow_5d_pct": 6.46301703955391,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "267270": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -154249.0,
-      "institution_net_buy_qty_5d": 197339.0,
-      "foreign_flow_5d_pct": -17.32825259307607,
-      "institution_flow_5d_pct": 22.168960826099607,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -279150.0,
+      "institution_net_buy_qty_5d": 96231.0,
+      "foreign_flow_5d_pct": -16.879491976572485,
+      "institution_flow_5d_pct": 5.81884432168206,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "138930": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -1069102.0,
-      "institution_net_buy_qty_5d": 1266032.0,
-      "foreign_flow_5d_pct": -19.218643433441706,
-      "institution_flow_5d_pct": 22.7587429294184,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -678234.0,
+      "institution_net_buy_qty_5d": 605474.0,
+      "foreign_flow_5d_pct": -18.179089091565533,
+      "institution_flow_5d_pct": 16.228861703522014,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "353200": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -230609.0,
-      "institution_net_buy_qty_5d": 154338.0,
-      "foreign_flow_5d_pct": -2.7999948033347537,
-      "institution_flow_5d_pct": 1.873932057972929,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": 34154.0,
+      "institution_net_buy_qty_5d": -292302.0,
+      "foreign_flow_5d_pct": 0.5681899471936368,
+      "institution_flow_5d_pct": -4.862770332745635,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "000880": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -78750.0,
-      "institution_net_buy_qty_5d": -30300.0,
-      "foreign_flow_5d_pct": -10.580027326699152,
-      "institution_flow_5d_pct": -4.070791466653769,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -80124.0,
+      "institution_net_buy_qty_5d": -40706.0,
+      "foreign_flow_5d_pct": -10.96341014543718,
+      "institution_flow_5d_pct": -5.569823940144849,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "036570": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 70621.0,
-      "institution_net_buy_qty_5d": -151342.0,
-      "foreign_flow_5d_pct": 8.45107671319759,
-      "institution_flow_5d_pct": -18.11080063902734,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": 78184.0,
+      "institution_net_buy_qty_5d": -9297.0,
+      "foreign_flow_5d_pct": 15.166310709179823,
+      "institution_flow_5d_pct": -1.8034532725780827,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "012750": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -22959.0,
-      "institution_net_buy_qty_5d": 24063.0,
-      "foreign_flow_5d_pct": -6.066859919721589,
-      "institution_flow_5d_pct": 6.358589235082564,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -32724.0,
+      "institution_net_buy_qty_5d": 38177.0,
+      "foreign_flow_5d_pct": -8.09757473627948,
+      "institution_flow_5d_pct": 9.44692307501961,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "004020": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 42161.0,
-      "institution_net_buy_qty_5d": 198432.0,
-      "foreign_flow_5d_pct": 3.009975662325294,
-      "institution_flow_5d_pct": 14.16653994512779,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -109331.0,
+      "institution_net_buy_qty_5d": 189700.0,
+      "foreign_flow_5d_pct": -7.913922672569421,
+      "institution_flow_5d_pct": 13.731431442010217,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "062040": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -46035.0,
-      "institution_net_buy_qty_5d": -50709.0,
-      "foreign_flow_5d_pct": -3.325863055502575,
-      "institution_flow_5d_pct": -3.6635427323010767,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -47454.0,
+      "institution_net_buy_qty_5d": -87802.0,
+      "foreign_flow_5d_pct": -3.405467665136907,
+      "institution_flow_5d_pct": -6.300983519499952,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "011790": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -41712.0,
-      "institution_net_buy_qty_5d": 61914.0,
-      "foreign_flow_5d_pct": -5.8838797043389945,
-      "institution_flow_5d_pct": 8.733566551938159,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -8317.0,
+      "institution_net_buy_qty_5d": -15935.0,
+      "foreign_flow_5d_pct": -1.307737301567335,
+      "institution_flow_5d_pct": -2.5055661777654783,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "034220": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -861565.0,
-      "institution_net_buy_qty_5d": 747890.0,
-      "foreign_flow_5d_pct": -8.378015955439903,
-      "institution_flow_5d_pct": 7.272619422694688,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -648616.0,
+      "institution_net_buy_qty_5d": 795153.0,
+      "foreign_flow_5d_pct": -7.012277128388751,
+      "institution_flow_5d_pct": 8.596508867295443,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "001440": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 128122.0,
-      "institution_net_buy_qty_5d": -304882.0,
-      "foreign_flow_5d_pct": 1.910834960097849,
-      "institution_flow_5d_pct": -4.547065955140822,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -144466.0,
+      "institution_net_buy_qty_5d": -119628.0,
+      "foreign_flow_5d_pct": -2.6038622292179565,
+      "institution_flow_5d_pct": -2.1561809059355537,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "051900": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 18477.0,
-      "institution_net_buy_qty_5d": 13285.0,
-      "foreign_flow_5d_pct": 7.628567181926278,
-      "institution_flow_5d_pct": 5.484955079931299,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": 18701.0,
+      "institution_net_buy_qty_5d": 33118.0,
+      "foreign_flow_5d_pct": 6.437543674849139,
+      "institution_flow_5d_pct": 11.400383478084262,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "036460": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 150374.0,
-      "institution_net_buy_qty_5d": 272240.0,
-      "foreign_flow_5d_pct": 12.93675551326677,
-      "institution_flow_5d_pct": 23.420952564484185,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": 144358.0,
+      "institution_net_buy_qty_5d": 107760.0,
+      "foreign_flow_5d_pct": 25.792768776666833,
+      "institution_flow_5d_pct": 19.25372174298354,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "010060": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -496.0,
-      "institution_net_buy_qty_5d": -165547.0,
-      "foreign_flow_5d_pct": -0.03562471090834394,
-      "institution_flow_5d_pct": -11.890250033757287,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": 56837.0,
+      "institution_net_buy_qty_5d": -186644.0,
+      "foreign_flow_5d_pct": 4.636174839674831,
+      "institution_flow_5d_pct": -15.224487864881487,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "088350": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -235748.0,
-      "institution_net_buy_qty_5d": -1831811.0,
-      "foreign_flow_5d_pct": -1.7227734088344424,
-      "institution_flow_5d_pct": -13.386307755783417,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": 330596.0,
+      "institution_net_buy_qty_5d": -1139790.0,
+      "foreign_flow_5d_pct": 3.625355645002547,
+      "institution_flow_5d_pct": -12.49907473356439,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "005385": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -29050.0,
-      "institution_net_buy_qty_5d": 4175.0,
-      "foreign_flow_5d_pct": -7.48528066581636,
-      "institution_flow_5d_pct": 1.0757675311457247,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -75509.0,
+      "institution_net_buy_qty_5d": 1115.0,
+      "foreign_flow_5d_pct": -20.20529342349261,
+      "institution_flow_5d_pct": 0.2983604890436142,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "001040": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 20312.0,
-      "institution_net_buy_qty_5d": -17308.0,
-      "foreign_flow_5d_pct": 5.860611394030324,
-      "institution_flow_5d_pct": -4.993868747926194,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -15042.0,
+      "institution_net_buy_qty_5d": 15753.0,
+      "foreign_flow_5d_pct": -2.5336070971990856,
+      "institution_flow_5d_pct": 2.653364752172397,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "192820": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -106742.0,
-      "institution_net_buy_qty_5d": 50123.0,
-      "foreign_flow_5d_pct": -16.825555954880485,
-      "institution_flow_5d_pct": 7.900801382084603,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -42710.0,
+      "institution_net_buy_qty_5d": 33422.0,
+      "foreign_flow_5d_pct": -10.033900534937755,
+      "institution_flow_5d_pct": 7.851861945181214,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "000990": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -373597.0,
-      "institution_net_buy_qty_5d": -426383.0,
-      "foreign_flow_5d_pct": -10.224816397934658,
-      "institution_flow_5d_pct": -11.669493840155496,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": 279237.0,
+      "institution_net_buy_qty_5d": -427858.0,
+      "foreign_flow_5d_pct": 12.460324791198964,
+      "institution_flow_5d_pct": -19.09220355652298,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "001450": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 369649.0,
-      "institution_net_buy_qty_5d": -501109.0,
-      "foreign_flow_5d_pct": 12.012968125981653,
-      "institution_flow_5d_pct": -16.2851960769339,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": 185703.0,
+      "institution_net_buy_qty_5d": -331001.0,
+      "foreign_flow_5d_pct": 7.978392953349711,
+      "institution_flow_5d_pct": -14.220858284204928,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "022100": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 139793.0,
-      "institution_net_buy_qty_5d": 66564.0,
-      "foreign_flow_5d_pct": 10.649450969697062,
-      "institution_flow_5d_pct": 5.070855152596448,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": 151893.0,
+      "institution_net_buy_qty_5d": 55639.0,
+      "foreign_flow_5d_pct": 10.705691969162803,
+      "institution_flow_5d_pct": 3.9215368415414087,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "454910": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -111443.0,
-      "institution_net_buy_qty_5d": 80667.0,
-      "foreign_flow_5d_pct": -9.504871285980267,
-      "institution_flow_5d_pct": 6.8800144650284905,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -133072.0,
+      "institution_net_buy_qty_5d": 14967.0,
+      "foreign_flow_5d_pct": -10.990301557713702,
+      "institution_flow_5d_pct": 1.2361116043517868,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "018880": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -2628338.0,
-      "institution_net_buy_qty_5d": 389894.0,
-      "foreign_flow_5d_pct": -13.828340390597223,
-      "institution_flow_5d_pct": 2.0513293755413167,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -2295296.0,
+      "institution_net_buy_qty_5d": 1374905.0,
+      "foreign_flow_5d_pct": -16.819086314531898,
+      "institution_flow_5d_pct": 10.074799010359222,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "002380": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 13436.0,
-      "institution_net_buy_qty_5d": -12734.0,
-      "foreign_flow_5d_pct": 13.642963760242884,
-      "institution_flow_5d_pct": -12.93015038128408,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": 6747.0,
+      "institution_net_buy_qty_5d": -6272.0,
+      "foreign_flow_5d_pct": 7.207486299687003,
+      "institution_flow_5d_pct": -6.700067299783145,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "066970": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -130963.0,
-      "institution_net_buy_qty_5d": 71325.0,
-      "foreign_flow_5d_pct": -9.958777264151733,
-      "institution_flow_5d_pct": 5.423744022094961,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -33336.0,
+      "institution_net_buy_qty_5d": -68946.0,
+      "foreign_flow_5d_pct": -2.8526124559627526,
+      "institution_flow_5d_pct": -5.899814566498918,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "302440": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -34457.0,
-      "institution_net_buy_qty_5d": 94596.0,
-      "foreign_flow_5d_pct": -7.307813848728232,
-      "institution_flow_5d_pct": 20.06239541557001,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -55895.0,
+      "institution_net_buy_qty_5d": 105077.0,
+      "foreign_flow_5d_pct": -12.639550633956171,
+      "institution_flow_5d_pct": 23.761088862406524,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "111770": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -38667.0,
-      "institution_net_buy_qty_5d": 40423.0,
-      "foreign_flow_5d_pct": -9.47453536380677,
-      "institution_flow_5d_pct": 9.904806243338275,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -121881.0,
+      "institution_net_buy_qty_5d": 137641.0,
+      "foreign_flow_5d_pct": -29.515140067418344,
+      "institution_flow_5d_pct": 33.331638188228915,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "035250": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 114283.0,
-      "institution_net_buy_qty_5d": 50427.0,
-      "foreign_flow_5d_pct": 6.502400214844406,
-      "institution_flow_5d_pct": 2.8691628294143383,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": 68651.0,
+      "institution_net_buy_qty_5d": 334843.0,
+      "foreign_flow_5d_pct": 2.5017109048226747,
+      "institution_flow_5d_pct": 12.202012854926203,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "031210": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -50573.0,
-      "institution_net_buy_qty_5d": -62513.0,
-      "foreign_flow_5d_pct": -16.77123888229325,
-      "institution_flow_5d_pct": -20.730833769972076,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -80630.0,
+      "institution_net_buy_qty_5d": -49224.0,
+      "foreign_flow_5d_pct": -23.127538493310997,
+      "institution_flow_5d_pct": -14.119185846393906,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "026960": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 105335.0,
-      "institution_net_buy_qty_5d": -35796.0,
-      "foreign_flow_5d_pct": 29.134685862064195,
-      "institution_flow_5d_pct": -9.900842218810936,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": 85571.0,
+      "institution_net_buy_qty_5d": 15182.0,
+      "foreign_flow_5d_pct": 25.62550721860036,
+      "institution_flow_5d_pct": 4.546475448373756,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "097950": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 70156.0,
-      "institution_net_buy_qty_5d": -36750.0,
-      "foreign_flow_5d_pct": 30.671434941897576,
-      "institution_flow_5d_pct": -16.066697561359483,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": 93310.0,
+      "institution_net_buy_qty_5d": -5901.0,
+      "foreign_flow_5d_pct": 39.1918852510658,
+      "institution_flow_5d_pct": -2.4785265766427957,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "028670": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 2382234.0,
-      "institution_net_buy_qty_5d": -2831140.0,
-      "foreign_flow_5d_pct": 19.58846554988845,
-      "institution_flow_5d_pct": -23.279698114001892,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": 1088391.0,
+      "institution_net_buy_qty_5d": -808789.0,
+      "foreign_flow_5d_pct": 12.179683372613995,
+      "institution_flow_5d_pct": -9.05078591724215,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "251270": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -4365.0,
-      "institution_net_buy_qty_5d": -29843.0,
-      "foreign_flow_5d_pct": -0.6079658146324071,
-      "institution_flow_5d_pct": -4.156591937245114,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": 50871.0,
+      "institution_net_buy_qty_5d": 15380.0,
+      "foreign_flow_5d_pct": 6.747604494954318,
+      "institution_flow_5d_pct": 2.0400258916159975,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "103590": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 84921.0,
-      "institution_net_buy_qty_5d": -9950.0,
-      "foreign_flow_5d_pct": 3.9895836073829916,
-      "institution_flow_5d_pct": -0.4674504173697998,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -39315.0,
+      "institution_net_buy_qty_5d": -32296.0,
+      "foreign_flow_5d_pct": -2.355925408579128,
+      "institution_flow_5d_pct": -1.935316469425703,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "006360": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 229027.0,
-      "institution_net_buy_qty_5d": 341416.0,
-      "foreign_flow_5d_pct": 5.6112201372504344,
-      "institution_flow_5d_pct": 8.364779411944856,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": 68599.0,
+      "institution_net_buy_qty_5d": 88166.0,
+      "foreign_flow_5d_pct": 2.1447435352704463,
+      "institution_flow_5d_pct": 2.7565045923505327,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "009420": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -171021.0,
-      "institution_net_buy_qty_5d": 450882.0,
-      "foreign_flow_5d_pct": -10.833960485605905,
-      "institution_flow_5d_pct": 28.562795046637323,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -137770.0,
+      "institution_net_buy_qty_5d": 355611.0,
+      "foreign_flow_5d_pct": -10.522537109949324,
+      "institution_flow_5d_pct": 27.16070221533127,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "052690": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 35119.0,
-      "institution_net_buy_qty_5d": -67702.0,
-      "foreign_flow_5d_pct": 4.672652231414635,
-      "institution_flow_5d_pct": -9.007884659905853,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": 22887.0,
+      "institution_net_buy_qty_5d": -36158.0,
+      "foreign_flow_5d_pct": 3.873060677442937,
+      "institution_flow_5d_pct": -6.118850350634934,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "017800": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -409562.0,
-      "institution_net_buy_qty_5d": 306957.0,
-      "foreign_flow_5d_pct": -35.478712529929275,
-      "institution_flow_5d_pct": 26.59045312321334,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -176314.0,
+      "institution_net_buy_qty_5d": -55542.0,
+      "foreign_flow_5d_pct": -24.685228820761388,
+      "institution_flow_5d_pct": -7.77627970077662,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "161890": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -59473.0,
-      "institution_net_buy_qty_5d": 126005.0,
-      "foreign_flow_5d_pct": -6.087794112528943,
-      "institution_flow_5d_pct": 12.898163824747524,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -175153.0,
+      "institution_net_buy_qty_5d": 196942.0,
+      "foreign_flow_5d_pct": -19.29837319098066,
+      "institution_flow_5d_pct": 21.699087157959685,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "139130": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 560536.0,
-      "institution_net_buy_qty_5d": -610292.0,
-      "foreign_flow_5d_pct": 25.08825081447658,
-      "institution_flow_5d_pct": -27.315210380900677,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": 125286.0,
+      "institution_net_buy_qty_5d": -153608.0,
+      "foreign_flow_5d_pct": 7.62651816933371,
+      "institution_flow_5d_pct": -9.35055954340479,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "282330": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -60263.0,
-      "institution_net_buy_qty_5d": 59698.0,
-      "foreign_flow_5d_pct": -21.180063754933627,
-      "institution_flow_5d_pct": 20.98148857577664,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -22743.0,
+      "institution_net_buy_qty_5d": 23677.0,
+      "foreign_flow_5d_pct": -9.662987228184669,
+      "institution_flow_5d_pct": 10.05982274113918,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "011780": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -11696.0,
-      "institution_net_buy_qty_5d": 4562.0,
-      "foreign_flow_5d_pct": -3.1366407157204805,
-      "institution_flow_5d_pct": 1.223440060287007,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -26306.0,
+      "institution_net_buy_qty_5d": 20167.0,
+      "foreign_flow_5d_pct": -7.802045271200114,
+      "institution_flow_5d_pct": 5.981291225739097,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "004170": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -62553.0,
-      "institution_net_buy_qty_5d": 77408.0,
-      "foreign_flow_5d_pct": -21.011104617182934,
-      "institution_flow_5d_pct": 26.00079270709473,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -84454.0,
+      "institution_net_buy_qty_5d": 108170.0,
+      "foreign_flow_5d_pct": -20.39729981040708,
+      "institution_flow_5d_pct": 26.12517963023343,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "003690": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 828571.0,
-      "institution_net_buy_qty_5d": -885247.0,
-      "foreign_flow_5d_pct": 46.335943433051,
-      "institution_flow_5d_pct": -49.505419470725016,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -59471.0,
+      "institution_net_buy_qty_5d": 55301.0,
+      "foreign_flow_5d_pct": -7.599030427554871,
+      "institution_flow_5d_pct": 7.066200024788753,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "023530": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 71223.0,
-      "institution_net_buy_qty_5d": -45266.0,
-      "foreign_flow_5d_pct": 15.208093559359673,
-      "institution_flow_5d_pct": -9.665551339566923,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": 1684.0,
+      "institution_net_buy_qty_5d": 55934.0,
+      "foreign_flow_5d_pct": 0.4128796887220589,
+      "institution_flow_5d_pct": 13.713784150225441,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "085620": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -63042.0,
-      "institution_net_buy_qty_5d": -31210.0,
-      "foreign_flow_5d_pct": -9.132762746927352,
-      "institution_flow_5d_pct": -4.521327453627782,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -16078.0,
+      "institution_net_buy_qty_5d": -9073.0,
+      "foreign_flow_5d_pct": -3.7930009483681935,
+      "institution_flow_5d_pct": -2.1404339846090696,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "457190": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -192722.0,
-      "institution_net_buy_qty_5d": 282404.0,
-      "foreign_flow_5d_pct": -13.754637288725911,
-      "institution_flow_5d_pct": 20.155273341317297,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -145445.0,
+      "institution_net_buy_qty_5d": 62328.0,
+      "foreign_flow_5d_pct": -13.784635739496022,
+      "institution_flow_5d_pct": 5.9071729957805905,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "279570": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 1239147.0,
-      "institution_net_buy_qty_5d": 54321.0,
-      "foreign_flow_5d_pct": 39.69342627988907,
-      "institution_flow_5d_pct": 1.7400571594410137,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": 769461.0,
+      "institution_net_buy_qty_5d": 225140.0,
+      "foreign_flow_5d_pct": 24.36798375512086,
+      "institution_flow_5d_pct": 7.129936231502195,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "004990": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -30816.0,
-      "institution_net_buy_qty_5d": 93632.0,
-      "foreign_flow_5d_pct": -6.501924245493215,
-      "institution_flow_5d_pct": 19.755587063668894,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -28512.0,
+      "institution_net_buy_qty_5d": 120163.0,
+      "foreign_flow_5d_pct": -6.18214696909577,
+      "institution_flow_5d_pct": 26.05447973651287,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "004370": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 23958.0,
-      "institution_net_buy_qty_5d": -41118.0,
-      "foreign_flow_5d_pct": 16.068518232851996,
-      "institution_flow_5d_pct": -27.5776497494953,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": 21059.0,
+      "institution_net_buy_qty_5d": -28918.0,
+      "foreign_flow_5d_pct": 18.179385359116022,
+      "institution_flow_5d_pct": -24.963743093922652,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "005850": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 9344.0,
-      "institution_net_buy_qty_5d": -72067.0,
-      "foreign_flow_5d_pct": 1.7859532028272496,
-      "institution_flow_5d_pct": -13.774431663971681,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -44700.0,
+      "institution_net_buy_qty_5d": -106315.0,
+      "foreign_flow_5d_pct": -6.363587183991664,
+      "institution_flow_5d_pct": -15.135229786713058,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "181710": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 91987.0,
-      "institution_net_buy_qty_5d": -25437.0,
-      "foreign_flow_5d_pct": 4.783328783328783,
-      "institution_flow_5d_pct": -1.3227253227253226,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": 65802.0,
+      "institution_net_buy_qty_5d": -28917.0,
+      "foreign_flow_5d_pct": 5.349034195385013,
+      "institution_flow_5d_pct": -2.3506583664318472,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "018670": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 7535.0,
-      "institution_net_buy_qty_5d": -12422.0,
-      "foreign_flow_5d_pct": 19.861876268550493,
-      "institution_flow_5d_pct": -32.74375939056858,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": 8148.0,
+      "institution_net_buy_qty_5d": -19114.0,
+      "foreign_flow_5d_pct": 14.073997305420251,
+      "institution_flow_5d_pct": -33.015511106504995,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "007810": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -23399.0,
-      "institution_net_buy_qty_5d": 75769.0,
-      "foreign_flow_5d_pct": -0.411200815688579,
-      "institution_flow_5d_pct": 1.3315216292964633,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -17445.0,
+      "institution_net_buy_qty_5d": -5768.0,
+      "foreign_flow_5d_pct": -0.3635655053550104,
+      "institution_flow_5d_pct": -0.12020899024865005,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "089860": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -47389.0,
-      "institution_net_buy_qty_5d": 149408.0,
-      "foreign_flow_5d_pct": -6.679690858680469,
-      "institution_flow_5d_pct": 21.05972381383299,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -265287.0,
+      "institution_net_buy_qty_5d": 287744.0,
+      "foreign_flow_5d_pct": -29.317011662178096,
+      "institution_flow_5d_pct": 31.798747031410414,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "082740": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 352550.0,
-      "institution_net_buy_qty_5d": -442927.0,
-      "foreign_flow_5d_pct": 10.942039623498243,
-      "institution_flow_5d_pct": -13.74705654323417,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": 309008.0,
+      "institution_net_buy_qty_5d": -346152.0,
+      "foreign_flow_5d_pct": 13.322089608349328,
+      "institution_flow_5d_pct": -14.923458169721615,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "002790": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 36593.0,
-      "institution_net_buy_qty_5d": 3916.0,
-      "foreign_flow_5d_pct": 9.398267408741033,
-      "institution_flow_5d_pct": 1.005755613713822,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": 51067.0,
+      "institution_net_buy_qty_5d": 37740.0,
+      "foreign_flow_5d_pct": 11.839920985272842,
+      "institution_flow_5d_pct": 8.750046370145046,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "009970": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -4897.0,
-      "institution_net_buy_qty_5d": 6308.0,
-      "foreign_flow_5d_pct": -6.314147196864202,
-      "institution_flow_5d_pct": 8.133477745113208,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -2301.0,
+      "institution_net_buy_qty_5d": 2421.0,
+      "foreign_flow_5d_pct": -3.5885839051777917,
+      "institution_flow_5d_pct": 3.77573300062383,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "007340": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 16919.0,
-      "institution_net_buy_qty_5d": -18708.0,
-      "foreign_flow_5d_pct": 1.5360131022761936,
-      "institution_flow_5d_pct": -1.698429760469474,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -47262.0,
+      "institution_net_buy_qty_5d": 137333.0,
+      "foreign_flow_5d_pct": -6.4567426114683615,
+      "institution_flow_5d_pct": 18.76187704838527,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "375500": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -42243.0,
-      "institution_net_buy_qty_5d": 35898.0,
-      "foreign_flow_5d_pct": -4.562977909366943,
-      "institution_flow_5d_pct": 3.8776076744183534,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": 57359.0,
+      "institution_net_buy_qty_5d": -47147.0,
+      "foreign_flow_5d_pct": 5.751526898583451,
+      "institution_flow_5d_pct": -4.7275447390560155,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "004800": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -12540.0,
-      "institution_net_buy_qty_5d": -3110.0,
-      "foreign_flow_5d_pct": -17.813259087745216,
-      "institution_flow_5d_pct": -4.417801894967115,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -14831.0,
+      "institution_net_buy_qty_5d": 5927.0,
+      "foreign_flow_5d_pct": -19.489854920100925,
+      "institution_flow_5d_pct": 7.7888456686291,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "489790": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 101357.0,
-      "institution_net_buy_qty_5d": -167174.0,
-      "foreign_flow_5d_pct": 7.8386532213595705,
-      "institution_flow_5d_pct": -12.928747038957,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -77283.0,
+      "institution_net_buy_qty_5d": -131151.0,
+      "foreign_flow_5d_pct": -6.603838075527611,
+      "institution_flow_5d_pct": -11.206862666349931,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "450080": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -38470.0,
-      "institution_net_buy_qty_5d": 30118.0,
-      "foreign_flow_5d_pct": -3.6827846332053724,
-      "institution_flow_5d_pct": 2.8832364851281365,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -55031.0,
+      "institution_net_buy_qty_5d": 10337.0,
+      "foreign_flow_5d_pct": -5.150564464652402,
+      "institution_flow_5d_pct": 0.9674798726374566,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "011170": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -44036.0,
-      "institution_net_buy_qty_5d": 22972.0,
-      "foreign_flow_5d_pct": -12.49645277364723,
-      "institution_flow_5d_pct": 6.518950702067039,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -76929.0,
+      "institution_net_buy_qty_5d": 59749.0,
+      "foreign_flow_5d_pct": -21.403948082300406,
+      "institution_flow_5d_pct": 16.623958376806755,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "030000": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 521223.0,
-      "institution_net_buy_qty_5d": -755021.0,
-      "foreign_flow_5d_pct": 25.512591024095414,
-      "institution_flow_5d_pct": -36.95643129256296,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -6086.0,
+      "institution_net_buy_qty_5d": 65145.0,
+      "foreign_flow_5d_pct": -0.50423621387039,
+      "institution_flow_5d_pct": 5.3973822137013725,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "000240": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 264983.0,
-      "institution_net_buy_qty_5d": -477202.0,
-      "foreign_flow_5d_pct": 24.23180257769763,
-      "institution_flow_5d_pct": -43.63851512618721,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": 77948.0,
+      "institution_net_buy_qty_5d": -164088.0,
+      "foreign_flow_5d_pct": 11.67323099962561,
+      "institution_flow_5d_pct": -24.57326843878697,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "069960": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -169346.0,
-      "institution_net_buy_qty_5d": 244351.0,
-      "foreign_flow_5d_pct": -25.46744045801871,
-      "institution_flow_5d_pct": 36.74721896801418,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -193520.0,
+      "institution_net_buy_qty_5d": 295390.0,
+      "foreign_flow_5d_pct": -24.19668433404728,
+      "institution_flow_5d_pct": 36.9339530045175,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "007070": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -13270.0,
-      "institution_net_buy_qty_5d": 10062.0,
-      "foreign_flow_5d_pct": -2.885629478216433,
-      "institution_flow_5d_pct": 2.1880334445978713,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": 20642.0,
+      "institution_net_buy_qty_5d": 2187.0,
+      "foreign_flow_5d_pct": 4.923154711365089,
+      "institution_flow_5d_pct": 0.5216034954827754,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "020150": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -178313.0,
-      "institution_net_buy_qty_5d": 193654.0,
-      "foreign_flow_5d_pct": -15.93930454992402,
-      "institution_flow_5d_pct": 17.310628407973542,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -254545.0,
+      "institution_net_buy_qty_5d": 341776.0,
+      "foreign_flow_5d_pct": -21.59813194337793,
+      "institution_flow_5d_pct": 28.99967841866835,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "001720": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 17163.0,
-      "institution_net_buy_qty_5d": -18089.0,
-      "foreign_flow_5d_pct": 39.529688147772816,
-      "institution_flow_5d_pct": -41.66244414758856,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": 14131.0,
+      "institution_net_buy_qty_5d": -16689.0,
+      "foreign_flow_5d_pct": 32.778177263343466,
+      "institution_flow_5d_pct": -38.71169771056111,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "112610": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 227889.0,
-      "institution_net_buy_qty_5d": -133695.0,
-      "foreign_flow_5d_pct": 10.92629643960065,
-      "institution_flow_5d_pct": -6.410099664715756,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": 1033.0,
+      "institution_net_buy_qty_5d": -65293.0,
+      "foreign_flow_5d_pct": 0.06617947129457424,
+      "institution_flow_5d_pct": -4.1830166691545365,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "020560": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 32542.0,
-      "institution_net_buy_qty_5d": 329691.0,
-      "foreign_flow_5d_pct": 5.005660632760296,
-      "institution_flow_5d_pct": 50.71357813519068,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": 26090.0,
+      "institution_net_buy_qty_5d": 321581.0,
+      "foreign_flow_5d_pct": 4.136096438105988,
+      "institution_flow_5d_pct": 50.98083666778696,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "081660": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -408027.0,
-      "institution_net_buy_qty_5d": 324400.0,
-      "foreign_flow_5d_pct": -33.31107299458976,
-      "institution_flow_5d_pct": 26.483816216683987,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -131262.0,
+      "institution_net_buy_qty_5d": 37175.0,
+      "foreign_flow_5d_pct": -15.865353236236176,
+      "institution_flow_5d_pct": 4.493261618420258,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "139480": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -33086.0,
-      "institution_net_buy_qty_5d": 166398.0,
-      "foreign_flow_5d_pct": -2.671588992271723,
-      "institution_flow_5d_pct": 13.436107874509766,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": 121566.0,
+      "institution_net_buy_qty_5d": 20758.0,
+      "foreign_flow_5d_pct": 21.479230347898298,
+      "institution_flow_5d_pct": 3.667685566372776,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "336260": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 188802.0,
-      "institution_net_buy_qty_5d": -415132.0,
-      "foreign_flow_5d_pct": 10.521675648263217,
-      "institution_flow_5d_pct": -23.134735093986325,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": 201615.0,
+      "institution_net_buy_qty_5d": -322116.0,
+      "foreign_flow_5d_pct": 9.965543336261153,
+      "institution_flow_5d_pct": -15.921736762161038,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "294870": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 31212.0,
-      "institution_net_buy_qty_5d": 40637.0,
-      "foreign_flow_5d_pct": 4.838297140146612,
-      "institution_flow_5d_pct": 6.299304142129241,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": 150063.0,
+      "institution_net_buy_qty_5d": 85607.0,
+      "foreign_flow_5d_pct": 18.10356683564278,
+      "institution_flow_5d_pct": 10.327609378053694,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
@@ -1221,24 +1221,24 @@
     }
   },
   "000120": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 99724.0,
-      "institution_net_buy_qty_5d": -48366.0,
-      "foreign_flow_5d_pct": 40.281620732973295,
-      "institution_flow_5d_pct": -19.536529505144063,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": 78311.0,
+      "institution_net_buy_qty_5d": -22738.0,
+      "foreign_flow_5d_pct": 38.62022369952459,
+      "institution_flow_5d_pct": -11.213579784191111,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "483650": {
-    "as_of": "2026-11-17",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -102316.0,
-      "institution_net_buy_qty_5d": -139478.0,
-      "foreign_flow_5d_pct": -9.702585908510294,
-      "institution_flow_5d_pct": -13.226643705258207,
-      "investor_flow_as_of": "20261117",
+      "foreign_net_buy_qty_5d": 124325.0,
+      "institution_net_buy_qty_5d": -17918.0,
+      "foreign_flow_5d_pct": 15.244519268851644,
+      "institution_flow_5d_pct": -2.197074572767213,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
@@ -1265,13 +1265,13 @@
     }
   },
   "462870": {
-    "as_of": "2026-11-17",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -187038.0,
-      "institution_net_buy_qty_5d": -98841.0,
-      "foreign_flow_5d_pct": -30.912152949362298,
-      "institution_flow_5d_pct": -16.335654303766717,
-      "investor_flow_as_of": "20261117",
+      "foreign_net_buy_qty_5d": 56632.0,
+      "institution_net_buy_qty_5d": -32748.0,
+      "foreign_flow_5d_pct": 15.037226641742695,
+      "institution_flow_5d_pct": -8.695421282380806,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
@@ -1320,13 +1320,13 @@
     }
   },
   "281820": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -149358.0,
-      "institution_net_buy_qty_5d": 239874.0,
-      "foreign_flow_5d_pct": -11.521016726370647,
-      "institution_flow_5d_pct": 18.503142558292375,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -143184.0,
+      "institution_net_buy_qty_5d": 262306.0,
+      "foreign_flow_5d_pct": -9.704804075930955,
+      "institution_flow_5d_pct": 17.77872065273456,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
@@ -2419,17 +2419,6 @@
       "investor_flow_sessions": 5
     }
   },
-  "000670": {
-    "as_of": "2026-11-19",
-    "metrics": {
-      "foreign_net_buy_qty_5d": 25845.0,
-      "institution_net_buy_qty_5d": -78087.0,
-      "foreign_flow_5d_pct": 7.186872591167196,
-      "institution_flow_5d_pct": -21.71411569071282,
-      "investor_flow_as_of": "20261119",
-      "investor_flow_sessions": 5
-    }
-  },
   "248070": {
     "as_of": "2026-11-19",
     "metrics": {
@@ -3157,68 +3146,68 @@
     }
   },
   "039490": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -181027.0,
-      "institution_net_buy_qty_5d": 198905.0,
-      "foreign_flow_5d_pct": -34.04593446853008,
-      "institution_flow_5d_pct": 37.40826835479224,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -82063.0,
+      "institution_net_buy_qty_5d": 69047.0,
+      "foreign_flow_5d_pct": -20.410076827227034,
+      "institution_flow_5d_pct": 17.172837633154344,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "241560": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -261015.0,
-      "institution_net_buy_qty_5d": 323862.0,
-      "foreign_flow_5d_pct": -21.27351770409178,
-      "institution_flow_5d_pct": 26.395739672748967,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -190404.0,
+      "institution_net_buy_qty_5d": 229516.0,
+      "foreign_flow_5d_pct": -18.384975619176362,
+      "institution_flow_5d_pct": 22.161541061169313,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "008930": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -22693.0,
-      "institution_net_buy_qty_5d": 104084.0,
-      "foreign_flow_5d_pct": -2.243683861354911,
-      "institution_flow_5d_pct": 10.29090869542434,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": 9183.0,
+      "institution_net_buy_qty_5d": 130367.0,
+      "foreign_flow_5d_pct": 1.4212794145870349,
+      "institution_flow_5d_pct": 20.17727686392987,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "383220": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": -20905.0,
-      "institution_net_buy_qty_5d": 13794.0,
-      "foreign_flow_5d_pct": -9.892439535687076,
-      "institution_flow_5d_pct": 6.527448503002513,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -9737.0,
+      "institution_net_buy_qty_5d": 13145.0,
+      "foreign_flow_5d_pct": -4.472483912010987,
+      "institution_flow_5d_pct": 6.037876247651682,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "005440": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 102898.0,
-      "institution_net_buy_qty_5d": -51508.0,
-      "foreign_flow_5d_pct": 20.30163008093188,
-      "institution_flow_5d_pct": -10.162455657142406,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": -8935.0,
+      "institution_net_buy_qty_5d": 77237.0,
+      "foreign_flow_5d_pct": -1.4269447412255276,
+      "institution_flow_5d_pct": 12.334967093232912,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },
   "014680": {
-    "as_of": "2026-11-18",
+    "as_of": "2026-11-20",
     "metrics": {
-      "foreign_net_buy_qty_5d": 19724.0,
-      "institution_net_buy_qty_5d": -19037.0,
-      "foreign_flow_5d_pct": 7.9124194176003595,
-      "institution_flow_5d_pct": -7.6368246021526085,
-      "investor_flow_as_of": "20261118",
+      "foreign_net_buy_qty_5d": 11142.0,
+      "institution_net_buy_qty_5d": -5874.0,
+      "foreign_flow_5d_pct": 4.667764274133749,
+      "institution_flow_5d_pct": -2.4608191838324935,
+      "investor_flow_as_of": "20261120",
       "investor_flow_sessions": 5
     }
   },

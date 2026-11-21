@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "source": "Naver Stock Research API v2",
-  "collected_at": "2026-11-20T01:28:06.404062+00:00",
+  "collected_at": "2026-11-21T02:55:07.807772+00:00",
   "candidate_count": 1500,
   "source_total_count": "90409",
   "verified_for_scoring": 1133,
@@ -9,7 +9,7 @@
   "candidates": [
     {
       "company": "현대오토에버",
-      "title": "27년은 DX에서 AX 중심 매출 전환의 원년",
+      "title": "’27년은 DX에서 AX 중심 매출 전환의 원년",
       "broker": "한화투자증권",
       "published_at": "2026-11-20",
       "discovery_source": "Naver Stock Research API v2",
