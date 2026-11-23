@@ -691,5 +691,38 @@
       "sales_growth_pct": 5.465198372539537,
       "operating_profit_growth_pct": 0.6157873530159064
     }
+  },
+  "128940": {
+    "cached_at": "2026-11-23T11:08:38.387805+00:00",
+    "financial_year": 2025,
+    "corp_code": "00828497",
+    "fs_div": "CFS",
+    "metrics": {
+      "roe_pct": 14.051298640794888,
+      "sales_growth_pct": 3.47906843061927,
+      "operating_profit_growth_pct": 19.248640518072826
+    }
+  },
+  "267270": {
+    "cached_at": "2026-11-23T11:08:38.387805+00:00",
+    "financial_year": 2025,
+    "corp_code": "01205842",
+    "fs_div": "CFS",
+    "metrics": {
+      "roe_pct": 4.674110729322687,
+      "sales_growth_pct": 9.844548477295167,
+      "operating_profit_growth_pct": -10.260709165084592
+    }
+  },
+  "123690": {
+    "cached_at": "2026-11-23T11:08:38.387805+00:00",
+    "financial_year": 2025,
+    "corp_code": "00823429",
+    "fs_div": "CFS",
+    "metrics": {
+      "roe_pct": 3.582073497642065,
+      "sales_growth_pct": -8.358868737702963,
+      "operating_profit_growth_pct": -85.79325664938466
+    }
   }
 }
