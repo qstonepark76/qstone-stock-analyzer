@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-11-20",
+  "as_of": "2026-11-23",
   "methodology": {
     "recommendation_price": "추천일 종가",
     "horizons": {
@@ -247,5 +247,5 @@
       }
     }
   },
-  "snapshot_count": 4
+  "snapshot_count": 5
 }
