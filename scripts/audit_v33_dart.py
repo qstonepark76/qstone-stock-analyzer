@@ -59,6 +59,24 @@ def audit():
                     clean = [{k:r.get(k) for k in FIELDS} for r in items
                              if isinstance(r, dict) and r.get("sj_div") in ("BS","IS","CIS","CF")]
                     (raw_dir / (ticker+".json")).write_text(json.dumps(clean,ensure_ascii=False,indent=2),encoding="utf-8")
+                    # Expose public account evidence for targeted review without needing
+                    # to download the entire artifact. No headers, keys or URLs.
+                    if not model:
+                        selected = []
+                        terms = {
+                            "BS": ("차입", "사채", "장기부채", "리스", "현금및현금", "자본총계"),
+                            "IS": ("매출", "영업이익", "영업손익", "법인세", "세전"),
+                            "CIS": ("매출", "영업이익", "영업손익", "법인세", "세전"),
+                            "CF": ("감가상각", "무형자산상각", "영업활동"),
+                        }
+                        for rr in clean:
+                            name = str(rr.get("account_nm") or "").replace(" ", "")
+                            section = rr.get("sj_div")
+                            if any(term in name for term in terms.get(section, ())):
+                                selected.append([section, rr.get("account_id"), rr.get("account_nm"),
+                                                 rr.get("account_detail"), rr.get("thstrm_amount"),
+                                                 rr.get("frmtrm_amount"), rr.get("currency")])
+                        print("DART ACCOUNT EVIDENCE", ticker, scope, json.dumps(selected, ensure_ascii=False), flush=True)
                     metrics = extract_financial(items, ticker=ticker, financial_year=year, fs_div=scope)
                     values = metrics.get("industry_metrics") or {}
                     row.update(status="source_received",scope=scope,corp_code=corp,
