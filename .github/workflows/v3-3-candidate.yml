@@ -80,3 +80,30 @@ jobs:
           else
             echo "FISIS_AUTH_KEY: not configured under this name"
           fi
+
+  fisis-metadata-audit:
+    if: github.repository == 'qstonepark76/qstone-stock-analyzer' && github.ref == 'refs/heads/v3-3-industry-relative-model' && (github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[fisis-audit]'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install requests
+      - name: Query FISIS company and account metadata
+        env:
+          FISIS_AUTH_KEY: ${{ secrets.FISIS_AUTH_KEY }}
+        run: python -u scripts/audit_v33_fisis.py
+      - name: Upload public metadata for review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v33-fisis-metadata
+          path: audit-fisis/
+          if-no-files-found: warn
+          retention-days: 14
