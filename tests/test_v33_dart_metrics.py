@@ -239,5 +239,47 @@ class CapitalMetricTests(unittest.TestCase):
         self.assertTrue(all(v is None for v in admitted_industry_metrics(values,q,2025).values()))
 
 
+class FisisAutoAdmissionTests(unittest.TestCase):
+    def test_actual_snapshot_has_27_direct_metrics_without_bank_proxies(self):
+        from fisis_auto import load_auto_observations
+        result=load_auto_observations(period="2025-12")
+        self.assertEqual(len(result),11)
+        self.assertEqual(sum(len(r["metrics"]) for r in result.values()),27)
+        self.assertEqual(result["032830"]["metrics"]["kics_pct"]["value"],197.97)
+        self.assertEqual(result["029780"]["metrics"]["delinquency_pct"]["value"],.94)
+        self.assertNotIn("105560",result)
+        self.assertNotIn("investment_yield_pct",result["032830"]["metrics"])
+        self.assertEqual(load_auto_observations(period="2026-12"),{})
+
+    def test_exact_identity_scope_and_period_are_required(self):
+        import copy
+        import json
+        from fisis_auto import SNAPSHOT, normalize_record
+        snapshot=json.loads(SNAPSHOT.read_text(encoding="utf-8"))
+        raw=next(r for r in snapshot["records"] if r["company"]=="0010595" and r["table"]=="SH021" and r["account"]=="A")
+        self.assertIsNotNone(normalize_record(raw,"2025-12",snapshot["source_run"]))
+        for field,value in [("base_month","202509"),("finance_cd","0010593"),("account_cd","D"),("a","NaN"),("a","0")]:
+            altered=copy.deepcopy(raw)
+            altered["response"]["list"][0][field]=value
+            self.assertIsNone(normalize_record(altered,"2025-12",snapshot["source_run"]))
+        altered=copy.deepcopy(raw)
+        altered["response"]["unit"]="원"
+        self.assertIsNone(normalize_record(altered,"2025-12",snapshot["source_run"]))
+
+    def test_duplicate_source_metric_is_excluded(self):
+        import json
+        import tempfile
+        from pathlib import Path
+        from fisis_auto import SNAPSHOT,load_auto_observations
+        obj=json.loads(SNAPSHOT.read_text(encoding="utf-8"))
+        raw=next(r for r in obj["records"] if r["company"]=="0010595" and r["table"]=="SH021" and r["account"]=="A")
+        obj["records"].append(raw)
+        with tempfile.TemporaryDirectory() as directory:
+            path=Path(directory)/"snapshot.json"
+            path.write_text(json.dumps(obj),encoding="utf-8")
+            result=load_auto_observations(path=path)
+        self.assertNotIn("kics_pct",result["032830"]["metrics"])
+
+
 if __name__ == "__main__":
     unittest.main()
