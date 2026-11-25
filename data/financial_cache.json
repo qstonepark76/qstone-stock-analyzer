@@ -768,5 +768,27 @@
       "sales_growth_pct": -23.315623497767636,
       "operating_profit_growth_pct": -302.2772187409828
     }
+  },
+  "307950": {
+    "cached_at": "2026-11-25T11:01:00.166585+00:00",
+    "financial_year": 2025,
+    "corp_code": "00362441",
+    "fs_div": "CFS",
+    "metrics": {
+      "roe_pct": 10.362087086777562,
+      "sales_growth_pct": 14.49933969595758,
+      "operating_profit_growth_pct": 13.753732843773768
+    }
+  },
+  "004990": {
+    "cached_at": "2026-11-25T11:01:00.166585+00:00",
+    "financial_year": 2025,
+    "corp_code": "00120562",
+    "fs_div": "CFS",
+    "metrics": {
+      "roe_pct": -6.390530796397154,
+      "sales_growth_pct": null,
+      "operating_profit_growth_pct": -29.67362597331996
+    }
   }
 }
