@@ -1,0 +1,39 @@
+name: Q Stone Park v3.3 XBRL note evidence
+
+on:
+  push:
+    branches:
+      - v3-3-industry-relative-model
+    paths:
+      - 'audit_tools/xbrl_note_evidence.py'
+      - '.github/workflows/v3-3-xbrl-notes.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  discover-real-notes:
+    if: github.repository == 'qstonepark76/qstone-stock-analyzer'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install requests
+      - run: python -m py_compile audit_tools/xbrl_note_evidence.py
+      - name: Retrieve XBRL note evidence for four actual annual filings
+        env:
+          DART_AUTH_KEY: ${{ secrets.DART_AUTH_KEY }}
+        run: python -u audit_tools/xbrl_note_evidence.py
+      - name: Save public XBRL concept and context evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v33-xbrl-note-evidence
+          path: audit-xbrl-notes/
+          if-no-files-found: warn
+          retention-days: 14
