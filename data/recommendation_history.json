@@ -79,22 +79,38 @@
       }
     ],
     "returns": {
-      "1w": null,
+      "1w": -3.55,
       "1m": null,
       "3m": null
     },
     "stock_returns": {
-      "1w": {},
+      "1w": {
+        "068270": -1.88,
+        "003230": -3.7,
+        "086280": 2.74,
+        "128940": 1.9,
+        "161390": -1.89,
+        "010140": -6.44,
+        "062040": -4.23,
+        "079550": 5.93,
+        "192820": -0.34,
+        "214320": -5.27,
+        "353200": -3.35,
+        "018260": -18.5,
+        "036460": -5.9,
+        "002350": -4.12,
+        "035420": -8.18
+      },
       "1m": {},
       "3m": {}
     },
     "kospi_returns": {
-      "1w": null,
+      "1w": 0.76,
       "1m": null,
       "3m": null
     },
     "excess_returns": {
-      "1w": null,
+      "1w": -4.31,
       "1m": null,
       "3m": null
     },
@@ -852,24 +868,24 @@
     "strategy_results": {
       "overall": {
         "returns": {
-          "1w": null,
+          "1w": -3.55,
           "1m": null,
           "3m": null
         },
         "kospi_returns": {
-          "1w": null,
+          "1w": 0.76,
           "1m": null,
           "3m": null
         },
         "excess_returns": {
-          "1w": null,
+          "1w": -4.31,
           "1m": null,
           "3m": null
         },
         "success_rates": {
           "1w": {
-            "absolute": null,
-            "outperform": null
+            "absolute": 20.0,
+            "outperform": 20.0
           },
           "1m": {
             "absolute": null,
@@ -882,9 +898,10 @@
         },
         "counts": {
           "1w": {
-            "evaluated": 0,
-            "positive": 0,
-            "outperform": 0
+            "evaluated": 15,
+            "positive": 3,
+            "outperform": 3,
+            "benchmark_evaluated": 15
           },
           "1m": {
             "evaluated": 0,
@@ -898,31 +915,47 @@
           }
         },
         "stock_returns": {
-          "1w": {},
+          "1w": {
+            "068270": -1.88,
+            "003230": -3.7,
+            "086280": 2.74,
+            "128940": 1.9,
+            "161390": -1.89,
+            "010140": -6.44,
+            "062040": -4.23,
+            "079550": 5.93,
+            "192820": -0.34,
+            "214320": -5.27,
+            "353200": -3.35,
+            "018260": -18.5,
+            "036460": -5.9,
+            "002350": -4.12,
+            "035420": -8.18
+          },
           "1m": {},
           "3m": {}
         }
       },
       "financial": {
         "returns": {
-          "1w": null,
+          "1w": -1.62,
           "1m": null,
           "3m": null
         },
         "kospi_returns": {
-          "1w": null,
+          "1w": 0.76,
           "1m": null,
           "3m": null
         },
         "excess_returns": {
-          "1w": null,
+          "1w": -2.38,
           "1m": null,
           "3m": null
         },
         "success_rates": {
           "1w": {
-            "absolute": null,
-            "outperform": null
+            "absolute": 33.3,
+            "outperform": 33.3
           },
           "1m": {
             "absolute": null,
@@ -935,9 +968,10 @@
         },
         "counts": {
           "1w": {
-            "evaluated": 0,
-            "positive": 0,
-            "outperform": 0
+            "evaluated": 15,
+            "positive": 5,
+            "outperform": 5,
+            "benchmark_evaluated": 15
           },
           "1m": {
             "evaluated": 0,
@@ -951,31 +985,47 @@
           }
         },
         "stock_returns": {
-          "1w": {},
+          "1w": {
+            "278470": 14.07,
+            "005690": 2.24,
+            "100840": -0.2,
+            "000660": 5.46,
+            "483650": 8.32,
+            "071970": -10.15,
+            "064350": -9.61,
+            "007660": -12.17,
+            "062040": -4.23,
+            "003230": -3.7,
+            "042660": -3.68,
+            "267260": 5.68,
+            "017960": -3.97,
+            "326030": -5.51,
+            "082740": -6.83
+          },
           "1m": {},
           "3m": {}
         }
       },
       "growth": {
         "returns": {
-          "1w": null,
+          "1w": -0.18,
           "1m": null,
           "3m": null
         },
         "kospi_returns": {
-          "1w": null,
+          "1w": 0.76,
           "1m": null,
           "3m": null
         },
         "excess_returns": {
-          "1w": null,
+          "1w": -0.94,
           "1m": null,
           "3m": null
         },
         "success_rates": {
           "1w": {
-            "absolute": null,
-            "outperform": null
+            "absolute": 46.7,
+            "outperform": 40.0
           },
           "1m": {
             "absolute": null,
@@ -988,9 +1038,10 @@
         },
         "counts": {
           "1w": {
-            "evaluated": 0,
-            "positive": 0,
-            "outperform": 0
+            "evaluated": 15,
+            "positive": 7,
+            "outperform": 6,
+            "benchmark_evaluated": 15
           },
           "1m": {
             "evaluated": 0,
@@ -1004,31 +1055,47 @@
           }
         },
         "stock_returns": {
-          "1w": {},
+          "1w": {
+            "489790": -9.75,
+            "003160": -5.35,
+            "005690": 2.24,
+            "100840": -0.2,
+            "278470": 14.07,
+            "032350": 2.65,
+            "003530": 0.14,
+            "000660": 5.46,
+            "064350": -9.61,
+            "139130": -0.19,
+            "003540": -1.4,
+            "483650": 8.32,
+            "071970": -10.15,
+            "000500": 6.64,
+            "326030": -5.51
+          },
           "1m": {},
           "3m": {}
         }
       },
       "undervalued": {
         "returns": {
-          "1w": null,
+          "1w": -2.68,
           "1m": null,
           "3m": null
         },
         "kospi_returns": {
-          "1w": null,
+          "1w": 0.76,
           "1m": null,
           "3m": null
         },
         "excess_returns": {
-          "1w": null,
+          "1w": -3.44,
           "1m": null,
           "3m": null
         },
         "success_rates": {
           "1w": {
-            "absolute": null,
-            "outperform": null
+            "absolute": 13.3,
+            "outperform": 13.3
           },
           "1m": {
             "absolute": null,
@@ -1041,9 +1108,10 @@
         },
         "counts": {
           "1w": {
-            "evaluated": 0,
-            "positive": 0,
-            "outperform": 0
+            "evaluated": 15,
+            "positive": 2,
+            "outperform": 2,
+            "benchmark_evaluated": 15
           },
           "1m": {
             "evaluated": 0,
@@ -1057,31 +1125,47 @@
           }
         },
         "stock_returns": {
-          "1w": {},
+          "1w": {
+            "007700": -0.93,
+            "000880": -3.12,
+            "088350": -4.09,
+            "000370": -3.45,
+            "005880": 1.68,
+            "071320": 0.0,
+            "015760": 1.2,
+            "267250": -3.74,
+            "036530": -7.7,
+            "017940": -5.12,
+            "002350": -4.12,
+            "383800": -1.42,
+            "058650": -3.09,
+            "051910": -0.47,
+            "284740": -5.84
+          },
           "1m": {},
           "3m": {}
         }
       },
       "momentum": {
         "returns": {
-          "1w": null,
+          "1w": -2.23,
           "1m": null,
           "3m": null
         },
         "kospi_returns": {
-          "1w": null,
+          "1w": 0.76,
           "1m": null,
           "3m": null
         },
         "excess_returns": {
-          "1w": null,
+          "1w": -2.99,
           "1m": null,
           "3m": null
         },
         "success_rates": {
           "1w": {
-            "absolute": null,
-            "outperform": null
+            "absolute": 26.7,
+            "outperform": 20.0
           },
           "1m": {
             "absolute": null,
@@ -1094,9 +1178,10 @@
         },
         "counts": {
           "1w": {
-            "evaluated": 0,
-            "positive": 0,
-            "outperform": 0
+            "evaluated": 15,
+            "positive": 4,
+            "outperform": 3,
+            "benchmark_evaluated": 15
           },
           "1m": {
             "evaluated": 0,
@@ -1110,31 +1195,47 @@
           }
         },
         "stock_returns": {
-          "1w": {},
+          "1w": {
+            "028050": -12.08,
+            "007810": 1.78,
+            "012750": 0.0,
+            "011810": 0.0,
+            "192820": -0.34,
+            "068270": -1.88,
+            "003490": -2.5,
+            "089590": 7.38,
+            "089860": 0.17,
+            "137310": -1.36,
+            "280360": -4.08,
+            "034230": 6.06,
+            "302440": -7.52,
+            "104700": -14.61,
+            "021240": -4.47
+          },
           "1m": {},
           "3m": {}
         }
       },
       "foreign_flow": {
         "returns": {
-          "1w": null,
+          "1w": -0.84,
           "1m": null,
           "3m": null
         },
         "kospi_returns": {
-          "1w": null,
+          "1w": 0.76,
           "1m": null,
           "3m": null
         },
         "excess_returns": {
-          "1w": null,
+          "1w": -1.6,
           "1m": null,
           "3m": null
         },
         "success_rates": {
           "1w": {
-            "absolute": null,
-            "outperform": null
+            "absolute": 33.3,
+            "outperform": 26.7
           },
           "1m": {
             "absolute": null,
@@ -1147,9 +1248,10 @@
         },
         "counts": {
           "1w": {
-            "evaluated": 0,
-            "positive": 0,
-            "outperform": 0
+            "evaluated": 15,
+            "positive": 5,
+            "outperform": 4,
+            "benchmark_evaluated": 15
           },
           "1m": {
             "evaluated": 0,
@@ -1163,31 +1265,47 @@
           }
         },
         "stock_returns": {
-          "1w": {},
+          "1w": {
+            "003690": -7.35,
+            "005180": -3.27,
+            "279570": -4.9,
+            "001720": 10.68,
+            "383800": -1.42,
+            "002960": -1.82,
+            "030190": 2.34,
+            "000240": -6.81,
+            "001740": -3.71,
+            "000120": 0.58,
+            "030000": 1.39,
+            "026960": -1.86,
+            "00680K": -3.67,
+            "139130": -0.19,
+            "089590": 7.38
+          },
           "1m": {},
           "3m": {}
         }
       },
       "institution_flow": {
         "returns": {
-          "1w": null,
+          "1w": -2.47,
           "1m": null,
           "3m": null
         },
         "kospi_returns": {
-          "1w": null,
+          "1w": 0.76,
           "1m": null,
           "3m": null
         },
         "excess_returns": {
-          "1w": null,
+          "1w": -3.23,
           "1m": null,
           "3m": null
         },
         "success_rates": {
           "1w": {
-            "absolute": null,
-            "outperform": null
+            "absolute": 26.7,
+            "outperform": 20.0
           },
           "1m": {
             "absolute": null,
@@ -1200,9 +1318,10 @@
         },
         "counts": {
           "1w": {
-            "evaluated": 0,
-            "positive": 0,
-            "outperform": 0
+            "evaluated": 15,
+            "positive": 4,
+            "outperform": 3,
+            "benchmark_evaluated": 15
           },
           "1m": {
             "evaluated": 0,
@@ -1216,7 +1335,23 @@
           }
         },
         "stock_returns": {
-          "1w": {},
+          "1w": {
+            "064960": 0.6,
+            "003570": 3.74,
+            "020560": -1.53,
+            "039490": 1.96,
+            "006650": -5.01,
+            "009420": -2.24,
+            "003850": -4.14,
+            "069960": -5.19,
+            "280360": -4.08,
+            "078930": -15.9,
+            "282330": -5.26,
+            "267270": -10.06,
+            "281820": 17.57,
+            "017800": -4.34,
+            "081660": -3.15
+          },
           "1m": {},
           "3m": {}
         }
@@ -5842,6 +5977,1260 @@
           "close": 36100.0,
           "score": 95.2542372881356,
           "sector": "반도체·전자"
+        }
+      ]
+    },
+    "strategy_results": {
+      "overall": {
+        "returns": {
+          "1w": null,
+          "1m": null,
+          "3m": null
+        },
+        "kospi_returns": {
+          "1w": null,
+          "1m": null,
+          "3m": null
+        },
+        "excess_returns": {
+          "1w": null,
+          "1m": null,
+          "3m": null
+        },
+        "success_rates": {
+          "1w": {
+            "absolute": null,
+            "outperform": null
+          },
+          "1m": {
+            "absolute": null,
+            "outperform": null
+          },
+          "3m": {
+            "absolute": null,
+            "outperform": null
+          }
+        },
+        "counts": {
+          "1w": {
+            "evaluated": 0,
+            "positive": 0,
+            "outperform": 0
+          },
+          "1m": {
+            "evaluated": 0,
+            "positive": 0,
+            "outperform": 0
+          },
+          "3m": {
+            "evaluated": 0,
+            "positive": 0,
+            "outperform": 0
+          }
+        },
+        "stock_returns": {
+          "1w": {},
+          "1m": {},
+          "3m": {}
+        }
+      },
+      "financial": {
+        "returns": {
+          "1w": null,
+          "1m": null,
+          "3m": null
+        },
+        "kospi_returns": {
+          "1w": null,
+          "1m": null,
+          "3m": null
+        },
+        "excess_returns": {
+          "1w": null,
+          "1m": null,
+          "3m": null
+        },
+        "success_rates": {
+          "1w": {
+            "absolute": null,
+            "outperform": null
+          },
+          "1m": {
+            "absolute": null,
+            "outperform": null
+          },
+          "3m": {
+            "absolute": null,
+            "outperform": null
+          }
+        },
+        "counts": {
+          "1w": {
+            "evaluated": 0,
+            "positive": 0,
+            "outperform": 0
+          },
+          "1m": {
+            "evaluated": 0,
+            "positive": 0,
+            "outperform": 0
+          },
+          "3m": {
+            "evaluated": 0,
+            "positive": 0,
+            "outperform": 0
+          }
+        },
+        "stock_returns": {
+          "1w": {},
+          "1m": {},
+          "3m": {}
+        }
+      },
+      "growth": {
+        "returns": {
+          "1w": null,
+          "1m": null,
+          "3m": null
+        },
+        "kospi_returns": {
+          "1w": null,
+          "1m": null,
+          "3m": null
+        },
+        "excess_returns": {
+          "1w": null,
+          "1m": null,
+          "3m": null
+        },
+        "success_rates": {
+          "1w": {
+            "absolute": null,
+            "outperform": null
+          },
+          "1m": {
+            "absolute": null,
+            "outperform": null
+          },
+          "3m": {
+            "absolute": null,
+            "outperform": null
+          }
+        },
+        "counts": {
+          "1w": {
+            "evaluated": 0,
+            "positive": 0,
+            "outperform": 0
+          },
+          "1m": {
+            "evaluated": 0,
+            "positive": 0,
+            "outperform": 0
+          },
+          "3m": {
+            "evaluated": 0,
+            "positive": 0,
+            "outperform": 0
+          }
+        },
+        "stock_returns": {
+          "1w": {},
+          "1m": {},
+          "3m": {}
+        }
+      },
+      "undervalued": {
+        "returns": {
+          "1w": null,
+          "1m": null,
+          "3m": null
+        },
+        "kospi_returns": {
+          "1w": null,
+          "1m": null,
+          "3m": null
+        },
+        "excess_returns": {
+          "1w": null,
+          "1m": null,
+          "3m": null
+        },
+        "success_rates": {
+          "1w": {
+            "absolute": null,
+            "outperform": null
+          },
+          "1m": {
+            "absolute": null,
+            "outperform": null
+          },
+          "3m": {
+            "absolute": null,
+            "outperform": null
+          }
+        },
+        "counts": {
+          "1w": {
+            "evaluated": 0,
+            "positive": 0,
+            "outperform": 0
+          },
+          "1m": {
+            "evaluated": 0,
+            "positive": 0,
+            "outperform": 0
+          },
+          "3m": {
+            "evaluated": 0,
+            "positive": 0,
+            "outperform": 0
+          }
+        },
+        "stock_returns": {
+          "1w": {},
+          "1m": {},
+          "3m": {}
+        }
+      },
+      "momentum": {
+        "returns": {
+          "1w": null,
+          "1m": null,
+          "3m": null
+        },
+        "kospi_returns": {
+          "1w": null,
+          "1m": null,
+          "3m": null
+        },
+        "excess_returns": {
+          "1w": null,
+          "1m": null,
+          "3m": null
+        },
+        "success_rates": {
+          "1w": {
+            "absolute": null,
+            "outperform": null
+          },
+          "1m": {
+            "absolute": null,
+            "outperform": null
+          },
+          "3m": {
+            "absolute": null,
+            "outperform": null
+          }
+        },
+        "counts": {
+          "1w": {
+            "evaluated": 0,
+            "positive": 0,
+            "outperform": 0
+          },
+          "1m": {
+            "evaluated": 0,
+            "positive": 0,
+            "outperform": 0
+          },
+          "3m": {
+            "evaluated": 0,
+            "positive": 0,
+            "outperform": 0
+          }
+        },
+        "stock_returns": {
+          "1w": {},
+          "1m": {},
+          "3m": {}
+        }
+      },
+      "foreign_flow": {
+        "returns": {
+          "1w": null,
+          "1m": null,
+          "3m": null
+        },
+        "kospi_returns": {
+          "1w": null,
+          "1m": null,
+          "3m": null
+        },
+        "excess_returns": {
+          "1w": null,
+          "1m": null,
+          "3m": null
+        },
+        "success_rates": {
+          "1w": {
+            "absolute": null,
+            "outperform": null
+          },
+          "1m": {
+            "absolute": null,
+            "outperform": null
+          },
+          "3m": {
+            "absolute": null,
+            "outperform": null
+          }
+        },
+        "counts": {
+          "1w": {
+            "evaluated": 0,
+            "positive": 0,
+            "outperform": 0
+          },
+          "1m": {
+            "evaluated": 0,
+            "positive": 0,
+            "outperform": 0
+          },
+          "3m": {
+            "evaluated": 0,
+            "positive": 0,
+            "outperform": 0
+          }
+        },
+        "stock_returns": {
+          "1w": {},
+          "1m": {},
+          "3m": {}
+        }
+      },
+      "institution_flow": {
+        "returns": {
+          "1w": null,
+          "1m": null,
+          "3m": null
+        },
+        "kospi_returns": {
+          "1w": null,
+          "1m": null,
+          "3m": null
+        },
+        "excess_returns": {
+          "1w": null,
+          "1m": null,
+          "3m": null
+        },
+        "success_rates": {
+          "1w": {
+            "absolute": null,
+            "outperform": null
+          },
+          "1m": {
+            "absolute": null,
+            "outperform": null
+          },
+          "3m": {
+            "absolute": null,
+            "outperform": null
+          }
+        },
+        "counts": {
+          "1w": {
+            "evaluated": 0,
+            "positive": 0,
+            "outperform": 0
+          },
+          "1m": {
+            "evaluated": 0,
+            "positive": 0,
+            "outperform": 0
+          },
+          "3m": {
+            "evaluated": 0,
+            "positive": 0,
+            "outperform": 0
+          }
+        },
+        "stock_returns": {
+          "1w": {},
+          "1m": {},
+          "3m": {}
+        }
+      }
+    },
+    "returns": {
+      "1w": null,
+      "1m": null,
+      "3m": null
+    },
+    "kospi_returns": {
+      "1w": null,
+      "1m": null,
+      "3m": null
+    },
+    "excess_returns": {
+      "1w": null,
+      "1m": null,
+      "3m": null
+    },
+    "stock_returns": {
+      "1w": {},
+      "1m": {},
+      "3m": {}
+    }
+  },
+  {
+    "as_of": "2026-11-24",
+    "tickers": [
+      {
+        "ticker": "068270",
+        "name": "셀트리온",
+        "close": 209000.0,
+        "score": 70.4,
+        "sector": "바이오·헬스케어"
+      },
+      {
+        "ticker": "086280",
+        "name": "현대글로비스",
+        "close": 206500.0,
+        "score": 65.7,
+        "sector": "운송·물류"
+      },
+      {
+        "ticker": "003230",
+        "name": "삼양식품",
+        "close": 1224000.0,
+        "score": 65.2,
+        "sector": "소비재·유통"
+      },
+      {
+        "ticker": "062040",
+        "name": "산일전기",
+        "close": 106300.0,
+        "score": 61.9,
+        "sector": "산업재·방산"
+      },
+      {
+        "ticker": "161390",
+        "name": "한국타이어앤테크놀로지",
+        "close": 62400.0,
+        "score": 61.1,
+        "sector": "에너지·화학"
+      },
+      {
+        "ticker": "192820",
+        "name": "코스맥스",
+        "close": 291500.0,
+        "score": 60.6,
+        "sector": "에너지·화학"
+      },
+      {
+        "ticker": "079550",
+        "name": "LIG디펜스앤에어로스페이스",
+        "close": 366000.0,
+        "score": 56.8,
+        "sector": "산업재·방산"
+      },
+      {
+        "ticker": "030200",
+        "name": "KT",
+        "close": 45000.0,
+        "score": 56.7,
+        "sector": "통신·미디어·엔터"
+      },
+      {
+        "ticker": "010140",
+        "name": "삼성중공업",
+        "close": 14970.0,
+        "score": 56.1,
+        "sector": "산업재·방산"
+      },
+      {
+        "ticker": "353200",
+        "name": "대덕전자",
+        "close": 78000.0,
+        "score": 55.4,
+        "sector": "반도체·전자"
+      },
+      {
+        "ticker": "088350",
+        "name": "한화생명",
+        "close": 3520.0,
+        "score": 54.8,
+        "sector": "금융"
+      },
+      {
+        "ticker": "032640",
+        "name": "LG유플러스",
+        "close": 14960.0,
+        "score": 53.4,
+        "sector": "통신·미디어·엔터"
+      },
+      {
+        "ticker": "128940",
+        "name": "한미약품",
+        "close": 457000.0,
+        "score": 52.1,
+        "sector": "바이오·헬스케어"
+      },
+      {
+        "ticker": "002350",
+        "name": "넥센타이어",
+        "close": 5820.0,
+        "score": 50.5,
+        "sector": "에너지·화학"
+      },
+      {
+        "ticker": "010130",
+        "name": "고려아연",
+        "close": 755000.0,
+        "score": 49.9,
+        "sector": "산업재·방산"
+      }
+    ],
+    "strategies": {
+      "overall": [
+        {
+          "ticker": "068270",
+          "name": "셀트리온",
+          "close": 209000.0,
+          "score": 70.4,
+          "sector": "바이오·헬스케어"
+        },
+        {
+          "ticker": "086280",
+          "name": "현대글로비스",
+          "close": 206500.0,
+          "score": 65.7,
+          "sector": "운송·물류"
+        },
+        {
+          "ticker": "003230",
+          "name": "삼양식품",
+          "close": 1224000.0,
+          "score": 65.2,
+          "sector": "소비재·유통"
+        },
+        {
+          "ticker": "062040",
+          "name": "산일전기",
+          "close": 106300.0,
+          "score": 61.9,
+          "sector": "산업재·방산"
+        },
+        {
+          "ticker": "161390",
+          "name": "한국타이어앤테크놀로지",
+          "close": 62400.0,
+          "score": 61.1,
+          "sector": "에너지·화학"
+        },
+        {
+          "ticker": "192820",
+          "name": "코스맥스",
+          "close": 291500.0,
+          "score": 60.6,
+          "sector": "에너지·화학"
+        },
+        {
+          "ticker": "079550",
+          "name": "LIG디펜스앤에어로스페이스",
+          "close": 366000.0,
+          "score": 56.8,
+          "sector": "산업재·방산"
+        },
+        {
+          "ticker": "030200",
+          "name": "KT",
+          "close": 45000.0,
+          "score": 56.7,
+          "sector": "통신·미디어·엔터"
+        },
+        {
+          "ticker": "010140",
+          "name": "삼성중공업",
+          "close": 14970.0,
+          "score": 56.1,
+          "sector": "산업재·방산"
+        },
+        {
+          "ticker": "353200",
+          "name": "대덕전자",
+          "close": 78000.0,
+          "score": 55.4,
+          "sector": "반도체·전자"
+        },
+        {
+          "ticker": "088350",
+          "name": "한화생명",
+          "close": 3520.0,
+          "score": 54.8,
+          "sector": "금융"
+        },
+        {
+          "ticker": "032640",
+          "name": "LG유플러스",
+          "close": 14960.0,
+          "score": 53.4,
+          "sector": "통신·미디어·엔터"
+        },
+        {
+          "ticker": "128940",
+          "name": "한미약품",
+          "close": 457000.0,
+          "score": 52.1,
+          "sector": "바이오·헬스케어"
+        },
+        {
+          "ticker": "002350",
+          "name": "넥센타이어",
+          "close": 5820.0,
+          "score": 50.5,
+          "sector": "에너지·화학"
+        },
+        {
+          "ticker": "010130",
+          "name": "고려아연",
+          "close": 755000.0,
+          "score": 49.9,
+          "sector": "산업재·방산"
+        }
+      ],
+      "financial": [
+        {
+          "ticker": "278470",
+          "name": "에이피알",
+          "close": 263500.0,
+          "score": 98.2,
+          "sector": "에너지·화학"
+        },
+        {
+          "ticker": "005690",
+          "name": "파미셀",
+          "close": 8230.0,
+          "score": 97.7,
+          "sector": "반도체·전자"
+        },
+        {
+          "ticker": "100840",
+          "name": "SNT에너지",
+          "close": 25250.0,
+          "score": 95.5,
+          "sector": "산업재·방산"
+        },
+        {
+          "ticker": "000660",
+          "name": "SK하이닉스",
+          "close": 1158000.0,
+          "score": 95.2,
+          "sector": "반도체·전자"
+        },
+        {
+          "ticker": "483650",
+          "name": "달바글로벌",
+          "close": 128900.0,
+          "score": 94.5,
+          "sector": "에너지·화학"
+        },
+        {
+          "ticker": "071970",
+          "name": "HD현대마린엔진",
+          "close": 32300.0,
+          "score": 94.0,
+          "sector": "산업재·방산"
+        },
+        {
+          "ticker": "064350",
+          "name": "현대로템",
+          "close": 60200.0,
+          "score": 93.7,
+          "sector": "산업재·방산"
+        },
+        {
+          "ticker": "007660",
+          "name": "이수페타시스",
+          "close": 73600.0,
+          "score": 91.3,
+          "sector": "반도체·전자"
+        },
+        {
+          "ticker": "062040",
+          "name": "산일전기",
+          "close": 106300.0,
+          "score": 91.3,
+          "sector": "산업재·방산"
+        },
+        {
+          "ticker": "003230",
+          "name": "삼양식품",
+          "close": 1224000.0,
+          "score": 90.7,
+          "sector": "소비재·유통"
+        },
+        {
+          "ticker": "042660",
+          "name": "한화오션",
+          "close": 43200.0,
+          "score": 89.7,
+          "sector": "산업재·방산"
+        },
+        {
+          "ticker": "267260",
+          "name": "HD현대일렉트릭",
+          "close": 400000.0,
+          "score": 89.0,
+          "sector": "산업재·방산"
+        },
+        {
+          "ticker": "326030",
+          "name": "SK바이오팜",
+          "close": 84100.0,
+          "score": 88.6,
+          "sector": "바이오·헬스케어"
+        },
+        {
+          "ticker": "082740",
+          "name": "한화엔진",
+          "close": 22500.0,
+          "score": 88.4,
+          "sector": "산업재·방산"
+        },
+        {
+          "ticker": "017960",
+          "name": "한국카본",
+          "close": 12580.0,
+          "score": 88.4,
+          "sector": "산업재·방산"
+        }
+      ],
+      "growth": [
+        {
+          "ticker": "489790",
+          "name": "한화비전",
+          "close": 33800.0,
+          "score": 98.9,
+          "sector": "반도체·전자"
+        },
+        {
+          "ticker": "003160",
+          "name": "디아이",
+          "close": 25650.0,
+          "score": 98.3,
+          "sector": "바이오·헬스케어"
+        },
+        {
+          "ticker": "005690",
+          "name": "파미셀",
+          "close": 8230.0,
+          "score": 97.3,
+          "sector": "반도체·전자"
+        },
+        {
+          "ticker": "100840",
+          "name": "SNT에너지",
+          "close": 25250.0,
+          "score": 97.2,
+          "sector": "산업재·방산"
+        },
+        {
+          "ticker": "278470",
+          "name": "에이피알",
+          "close": 263500.0,
+          "score": 96.3,
+          "sector": "에너지·화학"
+        },
+        {
+          "ticker": "032350",
+          "name": "롯데관광개발",
+          "close": 10060.0,
+          "score": 93.9,
+          "sector": "소비재·유통"
+        },
+        {
+          "ticker": "003530",
+          "name": "한화투자증권",
+          "close": 3460.0,
+          "score": 92.4,
+          "sector": "금융"
+        },
+        {
+          "ticker": "000660",
+          "name": "SK하이닉스",
+          "close": 1158000.0,
+          "score": 91.1,
+          "sector": "반도체·전자"
+        },
+        {
+          "ticker": "064350",
+          "name": "현대로템",
+          "close": 60200.0,
+          "score": 90.8,
+          "sector": "산업재·방산"
+        },
+        {
+          "ticker": "139130",
+          "name": "iM금융지주",
+          "close": 15580.0,
+          "score": 90.6,
+          "sector": "금융"
+        },
+        {
+          "ticker": "003540",
+          "name": "대신증권",
+          "close": 19690.0,
+          "score": 89.7,
+          "sector": "금융"
+        },
+        {
+          "ticker": "483650",
+          "name": "달바글로벌",
+          "close": 128900.0,
+          "score": 89.4,
+          "sector": "에너지·화학"
+        },
+        {
+          "ticker": "071970",
+          "name": "HD현대마린엔진",
+          "close": 32300.0,
+          "score": 89.1,
+          "sector": "산업재·방산"
+        },
+        {
+          "ticker": "000500",
+          "name": "가온전선",
+          "close": 225000.0,
+          "score": 88.9,
+          "sector": "산업재·방산"
+        },
+        {
+          "ticker": "326030",
+          "name": "SK바이오팜",
+          "close": 84100.0,
+          "score": 88.6,
+          "sector": "바이오·헬스케어"
+        }
+      ],
+      "undervalued": [
+        {
+          "ticker": "000880",
+          "name": "한화",
+          "close": 68300.0,
+          "score": 99.0,
+          "sector": "에너지·화학"
+        },
+        {
+          "ticker": "007700",
+          "name": "F&F홀딩스",
+          "close": 12780.0,
+          "score": 98.8,
+          "sector": "금융"
+        },
+        {
+          "ticker": "000370",
+          "name": "한화손해보험",
+          "close": 5870.0,
+          "score": 94.8,
+          "sector": "금융"
+        },
+        {
+          "ticker": "088350",
+          "name": "한화생명",
+          "close": 3520.0,
+          "score": 94.6,
+          "sector": "금융"
+        },
+        {
+          "ticker": "267250",
+          "name": "HD현대",
+          "close": 113200.0,
+          "score": 93.0,
+          "sector": "금융"
+        },
+        {
+          "ticker": "071320",
+          "name": "지역난방공사",
+          "close": 63400.0,
+          "score": 93.0,
+          "sector": "에너지·화학"
+        },
+        {
+          "ticker": "005880",
+          "name": "대한해운",
+          "close": 1938.0,
+          "score": 92.9,
+          "sector": "운송·물류"
+        },
+        {
+          "ticker": "036530",
+          "name": "SNT홀딩스",
+          "close": 34150.0,
+          "score": 92.7,
+          "sector": "금융"
+        },
+        {
+          "ticker": "015760",
+          "name": "한국전력",
+          "close": 25400.0,
+          "score": 92.5,
+          "sector": "에너지·화학"
+        },
+        {
+          "ticker": "017940",
+          "name": "E1",
+          "close": 74100.0,
+          "score": 92.3,
+          "sector": "소비재·유통"
+        },
+        {
+          "ticker": "002350",
+          "name": "넥센타이어",
+          "close": 5820.0,
+          "score": 91.3,
+          "sector": "에너지·화학"
+        },
+        {
+          "ticker": "383800",
+          "name": "LX홀딩스",
+          "close": 6950.0,
+          "score": 91.2,
+          "sector": "금융"
+        },
+        {
+          "ticker": "058650",
+          "name": "세아홀딩스",
+          "close": 119300.0,
+          "score": 91.1,
+          "sector": "산업재·방산"
+        },
+        {
+          "ticker": "284740",
+          "name": "쿠쿠홈시스",
+          "close": 21750.0,
+          "score": 88.4,
+          "sector": "소비재·유통"
+        },
+        {
+          "ticker": "051910",
+          "name": "LG화학",
+          "close": 213500.0,
+          "score": 88.2,
+          "sector": "에너지·화학"
+        }
+      ],
+      "momentum": [
+        {
+          "ticker": "089590",
+          "name": "제주항공",
+          "close": 8000.0,
+          "score": 92.5,
+          "sector": "운송·물류"
+        },
+        {
+          "ticker": "180640",
+          "name": "한진칼",
+          "close": 226500.0,
+          "score": 92.3,
+          "sector": "금융"
+        },
+        {
+          "ticker": "029460",
+          "name": "케이씨",
+          "close": 48600.0,
+          "score": 90.9,
+          "sector": "바이오·헬스케어"
+        },
+        {
+          "ticker": "011810",
+          "name": "STX",
+          "close": 18360.0,
+          "score": 90.9,
+          "sector": "소비재·유통"
+        },
+        {
+          "ticker": "457190",
+          "name": "이수스페셜티케미컬",
+          "close": 82200.0,
+          "score": 90.8,
+          "sector": "에너지·화학"
+        },
+        {
+          "ticker": "007810",
+          "name": "코리아써키트",
+          "close": 91500.0,
+          "score": 90.5,
+          "sector": "반도체·전자"
+        },
+        {
+          "ticker": "012750",
+          "name": "에스원",
+          "close": 101800.0,
+          "score": 88.8,
+          "sector": "IT·소프트웨어"
+        },
+        {
+          "ticker": "034230",
+          "name": "파라다이스",
+          "close": 11020.0,
+          "score": 88.7,
+          "sector": "통신·미디어·엔터"
+        },
+        {
+          "ticker": "002790",
+          "name": "아모레퍼시픽홀딩스",
+          "close": 28150.0,
+          "score": 88.3,
+          "sector": "에너지·화학"
+        },
+        {
+          "ticker": "000400",
+          "name": "롯데손해보험",
+          "close": 2545.0,
+          "score": 87.8,
+          "sector": "금융"
+        },
+        {
+          "ticker": "089860",
+          "name": "롯데렌탈",
+          "close": 58600.0,
+          "score": 87.6,
+          "sector": "자동차·모빌리티"
+        },
+        {
+          "ticker": "068270",
+          "name": "셀트리온",
+          "close": 209000.0,
+          "score": 86.4,
+          "sector": "바이오·헬스케어"
+        },
+        {
+          "ticker": "003490",
+          "name": "대한항공",
+          "close": 31150.0,
+          "score": 86.2,
+          "sector": "운송·물류"
+        },
+        {
+          "ticker": "005300",
+          "name": "롯데칠성",
+          "close": 104900.0,
+          "score": 86.0,
+          "sector": "소비재·유통"
+        },
+        {
+          "ticker": "090430",
+          "name": "아모레퍼시픽",
+          "close": 139800.0,
+          "score": 85.4,
+          "sector": "에너지·화학"
+        }
+      ],
+      "foreign_flow": [
+        {
+          "ticker": "175330",
+          "name": "JB금융지주",
+          "close": 25350.0,
+          "score": 100.0,
+          "sector": "금융"
+        },
+        {
+          "ticker": "094800",
+          "name": "맵스리얼티",
+          "close": 7000.0,
+          "score": 99.66329966329967,
+          "sector": "금융"
+        },
+        {
+          "ticker": "097950",
+          "name": "CJ제일제당",
+          "close": 180200.0,
+          "score": 99.32659932659932,
+          "sector": "소비재·유통"
+        },
+        {
+          "ticker": "000120",
+          "name": "CJ대한통운",
+          "close": 69100.0,
+          "score": 98.98989898989899,
+          "sector": "운송·물류"
+        },
+        {
+          "ticker": "078930",
+          "name": "GS",
+          "close": 69300.0,
+          "score": 98.65319865319866,
+          "sector": "금융"
+        },
+        {
+          "ticker": "010950",
+          "name": "S-Oil",
+          "close": 94400.0,
+          "score": 98.31649831649831,
+          "sector": "에너지·화학"
+        },
+        {
+          "ticker": "011200",
+          "name": "HMM",
+          "close": 22350.0,
+          "score": 97.97979797979798,
+          "sector": "운송·물류"
+        },
+        {
+          "ticker": "009450",
+          "name": "경동나비엔",
+          "close": 61000.0,
+          "score": 97.64309764309765,
+          "sector": "산업재·방산"
+        },
+        {
+          "ticker": "330590",
+          "name": "롯데리츠",
+          "close": 3530.0,
+          "score": 97.3063973063973,
+          "sector": "금융"
+        },
+        {
+          "ticker": "079160",
+          "name": "CJ CGV",
+          "close": 5360.0,
+          "score": 96.96969696969697,
+          "sector": "통신·미디어·엔터"
+        },
+        {
+          "ticker": "000210",
+          "name": "DL",
+          "close": 37750.0,
+          "score": 96.63299663299664,
+          "sector": "에너지·화학"
+        },
+        {
+          "ticker": "192400",
+          "name": "쿠쿠홀딩스",
+          "close": 25500.0,
+          "score": 96.29629629629629,
+          "sector": "금융"
+        },
+        {
+          "ticker": "336260",
+          "name": "두산퓨얼셀",
+          "close": 24600.0,
+          "score": 95.95959595959596,
+          "sector": "산업재·방산"
+        },
+        {
+          "ticker": "006340",
+          "name": "대원전선",
+          "close": 7970.0,
+          "score": 95.62289562289563,
+          "sector": "산업재·방산"
+        },
+        {
+          "ticker": "00104K",
+          "name": "CJ4우(전환)",
+          "close": 113700.0,
+          "score": 95.28619528619528,
+          "sector": null
+        }
+      ],
+      "institution_flow": [
+        {
+          "ticker": "020560",
+          "name": "아시아나항공",
+          "close": 8390.0,
+          "score": 100.0,
+          "sector": "운송·물류"
+        },
+        {
+          "ticker": "003850",
+          "name": "보령",
+          "close": 8330.0,
+          "score": 99.66329966329967,
+          "sector": "바이오·헬스케어"
+        },
+        {
+          "ticker": "029460",
+          "name": "케이씨",
+          "close": 48600.0,
+          "score": 99.32659932659932,
+          "sector": "바이오·헬스케어"
+        },
+        {
+          "ticker": "000640",
+          "name": "동아제약",
+          "close": 90000.0,
+          "score": 98.98989898989899,
+          "sector": "금융"
+        },
+        {
+          "ticker": "003570",
+          "name": "SNT다이내믹스",
+          "close": 30500.0,
+          "score": 98.65319865319866,
+          "sector": "자동차·모빌리티"
+        },
+        {
+          "ticker": "111770",
+          "name": "영원무역",
+          "close": 69100.0,
+          "score": 98.31649831649831,
+          "sector": "소비재·유통"
+        },
+        {
+          "ticker": "439260",
+          "name": "대한조선",
+          "close": 36850.0,
+          "score": 97.97979797979798,
+          "sector": "산업재·방산"
+        },
+        {
+          "ticker": "280360",
+          "name": "롯데웰푸드",
+          "close": 129400.0,
+          "score": 97.64309764309765,
+          "sector": "소비재·유통"
+        },
+        {
+          "ticker": "020150",
+          "name": "롯데에너지머티리얼즈",
+          "close": 43150.0,
+          "score": 97.3063973063973,
+          "sector": "반도체·전자"
+        },
+        {
+          "ticker": "005810",
+          "name": "풍산홀딩스",
+          "close": 32600.0,
+          "score": 96.96969696969697,
+          "sector": "금융"
+        },
+        {
+          "ticker": "064960",
+          "name": "SNT모티브",
+          "close": 25200.0,
+          "score": 96.63299663299664,
+          "sector": "자동차·모빌리티"
+        },
+        {
+          "ticker": "009970",
+          "name": "영원무역홀딩스",
+          "close": 153500.0,
+          "score": 96.29629629629629,
+          "sector": "금융"
+        },
+        {
+          "ticker": "007340",
+          "name": "DN오토모티브",
+          "close": 37600.0,
+          "score": 95.95959595959596,
+          "sector": "2차전지·소재"
+        },
+        {
+          "ticker": "004170",
+          "name": "신세계",
+          "close": 269000.0,
+          "score": 95.62289562289563,
+          "sector": "소비재·유통"
+        },
+        {
+          "ticker": "326030",
+          "name": "SK바이오팜",
+          "close": 84100.0,
+          "score": 95.28619528619528,
+          "sector": "바이오·헬스케어"
         }
       ]
     },

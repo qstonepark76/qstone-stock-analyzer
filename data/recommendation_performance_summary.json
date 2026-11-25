@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-11-23",
+  "as_of": "2026-11-24",
   "methodology": {
     "recommendation_price": "추천일 종가",
     "horizons": {
@@ -26,13 +26,13 @@
       "label": "종합 TOP 15",
       "horizons": {
         "1w": {
-          "average_return": null,
-          "average_kospi_return": null,
-          "average_excess_return": null,
-          "absolute_success_rate": null,
-          "outperform_success_rate": null,
-          "evaluated_count": 0,
-          "completed_recommendation_days": 0
+          "average_return": -3.55,
+          "average_kospi_return": 0.76,
+          "average_excess_return": -4.31,
+          "absolute_success_rate": 20.0,
+          "outperform_success_rate": 20.0,
+          "evaluated_count": 15,
+          "completed_recommendation_days": 1
         },
         "1m": {
           "average_return": null,
@@ -58,13 +58,13 @@
       "label": "재무",
       "horizons": {
         "1w": {
-          "average_return": null,
-          "average_kospi_return": null,
-          "average_excess_return": null,
-          "absolute_success_rate": null,
-          "outperform_success_rate": null,
-          "evaluated_count": 0,
-          "completed_recommendation_days": 0
+          "average_return": -1.62,
+          "average_kospi_return": 0.76,
+          "average_excess_return": -2.38,
+          "absolute_success_rate": 33.3,
+          "outperform_success_rate": 33.3,
+          "evaluated_count": 15,
+          "completed_recommendation_days": 1
         },
         "1m": {
           "average_return": null,
@@ -90,13 +90,13 @@
       "label": "성장",
       "horizons": {
         "1w": {
-          "average_return": null,
-          "average_kospi_return": null,
-          "average_excess_return": null,
-          "absolute_success_rate": null,
-          "outperform_success_rate": null,
-          "evaluated_count": 0,
-          "completed_recommendation_days": 0
+          "average_return": -0.18,
+          "average_kospi_return": 0.76,
+          "average_excess_return": -0.94,
+          "absolute_success_rate": 46.7,
+          "outperform_success_rate": 40.0,
+          "evaluated_count": 15,
+          "completed_recommendation_days": 1
         },
         "1m": {
           "average_return": null,
@@ -122,13 +122,13 @@
       "label": "저평가",
       "horizons": {
         "1w": {
-          "average_return": null,
-          "average_kospi_return": null,
-          "average_excess_return": null,
-          "absolute_success_rate": null,
-          "outperform_success_rate": null,
-          "evaluated_count": 0,
-          "completed_recommendation_days": 0
+          "average_return": -2.68,
+          "average_kospi_return": 0.76,
+          "average_excess_return": -3.44,
+          "absolute_success_rate": 13.3,
+          "outperform_success_rate": 13.3,
+          "evaluated_count": 15,
+          "completed_recommendation_days": 1
         },
         "1m": {
           "average_return": null,
@@ -154,13 +154,13 @@
       "label": "모멘텀",
       "horizons": {
         "1w": {
-          "average_return": null,
-          "average_kospi_return": null,
-          "average_excess_return": null,
-          "absolute_success_rate": null,
-          "outperform_success_rate": null,
-          "evaluated_count": 0,
-          "completed_recommendation_days": 0
+          "average_return": -2.23,
+          "average_kospi_return": 0.76,
+          "average_excess_return": -2.99,
+          "absolute_success_rate": 26.7,
+          "outperform_success_rate": 20.0,
+          "evaluated_count": 15,
+          "completed_recommendation_days": 1
         },
         "1m": {
           "average_return": null,
@@ -186,13 +186,13 @@
       "label": "외국인 수급",
       "horizons": {
         "1w": {
-          "average_return": null,
-          "average_kospi_return": null,
-          "average_excess_return": null,
-          "absolute_success_rate": null,
-          "outperform_success_rate": null,
-          "evaluated_count": 0,
-          "completed_recommendation_days": 0
+          "average_return": -0.84,
+          "average_kospi_return": 0.76,
+          "average_excess_return": -1.6,
+          "absolute_success_rate": 33.3,
+          "outperform_success_rate": 26.7,
+          "evaluated_count": 15,
+          "completed_recommendation_days": 1
         },
         "1m": {
           "average_return": null,
@@ -218,13 +218,13 @@
       "label": "기관 수급",
       "horizons": {
         "1w": {
-          "average_return": null,
-          "average_kospi_return": null,
-          "average_excess_return": null,
-          "absolute_success_rate": null,
-          "outperform_success_rate": null,
-          "evaluated_count": 0,
-          "completed_recommendation_days": 0
+          "average_return": -2.47,
+          "average_kospi_return": 0.76,
+          "average_excess_return": -3.23,
+          "absolute_success_rate": 26.7,
+          "outperform_success_rate": 20.0,
+          "evaluated_count": 15,
+          "completed_recommendation_days": 1
         },
         "1m": {
           "average_return": null,
@@ -247,5 +247,5 @@
       }
     }
   },
-  "snapshot_count": 5
+  "snapshot_count": 6
 }
