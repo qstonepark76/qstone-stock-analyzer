@@ -20,21 +20,28 @@ def _amount(row, key):
 
 
 def _pick(rows, sections, names, ids=()):
-    """Exact total-only matches; disagreeing duplicates are ambiguous."""
+    """Prioritize standard IDs over exact aliases, never substring matches.
+
+    Conflicting duplicates in the chosen tier are ambiguous. An exact alias
+    with an unrelated standard code cannot override a requested standard ID.
+    """
     names = {_norm(n) for n in names}
     ids = set(ids)
-    for section in sections:
-        matches = [r for r in rows if r.get("sj_div") == section
-                   and _norm(r.get("account_detail")) in ("", "-")
-                   and (_norm(r.get("account_nm")) in names or r.get("account_id") in ids)]
-        if not matches:
-            continue
-        signatures = {(_amount(r, "thstrm_amount"), _amount(r, "frmtrm_amount"),
-                       str(r.get("currency") or "").upper()) for r in matches}
-        if len(signatures) != 1:
-            return None
-        return matches[0]
-    return None
+    eligible = [r for r in rows if r.get("sj_div") in sections
+                and _norm(r.get("account_detail")) in ("", "-")]
+    matches = [r for r in eligible if ids and r.get("account_id") in ids]
+    if not matches:
+        matches = [r for r in eligible if _norm(r.get("account_nm")) in names
+                   and (not ids or not str(r.get("account_id") or "").startswith(("ifrs", "dart_")))]
+    if not matches:
+        return None
+    signatures = {(_amount(r, "thstrm_amount"), _amount(r, "frmtrm_amount"),
+                   str(r.get("currency") or "").upper()) for r in matches}
+    return matches[0] if len(signatures) == 1 else None
+
+
+def pick_standard_account(rows, sections, names, ids=()):
+    return _pick(rows, sections, names, ids)
 
 
 def _compatible(rows):
@@ -95,13 +102,46 @@ def extract_capital_metrics(rows, ticker=None, financial_year=None, fs_div=None)
     # Use one explicit aggregate D&A row, or the two distinct reported
     # totals. Do not combine a subtotal with its children.
     da = _pick(rows, cf, ["감가상각비및무형자산상각비", "감가상각비와무형자산상각비"],
-               ["ifrs-full_DepreciationAndAmortisationExpense"])
+               ["ifrs-full_DepreciationAndAmortisationExpense", "ifrs-full_AdjustmentsForDepreciationAndAmortisationExpense"])
     dep = _pick(rows, cf, ["감가상각비", "유형자산감가상각비"],
-                ["ifrs-full_DepreciationExpense"])
+                ["ifrs-full_DepreciationExpense", "ifrs-full_AdjustmentsForDepreciationExpense"])
     amort = _pick(rows, cf, ["무형자산상각비", "무형자산감가상각비"],
-                  ["ifrs-full_AmortisationExpense"])
+                  ["ifrs-full_AmortisationExpense", "ifrs-full_AdjustmentsForAmortisationExpense"])
     da_rows = [da] if da else [dep, amort]
 
+    # Actual FY2025 consolidated sample rows. These are hypotheses for
+    # independent source review, NOT approved debt definitions or official scores.
+    # In particular a disclosed borrowing aggregate can omit separately shown
+    # bonds, and lease scope can differ. Never silently fill missing lines.
+    observed_patterns = {
+        "000660": ("ifrs-full_CurrentBorrowingsAndCurrentPortionOfNoncurrentBorrowings",
+                   "ifrs-full_LongtermBorrowings"),
+        "005380": ("ifrs-full_ShorttermBorrowings", "ifrs-full_CurrentPortionOfLongtermBorrowings",
+                   "ifrs-full_NoncurrentPortionOfNoncurrentBondsIssued",
+                   "ifrs-full_NoncurrentPortionOfNoncurrentLoansReceived"),
+        "064350": ("ifrs-full_ShorttermBorrowings", "ifrs-full_CurrentPortionOfLongtermBorrowings",
+                   "ifrs-full_NoncurrentPortionOfNoncurrentBondsIssued",
+                   "ifrs-full_NoncurrentPortionOfNoncurrentSecuredBankLoansReceived"),
+        "012450": ("ifrs-full_ShorttermBorrowings", "ifrs-full_LongtermBorrowings"),
+        "207940": ("ifrs-full_CurrentBorrowingsAndCurrentPortionOfNoncurrentBorrowings",
+                   "ifrs-full_LongtermBorrowings"),
+        "010950": ("ifrs-full_CurrentBorrowingsAndCurrentPortionOfNoncurrentBorrowings",
+                   "ifrs-full_LongtermBorrowings"),
+        "051910": ("ifrs-full_CurrentBorrowingsAndCurrentPortionOfNoncurrentBorrowings",
+                   "ifrs-full_LongtermBorrowings"),
+    }
+    preview_rows = []
+    if str(financial_year) == "2025" and fs_div == "CFS":
+        preview_rows = [_pick(rows, bs, [], [aid])
+                        for aid in observed_patterns.get(str(ticker), ())]
+    preview = None
+    if preview_rows and all(r is not None for r in preview_rows):
+        preview = {
+            "status": "공시 원문 및 리스 범위 대조 필요; 공식평가 미반영",
+            "account_ids": [r.get("account_id") for r in preview_rows],
+            "debt_current": _sum(preview_rows, "thstrm_amount"),
+            "debt_previous": _sum(preview_rows, "frmtrm_amount"),
+        }
     now, prev = "thstrm_amount", "frmtrm_amount"
     debt_now, debt_prev = _sum(debt_rows, now), _sum(debt_rows, prev)
     cash_now, cash_prev = _amount(cash or {}, now), _amount(cash or {}, prev)
@@ -133,7 +173,9 @@ def extract_capital_metrics(rows, ticker=None, financial_year=None, fs_div=None)
             "effective_tax_rate": tax_rate, "depreciation_amortisation": da_now,
             "debt_accounts": [r.get("account_nm") for r in debt_rows if r],
             "debt_mapping": debt_mapping,
-            "lease_basis": "embedded leases included; separate lease liabilities not added",
+            "unreviewed_debt_preview": preview,
+            "lease_basis": ("embedded leases included; separate lease liabilities not added" if debt_mapping.startswith("samsung_") else "separate lease liabilities not added; embedded lease scope unverified"),
+            "review_status": "independent source-account review pending",
             "da_accounts": [r.get("account_nm") for r in da_rows if r],
             "status_roic": "산출 완료" if roic is not None else "계정 부족 또는 산식 적용 불가",
             "status_net_debt_to_ebitda": "산출 완료" if leverage is not None else "계정 부족 또는 산식 적용 불가",
