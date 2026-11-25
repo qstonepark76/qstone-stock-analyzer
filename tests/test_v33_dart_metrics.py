@@ -22,6 +22,26 @@ class DartIndustryMetricExtractionTests(unittest.TestCase):
         self.assertIsNone(result["industry_metrics"]["roic_pct"])
         self.assertIsNone(result["industry_metrics"]["net_debt_to_ebitda"])
 
+    def test_cis_and_statement_isolation(self):
+        rows = [
+            {"sj_div": "CIS", "account_nm": "매출액", "thstrm_amount": "2000", "frmtrm_amount": "1600"},
+            {"sj_div": "CIS", "account_nm": "영업이익", "thstrm_amount": "300", "frmtrm_amount": "240"},
+            {"sj_div": "BS", "account_nm": "자산총계", "thstrm_amount": "3000", "frmtrm_amount": "2500"},
+            {"sj_div": "BS", "account_nm": "영업활동현금흐름", "thstrm_amount": "9999"},
+            {"sj_div": "CF", "account_nm": "영업활동현금흐름", "thstrm_amount": "360"},
+        ]
+        metrics = collect.extract_financial(rows)["industry_metrics"]
+        self.assertAlmostEqual(metrics["operating_margin_pct"], 15)
+        self.assertAlmostEqual(metrics["asset_turnover"], 2000 / 2750)
+        self.assertAlmostEqual(metrics["cash_conversion_pct"], 120)
+
+    def test_negative_operating_profit_does_not_reward_cash_loss(self):
+        rows = [
+            {"sj_div": "IS", "account_nm": "영업이익", "thstrm_amount": "-100"},
+            {"sj_div": "CF", "account_nm": "영업활동현금흐름", "thstrm_amount": "-200"},
+        ]
+        self.assertIsNone(collect.extract_financial(rows)["industry_metrics"]["cash_conversion_pct"])
+
     def test_missing_cash_flow_is_not_filled_with_zero(self):
         rows = [
             {"sj_div": "IS", "account_nm": "매출액", "thstrm_amount": "1000", "frmtrm_amount": "800"},
