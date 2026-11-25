@@ -1,0 +1,39 @@
+name: Q Stone Park v3.3 FISIS expansion evidence
+
+on:
+  push:
+    branches:
+      - v3-3-industry-relative-model
+    paths:
+      - 'audit_tools/fisis_expansion.py'
+      - '.github/workflows/v3-3-fisis-expansion.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  discover-missing-sector-data:
+    if: github.repository == 'qstonepark76/qstone-stock-analyzer'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install requests
+      - run: python -m py_compile audit_tools/fisis_expansion.py
+      - name: Query actual holding, capital and leasing metadata and annual insurance yield
+        env:
+          FISIS_AUTH_KEY: ${{ secrets.FISIS_AUTH_KEY }}
+        run: python -u audit_tools/fisis_expansion.py
+      - name: Save public source evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v33-fisis-expansion-evidence
+          path: audit-fisis-expansion/
+          if-no-files-found: warn
+          retention-days: 14
