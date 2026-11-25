@@ -32,7 +32,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests
       - name: Compile candidate engine
-        run: python -m py_compile scripts/industry_relative.py scripts/collect.py scripts/dart_capital_metrics.py scripts/financial_industry.py scripts/audit_v33_dart.py scripts/audit_v33_fisis.py scripts/audit_v33_fisis_values.py scripts/audit_v33_top300.py
+        run: python -m py_compile scripts/industry_relative.py scripts/collect.py scripts/dart_capital_metrics.py scripts/financial_industry.py scripts/audit_v33_dart.py scripts/audit_v33_fisis.py scripts/audit_v33_fisis_values.py scripts/audit_v33_top300.py scripts/metric_quality.py scripts/fisis_auto.py scripts/replay_v33_top300.py
       - name: Run candidate industry-relative tests
         run: |
           python -m unittest discover -s tests -p 'test_industry_relative.py' -v
@@ -166,5 +166,41 @@ jobs:
         with:
           name: v33-top300-preflight
           path: audit-top300/
+          if-no-files-found: warn
+          retention-days: 14
+
+  top300-auto-replay:
+    # This workflow is queued behind the existing collection in the same
+    # concurrency group. Reuse its source rows, not a second 300 API calls.
+    if: github.repository == 'qstonepark76/qstone-stock-analyzer' && github.ref == 'refs/heads/v3-3-industry-relative-model' && contains(github.event.head_commit.message, '[top300-replay]')
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install requests
+      - name: Download original top-300 source audit
+        uses: actions/download-artifact@v4
+        with:
+          name: v33-top300-preflight
+          run-id: 45625150031
+          github-token: ${{ github.token }}
+          path: replay-source
+      - name: Recalculate with latest automatic admission rules
+        run: python -u scripts/replay_v33_top300.py
+      - name: Upload automatic quality and exception report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v33-top300-auto-replay
+          path: audit-top300-replay/
           if-no-files-found: warn
           retention-days: 14
