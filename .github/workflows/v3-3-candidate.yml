@@ -28,8 +28,37 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests
       - name: Compile candidate engine
-        run: python -m py_compile scripts/industry_relative.py scripts/collect.py
+        run: python -m py_compile scripts/industry_relative.py scripts/collect.py scripts/dart_capital_metrics.py scripts/financial_industry.py scripts/audit_v33_dart.py
       - name: Run candidate industry-relative tests
         run: |
           python -m unittest discover -s tests -p 'test_industry_relative.py' -v
           python -m unittest discover -s tests -p 'test_v33_dart_metrics.py' -v
+
+  real-dart-audit:
+    # Restrict secrets to this exact repository and candidate branch.
+    if: github.repository == 'qstonepark76/qstone-stock-analyzer' && github.ref == 'refs/heads/v3-3-industry-relative-model' && (github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[dart-audit]'))
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install requests
+      - name: Collect fifteen real annual filings and record coverage
+        env:
+          DART_AUTH_KEY: ${{ secrets.DART_AUTH_KEY }}
+        run: python -u scripts/audit_v33_dart.py
+      - name: Upload public filing audit evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v33-dart-audit
+          path: audit-v33/
+          if-no-files-found: warn
+          retention-days: 14
