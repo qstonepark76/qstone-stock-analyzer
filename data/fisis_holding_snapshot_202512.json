@@ -1,0 +1,752 @@
+{
+  "schema_version": 1,
+  "period": "2025-12",
+  "source": "FISIS",
+  "source_run": 45628809838,
+  "records": [
+    {
+      "company": "0012028",
+      "name": "주식회사 케이비금융지주",
+      "table": "SL008",
+      "account": "C2",
+      "label": "BIS기준 자기자본비율_보통주자본 비율",
+      "term": "Y",
+      "status": "received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0012028",
+            "finance_nm": "주식회사 케이비금융지주",
+            "account_cd": "C2",
+            "account_nm": "BIS기준 자기자본비율_보통주자본 비율",
+            "a": "13.82"
+          }
+        ]
+      }
+    },
+    {
+      "company": "0012028",
+      "name": "주식회사 케이비금융지주",
+      "table": "SL026",
+      "account": "C",
+      "label": "보통주자본 비율",
+      "term": "Y",
+      "status": "received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "비율"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0012028",
+            "finance_nm": "주식회사 케이비금융지주",
+            "account_cd": "C",
+            "account_nm": "보통주자본 비율",
+            "a": "13.82"
+          }
+        ]
+      }
+    },
+    {
+      "company": "0012028",
+      "name": "주식회사 케이비금융지주",
+      "table": "SL009",
+      "account": "B1",
+      "label": "(고정이하여신비율)",
+      "term": "Y",
+      "status": "received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0012028",
+            "finance_nm": "주식회사 케이비금융지주",
+            "account_cd": "B1",
+            "account_nm": "(고정이하여신비율)",
+            "a": ".99"
+          }
+        ]
+      }
+    },
+    {
+      "company": "0010926",
+      "name": "주식회사 신한금융지주회사",
+      "table": "SL008",
+      "account": "C2",
+      "label": "BIS기준 자기자본비율_보통주자본 비율",
+      "term": "Y",
+      "status": "received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010926",
+            "finance_nm": "주식회사 신한금융지주회사",
+            "account_cd": "C2",
+            "account_nm": "BIS기준 자기자본비율_보통주자본 비율",
+            "a": "13.35"
+          }
+        ]
+      }
+    },
+    {
+      "company": "0010926",
+      "name": "주식회사 신한금융지주회사",
+      "table": "SL026",
+      "account": "C",
+      "label": "보통주자본 비율",
+      "term": "Y",
+      "status": "received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "비율"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010926",
+            "finance_nm": "주식회사 신한금융지주회사",
+            "account_cd": "C",
+            "account_nm": "보통주자본 비율",
+            "a": "13.35"
+          }
+        ]
+      }
+    },
+    {
+      "company": "0010926",
+      "name": "주식회사 신한금융지주회사",
+      "table": "SL009",
+      "account": "B1",
+      "label": "(고정이하여신비율)",
+      "term": "Y",
+      "status": "received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010926",
+            "finance_nm": "주식회사 신한금융지주회사",
+            "account_cd": "B1",
+            "account_nm": "(고정이하여신비율)",
+            "a": ".74"
+          }
+        ]
+      }
+    },
+    {
+      "company": "0011573",
+      "name": "주식회사 하나금융지주",
+      "table": "SL008",
+      "account": "C2",
+      "label": "BIS기준 자기자본비율_보통주자본 비율",
+      "term": "Y",
+      "status": "received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0011573",
+            "finance_nm": "주식회사 하나금융지주",
+            "account_cd": "C2",
+            "account_nm": "BIS기준 자기자본비율_보통주자본 비율",
+            "a": "13.38"
+          }
+        ]
+      }
+    },
+    {
+      "company": "0011573",
+      "name": "주식회사 하나금융지주",
+      "table": "SL026",
+      "account": "C",
+      "label": "보통주자본 비율",
+      "term": "Y",
+      "status": "received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "비율"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0011573",
+            "finance_nm": "주식회사 하나금융지주",
+            "account_cd": "C",
+            "account_nm": "보통주자본 비율",
+            "a": "13.38"
+          }
+        ]
+      }
+    },
+    {
+      "company": "0011573",
+      "name": "주식회사 하나금융지주",
+      "table": "SL009",
+      "account": "B1",
+      "label": "(고정이하여신비율)",
+      "term": "Y",
+      "status": "received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0011573",
+            "finance_nm": "주식회사 하나금융지주",
+            "account_cd": "B1",
+            "account_nm": "(고정이하여신비율)",
+            "a": ".59"
+          }
+        ]
+      }
+    },
+    {
+      "company": "0016619",
+      "name": "주식회사 우리금융지주",
+      "table": "SL008",
+      "account": "C2",
+      "label": "BIS기준 자기자본비율_보통주자본 비율",
+      "term": "Y",
+      "status": "received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0016619",
+            "finance_nm": "주식회사 우리금융지주",
+            "account_cd": "C2",
+            "account_nm": "BIS기준 자기자본비율_보통주자본 비율",
+            "a": "12.89"
+          }
+        ]
+      }
+    },
+    {
+      "company": "0016619",
+      "name": "주식회사 우리금융지주",
+      "table": "SL026",
+      "account": "C",
+      "label": "보통주자본 비율",
+      "term": "Y",
+      "status": "received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "비율"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0016619",
+            "finance_nm": "주식회사 우리금융지주",
+            "account_cd": "C",
+            "account_nm": "보통주자본 비율",
+            "a": "12.89"
+          }
+        ]
+      }
+    },
+    {
+      "company": "0016619",
+      "name": "주식회사 우리금융지주",
+      "table": "SL009",
+      "account": "B1",
+      "label": "(고정이하여신비율)",
+      "term": "Y",
+      "status": "received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0016619",
+            "finance_nm": "주식회사 우리금융지주",
+            "account_cd": "B1",
+            "account_nm": "(고정이하여신비율)",
+            "a": ".63"
+          }
+        ]
+      }
+    },
+    {
+      "company": "0012710",
+      "name": "(주)BNK금융지주",
+      "table": "SL008",
+      "account": "C2",
+      "label": "BIS기준 자기자본비율_보통주자본 비율",
+      "term": "Y",
+      "status": "received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0012710",
+            "finance_nm": "(주)BNK금융지주",
+            "account_cd": "C2",
+            "account_nm": "BIS기준 자기자본비율_보통주자본 비율",
+            "a": "12.34"
+          }
+        ]
+      }
+    },
+    {
+      "company": "0012710",
+      "name": "(주)BNK금융지주",
+      "table": "SL026",
+      "account": "C",
+      "label": "보통주자본 비율",
+      "term": "Y",
+      "status": "received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "비율"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0012710",
+            "finance_nm": "(주)BNK금융지주",
+            "account_cd": "C",
+            "account_nm": "보통주자본 비율",
+            "a": "12.34"
+          }
+        ]
+      }
+    },
+    {
+      "company": "0012710",
+      "name": "(주)BNK금융지주",
+      "table": "SL009",
+      "account": "B1",
+      "label": "(고정이하여신비율)",
+      "term": "Y",
+      "status": "received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0012710",
+            "finance_nm": "(주)BNK금융지주",
+            "account_cd": "B1",
+            "account_nm": "(고정이하여신비율)",
+            "a": "1.42"
+          }
+        ]
+      }
+    },
+    {
+      "company": "0012739",
+      "name": "주식회사 디지비금융지주",
+      "table": "SL008",
+      "account": "C2",
+      "label": "BIS기준 자기자본비율_보통주자본 비율",
+      "term": "Y",
+      "status": "received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0012739",
+            "finance_nm": "주식회사 디지비금융지주",
+            "account_cd": "C2",
+            "account_nm": "BIS기준 자기자본비율_보통주자본 비율",
+            "a": "12.11"
+          }
+        ]
+      }
+    },
+    {
+      "company": "0012739",
+      "name": "주식회사 디지비금융지주",
+      "table": "SL026",
+      "account": "C",
+      "label": "보통주자본 비율",
+      "term": "Y",
+      "status": "received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "비율"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0012739",
+            "finance_nm": "주식회사 디지비금융지주",
+            "account_cd": "C",
+            "account_nm": "보통주자본 비율",
+            "a": "12.11"
+          }
+        ]
+      }
+    },
+    {
+      "company": "0012739",
+      "name": "주식회사 디지비금융지주",
+      "table": "SL009",
+      "account": "B1",
+      "label": "(고정이하여신비율)",
+      "term": "Y",
+      "status": "received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0012739",
+            "finance_nm": "주식회사 디지비금융지주",
+            "account_cd": "B1",
+            "account_nm": "(고정이하여신비율)",
+            "a": "1.49"
+          }
+        ]
+      }
+    },
+    {
+      "company": "0013406",
+      "name": "JB금융지주",
+      "table": "SL008",
+      "account": "C2",
+      "label": "BIS기준 자기자본비율_보통주자본 비율",
+      "term": "Y",
+      "status": "received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0013406",
+            "finance_nm": "JB금융지주",
+            "account_cd": "C2",
+            "account_nm": "BIS기준 자기자본비율_보통주자본 비율",
+            "a": "12.58"
+          }
+        ]
+      }
+    },
+    {
+      "company": "0013406",
+      "name": "JB금융지주",
+      "table": "SL026",
+      "account": "C",
+      "label": "보통주자본 비율",
+      "term": "Y",
+      "status": "received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "비율"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0013406",
+            "finance_nm": "JB금융지주",
+            "account_cd": "C",
+            "account_nm": "보통주자본 비율",
+            "a": "12.58"
+          }
+        ]
+      }
+    },
+    {
+      "company": "0013406",
+      "name": "JB금융지주",
+      "table": "SL009",
+      "account": "B1",
+      "label": "(고정이하여신비율)",
+      "term": "Y",
+      "status": "received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0013406",
+            "finance_nm": "JB금융지주",
+            "account_cd": "B1",
+            "account_nm": "(고정이하여신비율)",
+            "a": "1.23"
+          }
+        ]
+      }
+    },
+    {
+      "company": "0013188",
+      "name": "농협금융지주 주식회사",
+      "table": "SL008",
+      "account": "C2",
+      "label": "BIS기준 자기자본비율_보통주자본 비율",
+      "term": "Y",
+      "status": "received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0013188",
+            "finance_nm": "농협금융지주 주식회사",
+            "account_cd": "C2",
+            "account_nm": "BIS기준 자기자본비율_보통주자본 비율",
+            "a": "12.25"
+          }
+        ]
+      }
+    },
+    {
+      "company": "0013188",
+      "name": "농협금융지주 주식회사",
+      "table": "SL026",
+      "account": "C",
+      "label": "보통주자본 비율",
+      "term": "Y",
+      "status": "received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "비율"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0013188",
+            "finance_nm": "농협금융지주 주식회사",
+            "account_cd": "C",
+            "account_nm": "보통주자본 비율",
+            "a": "12.25"
+          }
+        ]
+      }
+    },
+    {
+      "company": "0013188",
+      "name": "농협금융지주 주식회사",
+      "table": "SL009",
+      "account": "B1",
+      "label": "(고정이하여신비율)",
+      "term": "Y",
+      "status": "received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0013188",
+            "finance_nm": "농협금융지주 주식회사",
+            "account_cd": "B1",
+            "account_nm": "(고정이하여신비율)",
+            "a": ".63"
+          }
+        ]
+      }
+    }
+  ]
+}
