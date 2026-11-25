@@ -510,14 +510,18 @@ def load_dart_sector_classification(stocks):
                 continue
             if code:
                 time.sleep(float(os.getenv("DART_COMPANY_PAUSE_SECONDS", "0.2")))
-        category = classify_industry_code(code)
-        if category:
-            results[ticker] = {
-                "sector": category,
+        if code:
+            metadata = {
                 "sector_industry_code": code,
                 "sector_source": "OpenDART industry code",
                 "sector_confidence": "high",
             }
+            category = classify_industry_code(code)
+            # Keep exact official code even when the broad display-sector map
+            # does not recognize it; peer grouping must not collapse to 12 sectors.
+            if category:
+                metadata["sector"] = category
+            results[ticker] = metadata
 
     results = apply_sector_overrides(stocks, results)
     SECTOR_CACHE_FILE.write_text(json.dumps(cache, ensure_ascii=False, indent=2), encoding="utf-8")
