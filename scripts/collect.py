@@ -9,7 +9,7 @@ import requests
 import xml.etree.ElementTree as ET
 from analyst_consensus import load_and_score_consensus
 from recommendation_performance import update_recommendation_performance, build_performance_summary, STRATEGY_LABELS
-from industry_relative import score_industry_relative
+from industry_relative import score_industry_relative, aggregate_candidate
 
 KRX_URL = os.getenv("KRX_API_BASE", "https://data-dbg.krx.co.kr/svc/apis/sto/stk_bydd_trd")
 KRX_KEY = os.getenv("KRX_AUTH_KEY", "").strip()
@@ -725,7 +725,7 @@ def extract_financial(items):
     roe = (net_now / avg_equity) * 100 if net_now is not None and avg_equity not in (None, 0) else None
     operating_margin = (op_now / sales_now) * 100 if op_now is not None and sales_now not in (None, 0) else None
     asset_turnover = sales_now / avg_assets if sales_now is not None and avg_assets not in (None, 0) else None
-    cash_conversion = (cfo_now / op_now) * 100 if cfo_now is not None and op_now not in (None, 0) else None
+    cash_conversion = (cfo_now / op_now) * 100 if cfo_now is not None and op_now is not None and op_now > 0 else None
     # ROIC and net-debt/EBITDA require reliable tax, interest-bearing debt,
     # cash-equivalent and D&A account mapping. They are intentionally null
     # until those XBRL accounts can be validated without double counting.
@@ -792,7 +792,7 @@ def collect_dart(stocks):
             try:
                 saved = dt.datetime.fromisoformat(cached.get("cached_at", "").replace("Z", "+00:00"))
                 cached_metrics = cached.get("metrics", {})
-                fresh = (now - saved).days < CACHE_DAYS and cached.get("financial_year") == year and cached.get("schema_version") == 2 and has_financial_metrics(cached_metrics)
+                fresh = (now - saved).days < CACHE_DAYS and cached.get("financial_year") == year and cached.get("schema_version") == 3 and has_financial_metrics(cached_metrics)
             except Exception:
                 fresh = False
         if fresh:
@@ -820,7 +820,7 @@ def collect_dart(stocks):
                 print(f"[DART] {index}/{len(todo)} {stock['ticker']} {stock['name']}: 필요한 계정과목 미확인", flush=True)
                 continue
             cache[stock["ticker"]] = {
-                "cached_at": now.isoformat(), "financial_year": year, "schema_version": 2,
+                "cached_at": now.isoformat(), "financial_year": year, "schema_version": 3,
                 "corp_code": corp, "fs_div": fs_div, "metrics": metrics,
             }
             results[stock["ticker"]] = metrics
@@ -843,7 +843,7 @@ def collect_dart(stocks):
             fresh = (
                 (now - saved).days < CACHE_DAYS
                 and cached.get("financial_year") == year
-                and cached.get("schema_version") == 2 and has_financial_metrics(metrics)
+                and cached.get("schema_version") == 3 and has_financial_metrics(metrics)
             )
         except Exception:
             fresh = False
@@ -1083,7 +1083,7 @@ def main():
     for stock in stocks:
         metrics = financial.get(stock["ticker"], {})
         stock.update(metrics)
-        stock["financial_metrics_available"] = any(v is not None for v in metrics.values())
+        stock["financial_metrics_available"] = has_financial_metrics(metrics)
         market_cap = stock.get("market_cap")
         net_income = metrics.get("net_income")
         equity_total = metrics.get("equity_total")
@@ -1188,62 +1188,28 @@ def main():
         x["momentum_score"] = mom
 
     # Isolated v3.3 candidate: exact OpenDART industry-code peers only.
-    candidate_weights = {
-        "financial": 20, "growth": 15, "momentum": 10,
-        "foreign_flow": 10, "institution_flow": 10,
-        "valuation": 15, "analyst_outlook": 10, "industry_relative": 10,
-    }
+    # Preferred shares must not inflate the peer count of an issuer.
     candidate_peer_rows = []
     for item in stocks:
-        code = item.get("sector_industry_code")
-        confidence = item.get("sector_confidence")
+        if item["ticker"] in PREFERRED_SHARE_PARENT:
+            continue
         candidate_peer_rows.append({
             "ticker": item["ticker"],
-            "industry_code": code,
-            "industry_confidence": confidence,
-            "industry_metrics": item.get("industry_metrics", {}),
+            "industry_code": item.get("sector_industry_code"),
+            "industry_confidence": item.get("sector_confidence"),
+            "industry_metrics": item.get("industry_metrics") or {},
         })
     for item in stocks:
-        relative = score_industry_relative(candidate_peer_rows, item["ticker"])
-        components_v33 = {
-            "financial": item.get("component_scores", {}).get("financial"),
-            "growth": item.get("component_scores", {}).get("growth"),
-            "momentum": item.get("component_scores", {}).get("momentum"),
-            "foreign_flow": item.get("component_scores", {}).get("foreign_flow"),
-            "institution_flow": item.get("component_scores", {}).get("institution_flow"),
-            "valuation": item.get("component_scores", {}).get("valuation"),
-            "analyst_outlook": item.get("component_scores", {}).get("analyst_outlook"),
-            "industry_relative": relative.get("official_score") * 10 if relative.get("official_score") is not None else (
-                relative.get("provisional_score") * 10 if relative.get("provisional_score") is not None else None
-            ),
-        }
-        coverage_v33 = dict(item.get("component_coverage_pct", {}))
-        coverage_v33["industry_relative"] = relative.get("coverage_pct", 0)
-        # Convert the 0-10 industry score to the same 0-100 component scale.
-        parts_v33 = [
-            (components_v33[key], weight * coverage_v33.get(key, 0) / 100)
-            for key, weight in candidate_weights.items()
-            if components_v33.get(key) is not None and coverage_v33.get(key, 0) > 0
-        ]
-        effective_v33 = sum(weight for _, weight in parts_v33)
-        provisional_v33 = round(sum(value * weight for value, weight in parts_v33) / effective_v33, 2) if effective_v33 else None
-        covered_v33 = round(sum(candidate_weights[key] * coverage_v33.get(key, 0) / 100 for key in candidate_weights), 2)
-        complete_v33 = all(coverage_v33.get(key, 0) >= 99.99 for key in candidate_weights)
-        item["v33_candidate"] = {
-            "model_version": "3.3-candidate",
-            "weights": candidate_weights,
-            "component_scores": components_v33,
-            "component_coverage_pct": coverage_v33,
-            "industry_relative": relative,
-            "coverage_pct": covered_v33,
-            "provisional_score": provisional_v33,
-            "score": provisional_v33 if complete_v33 else None,
-            "grade": grade_for(provisional_v33) if complete_v33 else None,
-            "status": "공식 평가 가능" if complete_v33 else (
-                relative.get("status") if relative.get("status") != "산출 완료" else "데이터 부족"
-            ),
-            "official_recommendation_eligible": complete_v33,
-        }
+        if item["ticker"] in PREFERRED_SHARE_PARENT:
+            relative = {"status": "전략 제외", "official_score": None, "provisional_score": None,
+                        "coverage_pct": 0, "details": {}}
+        else:
+            relative = score_industry_relative(candidate_peer_rows, item["ticker"])
+        item["v33_candidate"] = aggregate_candidate(
+            item.get("component_scores", {}),
+            item.get("component_coverage_pct", {}),
+            relative,
+        )
 
     # Category lists only include stocks with real data for that category.
     def top(field, coverage_field=None, minimum_coverage=0):
@@ -1319,11 +1285,13 @@ def main():
     v33_official = sorted(
         [x for x in stocks if x.get("v33_candidate", {}).get("official_recommendation_eligible")
          and x.get("v33_candidate", {}).get("score") is not None],
-        key=lambda x: x["v33_candidate"]["score"], reverse=True,
+        key=lambda x: (-x["v33_candidate"]["score"], x["ticker"]),
     )[:15]
     v33_provisional = sorted(
-        [x for x in stocks if x.get("v33_candidate", {}).get("provisional_score") is not None],
-        key=lambda x: x["v33_candidate"]["provisional_score"], reverse=True,
+        [x for x in stocks if x.get("v33_candidate", {}).get("provisional_score") is not None
+         and not x.get("v33_candidate", {}).get("official_recommendation_eligible")
+         and x.get("v33_candidate", {}).get("status") != "전략 제외"],
+        key=lambda x: (-x["v33_candidate"]["provisional_score"], -x["v33_candidate"]["coverage_pct"], x["ticker"]),
     )[:15]
 
     sector_groups = {}
