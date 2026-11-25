@@ -1,0 +1,41 @@
+name: Q Stone Park v3.3 direct calculation audit
+on:
+  push:
+    branches:
+      - v3-3-industry-relative-model
+    paths:
+      - '.github/workflows/v3-3-direct-calculation.yml'
+permissions:
+  contents: read
+  actions: read
+jobs:
+  direct-calculation:
+    if: github.repository == 'qstonepark76/qstone-stock-analyzer'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install requests
+      - run: |
+          python -m unittest discover -s tests -p 'test_industry_relative.py' -v
+          python -m unittest discover -s tests -p 'test_v33_dart_metrics.py' -v
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-top300-preflight
+          run-id: 45625150031
+          github-token: ${{ github.token }}
+          path: replay-source
+      - name: Recalculate actual annual statement data with updated direct formulas
+        run: python -u scripts/replay_v33_top300.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v33-direct-calculation-baseline
+          path: audit-top300-replay/
+          if-no-files-found: warn
+          retention-days: 14
