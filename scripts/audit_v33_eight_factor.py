@@ -78,7 +78,7 @@ def main():
                     x[k]=m.get(k) if finite(m.get(k)) else None
                 x["per"],x["pbr"]=calculate_valuation(x["market_cap"],m.get("net_income"),m.get("equity_total"),m.get("financial_currency"))
         stocks.append(x)
-    load_and_score_consensus(stocks,asof)
+    load_and_score_consensus(stocks,asof,candidate=True)
     fields={"roe":"roe_pct","sales":"sales_growth_pct","op":"operating_profit_growth_pct",
             "m60":"momentum_60d","m20":"momentum_20d","m5":"momentum_5d","liquidity":"trading_value",
             "vol":"volatility_20d","foreign":"foreign_flow_5d_pct","institution":"institution_flow_5d_pct","per":"per","pbr":"pbr"}
@@ -105,7 +105,7 @@ def main():
         candidate=aggregate_candidate(components,coverage,relative_result)
         if rel[t]["screening_class"] in ("known_preferred_share","duplicate_issuer_pending"):
             candidate.update(score=None,grade=None,official_recommendation_eligible=False,status="전략 제외")
-        result.append({"ticker":t,"name":x["name"],"candidate":candidate})
+        result.append({"ticker":t,"name":x["name"],"candidate":candidate,"analyst_evidence":{k:x.get(k) for k in ("analyst_broker_count","analyst_rating_broker_count","analyst_target_broker_count","analyst_revision_broker_count","analyst_observed_coverage_pct","analyst_consensus_coverage_pct","analyst_confidence")}})
     counts=Counter()
     for r in result:
         c=r["candidate"]
@@ -115,6 +115,8 @@ def main():
     summary={"asof":asof.isoformat(),"count":len(result),"weights":CANDIDATE_WEIGHTS,
              "score_counts":dict(counts),"history_sessions":len(days),
              "factor_full_coverage":{k:sum(r["candidate"]["component_coverage_pct"].get(k)==100 for r in result) for k in CANDIDATE_WEIGHTS},
+             "analyst_partial_count":sum(0<(r["analyst_evidence"].get("analyst_consensus_coverage_pct") or 0)<100 for r in result),
+             "analyst_observed_count":sum((r["analyst_evidence"].get("analyst_observed_coverage_pct") or 0)>0 for r in result),
              "release_gate":"not_verified",
              "warning":"Candidate audit only: exact date cached flows may be missing; existing seven-factor financial formulas retained; no production changes."}
     (OUT/"records.json").write_text(json.dumps(result,ensure_ascii=False,indent=2,allow_nan=False),encoding="utf-8")
