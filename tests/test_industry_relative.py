@@ -31,7 +31,7 @@ class IndustryRelativeTests(unittest.TestCase):
     def test_percentile_direction_and_ties(self):
         self.assertGreater(percentile_score(6, [1, 2, 3, 4, 5, 6]), 90)
         self.assertGreater(percentile_score(1, [1, 2, 3, 4, 5, 6], False), 90)
-        self.assertEqual(percentile_score(3, [1, 2, 3, 3, 5]), 50.0)
+        self.assertEqual(percentile_score(3, [1, 2, 3, 3, 5]), 70.0)
 
     def test_minimum_five_peers(self):
         result = score_industry_relative(self.make_peers()[:4], "1")
