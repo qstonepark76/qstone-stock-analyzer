@@ -21,6 +21,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests
       - name: Compile candidate engine
-        run: python -m py_compile scripts/industry_relative.py
+        run: python -m py_compile scripts/industry_relative.py scripts/collect.py
       - name: Run candidate industry-relative tests
         run: python -m unittest discover -s tests -p 'test_industry_relative.py' -v
+          python -m unittest discover -s tests -p 'test_v33_dart_metrics.py' -v
