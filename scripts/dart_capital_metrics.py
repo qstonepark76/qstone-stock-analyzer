@@ -99,6 +99,28 @@ def extract_capital_metrics(rows, ticker=None, financial_year=None, fs_div=None)
         if all(r is not None for r in specific):
             debt_rows = specific
             debt_mapping = "samsung_2025_cfs_published_four_lines_embedded_leases"
+    # Reusable standard-code pattern, independently reconciled on SK hynix.
+    # Accept only two comprehensive borrowing rows plus both separately
+    # reported lease rows, with no additional borrowing-like balance-sheet row.
+    # This is a conservative lease-exclusive comparison basis.
+    standard_ids = (
+        "ifrs-full_CurrentBorrowingsAndCurrentPortionOfNoncurrentBorrowings",
+        "ifrs-full_LongtermBorrowings",
+    )
+    lease_ids = ("ifrs-full_CurrentLeaseLiabilities", "ifrs-full_NoncurrentLeaseLiabilities")
+    standard_rows = [_pick(rows, bs, [], [aid]) for aid in standard_ids]
+    leases = [_pick(rows, bs, [], [aid]) for aid in lease_ids]
+    allowed = set(standard_ids + lease_ids)
+    extra_debt = [r for r in rows if r.get("sj_div") == "BS"
+                  and _norm(r.get("account_detail")) in ("", "-")
+                  and r.get("account_id") not in allowed
+                  and (any(t in _norm(r.get("account_nm")) for t in ("차입", "사채", "장기부채", "리스부채", "금융부채"))
+                       or any(t in str(r.get("account_id") or "").lower() for t in ("borrow", "bond", "loansreceived", "leaseliabilit")))]
+    if (fs_div == "CFS" and all(r is not None for r in standard_rows + leases)
+            and not extra_debt and _compatible(standard_rows + leases)
+            and all(_sum(standard_rows + leases, p) is not None for p in ("thstrm_amount", "frmtrm_amount"))):
+        debt_rows = standard_rows
+        debt_mapping = "standard_borrowings_pair_separate_lease_excluded"
     # Use one explicit aggregate D&A row, or the two distinct reported
     # totals. Do not combine a subtotal with its children.
     da = _pick(rows, cf, ["감가상각비및무형자산상각비", "감가상각비와무형자산상각비"],
@@ -174,8 +196,8 @@ def extract_capital_metrics(rows, ticker=None, financial_year=None, fs_div=None)
             "debt_accounts": [r.get("account_nm") for r in debt_rows if r],
             "debt_mapping": debt_mapping,
             "unreviewed_debt_preview": preview,
-            "lease_basis": ("embedded leases included; separate lease liabilities not added" if debt_mapping.startswith("samsung_") else "separate lease liabilities not added; embedded lease scope unverified"),
-            "review_status": "independent source-account review pending",
+            "lease_basis": ("embedded leases included; separate lease liabilities not added" if debt_mapping.startswith("samsung_") else ("lease_excluded" if debt_mapping == "standard_borrowings_pair_separate_lease_excluded" else "separate lease liabilities not added; embedded lease scope unverified")),
+            "review_status": "automatic standard pattern" if debt_mapping == "standard_borrowings_pair_separate_lease_excluded" else "lease or source mapping review pending",
             "da_accounts": [r.get("account_nm") for r in da_rows if r],
             "status_roic": "산출 완료" if roic is not None else "계정 부족 또는 산식 적용 불가",
             "status_net_debt_to_ebitda": "산출 완료" if leverage is not None else "계정 부족 또는 산식 적용 불가",
