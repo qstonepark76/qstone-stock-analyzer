@@ -70,15 +70,17 @@ def audit():
                             "CF": ("감가상각", "무형자산상각", "영업활동"),
                         }
                         for rr in clean:
-                            name = str(rr.get("account_nm") or "").replace(" ", "")
+                            account_name = str(rr.get("account_nm") or "").replace(" ", "")
                             section = rr.get("sj_div")
-                            if any(term in name for term in terms.get(section, ())):
+                            if any(term in account_name for term in terms.get(section, ())) or rr.get("account_id") in ("ifrs-full_Revenue", "dart_OperatingIncomeLoss", "ifrs-full_Assets", "ifrs-full_AdjustmentsForDepreciationExpense", "ifrs-full_AdjustmentsForAmortisationExpense"):
                                 selected.append([section, rr.get("account_id"), rr.get("account_nm"),
                                                  rr.get("account_detail"), rr.get("thstrm_amount"),
                                                  rr.get("frmtrm_amount"), rr.get("currency")])
                         print("DART ACCOUNT EVIDENCE", ticker, scope, json.dumps(selected, ensure_ascii=False), flush=True)
                     metrics = extract_financial(items, ticker=ticker, financial_year=year, fs_div=scope)
                     values = metrics.get("industry_metrics") or {}
+                    if not model:
+                        print("DART CAPITAL DIAGNOSTIC", ticker, json.dumps(metrics.get("capital_metric_audit"), ensure_ascii=False), flush=True)
                     row.update(status="source_received",scope=scope,corp_code=corp,
                                receipts=sorted({str(r.get("rcept_no")) for r in clean if r.get("rcept_no")}),
                                source_row_count=len(clean),
@@ -97,6 +99,13 @@ def audit():
                     and not isinstance((r.get("industry_metrics") or {}).get(key),bool)
                     and math.isfinite((r.get("industry_metrics") or {})[key]) for r in industrial)
         coverage[key] = {"calculated":valid,"sample":len(industrial)}
+    total_slots = sum(v["sample"] for v in coverage.values())
+    calculated_slots = sum(v["calculated"] for v in coverage.values())
+    report["quality_targets"] = {"source_collection_pct":99,"applicable_metric_coverage_pct":95,"financial_metric_coverage_pct":90,"independent_sample_agreement_pct":99,"test_pass_pct":100,"duplicate_calculations":0}
+    report["raw_metric_coverage_pct"] = round(100 * calculated_slots / total_slots, 2) if total_slots else None
+    report["source_collection_pct"] = round(100 * sum(r["status"]=="source_received" for r in report["records"]) / len(SAMPLE),2)
+    report["independent_agreement_pct"] = None
+    report["release_gate"] = "not_verified"
     report.update(status="sample_collection_finished",
                   received_count=sum(r["status"]=="source_received" for r in report["records"]),
                   industrial_coverage=coverage)
