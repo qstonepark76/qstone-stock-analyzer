@@ -7,6 +7,7 @@ from pathlib import Path
 import json
 import math
 from fisis_auto import load_auto_observations
+from fisis_holding_auto import load_holding_observations
 
 def _metric(label, higher=True):
     return {"label": label, "weight": 2.0, "higher_is_better": higher}
@@ -95,7 +96,11 @@ def load_financial_observations(path=Path("data/financial_industry_observations.
         pass
     if not period:
         return manual
-    for ticker, record in load_auto_observations(period=period).items():
+    automatic = load_auto_observations(period=period)
+    for ticker, record in load_holding_observations(period=period).items():
+        if ticker not in automatic:
+            automatic[ticker] = record
+    for ticker, record in automatic.items():
         if ISSUER_MODELS.get(ticker) != record.get("model"):
             continue
         if ticker not in manual:
