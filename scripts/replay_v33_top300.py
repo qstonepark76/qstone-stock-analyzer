@@ -43,7 +43,7 @@ def main():
     for stock in stocks:
         ticker = stock["ticker"]
         src = by_ticker[ticker]
-        row = {"ticker":ticker,"name":stock["name"],"source_status":src["status"]}
+        row = {"ticker":ticker,"name":stock["name"],"source_status":src["status"],"corp_code":src.get("corp_code")}
         # Only a cached official code with matching source issuer identity
         # and a recent timestamp may define a comparison group.
         from datetime import date
@@ -107,17 +107,24 @@ def main():
               "replay_error":row.get("replay_error")},ensure_ascii=False),flush=True)
     # Calculate the 10-point industry factor separately; never present
     # the industry score as the full 100-point stock recommendation.
+    # Exclude duplicate issuer records from industrial comparisons, even
+    # when an unfamiliar preferred share is absent from the static map.
+    issuer_counts=Counter(r["corp_code"] for r in results
+                          if r.get("corp_code") and r["screening_class"]!="known_preferred_share")
+    for row in results:
+        if row.get("corp_code") and issuer_counts[row["corp_code"]]>1:
+            row["screening_class"]="duplicate_issuer_pending"
     peers = [{"ticker":r["ticker"],"industry_code":r["industry_code"],
               "industry_confidence":r["industry_confidence"],
               "financial_model":r["financial_model"],"financial_period":fiscal_period,
               "financial_observations":r.get("financial_observations"),
               "industry_metrics":r.get("admitted",{})}
-             for r in results if r["screening_class"]!="known_preferred_share"]
+             for r in results if r["screening_class"] not in ("known_preferred_share","duplicate_issuer_pending")]
     peers.extend(external_financial_peers(listed_records=financial))
     score_status=Counter()
     peer_counts=Counter()
     for row in results:
-        if row["screening_class"]=="known_preferred_share":
+        if row["screening_class"] in ("known_preferred_share","duplicate_issuer_pending"):
             relative={"status":"전략 제외","official_score":None,"provisional_score":None,"coverage_pct":0}
         else:
             relative=score_industry_relative(peers,row["ticker"])
@@ -149,6 +156,7 @@ def main():
              "xbrl_note_status_counts":dict(Counter(r.get("xbrl_note_status") for r in results if r.get("xbrl_note_status"))),
              "exception_count":len(exceptions),"exception_reasons":dict(Counter(e["reason"] for e in exceptions)),
              "verified_industry_code_count":sum(r["industry_code"] is not None for r in results),
+             "duplicate_issuer_pending_count":sum(r["screening_class"]=="duplicate_issuer_pending" for r in results),
              "industry_factor_status":dict(score_status),"industry_factor_coverage_counts":dict(peer_counts),
              "release_gate":"not_verified",
              "warning":"Exact cached codes require source identity and date match; missing codes remain unclassified. This replay checks the 10-point industry factor only, not full eight-factor scores or release eligibility."}
