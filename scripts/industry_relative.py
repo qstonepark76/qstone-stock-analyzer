@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import math
 from typing import Any
+from financial_industry import FINANCIAL_MODELS, MODEL_LABELS, comparable_observation
 
 MODEL_VERSION = "3.3-candidate"
 INDUSTRY_RELATIVE_WEIGHT = 10.0
@@ -22,7 +23,7 @@ METRICS = {
 
 # These fields are intentionally disjoint from the existing seven-factor
 # inputs (ROE, growth, price momentum, investor flows, PER/PBR, analyst outlook).
-INDUSTRY_SOURCE_FIELDS = frozenset(METRICS)
+INDUSTRY_SOURCE_FIELDS = frozenset(METRICS) | frozenset(k for m in FINANCIAL_MODELS.values() for k in m)
 EXISTING_MODEL_SOURCE_FIELDS = frozenset({
     "roe_pct", "sales_growth_pct", "operating_profit_growth_pct",
     "momentum_5d_pct", "momentum_20d_pct", "momentum_60d_pct",
@@ -66,6 +67,9 @@ def score_industry_relative(stocks: list[dict], ticker: str) -> dict:
         return {"status": "종목 데이터 없음", "official_score": None,
                 "provisional_score": None, "coverage_pct": 0.0, "details": {}}
 
+    model = target.get("financial_model")
+    if model:
+        return score_financial_relative(stocks, target, model)
     industry_code = str(target.get("industry_code") or "").strip()
     if not industry_code or target.get("industry_confidence") not in ("high", "verified"):
         return {"status": "업종 비교 불가", "industry_code": industry_code or None,
@@ -74,7 +78,8 @@ def score_industry_relative(stocks: list[dict], ticker: str) -> dict:
 
     peers = [s for s in stocks
              if str(s.get("industry_code") or "").strip() == industry_code
-             and s.get("industry_confidence") in ("high", "verified")]
+             and s.get("industry_confidence") in ("high", "verified")
+             and not s.get("financial_model")]
     if len(peers) < MIN_VALID_PEERS:
         return {"status": "비교대상 부족", "industry_code": industry_code,
                 "peer_count": len(peers), "official_score": None,
@@ -114,6 +119,47 @@ def score_industry_relative(stocks: list[dict], ticker: str) -> dict:
         "provisional_score": round(subtotal, 4),
         "coverage_pct": coverage, "details": details,
     }
+
+
+def score_financial_relative(stocks, target, model):
+    """Compare verified, same-scope annual observations only within one model."""
+    spec = FINANCIAL_MODELS.get(model)
+    base = {"financial_model": model, "model_label": MODEL_LABELS.get(model, "금융업 분류 확인 필요"),
+            "official_score": None, "provisional_score": None, "coverage_pct": 0.0, "details": {}}
+    if spec is None or target.get("industry_confidence") not in ("high", "verified"):
+        return dict(base, status="금융업 분류 확인 필요", peer_count=0)
+    peers = {str(s["ticker"]): s for s in stocks if s.get("ticker")
+             and s.get("financial_model") == model
+             and s.get("industry_confidence") in ("high", "verified")}
+    period = target.get("financial_period")
+    if not period or len(peers) < MIN_VALID_PEERS:
+        return dict(base, status="비교대상 부족" if len(peers) < MIN_VALID_PEERS else "기준기간 확인 필요",
+                    peer_count=len(peers))
+    details, subtotal, covered = {}, 0.0, 0.0
+    for key, metric in spec.items():
+        subject = comparable_observation(target.get("financial_observations"), key, model, period)
+        observations = [comparable_observation(p.get("financial_observations"), key, model, period)
+                        for p in peers.values()]
+        values = [x["value"] for x in observations if subject and x and x["signature"] == subject["signature"]]
+        detail = {"label": metric["label"], "weight": metric["weight"], "value": subject["value"] if subject else None,
+                  "peer_valid_count": len(values), "score": None, "percentile": None,
+                  "status": "데이터 또는 비교대상 부족"}
+        if subject:
+            detail.update(source=subject["source"], source_ref=subject["source_ref"],
+                          period=period, definition_id=subject["signature"][1],
+                          scope=subject["signature"][2], basis=subject["signature"][3])
+        if subject and len(values) >= MIN_VALID_PEERS:
+            pct = percentile_score(subject["value"], values, metric["higher_is_better"])
+            points = round(metric["weight"] * pct / 100, 4)
+            covered += metric["weight"]
+            subtotal += points
+            detail.update(score=points, percentile=pct, status="산출 완료")
+        details[key] = detail
+    complete = math.isclose(covered, INDUSTRY_RELATIVE_WEIGHT)
+    return dict(base, status="산출 완료" if complete else "금융업 지표 데이터 부족",
+                peer_count=len(peers), details=details, coverage_pct=round(100 * covered / INDUSTRY_RELATIVE_WEIGHT, 2),
+                official_score=round(subtotal, 4) if complete else None,
+                provisional_score=round(subtotal, 4) if covered else None)
 
 
 def validate_metric_separation(existing_fields=None) -> bool:
