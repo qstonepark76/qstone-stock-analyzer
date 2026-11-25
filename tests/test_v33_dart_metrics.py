@@ -329,5 +329,45 @@ class HoldingAutoTests(unittest.TestCase):
             self.assertNotIn("105560",load_holding_observations(p))
 
 
+
+class XbrlIntegrationTests(unittest.TestCase):
+    def setUp(self):
+        import json
+        from pathlib import Path
+        self.facts=json.loads(Path("docs/audit-evidence/xbrl-da-2025-sample.json").read_text(encoding="utf-8"))["records"]["000660"]
+        self.note={"receipt":"20260317000635","year":2025,"facts":self.facts}
+        self.rows=CapitalMetricTests().fixture()[:-2]
+        self.rows[2].update(account_nm="차입금",account_id="ifrs-full_CurrentBorrowingsAndCurrentPortionOfNoncurrentBorrowings")
+        self.rows[3].update(account_nm="차입금",account_id="ifrs-full_LongtermBorrowings")
+        self.rows.extend([CapitalMetricTests().row("BS","유동리스부채",5,4,account_id="ifrs-full_CurrentLeaseLiabilities"),
+                          CapitalMetricTests().row("BS","비유동리스부채",10,8,account_id="ifrs-full_NoncurrentLeaseLiabilities")])
+        for row in self.rows:
+            row.update(rcept_no=self.note["receipt"],bsns_year="2025",reprt_code="11011",fs_div="CFS")
+            for k in ("thstrm_amount","frmtrm_amount"):
+                if row.get(k):
+                    row[k]=str(int(row[k])*100000000000)
+    def run_extract(self,rows=None,note=None):
+        return collect.extract_financial(self.rows if rows is None else rows,ticker="000660",financial_year=2025,fs_div="CFS",xbrl_note=self.note if note is None else note)
+    def test_real_xbrl_facts_flow_to_leverage_and_quality(self):
+        result=self.run_extract()
+        self.assertEqual(result["capital_metric_audit"]["depreciation_amortisation"],13930130000000)
+        self.assertEqual(result["capital_metric_audit"]["da_source"],"same_receipt_xbrl_cf_adjustments")
+        self.assertAlmostEqual(result["industry_metrics"]["net_debt_to_ebitda"],20000000000000/(12000000000000+13930130000000))
+        self.assertEqual(result["industry_metric_quality"]["net_debt_to_ebitda"]["state"],"정상")
+    def test_receipt_mismatch_and_partial_cf_withhold_fallback(self):
+        result=self.run_extract(note=dict(self.note,receipt="20260317000000"))
+        self.assertIsNone(result["industry_metrics"]["net_debt_to_ebitda"])
+        self.assertEqual(result["capital_metric_audit"]["xbrl_note_status"],"receipt_year_or_scope_mismatch")
+        rows=self.rows+[CapitalMetricTests().row("CF","감가상각비",10,rcept_no=self.note["receipt"],bsns_year="2025",reprt_code="11011",fs_div="CFS")]
+        result=self.run_extract(rows=rows)
+        self.assertIsNone(result["industry_metrics"]["net_debt_to_ebitda"])
+        self.assertEqual(result["capital_metric_audit"]["xbrl_note_status"],"existing_cf_component_requires_review")
+    def test_conflicting_cf_and_xbrl_totals_withhold(self):
+        rows=self.rows+[CapitalMetricTests().row("CF","감가상각비및무형자산상각비",999,rcept_no=self.note["receipt"],bsns_year="2025",reprt_code="11011",fs_div="CFS")]
+        result=self.run_extract(rows=rows)
+        self.assertIsNone(result["industry_metrics"]["net_debt_to_ebitda"])
+        self.assertEqual(result["capital_metric_audit"]["xbrl_note_status"],"conflicting_cf_and_xbrl_totals")
+
+
 if __name__ == "__main__":
     unittest.main()
