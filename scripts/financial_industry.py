@@ -124,3 +124,53 @@ def comparable_observation(record, metric, model, period):
         return None
     return {"value": value, "signature": (period, obs["definition_id"], obs["scope"], obs["basis"]),
             "source": obs["source"], "source_ref": obs["source_ref"]}
+
+def external_financial_peers(path=Path("data/financial_industry_observations.json"), listed_records=None):
+    """Allow independently verified unlisted legal entities as peer-only rows.
+
+    Unlisted banks are not substitutes for consolidated bank holding groups.
+    Explicit identity and independence checks are required; no proxy tickers.
+    """
+    try:
+        obj = json.loads(Path(path).read_text(encoding="utf-8"))
+    except (OSError, ValueError, TypeError):
+        return []
+    if not isinstance(obj, dict) or obj.get("schema_version") != 1:
+        return []
+    records = obj.get("peer_only")
+    if not isinstance(records, list):
+        return []
+    listed_records = listed_records or {}
+    if not isinstance(listed_records, dict):
+        return []
+    listed_ids = {str(r.get("entity_id")) for r in listed_records.values()
+                  if isinstance(r, dict) and r.get("entity_id")}
+    listed_groups = {str(r.get("consolidation_id")) for r in listed_records.values()
+                     if isinstance(r, dict) and r.get("consolidation_id")}
+    seen_ids, seen_groups, result = set(), set(), []
+    # Require reviewed identities for all listed records in the same model
+    # before adding unlisted peers, so duplicates cannot inflate sample size.
+    for r in records:
+        if not isinstance(r, dict) or r.get("verified_identity") is not True or r.get("independent_peer") is not True:
+            continue
+        if r.get("listed") is not False:
+            continue
+        model = r.get("model")
+        if model not in FINANCIAL_MODELS:
+            continue
+        entity, group = r.get("entity_id"), r.get("consolidation_id")
+        if not all(isinstance(v, str) and v.strip() for v in (entity, group, r.get("identity_source"))):
+            continue
+        if entity in listed_ids or entity in seen_ids or group in listed_groups or group in seen_groups:
+            continue
+        relevant = [v for v in listed_records.values() if isinstance(v, dict) and v.get("model") == model]
+        if not relevant or any(v.get("verified_identity") is not True or not v.get("entity_id") or not v.get("consolidation_id") for v in relevant):
+            continue
+        # Card issuers and capital/lease firms need comparable business scope;
+        # all accepted observations still undergo exact signature matching.
+        seen_ids.add(entity)
+        seen_groups.add(group)
+        result.append({"ticker":"peer:"+entity,"financial_model":model,
+                       "industry_confidence":"verified","financial_observations":r,
+                       "peer_only":True})
+    return result
