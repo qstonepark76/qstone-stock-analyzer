@@ -62,7 +62,7 @@ ISSUER_MODELS = {
     "082640": "life_insurance",
     "000810": "nonlife_insurance", "005830": "nonlife_insurance",
     "001450": "nonlife_insurance", "000370": "nonlife_insurance",
-    "003690": "nonlife_insurance",
+    # Reinsurers require a separate business-model review.
     "016360": "securities", "006800": "securities", "005940": "securities",
     "039490": "securities", "003540": "securities", "001510": "securities",
     "030610": "securities", "001720": "securities",
@@ -97,7 +97,10 @@ def comparable_observation(record, metric, model, period):
     """
     if not isinstance(record, dict) or record.get("model") != model:
         return None
-    obs = (record.get("metrics") or {}).get(metric)
+    metrics = record.get("metrics")
+    if not isinstance(metrics, dict):
+        return None
+    obs = metrics.get(metric)
     if not isinstance(obs, dict) or obs.get("verified") is not True:
         return None
     if obs.get("period") != period or obs.get("unit") != "percent":
