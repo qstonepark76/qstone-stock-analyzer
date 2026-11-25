@@ -135,5 +135,82 @@ class CandidateAggregationTests(unittest.TestCase):
         self.assertIsNone(r["official_score"])
 
 
+
+from financial_industry import FINANCIAL_MODELS, financial_model_for, comparable_observation
+
+class FinancialIndustryTests(unittest.TestCase):
+    def peers(self, model="bank_group", n=5):
+        return [{
+            "ticker": str(i), "industry_confidence": "high", "financial_model": model,
+            "financial_period": "2025-12", "industry_code": "64999",
+            "industry_metrics": {k: 99 for k in METRICS},
+            "financial_observations": {"model": model, "metrics": {
+                key: {"value": i, "period": "2025-12", "unit": "percent",
+                      "verified": True, "source": "FISIS", "source_ref": "fixture",
+                      "definition_id": key + "-v1", "scope": "consolidated_group",
+                      "basis": "annual_comparable_fixture"}
+                for key in FINANCIAL_MODELS[model]}}
+        } for i in range(1, n+1)]
+
+    def test_all_models_have_five_independent_metrics_and_ten_points(self):
+        self.assertEqual(len(FINANCIAL_MODELS), 5)
+        for model, metrics in FINANCIAL_MODELS.items():
+            self.assertEqual(len(metrics), 5)
+            self.assertEqual(sum(m["weight"] for m in metrics.values()), 10)
+            result = score_industry_relative(self.peers(model), "5")
+            self.assertEqual(result["coverage_pct"], 100)
+            self.assertIsNotNone(result["official_score"])
+            self.assertEqual(set(result["details"]), set(metrics))
+
+    def test_bank_direction(self):
+        result = score_industry_relative(self.peers(), "5")
+        self.assertAlmostEqual(result["details"]["nim_pct"]["score"], 1.8)
+        self.assertAlmostEqual(result["details"]["npl_pct"]["score"], .2)
+
+    def test_models_never_mix_and_require_five(self):
+        peers = self.peers(n=4) + self.peers("securities")
+        peers[-1]["ticker"] = "9"
+        result = score_industry_relative(peers, "1")
+        self.assertEqual(result["peer_count"], 4)
+        self.assertIsNone(result["official_score"])
+
+    def test_wrong_period_scope_basis_units_source_or_unverified_is_missing(self):
+        changes = [{"period":"2024-12"}, {"scope":"subsidiary"}, {"basis":"other"},
+                   {"unit":"ratio"}, {"source":"unknown"}, {"verified":False}, {"definition_id":"other"}]
+        for change in changes:
+            peers = self.peers()
+            peers[0]["financial_observations"]["metrics"]["nim_pct"].update(change)
+            result = score_industry_relative(peers, "5")
+            self.assertEqual(result["coverage_pct"], 80)
+            self.assertIsNone(result["official_score"])
+            self.assertEqual(result["details"]["nim_pct"]["peer_valid_count"], 4)
+
+    def test_no_source_means_no_industrial_fallback(self):
+        peers = self.peers()
+        for p in peers:
+            p.pop("financial_observations")
+        result = score_industry_relative(peers, "1")
+        self.assertIsNone(result["official_score"])
+        self.assertEqual(result["coverage_pct"], 0)
+
+    def test_unknown_finance_and_issuer_routing(self):
+        self.assertEqual(financial_model_for("105560"), "bank_group")
+        self.assertEqual(financial_model_for("032830"), "life_insurance")
+        self.assertEqual(financial_model_for("000810"), "nonlife_insurance")
+        self.assertEqual(financial_model_for("016360"), "securities")
+        self.assertEqual(financial_model_for("029780"), "card_capital")
+        self.assertEqual(financial_model_for("071050", "64999"), "financial_unclassified")
+        self.assertIsNone(financial_model_for("005930", "26110", "반도체·전자"))
+        result = score_industry_relative([{"ticker":"x","financial_model":"financial_unclassified",
+                                           "industry_confidence":"high"}], "x")
+        self.assertIsNone(result["official_score"])
+
+    def test_duplicate_ticker_does_not_expand_peer_count(self):
+        peers = self.peers(n=4)
+        result = score_industry_relative(peers + [peers[0]], "1")
+        self.assertEqual(result["peer_count"], 4)
+        self.assertIsNone(result["official_score"])
+
+
 if __name__ == "__main__":
     unittest.main()
