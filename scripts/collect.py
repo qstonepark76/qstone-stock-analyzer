@@ -11,6 +11,7 @@ from analyst_consensus import load_and_score_consensus
 from recommendation_performance import update_recommendation_performance, build_performance_summary, STRATEGY_LABELS
 from industry_relative import score_industry_relative, aggregate_candidate
 from dart_capital_metrics import extract_capital_metrics, industry_metrics_for_scoring
+from financial_industry import financial_model_for, load_financial_observations
 
 KRX_URL = os.getenv("KRX_API_BASE", "https://data-dbg.krx.co.kr/svc/apis/sto/stk_bydd_trd")
 KRX_KEY = os.getenv("KRX_AUTH_KEY", "").strip()
@@ -1191,6 +1192,8 @@ def main():
 
     # Isolated v3.3 candidate: exact OpenDART industry-code peers only.
     # Preferred shares must not inflate the peer count of an issuer.
+    financial_observations = load_financial_observations()
+    financial_period = str(dt.date.today().year - 1) + "-12"
     candidate_peer_rows = []
     for item in stocks:
         if item["ticker"] in PREFERRED_SHARE_PARENT:
@@ -1199,6 +1202,9 @@ def main():
             "ticker": item["ticker"],
             "industry_code": item.get("sector_industry_code"),
             "industry_confidence": item.get("sector_confidence"),
+            "financial_model": financial_model_for(item["ticker"], item.get("sector_industry_code"), item.get("sector")),
+            "financial_period": financial_period,
+            "financial_observations": financial_observations.get(item["ticker"]),
             "industry_metrics": industry_metrics_for_scoring(item.get("industry_metrics"), item.get("sector_industry_code"), item.get("sector")),
         })
     for item in stocks:
