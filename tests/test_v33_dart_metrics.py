@@ -146,5 +146,21 @@ class CapitalMetricTests(unittest.TestCase):
         self.assertEqual(collect.industry_metrics_for_scoring(metrics, "26110", "반도체·전자"), metrics)
 
 
+
+    def test_samsung_published_four_line_mapping_is_issuer_year_scope_specific(self):
+        rows = self.fixture()
+        rows = [r for r in rows if r["sj_div"] != "BS" or r["account_nm"] in ("자본총계","현금및현금성자산")]
+        rows.extend([self.row("BS","단기차입금",100,80),
+                     self.row("BS","유동성장기부채",20,10),
+                     self.row("BS","사채",30,20),
+                     self.row("BS","장기차입금",150,70)])
+        result = collect.extract_financial(rows,ticker="005930",financial_year=2025,fs_div="CFS")
+        self.assertAlmostEqual(result["industry_metrics"]["roic_pct"],16)
+        self.assertAlmostEqual(result["industry_metrics"]["net_debt_to_ebitda"],200/150)
+        for ticker,year,scope in [("005930",2024,"CFS"),("005930",2025,"OFS"),("000660",2025,"CFS")]:
+            result = collect.extract_financial(rows,ticker=ticker,financial_year=year,fs_div=scope)
+            self.assertIsNone(result["industry_metrics"]["roic_pct"])
+
+
 if __name__ == "__main__":
     unittest.main()
