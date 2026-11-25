@@ -1,0 +1,167 @@
+{
+  "ticker": "005930",
+  "name": "삼성전자",
+  "financial_year": 2025,
+  "fs_div": "CFS",
+  "source": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2025_con_quarter04_all.pdf",
+  "source_pages": "6–9, note 12 p.59, note 27 pp.76–77",
+  "api_evidence_run": 45619807754,
+  "checks": [
+    {
+      "section": "BS",
+      "name": "현금및현금성자산",
+      "filing_krw_million": [
+        57856378,
+        53705579
+      ],
+      "api_krw": [
+        "57856378000000",
+        "53705579000000"
+      ],
+      "match": true
+    },
+    {
+      "section": "BS",
+      "name": "자본총계",
+      "filing_krw_million": [
+        436320337,
+        402192070
+      ],
+      "api_krw": [
+        "436320337000000",
+        "402192070000000"
+      ],
+      "match": true
+    },
+    {
+      "section": "BS",
+      "name": "단기차입금",
+      "filing_krw_million": [
+        17574980,
+        13172504
+      ],
+      "api_krw": [
+        "17574980000000",
+        "13172504000000"
+      ],
+      "match": true
+    },
+    {
+      "section": "BS",
+      "name": "유동성장기부채",
+      "filing_krw_million": [
+        1177508,
+        2207290
+      ],
+      "api_krw": [
+        "1177508000000",
+        "2207290000000"
+      ],
+      "match": true
+    },
+    {
+      "section": "BS",
+      "name": "사채",
+      "filing_krw_million": [
+        7134,
+        14530
+      ],
+      "api_krw": [
+        "7134000000",
+        "14530000000"
+      ],
+      "match": true
+    },
+    {
+      "section": "BS",
+      "name": "장기차입금",
+      "filing_krw_million": [
+        6479517,
+        3935860
+      ],
+      "api_krw": [
+        "6479517000000",
+        "3935860000000"
+      ],
+      "match": true
+    },
+    {
+      "section": "IS",
+      "name": "영업이익",
+      "filing_krw_million": [
+        43601051,
+        32725961
+      ],
+      "api_krw": [
+        "43601051000000",
+        "32725961000000"
+      ],
+      "match": true
+    },
+    {
+      "section": "IS",
+      "name": "법인세비용차감전순이익",
+      "filing_krw_million": [
+        49481471,
+        37529734
+      ],
+      "api_krw": [
+        "49481471000000",
+        "37529734000000"
+      ],
+      "match": true
+    },
+    {
+      "section": "IS",
+      "name": "법인세비용(수익)",
+      "filing_krw_million": [
+        4274666,
+        3078383
+      ],
+      "api_krw": [
+        "4274666000000",
+        "3078383000000"
+      ],
+      "match": true
+    },
+    {
+      "section": "IS",
+      "name": "매출액",
+      "filing_krw_million": [
+        333605938,
+        300870903
+      ],
+      "api_krw": [
+        "333605938000000",
+        "300870903000000"
+      ],
+      "match": true
+    }
+  ],
+  "source_account_match_count": 10,
+  "source_account_check_count": 10,
+  "filing_note_krw_million": {
+    "depreciation": 43605740,
+    "amortisation": 3320852,
+    "ebitda": 90527643,
+    "embedded_lease_current": 4841941,
+    "embedded_lease_previous": 5029849
+  },
+  "expected_calculations_using_filing_notes_only": {
+    "including_lease": {
+      "debt": 25239139,
+      "prior_debt": 19330184,
+      "net_debt": -32617239,
+      "roic_pct": 10.32621361853526,
+      "net_debt_to_ebitda": -0.3603014274877343
+    },
+    "excluding_lease": {
+      "debt": 20397198,
+      "prior_debt": 14300335,
+      "net_debt": -37459180,
+      "roic_pct": 10.460052628960788,
+      "net_debt_to_ebitda": -0.4137872008884623
+    }
+  },
+  "status": "Base account reconciliation only; D&A from independent filing notes, automated retrieval not validated; no official score."
+}
