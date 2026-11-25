@@ -6,6 +6,7 @@ must be verified before a normalized observation can enter the scoring engine.
 from pathlib import Path
 import json
 import math
+from fisis_auto import load_auto_observations
 
 def _metric(label, higher=True):
     return {"label": label, "weight": 2.0, "higher_is_better": higher}
@@ -59,7 +60,7 @@ ISSUER_MODELS = {
     "316140": "bank_group", "138930": "bank_group", "139130": "bank_group",
     "175330": "bank_group",
     "032830": "life_insurance", "088350": "life_insurance",
-    "082640": "life_insurance",
+    "082640": "life_insurance", "085620": "life_insurance",
     "000810": "nonlife_insurance", "005830": "nonlife_insurance",
     "001450": "nonlife_insurance", "000370": "nonlife_insurance",
     # Reinsurers require a separate business-model review.
@@ -79,15 +80,33 @@ def financial_model_for(ticker, industry_code=None, sector=None):
         return "financial_unclassified"
     return None
 
-def load_financial_observations(path=Path("data/financial_industry_observations.json")):
-    """Load normalized, independently reviewed observations; no API guesses."""
+def load_financial_observations(path=Path("data/financial_industry_observations.json"), period=None):
+    """Reviewed manual records and automatic source-rule passes.
+
+    The automatic snapshot is admitted only for its exact selected period.
+    Do not override manual observations or create subsidiary proxy identities.
+    """
+    manual = {}
     try:
         obj = json.loads(Path(path).read_text(encoding="utf-8"))
-        if obj.get("schema_version") != 1 or not isinstance(obj.get("issuers"), dict):
-            return {}
-        return obj["issuers"]
+        if obj.get("schema_version") == 1 and isinstance(obj.get("issuers"), dict):
+            manual = obj["issuers"]
     except (OSError, ValueError, TypeError, AttributeError):
-        return {}
+        pass
+    if not period:
+        return manual
+    for ticker, record in load_auto_observations(period=period).items():
+        if ISSUER_MODELS.get(ticker) != record.get("model"):
+            continue
+        if ticker not in manual:
+            manual[ticker] = record
+        elif isinstance(manual[ticker],dict) and manual[ticker].get("model") == record["model"]:
+            existing = manual[ticker].get("metrics")
+            if isinstance(existing,dict):
+                for metric, observation in record["metrics"].items():
+                    existing.setdefault(metric, observation)
+    return manual
+
 
 def comparable_observation(record, metric, model, period):
     """Return a value and comparison signature, or null if unverified.
