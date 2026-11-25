@@ -696,7 +696,7 @@ def pick_statement_account(items, statement, names):
     return None
 
 
-def extract_financial(items, ticker=None, financial_year=None, fs_div=None):
+def extract_financial(items, ticker=None, financial_year=None, fs_div=None, xbrl_note=None):
     """Extract verified annual financial values; unsupported ratios remain null."""
     income = ("IS", "CIS")
     sales = pick_standard_account(items, income, ["매출액", "수익(매출액)", "영업수익", "매출"],
@@ -733,7 +733,7 @@ def extract_financial(items, ticker=None, financial_year=None, fs_div=None):
     operating_margin = (op_now / sales_now) * 100 if op_now is not None and sales_now not in (None, 0) else None
     asset_turnover = sales_now / avg_assets if sales_now is not None and avg_assets not in (None, 0) else None
     cash_conversion = (cfo_now / op_now) * 100 if cfo_now is not None and op_now is not None and op_now > 0 else None
-    capital = extract_capital_metrics(items, ticker=ticker, financial_year=financial_year, fs_div=fs_div)
+    capital = extract_capital_metrics(items, ticker=ticker, financial_year=financial_year, fs_div=fs_div, xbrl_note=xbrl_note)
     industry_values = {
         "operating_margin_pct": operating_margin,
         "roic_pct": capital["roic_pct"],
