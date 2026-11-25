@@ -411,5 +411,28 @@ class DirectBorrowingTests(unittest.TestCase):
         self.assertNotEqual(direct_borrowing(rows)["status"],"auto_pass")
 
 
+
+class ExpandedDirectBorrowingTests(unittest.TestCase):
+    def test_three_components(self):
+        from direct_borrowing import direct_borrowing
+        rows=DirectBorrowingTests().rows()
+        rows[4].update(account_nm="장기차입금",account_id="ifrs-full_LongtermBorrowings",thstrm_amount="200",frmtrm_amount="100")
+        del rows[5]
+        out=direct_borrowing(rows)
+        self.assertEqual(out["layout"],"three_components")
+        self.assertEqual(out["debt_current"],300)
+        self.assertEqual(out["debt_previous"],180)
+    def test_current_loans_and_bonds(self):
+        from direct_borrowing import direct_borrowing
+        rows=DirectBorrowingTests().rows()
+        rows[2].update(account_nm="유동 금융기관 차입금",account_id="ifrs-full_CurrentLoansReceivedAndCurrentPortionOfNoncurrentLoansReceived")
+        rows[3].update(account_nm="유동 사채",account_id="ifrs-full_CurrentBondsIssuedAndCurrentPortionOfNoncurrentBondsIssued")
+        out=direct_borrowing(rows)
+        self.assertEqual(out["layout"],"loans_bonds_by_maturity")
+        self.assertEqual(out["debt_current"],300)
+        rows.append(CapitalMetricTests().row("BS","전환사채",20,10,account_id="dart_ConvertibleBondsNet"))
+        self.assertNotEqual(direct_borrowing(rows)["status"],"auto_pass")
+
+
 if __name__ == "__main__":
     unittest.main()
