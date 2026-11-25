@@ -6,7 +6,7 @@ is withheld for exception review, not clipped or replaced.
 """
 import math
 
-RULE_VERSION = "dart-auto-1"
+RULE_VERSION = "dart-auto-2"
 RULES = {
     "operating_margin_pct": (-1000, 1000),
     "roic_pct": (-1000, 1000),
@@ -22,10 +22,13 @@ def finite(value):
 def source_check(rows, year, scope):
     if not rows or not year or scope not in ("CFS", "OFS"):
         return False
-    # Require a single annual filing and one declared scope.
+    # The official fnlttSinglAcntAll API accepts fs_div as a request field,
+    # but does not list it in the response schema. Scope is carried from the
+    # successful request (or its audit metadata). Reject explicit conflicts.
+    # https://opendart.fss.or.kr/guide/detail.do?apiGrpCd=DS003&apiId=2019020
     receipts = {str(r.get("rcept_no") or "") for r in rows}
     return (len(receipts) == 1 and "" not in receipts
-            and all(r.get("fs_div") == scope and str(r.get("bsns_year")) == str(year)
+            and all(r.get("fs_div") in (None, "", scope) and str(r.get("bsns_year")) == str(year)
                     and str(r.get("reprt_code")) == "11011" for r in rows))
 
 def account_check(accounts):
