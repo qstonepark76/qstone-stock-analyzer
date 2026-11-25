@@ -296,5 +296,38 @@ class DartSourceSchemaTests(unittest.TestCase):
         self.assertFalse(source_check(rows,2025,"CFS"))
 
 
+
+class HoldingAutoTests(unittest.TestCase):
+    def test_real_holding_snapshot(self):
+        from fisis_holding_auto import load_holding_observations
+        from financial_industry import comparable_observation, load_financial_observations
+        r=load_holding_observations()
+        self.assertEqual(len(r),7)
+        self.assertEqual(sum(len(x["metrics"]) for x in r.values()),14)
+        self.assertEqual(r["105560"]["metrics"]["cet1_pct"]["value"],13.82)
+        self.assertEqual(r["086790"]["metrics"]["npl_pct"]["value"],.59)
+        self.assertEqual(load_holding_observations(period="2026-12"),{})
+        integrated=load_financial_observations(period="2025-12")
+        self.assertEqual(comparable_observation(integrated["105560"],"cet1_pct","bank_group","2025-12")["value"],13.82)
+
+    def test_holding_conflict_or_duplicate_withholds_only_affected_metric(self):
+        import json,tempfile
+        from pathlib import Path
+        from fisis_holding_auto import SNAPSHOT,load_holding_observations
+        raw=json.loads(SNAPSHOT.read_text(encoding="utf-8"))
+        altered=next(x for x in raw["records"] if x["company"]=="0012028" and x["table"]=="SL008")
+        altered["response"]["list"][0]["a"]="10"
+        with tempfile.TemporaryDirectory() as d:
+            p=Path(d)/"snapshot.json"
+            p.write_text(json.dumps(raw),encoding="utf-8")
+            r=load_holding_observations(p)
+            self.assertNotIn("cet1_pct",r["105560"]["metrics"])
+            self.assertEqual(r["105560"]["metrics"]["npl_pct"]["value"],.99)
+            npl=next(x for x in raw["records"] if x["company"]=="0012028" and x["table"]=="SL009")
+            raw["records"].append(npl)
+            p.write_text(json.dumps(raw),encoding="utf-8")
+            self.assertNotIn("105560",load_holding_observations(p))
+
+
 if __name__ == "__main__":
     unittest.main()
