@@ -4,6 +4,7 @@ The ledger stores report metadata and links only; it does not mirror copyrighted
 Only verified, explicitly published values are used.
 """
 import json
+import math
 import datetime as dt
 from pathlib import Path
 
@@ -31,7 +32,7 @@ def _percentile(values, value):
     return 100 * (below + (equal + 1) / 2) / len(valid)
 
 
-def load_and_score_consensus(stocks, asof):
+def load_and_score_consensus(stocks, asof, candidate=False):
     """Apply consensus metadata to stocks; score only with >=3 brokers and fresh reports."""
     try:
         payload = json.loads(LEDGER.read_text(encoding="utf-8"))
@@ -64,9 +65,9 @@ def load_and_score_consensus(stocks, asof):
         except (TypeError, ValueError):
             previous = None
         rating_score = RATING.get(rating, RATING.get(rating.upper()))
-        if target is not None and target <= 0:
+        if target is not None and (not math.isfinite(target) or target <= 0):
             target = None
-        if previous is not None and previous <= 0:
+        if previous is not None and (not math.isfinite(previous) or previous <= 0):
             previous = None
         grouped.setdefault(ticker, []).append({
             "published": published, "broker": broker, "target": target,
@@ -121,6 +122,9 @@ def load_and_score_consensus(stocks, asof):
         summaries[ticker] = {
             "analyst_report_count": sum(1 for r in rows if (asof - r["published"]).days <= 90),
             "analyst_broker_count": len(fresh),
+            "analyst_rating_broker_count": len(usable_ratings),
+            "analyst_target_broker_count": len(usable_targets),
+            "analyst_revision_broker_count": len(revisions),
             "analyst_avg_target_price": round(avg_target, 2) if avg_target is not None else None,
             "analyst_avg_upside_pct": round(upside, 2) if upside is not None else None,
             "analyst_latest_report_date": max((r["published"] for r in fresh), default=None).isoformat() if fresh else None,
@@ -133,7 +137,7 @@ def load_and_score_consensus(stocks, asof):
             "analyst_consensus_score": None,
             "analyst_consensus_coverage_pct": 0.0,
         }
-        if len(fresh) >= 3 and len({r["broker"] for r in fresh}) >= 3:
+        if candidate or (len(fresh) >= 3 and len({r["broker"] for r in fresh}) >= 3):
             if upside is not None:
                 target_upside[ticker] = upside
             if revision is not None:
@@ -145,7 +149,7 @@ def load_and_score_consensus(stocks, asof):
         # Always expose verified report metadata, even when the minimum
         # three-broker threshold is not met for consensus scoring.
         universe[ticker].update(summary)
-        if summary["analyst_broker_count"] < 3:
+        if not candidate and summary["analyst_broker_count"] < 3:
             continue
         rating_score = summary["analyst_rating_score"]
         upside_score = _percentile(list(target_upside.values()), summary["analyst_upside_pct"])
@@ -153,6 +157,18 @@ def load_and_score_consensus(stocks, asof):
         parts = [(rating_score, 50), (upside_score, 30), (revision_score, 20)]
         available = [(v, w) for v, w in parts if v is not None]
         coverage = sum(w for _, w in available)
+        if candidate:
+            # Observed component weight is distinct from evidentiary confidence.
+            # Each field needs three independent brokers for official coverage.
+            counts = [summary["analyst_rating_broker_count"], summary["analyst_target_broker_count"], summary["analyst_revision_broker_count"]]
+            factors = [(v,w,n) for (v,w),n in zip(parts,counts) if v is not None and n>0]
+            effective = sum(w*min(1,n/3) for v,w,n in factors)
+            summary["analyst_observed_coverage_pct"] = coverage
+            summary["analyst_confidence"] = ("very_high" if min(counts)>=5 else "high" if min(counts)>=3 else "partial")
+            summary["analyst_consensus_coverage_pct"] = effective
+            summary["analyst_consensus_score"] = round(sum(v*w*min(1,n/3) for v,w,n in factors)/effective,1) if effective else None
+            universe[ticker].update(summary)
+            continue
         summary["analyst_consensus_coverage_pct"] = coverage
         if coverage:
             summary["analyst_consensus_score"] = round(sum(v*w for v, w in available) / coverage, 1)
