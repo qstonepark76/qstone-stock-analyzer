@@ -4022,5 +4022,19 @@
       "equity_total": 441452020522.0,
       "financial_currency": "KRW"
     }
+  },
+  "004690": {
+    "cached_at": "2026-11-25T01:27:01.961433+00:00",
+    "financial_year": 2025,
+    "corp_code": "00128555",
+    "fs_div": "CFS",
+    "metrics": {
+      "roe_pct": 7.209997664774794,
+      "sales_growth_pct": 3.0257348007263873,
+      "operating_profit_growth_pct": 39.65642370244564,
+      "net_income": 131326078663.0,
+      "equity_total": 1882344303995.0,
+      "financial_currency": "KRW"
+    }
   }
 }
