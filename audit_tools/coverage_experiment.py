@@ -111,7 +111,13 @@ def main():
             continue
         seen.add(r["corp_code"])
         seen_tickers.add(r["ticker"])
-        peers.append({"ticker":r["ticker"],"corp_code":r["corp_code"],"industry_code":r["industry_code"],"metrics":r["industry_metrics"]})
+        values=dict(r["industry_metrics"])
+        raw_path=Path("audit-wider-peers/source-rows")/(r["ticker"]+".json")
+        if raw_path.exists():
+            raw=read(raw_path)
+            if sorted({str(x.get("rcept_no")) for x in raw if x.get("rcept_no")})==r.get("receipts"):
+                values.update(alternatives(raw,audit["year"],"CFS"))
+        peers.append({"ticker":r["ticker"],"corp_code":r["corp_code"],"industry_code":r["industry_code"],"metrics":values})
     out=[]
     counts={}
     denominator=sum(r["screening_class"]=="industrial_or_unclassified" for r in records)
@@ -121,7 +127,7 @@ def main():
         slots=sum(x["covered_slots"] for x in result)
         counts[label]={"complete":full,"full_pct":round(100*full/denominator,2),"slot_pct":round(100*slots/(5*denominator),2),"partial":sum(0<x["covered_slots"]<5 for x in result),"alternative_slots":sum(d["alternative"] for x in result for d in x["details"].values()),"parent_slots":sum(d["peer_group"]=="parent3" for x in result for d in x["details"].values())}
         out.append({"scenario":label,"records":result})
-    summary={"industrial_denominator":denominator,"verified_targets":len(targets),"added_peers":len(peers)-len(targets),"scenarios":counts,"release_gate":"not_verified","warning":"Experimental scenarios only. Alternatives use same-metric distributions; additional peer data currently contains primary metrics only. Parent groups and alternative score equivalence require independent validation."}
+    summary={"industrial_denominator":denominator,"verified_targets":len(targets),"added_peers":len(peers)-len(targets),"scenarios":counts,"release_gate":"not_verified","warning":"Experimental scenarios only. Alternatives use same-metric distributions; External alternate values require matching saved source receipts. Parent groups and alternative score equivalence require independent validation."}
     dest=Path("audit-coverage-experiment")
     dest.mkdir(exist_ok=True)
     (dest/"records.json").write_text(json.dumps(out,ensure_ascii=False,indent=2,allow_nan=False),encoding="utf-8")
