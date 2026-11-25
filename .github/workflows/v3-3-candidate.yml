@@ -13,6 +13,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: v33-candidate-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   validate:
     runs-on: ubuntu-latest
@@ -28,7 +32,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests
       - name: Compile candidate engine
-        run: python -m py_compile scripts/industry_relative.py scripts/collect.py scripts/dart_capital_metrics.py scripts/financial_industry.py scripts/audit_v33_dart.py
+        run: python -m py_compile scripts/industry_relative.py scripts/collect.py scripts/dart_capital_metrics.py scripts/financial_industry.py scripts/audit_v33_dart.py scripts/audit_v33_fisis.py
       - name: Run candidate industry-relative tests
         run: |
           python -m unittest discover -s tests -p 'test_industry_relative.py' -v
