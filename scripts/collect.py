@@ -10,7 +10,7 @@ import xml.etree.ElementTree as ET
 from analyst_consensus import load_and_score_consensus
 from recommendation_performance import update_recommendation_performance, build_performance_summary, STRATEGY_LABELS
 from industry_relative import score_industry_relative, aggregate_candidate
-from dart_capital_metrics import extract_capital_metrics, industry_metrics_for_scoring
+from dart_capital_metrics import extract_capital_metrics, industry_metrics_for_scoring, pick_standard_account
 from financial_industry import financial_model_for, load_financial_observations, external_financial_peers
 
 KRX_URL = os.getenv("KRX_API_BASE", "https://data-dbg.krx.co.kr/svc/apis/sto/stk_bydd_trd")
@@ -697,18 +697,22 @@ def pick_statement_account(items, statement, names):
 
 def extract_financial(items, ticker=None, financial_year=None, fs_div=None):
     """Extract verified annual financial values; unsupported ratios remain null."""
-    sales = pick_statement_account(items, ("IS", "CIS"), ["매출액", "수익(매출액)", "영업수익"])
-    op = pick_statement_account(items, ("IS", "CIS"), ["영업이익", "영업이익(손실)"])
-    net = pick_statement_account(items, ("IS", "CIS"), [
-        "지배기업의 소유주에게 귀속되는 당기순이익",
-        "당기순이익", "당기순이익(손실)", "당기순이익(손실)(*)",
-    ])
-    equity = pick_statement_account(items, "BS", ["자본총계"])
-    assets = pick_statement_account(items, "BS", ["자산총계"])
-    cfo = pick_statement_account(items, "CF", [
-        "영업활동으로 인한 현금흐름", "영업활동현금흐름",
-        "영업활동으로부터의 현금흐름",
-    ])
+    income = ("IS", "CIS")
+    sales = pick_standard_account(items, income, ["매출액", "수익(매출액)", "영업수익", "매출"],
+                                  ["ifrs-full_Revenue", "ifrs_Revenue"])
+    op = pick_standard_account(items, income, ["영업이익", "영업이익(손실)", "영업손익"],
+                               ["dart_OperatingIncomeLoss", "ifrs-full_ProfitLossFromOperatingActivities"])
+    # Preserve owner-attributable earnings priority for per-share valuation.
+    net = pick_standard_account(items, income, ["지배기업의 소유주에게 귀속되는 당기순이익"],
+                                ["ifrs-full_ProfitLossAttributableToOwnersOfParent"])
+    if net is None and fs_div != "CFS":
+        net = pick_standard_account(items, income, ["당기순이익", "당기순이익(손실)", "당기순이익(손실)(*)"],
+                                    ["ifrs-full_ProfitLoss", "ifrs_ProfitLoss"])
+    equity = pick_standard_account(items, ("BS",), ["자본총계"], ["ifrs-full_Equity", "ifrs_Equity"])
+    assets = pick_standard_account(items, ("BS",), ["자산총계"], ["ifrs-full_Assets", "ifrs_Assets"])
+    cfo = pick_standard_account(items, ("CF",), [
+        "영업활동으로 인한 현금흐름", "영업활동현금흐름", "영업활동으로부터의 현금흐름",
+    ], ["ifrs-full_CashFlowsFromUsedInOperatingActivities", "ifrs_CashFlowsFromUsedInOperatingActivities"])
     sales_now = amount(sales) if sales else None
     sales_prev = previous_amount(sales) if sales else None
     op_now = amount(op) if op else None
@@ -795,7 +799,7 @@ def collect_dart(stocks):
             try:
                 saved = dt.datetime.fromisoformat(cached.get("cached_at", "").replace("Z", "+00:00"))
                 cached_metrics = cached.get("metrics", {})
-                fresh = (now - saved).days < CACHE_DAYS and cached.get("financial_year") == year and cached.get("schema_version") == 5 and has_financial_metrics(cached_metrics)
+                fresh = (now - saved).days < CACHE_DAYS and cached.get("financial_year") == year and cached.get("schema_version") == 6 and has_financial_metrics(cached_metrics)
             except Exception:
                 fresh = False
         if fresh:
@@ -823,7 +827,7 @@ def collect_dart(stocks):
                 print(f"[DART] {index}/{len(todo)} {stock['ticker']} {stock['name']}: 필요한 계정과목 미확인", flush=True)
                 continue
             cache[stock["ticker"]] = {
-                "cached_at": now.isoformat(), "financial_year": year, "schema_version": 5,
+                "cached_at": now.isoformat(), "financial_year": year, "schema_version": 6,
                 "corp_code": corp, "fs_div": fs_div, "metrics": metrics,
             }
             results[stock["ticker"]] = metrics
@@ -846,7 +850,7 @@ def collect_dart(stocks):
             fresh = (
                 (now - saved).days < CACHE_DAYS
                 and cached.get("financial_year") == year
-                and cached.get("schema_version") == 5 and has_financial_metrics(metrics)
+                and cached.get("schema_version") == 6 and has_financial_metrics(metrics)
             )
         except Exception:
             fresh = False
