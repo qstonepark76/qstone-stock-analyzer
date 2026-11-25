@@ -35,6 +35,8 @@ def main():
     fiscal_period = str(year)+"-12"
     financial = load_financial_observations(period=fiscal_period)
     sector_cache = read(Path("data/sector_industry_cache.json"))
+    note_path = Path("audit-top300-xbrl/notes.json")
+    notes = read(note_path) if note_path.exists() else {}
     results,exceptions = [],[]
     states = {key:Counter() for key in METRICS}
     source_received = 0
@@ -77,7 +79,9 @@ def main():
                     raise ValueError("Receipt mismatch")
                 source_received+=1
                 if row["screening_class"]=="industrial_or_unclassified":
-                    metrics=extract_financial(raw,ticker=ticker,financial_year=year,fs_div=src.get("scope"))
+                    metrics=extract_financial(raw,ticker=ticker,financial_year=year,fs_div=src.get("scope"),xbrl_note=notes.get(ticker))
+                    row["da_source"]=metrics["capital_metric_audit"].get("da_source")
+                    row["xbrl_note_status"]=metrics["capital_metric_audit"].get("xbrl_note_status")
                     quality=metrics["industry_metric_quality"]
                     values=metrics["industry_metrics"]
                     row["quality"]=quality
@@ -141,6 +145,8 @@ def main():
              "screening_classes":dict(counts),"industry_auto_admission":{k:dict(v) for k,v in states.items()},
              "industry_admitted_pct":round(100*admitted/slots,2) if slots else None,
              "financial_observation_counts":dict(financial_counts),"financial_expected_slots":dict(financial_slots),
+             "xbrl_da_fallback_count":sum(r.get("da_source")=="same_receipt_xbrl_cf_adjustments" for r in results),
+             "xbrl_note_status_counts":dict(Counter(r.get("xbrl_note_status") for r in results if r.get("xbrl_note_status"))),
              "exception_count":len(exceptions),"exception_reasons":dict(Counter(e["reason"] for e in exceptions)),
              "verified_industry_code_count":sum(r["industry_code"] is not None for r in results),
              "industry_factor_status":dict(score_status),"industry_factor_coverage_counts":dict(peer_counts),
