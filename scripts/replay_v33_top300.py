@@ -7,9 +7,9 @@ import json
 import math
 from collections import Counter
 from pathlib import Path
-from collect import extract_financial, PREFERRED_SHARE_PARENT, classify_sector
-from financial_industry import financial_model_for, load_financial_observations
-from industry_relative import METRICS, FINANCIAL_MODELS
+from collect import extract_financial, PREFERRED_SHARE_PARENT, classify_sector, classify_industry_code
+from financial_industry import financial_model_for, load_financial_observations, comparable_observation, external_financial_peers
+from industry_relative import METRICS, FINANCIAL_MODELS, score_industry_relative
 from metric_quality import admitted_industry_metrics, RULE_VERSION
 
 SOURCE = Path("replay-source")
@@ -34,6 +34,7 @@ def main():
         raise ValueError("Incomplete or duplicate audit record list")
     fiscal_period = str(year)+"-12"
     financial = load_financial_observations(period=fiscal_period)
+    sector_cache = read(Path("data/sector_industry_cache.json"))
     results,exceptions = [],[]
     states = {key:Counter() for key in METRICS}
     source_received = 0
@@ -41,10 +42,23 @@ def main():
         ticker = stock["ticker"]
         src = by_ticker[ticker]
         row = {"ticker":ticker,"name":stock["name"],"source_status":src["status"]}
-        # Raw sector strings and the issuer allowlist are only a screening
-        # aid, not a complete official industry-code classification.
+        # Only a cached official code with matching source issuer identity
+        # and a recent timestamp may define a comparison group.
+        from datetime import date
+        cache = sector_cache.get(ticker) or {}
+        code = str(cache.get("industry_code") or "").strip()
+        try:
+            age = (date.fromisoformat(universe["asof"]) - date.fromisoformat(cache["cached_at"][:10])).days
+        except (KeyError,TypeError,ValueError):
+            age = -1
+        verified = bool(code.isdigit() and src.get("corp_code") and cache.get("corp_code")==src["corp_code"] and 0<=age<365)
+        row["industry_code"] = code if verified else None
+        row["industry_confidence"] = "high" if verified else None
         sector,confidence = classify_sector(stock.get("sector_raw"))
-        model = financial_model_for(ticker,sector=sector if confidence=="high" else None)
+        model = financial_model_for(ticker, code if verified else None,
+                                    classify_industry_code(code) if verified else (sector if confidence=="high" else None))
+        row["financial_model"] = model
+        row["financial_period"] = fiscal_period
         if ticker in PREFERRED_SHARE_PARENT:
             row["screening_class"]="known_preferred_share"
         elif model:
@@ -87,6 +101,30 @@ def main():
         print("TOP300 REPLAY RECORD",json.dumps({"ticker":ticker,"class":row["screening_class"],
               "source":row["source_status"],"admitted_count":sum(v is not None for v in row.get("admitted",{}).values()),
               "replay_error":row.get("replay_error")},ensure_ascii=False),flush=True)
+    # Calculate the 10-point industry factor separately; never present
+    # the industry score as the full 100-point stock recommendation.
+    peers = [{"ticker":r["ticker"],"industry_code":r["industry_code"],
+              "industry_confidence":r["industry_confidence"],
+              "financial_model":r["financial_model"],"financial_period":fiscal_period,
+              "financial_observations":r.get("financial_observations"),
+              "industry_metrics":r.get("admitted",{})}
+             for r in results if r["screening_class"]!="known_preferred_share"]
+    peers.extend(external_financial_peers(listed_records=financial))
+    score_status=Counter()
+    peer_counts=Counter()
+    for row in results:
+        if row["screening_class"]=="known_preferred_share":
+            relative={"status":"전략 제외","official_score":None,"provisional_score":None,"coverage_pct":0}
+        else:
+            relative=score_industry_relative(peers,row["ticker"])
+        row["industry_relative"]=relative
+        score_status[relative["status"]]+=1
+        if relative.get("official_score") is not None:
+            peer_counts["complete_10_point_factor"]+=1
+        elif relative.get("coverage_pct",0)>0:
+            peer_counts["partial_factor"]+=1
+        else:
+            peer_counts["unavailable_factor"]+=1
     counts=Counter(r["screening_class"] for r in results)
     slots=sum(sum(c.values()) for c in states.values())
     admitted=sum(c["정상"] for c in states.values())
@@ -97,14 +135,17 @@ def main():
             model=r["financial_model"]
             financial_slots[model]+=len(FINANCIAL_MODELS.get(model,{}))
             record=r.get("financial_observations") or {}
-            financial_counts[model]+=len(record.get("metrics",{}))
+            financial_counts[model]+=sum(comparable_observation(record,k,model,fiscal_period) is not None for k in FINANCIAL_MODELS.get(model,{}))
     summary={"source_run":45625150031,"universe_asof":universe["asof"],"financial_year":year,
              "rule_version":RULE_VERSION,"universe_count":300,"source_received":source_received,
              "screening_classes":dict(counts),"industry_auto_admission":{k:dict(v) for k,v in states.items()},
              "industry_admitted_pct":round(100*admitted/slots,2) if slots else None,
              "financial_observation_counts":dict(financial_counts),"financial_expected_slots":dict(financial_slots),
-             "exception_count":len(exceptions),"release_gate":"not_verified",
-             "warning":"Screening classes are preliminary; exact industry codes, peer eligibility, full eight-factor scores and release checks are not established by this replay."}
+             "exception_count":len(exceptions),"exception_reasons":dict(Counter(e["reason"] for e in exceptions)),
+             "verified_industry_code_count":sum(r["industry_code"] is not None for r in results),
+             "industry_factor_status":dict(score_status),"industry_factor_coverage_counts":dict(peer_counts),
+             "release_gate":"not_verified",
+             "warning":"Exact cached codes require source identity and date match; missing codes remain unclassified. This replay checks the 10-point industry factor only, not full eight-factor scores or release eligibility."}
     (OUT/"summary.json").write_text(json.dumps(summary,ensure_ascii=False,indent=2),encoding="utf-8")
     (OUT/"records.json").write_text(json.dumps(results,ensure_ascii=False,indent=2,allow_nan=False),encoding="utf-8")
     (OUT/"exceptions.json").write_text(json.dumps(exceptions,ensure_ascii=False,indent=2),encoding="utf-8")
