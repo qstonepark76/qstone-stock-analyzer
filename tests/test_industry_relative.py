@@ -212,5 +212,38 @@ class FinancialIndustryTests(unittest.TestCase):
         self.assertIsNone(result["official_score"])
 
 
+
+class UnlistedFinancialPeersTests(unittest.TestCase):
+    def test_peer_only_expansion_and_group_deduplication(self):
+        import json
+        import tempfile
+        from pathlib import Path
+        from financial_industry import external_financial_peers
+        fixture = FinancialIndustryTests().peers("life_insurance", 3)
+        records = {}
+        for p in fixture:
+            record = p["financial_observations"]
+            record.update(entity_id=p["ticker"], consolidation_id="g"+p["ticker"], verified_identity=True)
+            records[p["ticker"]] = record
+        base = dict(model="life_insurance", listed=False, verified_identity=True,
+                    independent_peer=True, identity_source="fixture",
+                    metrics=fixture[0]["financial_observations"]["metrics"])
+        extras = [
+            dict(base, entity_id="u1",consolidation_id="g4"),
+            dict(base, entity_id="u2",consolidation_id="g5"),
+            dict(base, entity_id="u3",consolidation_id="g5"),
+            dict(base, entity_id="u4",consolidation_id="g1"),
+            dict(base, entity_id="u5",consolidation_id="g6",verified_identity=False),
+        ]
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory)/"peers.json"
+            path.write_text(json.dumps(dict(schema_version=1, issuers=records,peer_only=extras)),encoding="utf-8")
+            result = external_financial_peers(path,records)
+            self.assertEqual(len(result),2)
+            self.assertTrue(all(p["peer_only"] for p in result))
+            self.assertEqual(score_industry_relative(fixture+result,"1")["coverage_pct"],100)
+            self.assertEqual(external_financial_peers(path,{}),[])
+
+
 if __name__ == "__main__":
     unittest.main()
