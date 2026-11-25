@@ -11,7 +11,7 @@ from analyst_consensus import load_and_score_consensus
 from recommendation_performance import update_recommendation_performance, build_performance_summary, STRATEGY_LABELS
 from industry_relative import score_industry_relative, aggregate_candidate
 from dart_capital_metrics import extract_capital_metrics, industry_metrics_for_scoring
-from financial_industry import financial_model_for, load_financial_observations
+from financial_industry import financial_model_for, load_financial_observations, external_financial_peers
 
 KRX_URL = os.getenv("KRX_API_BASE", "https://data-dbg.krx.co.kr/svc/apis/sto/stk_bydd_trd")
 KRX_KEY = os.getenv("KRX_AUTH_KEY", "").strip()
@@ -1207,6 +1207,8 @@ def main():
             "financial_observations": financial_observations.get(item["ticker"]),
             "industry_metrics": industry_metrics_for_scoring(item.get("industry_metrics"), item.get("sector_industry_code"), item.get("sector")),
         })
+    # Non-listed financial entities are comparison-only, never recommendation candidates.
+    candidate_peer_rows.extend(external_financial_peers(listed_records=financial_observations))
     for item in stocks:
         if item["ticker"] in PREFERRED_SHARE_PARENT:
             relative = {"status": "전략 제외", "official_score": None, "provisional_score": None,
