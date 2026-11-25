@@ -1,0 +1,46 @@
+name: Q Stone Park v3.3 wider peer discovery
+on:
+  push:
+    branches:
+      - v3-3-industry-relative-model
+    paths:
+      - '.github/workflows/v3-3-wider-peers.yml'
+permissions:
+  contents: read
+  actions: read
+jobs:
+  wider-peers:
+    if: github.repository == 'qstonepark76/qstone-stock-analyzer'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install requests
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-top300-preflight
+          run-id: 45625150031
+          github-token: ${{ github.token }}
+          path: replay-source
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-direct-calculation-baseline
+          run-id: 45633144862
+          github-token: ${{ github.token }}
+          path: audit-top300-replay
+      - name: Collect first batch of independent peer-only issuers
+        env:
+          DART_AUTH_KEY: ${{ secrets.DART_AUTH_KEY }}
+        run: python -u audit_tools/wider_industry_peers.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v33-wider-peer-evidence
+          path: audit-wider-peers/
+          if-no-files-found: warn
+          retention-days: 14
