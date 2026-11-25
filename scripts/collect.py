@@ -695,7 +695,7 @@ def pick_statement_account(items, statement, names):
     return None
 
 
-def extract_financial(items):
+def extract_financial(items, ticker=None, financial_year=None, fs_div=None):
     """Extract verified annual financial values; unsupported ratios remain null."""
     sales = pick_statement_account(items, ("IS", "CIS"), ["매출액", "수익(매출액)", "영업수익"])
     op = pick_statement_account(items, ("IS", "CIS"), ["영업이익", "영업이익(손실)"])
@@ -728,7 +728,7 @@ def extract_financial(items):
     operating_margin = (op_now / sales_now) * 100 if op_now is not None and sales_now not in (None, 0) else None
     asset_turnover = sales_now / avg_assets if sales_now is not None and avg_assets not in (None, 0) else None
     cash_conversion = (cfo_now / op_now) * 100 if cfo_now is not None and op_now is not None and op_now > 0 else None
-    capital = extract_capital_metrics(items)
+    capital = extract_capital_metrics(items, ticker=ticker, financial_year=financial_year, fs_div=fs_div)
     return {
         "roe_pct": roe, "sales_growth_pct": sales_growth,
         "operating_profit_growth_pct": op_growth,
@@ -795,7 +795,7 @@ def collect_dart(stocks):
             try:
                 saved = dt.datetime.fromisoformat(cached.get("cached_at", "").replace("Z", "+00:00"))
                 cached_metrics = cached.get("metrics", {})
-                fresh = (now - saved).days < CACHE_DAYS and cached.get("financial_year") == year and cached.get("schema_version") == 4 and has_financial_metrics(cached_metrics)
+                fresh = (now - saved).days < CACHE_DAYS and cached.get("financial_year") == year and cached.get("schema_version") == 5 and has_financial_metrics(cached_metrics)
             except Exception:
                 fresh = False
         if fresh:
@@ -817,13 +817,13 @@ def collect_dart(stocks):
                 failures += 1
                 print(f"[DART] {index}/{len(todo)} {stock['ticker']} {stock['name']}: 자료 없음 ({message})", flush=True)
                 continue
-            metrics = extract_financial(items)
+            metrics = extract_financial(items, ticker=stock['ticker'], financial_year=year, fs_div=fs_div)
             if not has_financial_metrics(metrics):
                 failures += 1
                 print(f"[DART] {index}/{len(todo)} {stock['ticker']} {stock['name']}: 필요한 계정과목 미확인", flush=True)
                 continue
             cache[stock["ticker"]] = {
-                "cached_at": now.isoformat(), "financial_year": year, "schema_version": 4,
+                "cached_at": now.isoformat(), "financial_year": year, "schema_version": 5,
                 "corp_code": corp, "fs_div": fs_div, "metrics": metrics,
             }
             results[stock["ticker"]] = metrics
@@ -846,7 +846,7 @@ def collect_dart(stocks):
             fresh = (
                 (now - saved).days < CACHE_DAYS
                 and cached.get("financial_year") == year
-                and cached.get("schema_version") == 4 and has_financial_metrics(metrics)
+                and cached.get("schema_version") == 5 and has_financial_metrics(metrics)
             )
         except Exception:
             fresh = False
