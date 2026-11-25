@@ -59,7 +59,7 @@ def audit():
                     clean = [{k:r.get(k) for k in FIELDS} for r in items
                              if isinstance(r, dict) and r.get("sj_div") in ("BS","IS","CIS","CF")]
                     (raw_dir / (ticker+".json")).write_text(json.dumps(clean,ensure_ascii=False,indent=2),encoding="utf-8")
-                    metrics = extract_financial(items)
+                    metrics = extract_financial(items, ticker=ticker, financial_year=year, fs_div=scope)
                     values = metrics.get("industry_metrics") or {}
                     row.update(status="source_received",scope=scope,corp_code=corp,
                                receipts=sorted({str(r.get("rcept_no")) for r in clean if r.get("rcept_no")}),
