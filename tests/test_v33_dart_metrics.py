@@ -162,5 +162,39 @@ class CapitalMetricTests(unittest.TestCase):
             self.assertIsNone(result["industry_metrics"]["roic_pct"])
 
 
+    def test_standard_id_precedes_alias_and_rejects_conflicting_duplicates(self):
+        from dart_capital_metrics import pick_standard_account
+        rows = [self.row("IS", "영업이익", 999),
+                self.row("CIS", "영업손익", 120, account_id="dart_OperatingIncomeLoss")]
+        self.assertEqual(pick_standard_account(rows, ("IS","CIS"), ["영업이익"], ["dart_OperatingIncomeLoss"])["thstrm_amount"], "120")
+        rows.append(self.row("CIS", "영업손익", 121, account_id="dart_OperatingIncomeLoss"))
+        self.assertIsNone(pick_standard_account(rows, ("IS","CIS"), ["영업이익"], ["dart_OperatingIncomeLoss"]))
+
+    def test_observed_standard_cf_adjustment_ids(self):
+        rows = self.fixture()
+        rows[-2].update(account_nm="감가상각", account_id="ifrs-full_AdjustmentsForDepreciationExpense")
+        rows[-1].update(account_nm="무형자산의 상각", account_id="ifrs-full_AdjustmentsForAmortisationExpense")
+        self.assertAlmostEqual(self.extract(rows)["industry_metrics"]["net_debt_to_ebitda"], 200/150)
+
+    def test_unreviewed_borrowing_pattern_not_scored(self):
+        rows = self.fixture()
+        rows[2].update(account_nm="차입금", account_id="ifrs-full_CurrentBorrowingsAndCurrentPortionOfNoncurrentBorrowings")
+        rows[3].update(account_nm="차입금", account_id="ifrs-full_LongtermBorrowings")
+        out = collect.extract_financial(rows,ticker="000660",financial_year=2025,fs_div="CFS")
+        self.assertIsNone(out["industry_metrics"]["roic_pct"])
+        self.assertIsNone(out["industry_metrics"]["net_debt_to_ebitda"])
+        self.assertEqual(out["capital_metric_audit"]["unreviewed_debt_preview"]["debt_current"],300)
+        self.assertEqual(out["capital_metric_audit"]["unreviewed_debt_preview"]["debt_previous"],180)
+        other = collect.extract_financial(rows,ticker="000660",financial_year=2024,fs_div="CFS")
+        self.assertIsNone(other["capital_metric_audit"]["unreviewed_debt_preview"])
+
+    def test_standard_revenue_and_operating_income_not_confused_with_components(self):
+        rows = [self.row("CIS", "매출", 1000, 800, account_id="ifrs-full_Revenue"),
+                self.row("CIS", "매출원가", 700, 650, account_id="ifrs-full_CostOfSales"),
+                self.row("CIS", "영업손익", 120, 100, account_id="dart_OperatingIncomeLoss")]
+        self.assertAlmostEqual(self.extract(rows)["industry_metrics"]["operating_margin_pct"],12)
+        self.assertIsNone(self.extract(rows[:1]+[self.row("CIS","영업이익",900,800,account_id="ifrs-full_GrossProfit")])["industry_metrics"]["operating_margin_pct"])
+
+
 if __name__ == "__main__":
     unittest.main()
