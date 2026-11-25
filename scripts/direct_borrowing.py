@@ -9,6 +9,9 @@ from collections import defaultdict
 
 ROLES={
  "ifrs-full_ShorttermBorrowings":"short",
+ "ifrs-full_CurrentLoansReceivedAndCurrentPortionOfNoncurrentLoansReceived":"current_loans_total",
+ "ifrs-full_CurrentBondsIssuedAndCurrentPortionOfNoncurrentBondsIssued":"current_bonds_total",
+ "ifrs-full_NoncurrentPortionOfOtherNoncurrentBorrowings":"long_other",
  "ifrs-full_CurrentPortionOfLongtermBorrowings":"current_maturity",
  "ifrs-full_CurrentPortionOfBonds":"current_bonds",
  "dart_CurrentPortionOfBonds":"current_bonds",
@@ -76,6 +79,10 @@ def direct_borrowing(rows):
         layout="two_totals"
     elif debt=={"short","current_maturity","long_bonds","long_loans"}:
         layout="four_components"
+    elif debt=={"short","current_maturity","long_total"}:
+        layout="three_components"
+    elif debt=={"current_loans_total","current_bonds_total","long_loans","long_bonds"}:
+        layout="loans_bonds_by_maturity"
     elif debt=={"short","current_maturity","current_bonds","long_bonds","long_loans"}:
         # Current maturity and current bonds can overlap; require notes.
         return {"status":"current_maturity_overlap_unresolved"}
