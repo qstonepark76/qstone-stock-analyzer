@@ -62,3 +62,21 @@ jobs:
           path: audit-v33/
           if-no-files-found: warn
           retention-days: 14
+
+  fisis-credential-check:
+    # Report credential availability only. No key is printed or transmitted.
+    if: github.repository == 'qstonepark76/qstone-stock-analyzer' && github.ref == 'refs/heads/v3-3-industry-relative-model' && (github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[fisis-check]'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    permissions:
+      contents: read
+    steps:
+      - name: Check configured FISIS credential
+        env:
+          FISIS_AUTH_KEY: ${{ secrets.FISIS_AUTH_KEY }}
+        run: |
+          if [ -n "$FISIS_AUTH_KEY" ]; then
+            echo "FISIS_AUTH_KEY: configured (validity not tested)"
+          else
+            echo "FISIS_AUTH_KEY: not configured under this name"
+          fi
