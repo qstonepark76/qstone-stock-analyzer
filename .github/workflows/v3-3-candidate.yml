@@ -23,4 +23,4 @@ jobs:
       - name: Compile candidate engine
         run: python -m py_compile scripts/industry_relative.py
       - name: Run candidate industry-relative tests
-        run: python -m unittest tests/test_industry_relative.py -v
+        run: python -m unittest discover -s tests -p 'test_industry_relative.py' -v
