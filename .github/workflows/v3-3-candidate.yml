@@ -2,6 +2,13 @@ name: Q Stone Park v3.3 candidate validation
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - v3-3-industry-relative-model
+    paths:
+      - 'scripts/**'
+      - 'tests/**'
+      - '.github/workflows/v3-3-candidate.yml'
 
 permissions:
   contents: read
@@ -12,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: v3-3-industry-relative-model
+          persist-credentials: false
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
