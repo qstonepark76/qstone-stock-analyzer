@@ -675,18 +675,28 @@ def dart_company_financial(corp_code, year):
     return None, None, last_message
 
 def pick_statement_account(items, statement, names):
-    """Pick an account only from its declared statement section."""
-    scoped = [item for item in items if item.get("sj_div") == statement]
-    return pick_account(scoped, names)
+    """Pick an account only from its declared statement section.
+
+    OpenDART may label a comprehensive income statement as CIS (not IS),
+    especially in consolidated filings. Accept explicit aliases without
+    mixing balance-sheet or cash-flow rows into income-statement metrics.
+    """
+    statements = (statement,) if isinstance(statement, str) else tuple(statement)
+    for code in statements:
+        scoped = [item for item in items if item.get("sj_div") == code]
+        found = pick_account(scoped, names)
+        if found is not None:
+            return found
+    return None
 
 
 def extract_financial(items):
     """Extract verified annual financial values; unsupported ratios remain null."""
-    sales = pick_statement_account(items, "IS", ["매출액", "수익(매출액)", "영업수익"])
-    op = pick_statement_account(items, "IS", ["영업이익", "영업이익(손실)"])
-    net = pick_statement_account(items, "IS", [
+    sales = pick_statement_account(items, ("IS", "CIS"), ["매출액", "수익(매출액)", "영업수익"])
+    op = pick_statement_account(items, ("IS", "CIS"), ["영업이익", "영업이익(손실)"])
+    net = pick_statement_account(items, ("IS", "CIS"), [
         "지배기업의 소유주에게 귀속되는 당기순이익",
-        "당기순이익", "당기순이익(손실)",
+        "당기순이익", "당기순이익(손실)", "당기순이익(손실)(*)",
     ])
     equity = pick_statement_account(items, "BS", ["자본총계"])
     assets = pick_statement_account(items, "BS", ["자산총계"])
@@ -1295,9 +1305,23 @@ def main():
             elif list_key == "foreign_flow": row["list_score"] = x.get("foreign_flow_score"); row["list_coverage_pct"] = x.get("component_coverage_pct", {}).get("foreign_flow", 0)
             elif list_key == "institution_flow": row["list_score"] = x.get("institution_flow_score"); row["list_coverage_pct"] = x.get("component_coverage_pct", {}).get("institution_flow", 0)
             elif list_key == "undervalued": row["list_score"] = x.get("component_scores", {}).get("valuation"); row["list_coverage_pct"] = x.get("component_coverage_pct", {}).get("valuation", 0)
+            elif list_key == "v33_official": row["list_score"] = x.get("v33_candidate", {}).get("score"); row["list_coverage_pct"] = x.get("v33_candidate", {}).get("coverage_pct", 0)
+            elif list_key == "v33_provisional": row["list_score"] = x.get("v33_candidate", {}).get("provisional_score"); row["list_coverage_pct"] = x.get("v33_candidate", {}).get("coverage_pct", 0)
             else: row["list_score"] = x.get("score"); row["list_coverage_pct"] = x.get("score_coverage_pct", 0)
             out.append(row)
         return out
+
+    # Independent v3.3 TOP15 outputs. They are separate from the v3.2
+    # recommendation lists and only include official candidates with full coverage.
+    v33_official = sorted(
+        [x for x in stocks if x.get("v33_candidate", {}).get("official_recommendation_eligible")
+         and x.get("v33_candidate", {}).get("score") is not None],
+        key=lambda x: x["v33_candidate"]["score"], reverse=True,
+    )[:15]
+    v33_provisional = sorted(
+        [x for x in stocks if x.get("v33_candidate", {}).get("provisional_score") is not None],
+        key=lambda x: x["v33_candidate"]["provisional_score"], reverse=True,
+    )[:15]
 
     sector_groups = {}
     for stock in stocks:
@@ -1333,6 +1357,17 @@ def main():
         "as_of": asof.isoformat(),
         "market": {"kospi": kospi.get("close") if kospi else None, "kospi_change_pct": kospi.get("change_pct") if kospi else None, "analyzed_count": len(stocks), "advancers": sum(1 for x in stocks if (x.get("change_pct") or 0) > 0), "decliners": sum(1 for x in stocks if (x.get("change_pct") or 0) < 0)},
         "lists": {k: compact(v, k) for k, v in lists.items()},
+        "candidate_models": {
+            "3.3-candidate": {
+                "status": "개발 후보 · 미배포",
+                "official_top15": compact(v33_official, "v33_official"),
+                "provisional_top15": compact(v33_provisional, "v33_provisional"),
+                "official_eligible_count": sum(1 for x in stocks if x.get("v33_candidate", {}).get("official_recommendation_eligible")),
+                "industry_peer_group_count": len({x.get("sector_industry_code") for x in stocks if x.get("sector_industry_code") and x.get("sector_confidence") in ("high", "verified")}),
+                "industry_relative_complete_count": sum(1 for x in stocks if x.get("v33_candidate", {}).get("industry_relative", {}).get("status") == "산출 완료"),
+                "note": "v3.2 운영 추천목록과 분리. 공식 TOP15는 8개 평가영역의 데이터 충족률이 모두 100%인 종목만 포함하며, 잠정 TOP15는 별도 표시."
+            }
+        },
         "sector_top5": sector_top5,
         "sector_summary": sector_summary,
         "top15": compact(official, "overall"),
@@ -1340,7 +1375,7 @@ def main():
         "performance": {"snapshots": len(perf), "kospi_history_sessions": kospi_history_sessions, "note": "추천일 종가 기준 실제 후속 거래일 종가로 1주(5거래일)·1개월(20거래일)·3개월(60거래일) 성과를 계산합니다. 7개 전략별 평균수익률, KOSPI 초과수익률, 절대수익 성공률 및 시장초과 성공률을 추적합니다."},
         "data_quality": {"label": "v3.2 베타 · 시가총액 상위 300개 · 가격 이력 누적", "note": dart_note + ". " + sector_note + ". " + kis_note + ". " + analyst_note + ". PER/PBR은 KRX 시가총액과 OpenDART 최신 연간 순이익·자본총계로 산출하며 적자·자본잠식은 제외합니다.", "official_top15_count": len(official), "sector_classified_count": sum(1 for x in stocks if x.get("sector")), "sector_unclassified_count": sum(1 for x in stocks if not x.get("sector")), "sector_classification_pct": round(100 * sum(1 for x in stocks if x.get("sector")) / len(stocks), 1) if stocks else 0, "sector_classification_source_count": sum(1 for x in stocks if x.get("sector")), "sector_classification_sources": {"opendart_industry_code": sum(1 for x in stocks if x.get("sector_source") == "OpenDART industry code"), "fdr_krx_desc": sum(1 for x in stocks if x.get("sector_source") == "KRX-DESC"), "same_issuer_ordinary_share": sum(1 for x in stocks if x.get("sector_source") == "Same issuer ordinary share"), "manual_verified_company_mapping": sum(1 for x in stocks if x.get("sector_source") == "Manual verified company mapping")}, "sector_count": len(sector_summary), "coverage_gate": "7개 평가영역의 실제 확보 가중치가 100%일 때만 공식 추천 점수/등급 부여", "financial_universe_batch": FINANCIAL_UNIVERSE, "financial_universe_total": len(stocks), "market_cap_covered_count": len(cap_covered), "universe_limit": 300, "history_sessions_available": history_sessions_available, "history_sessions_required": 61, "history_progress_pct": round(min(history_sessions_available, 61) / 61 * 100, 1), "kis_flow_coverage_count": len(investor_flows), "foreign_flow_coverage_count": sum(1 for x in stocks if x.get("foreign_flow_5d_pct") is not None), "institution_flow_coverage_count": sum(1 for x in stocks if x.get("institution_flow_5d_pct") is not None), "analyst_report_count": sum(int(x.get("analyst_report_count", 0) or 0) for x in analyst_data.values()), "analyst_covered_stock_count": len(analyst_data), "analyst_three_broker_count": sum(1 for x in analyst_data.values() if x.get("analyst_broker_count", 0) >= 3), "analyst_full_factor_coverage_count": sum(1 for x in analyst_data.values() if x.get("analyst_consensus_coverage_pct", 0) >= 99.99), "analyst_revision_covered_count": sum(1 for x in analyst_data.values() if x.get("analyst_target_revision_pct") is not None), "analyst_upgrades_in_top15_count": len(analyst_upgrades_in_top15)},
         "providers": {"krx": "connected", "kospi_index": "connected" if kospi else "configured_no_data", "opendart": "connected" if financial else ("configured_no_data" if DART_KEY else "not_configured"), "investor_flows": "connected" if investor_flows else ("configured_no_data" if os.getenv("KIS_APP_KEY") and os.getenv("KIS_APP_SECRET") else "not_configured"), "valuation": "connected" if any(x.get("per") is not None or x.get("pbr") is not None for x in stocks) else "configured_no_data", "analyst_consensus": "connected" if analyst_data else "configured_no_data"},
-        "model": {"version": "3.2-beta", "candidate_models": {"3.3-candidate": {"status": "개발 후보 · 미배포", "weights": {"financial_health_profitability": 20, "growth": 15, "price_momentum": 10, "foreign_flow": 10, "institution_flow": 10, "valuation_per_pbr": 15, "broker_outlook": 10, "industry_relative": 10}, "note": "v3.2 점수·TOP15를 변경하지 않는 별도 후보 데이터. 업종 상대평가는 정확히 일치하는 OpenDART 업종코드 peer만 사용."}}, "weights": {"financial_health_profitability": 20, "growth": 20, "price_momentum": 15, "foreign_flow": 15, "institution_flow": 10, "valuation_per_pbr": 10, "broker_outlook": 10}, "grade_thresholds": {"S": 90, "A": 80, "B": 70, "C": 60, "D": "below_60"}, "grade_statuses": {"insufficient_data": "데이터 부족", "strategy_excluded": "전략 제외"}, "note": "확정 100점 배점 유지. 부분 데이터는 provisional_score로만 표시하고 공식 score/grade를 부여하지 않음. 모멘텀은 현재 종가를 포함해 61개 거래일 종가(직전 60거래일 비교)가 누적되어야 산출."}
+        "model": {"version": "3.2-beta", "candidate_models": {"3.3-candidate": {"status": "개발 후보 · 미배포", "weights": {"financial_health_profitability": 20, "growth": 15, "price_momentum": 10, "foreign_flow": 10, "institution_flow": 10, "valuation_per_pbr": 15, "broker_outlook": 10, "industry_relative": 10}, "note": "v3.2 점수·TOP15를 변경하지 않는 별도 후보 데이터. 업종 상대평가는 정확히 일치하는 OpenDART 업종코드 peer만 사용. candidate_models.3.3-candidate에서 공식/잠정 TOP15를 분리 제공."}}, "weights": {"financial_health_profitability": 20, "growth": 20, "price_momentum": 15, "foreign_flow": 15, "institution_flow": 10, "valuation_per_pbr": 10, "broker_outlook": 10}, "grade_thresholds": {"S": 90, "A": 80, "B": 70, "C": 60, "D": "below_60"}, "grade_statuses": {"insufficient_data": "데이터 부족", "strategy_excluded": "전략 제외"}, "note": "확정 100점 배점 유지. 부분 데이터는 provisional_score로만 표시하고 공식 score/grade를 부여하지 않음. 모멘텀은 현재 종가를 포함해 61개 거래일 종가(직전 60거래일 비교)가 누적되어야 산출."}
     }
     (OUT / "latest.json").write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"[완료] v3.2-beta {asof}: KRX {len(stocks)}개 / DART 재무 {len(financial)}개 / 공식추천 가능 {len(official)}개", flush=True)
