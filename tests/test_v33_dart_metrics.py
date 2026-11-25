@@ -369,5 +369,47 @@ class XbrlIntegrationTests(unittest.TestCase):
         self.assertEqual(result["capital_metric_audit"]["xbrl_note_status"],"conflicting_cf_and_xbrl_totals")
 
 
+
+class DirectBorrowingTests(unittest.TestCase):
+    def rows(self):
+        row=CapitalMetricTests().row
+        return [row("BS","자본총계",500,400),row("BS","현금및현금성자산",100,80),
+                row("BS","단기차입금",80,60,account_id="ifrs-full_ShorttermBorrowings"),
+                row("BS","유동성장기부채",20,20,account_id="ifrs-full_CurrentPortionOfLongtermBorrowings"),
+                row("BS","사채",50,30,account_id="ifrs-full_NoncurrentPortionOfNoncurrentBondsIssued"),
+                row("BS","장기차입금",150,70,account_id="ifrs-full_NoncurrentPortionOfNoncurrentLoansReceived"),
+                row("BS","유동리스부채",5,4,account_id="ifrs-full_CurrentLeaseLiabilities"),
+                row("BS","비유동리스부채",10,8,account_id="ifrs-full_NoncurrentLeaseLiabilities"),
+                row("CIS","영업이익",120),row("CIS","법인세비용차감전순이익",100),
+                row("CIS","법인세비용",20),row("CF","감가상각비",20),row("CF","무형자산상각비",10)]
+    def test_disjoint_components_calculated(self):
+        from direct_borrowing import direct_borrowing
+        rows=self.rows()
+        d=direct_borrowing(rows)
+        self.assertEqual(d["status"],"auto_pass")
+        self.assertEqual((d["debt_current"],d["debt_previous"]),(300,180))
+        for r in rows:
+            r.update(rcept_no="20260317000001",bsns_year="2025",reprt_code="11011",fs_div="CFS")
+        out=collect.extract_financial(rows,ticker="999999",financial_year=2025,fs_div="CFS")
+        self.assertAlmostEqual(out["industry_metrics"]["roic_pct"],16)
+        self.assertAlmostEqual(out["industry_metrics"]["net_debt_to_ebitda"],200/150)
+        self.assertEqual(out["industry_metric_quality"]["roic_pct"]["state"],"정상")
+    def test_overlapping_or_unknown_debt_not_admitted(self):
+        from direct_borrowing import direct_borrowing
+        rows=self.rows()
+        row=CapitalMetricTests().row
+        self.assertNotEqual(direct_borrowing(rows+[row("BS","차입금합계",300,180)])["status"],"auto_pass")
+        self.assertNotEqual(direct_borrowing(rows+[row("BS","유동성사채",10,10,account_id="dart_CurrentPortionOfBonds")])["status"],"auto_pass")
+        self.assertNotEqual(direct_borrowing(rows[:6]+rows[7:])["status"],"auto_pass")
+    def test_missing_prior_or_currency_conflict(self):
+        from direct_borrowing import direct_borrowing
+        rows=self.rows()
+        rows[2]["frmtrm_amount"]=""
+        self.assertNotEqual(direct_borrowing(rows)["status"],"auto_pass")
+        rows=self.rows()
+        rows[2]["currency"]="USD"
+        self.assertNotEqual(direct_borrowing(rows)["status"],"auto_pass")
+
+
 if __name__ == "__main__":
     unittest.main()
