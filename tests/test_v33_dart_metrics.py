@@ -196,5 +196,48 @@ class CapitalMetricTests(unittest.TestCase):
         self.assertIsNone(self.extract(rows[:1]+[self.row("CIS","영업이익",900,800,account_id="ifrs-full_GrossProfit")])["industry_metrics"]["operating_margin_pct"])
 
 
+    def test_auto_admission_source_and_scope(self):
+        from metric_quality import assess_industry_metrics, admitted_industry_metrics
+        rows = [self.row("IS","매출액",1000,800,account_id="ifrs-full_Revenue"),
+                self.row("IS","영업이익",100,80,account_id="dart_OperatingIncomeLoss")]
+        for row in rows:
+            row.update(rcept_no="20260317000001", fs_div="CFS", bsns_year="2025", reprt_code="11011")
+        v = {"operating_margin_pct":10,"roic_pct":12}
+        q = assess_industry_metrics(v,rows,2025,"CFS",{"operating_margin_pct":rows},{})
+        self.assertEqual(q["operating_margin_pct"]["state"],"정상")
+        self.assertEqual(q["roic_pct"]["state"],"주의")
+        self.assertEqual(admitted_industry_metrics(v,q,2025),{"operating_margin_pct":10,"roic_pct":None})
+        self.assertIsNone(admitted_industry_metrics(v,q,2024)["operating_margin_pct"])
+        rows[1]["rcept_no"]="different"
+        self.assertEqual(assess_industry_metrics(v,rows,2025,"CFS",{"operating_margin_pct":rows},{})["operating_margin_pct"]["state"],"주의")
+
+    def test_auto_standard_debt_pair_requires_separate_leases_and_no_extra_borrowing(self):
+        rows = self.fixture()
+        rows[2].update(account_nm="차입금", account_id="ifrs-full_CurrentBorrowingsAndCurrentPortionOfNoncurrentBorrowings")
+        rows[3].update(account_nm="차입금", account_id="ifrs-full_LongtermBorrowings")
+        rows.extend([self.row("BS","유동리스부채",5,4,account_id="ifrs-full_CurrentLeaseLiabilities"),
+                     self.row("BS","비유동리스부채",10,8,account_id="ifrs-full_NoncurrentLeaseLiabilities")])
+        result = collect.extract_financial(rows,ticker="123456",financial_year=2025,fs_div="CFS")
+        self.assertAlmostEqual(result["industry_metrics"]["roic_pct"],16)
+        self.assertAlmostEqual(result["industry_metrics"]["net_debt_to_ebitda"],200/150)
+        self.assertEqual(result["capital_metric_audit"]["lease_basis"],"lease_excluded")
+        rows.append(self.row("BS","사채",50,40,account_id="ifrs-full_NoncurrentPortionOfNoncurrentBondsIssued"))
+        self.assertIsNone(collect.extract_financial(rows,ticker="123456",financial_year=2025,fs_div="CFS")["industry_metrics"]["roic_pct"])
+
+    def test_auto_admission_rejects_mixed_currencies_and_outliers(self):
+        from metric_quality import assess_industry_metrics, admitted_industry_metrics
+        rows = [self.row("IS","매출액",1000,800,account_id="ifrs-full_Revenue"),
+                self.row("IS","영업이익",100,80,account_id="dart_OperatingIncomeLoss")]
+        for row in rows:
+            row.update(rcept_no="20260317000001",fs_div="CFS",bsns_year="2025",reprt_code="11011")
+        rows[1]["currency"]="USD"
+        values={"operating_margin_pct":10,"roic_pct":2000,"asset_turnover":float("nan")}
+        q=assess_industry_metrics(values,rows,2025,"CFS",{"operating_margin_pct":rows},{"lease_basis":"lease_excluded"})
+        self.assertEqual(q["operating_margin_pct"]["state"],"주의")
+        self.assertEqual(q["roic_pct"]["state"],"주의")
+        self.assertEqual(q["asset_turnover"]["state"],"오류")
+        self.assertTrue(all(v is None for v in admitted_industry_metrics(values,q,2025).values()))
+
+
 if __name__ == "__main__":
     unittest.main()
