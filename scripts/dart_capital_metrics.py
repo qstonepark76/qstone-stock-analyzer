@@ -64,7 +64,7 @@ def extract_capital_metrics(rows):
                                   "법인세비용차감전계속영업이익", "법인세비용차감전계속영업이익(손실)",
                                   "법인세비용차감전이익", "법인세비용차감전이익(손실)"],
                    ["ifrs-full_ProfitLossBeforeTax", "ifrs_ProfitLossBeforeTax"])
-    tax = _pick(rows, income, ["법인세비용", "법인세비용(수익)", "법인세수익(비용)",
+    tax = _pick(rows, income, ["법인세비용", "법인세비용(수익)",
                                "계속영업법인세비용"],
                 ["ifrs-full_IncomeTaxExpenseContinuingOperations", "ifrs_IncomeTaxExpenseContinuingOperations"])
 
@@ -125,3 +125,13 @@ def extract_capital_metrics(rows):
             "status_net_debt_to_ebitda": "산출 완료" if leverage is not None else "계정 부족 또는 산식 적용 불가",
         }
     }
+
+
+def industry_metrics_for_scoring(metrics, industry_code, sector=None):
+    """Financial-sector ROIC and EBITDA ratios are not economically comparable."""
+    output = dict(metrics or {})
+    code = str(industry_code or "").strip()
+    if code[:2] in ("64", "65", "66") or sector == "금융":
+        output["roic_pct"] = None
+        output["net_debt_to_ebitda"] = None
+    return output
