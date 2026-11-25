@@ -86,6 +86,7 @@ def audit():
                                source_row_count=len(clean),
                                industry_metrics=values if not model else None,
                                capital_metric_audit=metrics.get("capital_metric_audit") if not model else None,
+                               industry_metric_quality=metrics.get("industry_metric_quality") if not model else None,
                                financial_status="specialized_source_pending" if model else None)
             except Exception as exc:
                 row["status"] = "request_or_extract_failed:" + type(exc).__name__
@@ -105,6 +106,8 @@ def audit():
     report["raw_metric_coverage_pct"] = round(100 * calculated_slots / total_slots, 2) if total_slots else None
     report["source_collection_pct"] = round(100 * sum(r["status"]=="source_received" for r in report["records"]) / len(SAMPLE),2)
     report["independent_agreement_pct"] = None
+    report["admission_policy"] = "Automatic standard-rule passes are eligible for candidate scoring; independent per-issuer review not required; exceptions withheld."
+    report["automatic_admission"] = {key: {state: sum((r.get("industry_metric_quality") or {}).get(key,{}).get("state") == state for r in industrial) for state in ("정상","주의","오류")} for key in METRICS}
     report["release_gate"] = "not_verified"
     report.update(status="sample_collection_finished",
                   received_count=sum(r["status"]=="source_received" for r in report["records"]),
