@@ -6,6 +6,7 @@ The effective tax rate is observed income-tax expense / pre-tax profit.
 """
 import math
 from xbrl_da_rule import select_da
+from direct_borrowing import direct_borrowing
 
 
 def _norm(value):
@@ -122,6 +123,12 @@ def extract_capital_metrics(rows, ticker=None, financial_year=None, fs_div=None,
             and all(_sum(standard_rows + leases, p) is not None for p in ("thstrm_amount", "frmtrm_amount"))):
         debt_rows = standard_rows
         debt_mapping = "standard_borrowings_pair_separate_lease_excluded"
+    # Directly calculate from disjoint reported components rather than
+    # demanding a precomputed total. Retain the same lease-exclusive basis.
+    direct = direct_borrowing(rows) if fs_div == "CFS" else {"status":"not_consolidated"}
+    if direct["status"] == "auto_pass" and direct["layout"] == "four_components":
+        debt_rows = direct["rows"]
+        debt_mapping = "direct_four_components_separate_lease_excluded"
     # Use one explicit aggregate D&A row, or the two distinct reported
     # totals. Do not combine a subtotal with its children.
     da = _pick(rows, cf, ["감가상각비및무형자산상각비", "감가상각비와무형자산상각비"],
@@ -217,8 +224,11 @@ def extract_capital_metrics(rows, ticker=None, financial_year=None, fs_div=None,
             "effective_tax_rate": tax_rate, "depreciation_amortisation": da_now,
             "debt_accounts": [r.get("account_nm") for r in debt_rows if r],
             "debt_mapping": debt_mapping,
+            "direct_borrowing_status": direct["status"],
+            "direct_borrowing_layout": direct.get("layout"),
+            "debt_account_ids": [r.get("account_id") for r in debt_rows if r],
             "unreviewed_debt_preview": preview,
-            "lease_basis": ("embedded leases included; separate lease liabilities not added" if debt_mapping.startswith("samsung_") else ("lease_excluded" if debt_mapping == "standard_borrowings_pair_separate_lease_excluded" else "separate lease liabilities not added; embedded lease scope unverified")),
+            "lease_basis": ("embedded leases included; separate lease liabilities not added" if debt_mapping.startswith("samsung_") else ("lease_excluded" if debt_mapping in ("standard_borrowings_pair_separate_lease_excluded", "direct_four_components_separate_lease_excluded") else "separate lease liabilities not added; embedded lease scope unverified")),
             "review_status": "automatic standard pattern" if debt_mapping == "standard_borrowings_pair_separate_lease_excluded" else "lease or source mapping review pending",
             "da_accounts": [r.get("account_nm") for r in da_rows if r],
             "da_source": da_source, "xbrl_note_status": note_status,
