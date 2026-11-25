@@ -32,7 +32,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests
       - name: Compile candidate engine
-        run: python -m py_compile scripts/industry_relative.py scripts/collect.py scripts/dart_capital_metrics.py scripts/financial_industry.py scripts/audit_v33_dart.py scripts/audit_v33_fisis.py
+        run: python -m py_compile scripts/industry_relative.py scripts/collect.py scripts/dart_capital_metrics.py scripts/financial_industry.py scripts/audit_v33_dart.py scripts/audit_v33_fisis.py scripts/audit_v33_fisis_values.py
       - name: Run candidate industry-relative tests
         run: |
           python -m unittest discover -s tests -p 'test_industry_relative.py' -v
@@ -109,5 +109,33 @@ jobs:
         with:
           name: v33-fisis-metadata
           path: audit-fisis/
+          if-no-files-found: warn
+          retention-days: 14
+
+  fisis-value-audit:
+    if: github.repository == 'qstonepark76/qstone-stock-analyzer' && github.ref == 'refs/heads/v3-3-industry-relative-model' && (github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[fisis-values]'))
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install requests
+      - name: Retrieve real financial regulatory sample observations
+        env:
+          FISIS_AUTH_KEY: ${{ secrets.FISIS_AUTH_KEY }}
+        run: python -u scripts/audit_v33_fisis_values.py
+      - name: Upload unreviewed public sample values
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v33-fisis-value-audit
+          path: audit-fisis-values/
           if-no-files-found: warn
           retention-days: 14
