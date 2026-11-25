@@ -42,7 +42,7 @@ def query(endpoint, params):
 
 def main():
     OUT.mkdir(exist_ok=True)
-    report = {"companies":{},"accounts":{},"scope":"metadata discovery only; no verified scoring"}
+    report = {"companies":{},"statistics":{},"accounts":{},"scope":"metadata discovery only; no verified scoring"}
     if not KEY:
         print("FISIS_AUTH_KEY: missing",flush=True)
         return 1
@@ -51,11 +51,26 @@ def main():
         report["companies"][code] = result
         print("FISIS companySearch",code,result["status"],"rows",len(result["rows"]),flush=True)
         time.sleep(.3)
+    # Discover actual table names by sector, not guessed account codes.
+    # Only metadata is logged; never request URL, credentials or headers.
+    terms = ("순이자", "자본", "고정이하", "대손", "경영", "건전", "지급여력", "보험", "손해율",
+             "합산", "수익", "유동", "연체", "우발", "레버리지", "CSM", "신계약", "위험")
+    for code in COMPANY_CODES:
+        if report["companies"][code]["status"] != "metadata_received":
+            continue
+        companies = report["companies"][code]["rows"]
+        print("FISIS COMPANY EVIDENCE",code,json.dumps(companies,ensure_ascii=False),flush=True)
+        result = query("statisticsListSearch",{"lrgDiv":code})
+        report["statistics"][code] = result
+        relevant = [row for row in result["rows"]
+                    if any(term in str(row.get("list_nm") or "") for term in terms)]
+        print("FISIS TABLE EVIDENCE",code,result["status"],json.dumps(relevant,ensure_ascii=False),flush=True)
+        time.sleep(.3)
     if any(r["status"]=="metadata_received" for r in report["companies"].values()):
         for code in TABLES:
             result = query("accountListSearch",{"listNo":code})
             report["accounts"][code] = result
-            print("FISIS accountListSearch",code,result["status"],"rows",len(result["rows"]),flush=True)
+            print("FISIS ACCOUNT EVIDENCE",code,result["status"],json.dumps(result["rows"],ensure_ascii=False),flush=True)
             time.sleep(.3)
     (OUT/"metadata.json").write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding="utf-8")
     return 0 if any(r["status"]=="metadata_received" for r in report["companies"].values()) else 1
