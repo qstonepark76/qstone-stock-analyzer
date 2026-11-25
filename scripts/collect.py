@@ -10,6 +10,7 @@ import xml.etree.ElementTree as ET
 from analyst_consensus import load_and_score_consensus
 from recommendation_performance import update_recommendation_performance, build_performance_summary, STRATEGY_LABELS
 from industry_relative import score_industry_relative, aggregate_candidate
+from dart_capital_metrics import extract_capital_metrics, industry_metrics_for_scoring
 
 KRX_URL = os.getenv("KRX_API_BASE", "https://data-dbg.krx.co.kr/svc/apis/sto/stk_bydd_trd")
 KRX_KEY = os.getenv("KRX_AUTH_KEY", "").strip()
@@ -726,9 +727,7 @@ def extract_financial(items):
     operating_margin = (op_now / sales_now) * 100 if op_now is not None and sales_now not in (None, 0) else None
     asset_turnover = sales_now / avg_assets if sales_now is not None and avg_assets not in (None, 0) else None
     cash_conversion = (cfo_now / op_now) * 100 if cfo_now is not None and op_now is not None and op_now > 0 else None
-    # ROIC and net-debt/EBITDA require reliable tax, interest-bearing debt,
-    # cash-equivalent and D&A account mapping. They are intentionally null
-    # until those XBRL accounts can be validated without double counting.
+    capital = extract_capital_metrics(items)
     return {
         "roe_pct": roe, "sales_growth_pct": sales_growth,
         "operating_profit_growth_pct": op_growth,
@@ -736,12 +735,15 @@ def extract_financial(items):
         "financial_currency": financial_currency,
         "industry_metrics": {
             "operating_margin_pct": operating_margin,
-            "roic_pct": None,
+            "roic_pct": capital["roic_pct"],
             "asset_turnover": asset_turnover,
-            "net_debt_to_ebitda": None,
+            "net_debt_to_ebitda": capital["net_debt_to_ebitda"],
             "cash_conversion_pct": cash_conversion,
         },
+        "capital_metric_audit": capital["capital_metric_audit"],
         "industry_metric_sources": {
+            "roic_pct": "OpenDART annual BS/IS/CIS; observed effective tax, average invested capital",
+            "net_debt_to_ebitda": "OpenDART annual BS/IS/CIS/CF; reported borrowing incl. bonds, excl. separately reported lease liabilities",
             "operating_margin_pct": "OpenDART IS",
             "asset_turnover": "OpenDART IS + BS average total assets",
             "cash_conversion_pct": "OpenDART CF / IS",
@@ -792,7 +794,7 @@ def collect_dart(stocks):
             try:
                 saved = dt.datetime.fromisoformat(cached.get("cached_at", "").replace("Z", "+00:00"))
                 cached_metrics = cached.get("metrics", {})
-                fresh = (now - saved).days < CACHE_DAYS and cached.get("financial_year") == year and cached.get("schema_version") == 3 and has_financial_metrics(cached_metrics)
+                fresh = (now - saved).days < CACHE_DAYS and cached.get("financial_year") == year and cached.get("schema_version") == 4 and has_financial_metrics(cached_metrics)
             except Exception:
                 fresh = False
         if fresh:
@@ -820,7 +822,7 @@ def collect_dart(stocks):
                 print(f"[DART] {index}/{len(todo)} {stock['ticker']} {stock['name']}: 필요한 계정과목 미확인", flush=True)
                 continue
             cache[stock["ticker"]] = {
-                "cached_at": now.isoformat(), "financial_year": year, "schema_version": 3,
+                "cached_at": now.isoformat(), "financial_year": year, "schema_version": 4,
                 "corp_code": corp, "fs_div": fs_div, "metrics": metrics,
             }
             results[stock["ticker"]] = metrics
@@ -843,7 +845,7 @@ def collect_dart(stocks):
             fresh = (
                 (now - saved).days < CACHE_DAYS
                 and cached.get("financial_year") == year
-                and cached.get("schema_version") == 3 and has_financial_metrics(metrics)
+                and cached.get("schema_version") == 4 and has_financial_metrics(metrics)
             )
         except Exception:
             fresh = False
@@ -1197,7 +1199,7 @@ def main():
             "ticker": item["ticker"],
             "industry_code": item.get("sector_industry_code"),
             "industry_confidence": item.get("sector_confidence"),
-            "industry_metrics": item.get("industry_metrics") or {},
+            "industry_metrics": industry_metrics_for_scoring(item.get("industry_metrics"), item.get("sector_industry_code"), item.get("sector")),
         })
     for item in stocks:
         if item["ticker"] in PREFERRED_SHARE_PARENT:
@@ -1264,7 +1266,7 @@ def main():
     )
 
     def compact(items, list_key):
-        keys = ["ticker", "name", "sector", "sector_raw", "sector_industry", "sector_industry_code", "sector_source", "sector_confidence", "close", "change_pct", "market_cap", "per", "pbr", "valuation_as_of", "net_income", "equity_total", "score", "provisional_score", "score_coverage_pct", "grade", "provisional_grade", "status", "official_recommendation_eligible", "component_scores", "component_coverage_pct", "industry_metrics", "industry_metric_sources", "v33_candidate", "financial_score", "growth_score", "momentum_score", "foreign_flow_score", "institution_flow_score", "roe_pct", "sales_growth_pct", "operating_profit_growth_pct", "momentum_5d", "momentum_20d", "momentum_60d", "history_observations", "trading_value", "foreign_net_buy_qty_5d", "institution_net_buy_qty_5d", "foreign_flow_5d_pct", "institution_flow_5d_pct", "investor_flow_as_of", "investor_flow_sessions", "reason", "risk_factors", "strategy_excluded", "strategy_exclusion_reason", "analyst_report_count", "analyst_broker_count", "analyst_avg_target_price", "analyst_avg_upside_pct", "analyst_rating_score", "analyst_consensus_score", "analyst_consensus_coverage_pct", "analyst_latest_report_date", "analyst_target_revision_pct", "analyst_recent_reports", "analyst_monthly_report_counts", "analyst_sources"]
+        keys = ["ticker", "name", "sector", "sector_raw", "sector_industry", "sector_industry_code", "sector_source", "sector_confidence", "close", "change_pct", "market_cap", "per", "pbr", "valuation_as_of", "net_income", "equity_total", "score", "provisional_score", "score_coverage_pct", "grade", "provisional_grade", "status", "official_recommendation_eligible", "component_scores", "component_coverage_pct", "industry_metrics", "industry_metric_sources", "capital_metric_audit", "v33_candidate", "financial_score", "growth_score", "momentum_score", "foreign_flow_score", "institution_flow_score", "roe_pct", "sales_growth_pct", "operating_profit_growth_pct", "momentum_5d", "momentum_20d", "momentum_60d", "history_observations", "trading_value", "foreign_net_buy_qty_5d", "institution_net_buy_qty_5d", "foreign_flow_5d_pct", "institution_flow_5d_pct", "investor_flow_as_of", "investor_flow_sessions", "reason", "risk_factors", "strategy_excluded", "strategy_exclusion_reason", "analyst_report_count", "analyst_broker_count", "analyst_avg_target_price", "analyst_avg_upside_pct", "analyst_rating_score", "analyst_consensus_score", "analyst_consensus_coverage_pct", "analyst_latest_report_date", "analyst_target_revision_pct", "analyst_recent_reports", "analyst_monthly_report_counts", "analyst_sources"]
         out = []
         for x in items:
             row = {k: x.get(k) for k in keys}
