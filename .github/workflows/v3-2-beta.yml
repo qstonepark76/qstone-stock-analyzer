@@ -89,6 +89,7 @@ jobs:
     permissions:
       contents: read
       pages: write
+      actions: write
       id-token: write
     environment:
       name: github-pages
@@ -103,11 +104,42 @@ jobs:
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
+      - name: Remove stale Pages artifacts from this run
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          endpoint="repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/artifacts"
+          ids=$(gh api --paginate "$endpoint" --jq '.artifacts[] | select(.name == "github-pages") | .id')
+          for id in $ids; do
+            gh api --method DELETE "repos/$GITHUB_REPOSITORY/actions/artifacts/$id"
+          done
+
       - name: Upload v3.2 beta website
+        id: pages_upload
         uses: actions/upload-pages-artifact@v3
         with:
           # Use the canonical artifact name expected by GitHub Pages.
           path: .
+
+      - name: Wait for Pages artifact metadata
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EXPECTED_ID: ${{ steps.pages_upload.outputs.artifact_id }}
+        run: |
+          set -euo pipefail
+          endpoint="repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/artifacts"
+          for attempt in $(seq 1 24); do
+            if ids=$(gh api --paginate "$endpoint" --jq '.artifacts[] | select(.name == "github-pages" and .expired == false) | .id'); then
+              if [ "$ids" = "$EXPECTED_ID" ] && [ -n "$EXPECTED_ID" ]; then
+                sleep 10
+                exit 0
+              fi
+            fi
+            sleep 5
+          done
+          echo "::error::Expected exactly one current github-pages artifact (ID $EXPECTED_ID)"
+          exit 1
 
       - name: Deploy v3.2 beta website
         id: deployment
