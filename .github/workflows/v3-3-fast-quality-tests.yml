@@ -23,7 +23,7 @@ jobs:
         with:
           python-version: "3.11"
       - run: pip install requests
-      - run: python -m py_compile scripts/collect.py scripts/dart_capital_metrics.py scripts/metric_quality.py scripts/fisis_auto.py scripts/fisis_holding_auto.py scripts/financial_industry.py scripts/replay_v33_top300.py
+      - run: python -m py_compile scripts/collect.py scripts/dart_capital_metrics.py scripts/metric_quality.py scripts/fisis_auto.py scripts/fisis_holding_auto.py scripts/financial_industry.py scripts/xbrl_da_rule.py scripts/replay_v33_top300.py audit_tools/enrich_top300_xbrl.py
       - run: |
           python -m unittest discover -s tests -p 'test_industry_relative.py' -v
           python -m unittest discover -s tests -p 'test_v33_dart_metrics.py' -v
