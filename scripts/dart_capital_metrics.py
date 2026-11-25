@@ -185,9 +185,12 @@ def extract_capital_metrics(rows, ticker=None, financial_year=None, fs_div=None,
                 note_status = "conflicting_cf_and_xbrl_totals"
             elif da_now is None:
                 cf_ids = {"ifrs-full_DepreciationAndAmortisationExpense", "ifrs-full_AdjustmentsForDepreciationAndAmortisationExpense", "ifrs-full_DepreciationExpense", "ifrs-full_AdjustmentsForDepreciationExpense", "ifrs-full_AmortisationExpense", "ifrs-full_AdjustmentsForAmortisationExpense"}
-                if not any(r.get("sj_div")=="CF" and r.get("account_id") in cf_ids for r in rows):
+                cf_aliases = {_norm(n) for n in ("감가상각비및무형자산상각비","감가상각비와무형자산상각비","감가상각비","유형자산감가상각비","무형자산상각비","무형자산감가상각비")}
+                if not any(r.get("sj_div")=="CF" and (r.get("account_id") in cf_ids or _norm(r.get("account_nm")) in cf_aliases) for r in rows):
                     da_now = note["total"]
                     da_source = "same_receipt_xbrl_cf_adjustments"
+                else:
+                    note_status = "existing_cf_component_requires_review"
     elif xbrl_note is not None:
         note_status = "receipt_year_or_scope_mismatch"
     roic = leverage = None
