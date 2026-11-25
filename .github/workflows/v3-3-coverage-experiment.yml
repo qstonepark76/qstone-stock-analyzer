@@ -1,0 +1,50 @@
+name: Q Stone Park v3.3 coverage experiment
+on:
+  push:
+    branches:
+      - v3-3-industry-relative-model
+    paths:
+      - '.github/workflows/v3-3-coverage-experiment.yml'
+      - 'audit_tools/coverage_experiment.py'
+permissions:
+  contents: read
+  actions: read
+jobs:
+  coverage-experiment:
+    if: github.repository == 'qstonepark76/qstone-stock-analyzer'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install requests
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-top300-preflight
+          run-id: 45625150031
+          github-token: ${{ github.token }}
+          path: replay-source
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-expanded-direct-results
+          run-id: 45637274391
+          github-token: ${{ github.token }}
+          path: .
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-wider-peer-evidence
+          run-id: 45637357370
+          github-token: ${{ github.token }}
+          path: audit-wider-peers
+      - run: python -u audit_tools/coverage_experiment.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v33-coverage-experiment
+          path: audit-coverage-experiment/
+          if-no-files-found: warn
+          retention-days: 14
