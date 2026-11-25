@@ -5,6 +5,7 @@ Borrowing includes bonds, excluding separately disclosed lease liabilities.
 The effective tax rate is observed income-tax expense / pre-tax profit.
 """
 import math
+from xbrl_da_rule import select_da
 
 
 def _norm(value):
@@ -58,7 +59,7 @@ def _sum(rows, period):
     return sum(values)
 
 
-def extract_capital_metrics(rows, ticker=None, financial_year=None, fs_div=None):
+def extract_capital_metrics(rows, ticker=None, financial_year=None, fs_div=None, xbrl_note=None):
     bs = ("BS",)
     income = ("IS", "CIS")
     cf = ("CF",)
@@ -171,6 +172,24 @@ def extract_capital_metrics(rows, ticker=None, financial_year=None, fs_div=None)
     pretax_now, tax_now = _amount(pretax or {}, now), _amount(tax or {}, now)
     eq_now, eq_prev = _amount(equity or {}, now), _amount(equity or {}, prev)
     da_now = _sum(da_rows, now)
+    da_source = "annual_cf"
+    note_status = "not_supplied"
+    # Accept notes only from the same annual filing, period and currency.
+    receipts = {str(r.get("rcept_no") or "") for r in rows}
+    if isinstance(xbrl_note,dict) and fs_div == "CFS" and str(xbrl_note.get("year")) == str(financial_year) and len(receipts)==1 and "" not in receipts and xbrl_note.get("receipt") in receipts:
+        note = select_da(xbrl_note.get("facts") or [], int(financial_year), str((op or {}).get("currency") or ""))
+        note_status = note["status"]
+        if note_status == "auto_pass":
+            if da_now is not None and da_now != note["total"]:
+                da_now = None
+                note_status = "conflicting_cf_and_xbrl_totals"
+            elif da_now is None:
+                cf_ids = {"ifrs-full_DepreciationAndAmortisationExpense", "ifrs-full_AdjustmentsForDepreciationAndAmortisationExpense", "ifrs-full_DepreciationExpense", "ifrs-full_AdjustmentsForDepreciationExpense", "ifrs-full_AmortisationExpense", "ifrs-full_AdjustmentsForAmortisationExpense"}
+                if not any(r.get("sj_div")=="CF" and r.get("account_id") in cf_ids for r in rows):
+                    da_now = note["total"]
+                    da_source = "same_receipt_xbrl_cf_adjustments"
+    elif xbrl_note is not None:
+        note_status = "receipt_year_or_scope_mismatch"
     roic = leverage = None
     tax_rate = None
     if pretax_now is not None and pretax_now > 0 and tax_now is not None and 0 <= tax_now <= pretax_now:
@@ -185,7 +204,7 @@ def extract_capital_metrics(rows, ticker=None, financial_year=None, fs_div=None)
             roic = 100 * op_now * (1 - tax_rate) / ((cap_now + cap_prev) / 2)
     if (all(v is not None for v in (debt_now, cash_now, op_now, da_now))
             and cash_now >= 0 and op_now + da_now > 0
-            and _compatible([*debt_rows, cash, op, *da_rows])):
+            and _compatible([*debt_rows, cash, op] + (da_rows if da_source == "annual_cf" else []))):
         leverage = (debt_now - cash_now) / (op_now + da_now)
     return {
         "roic_pct": roic, "net_debt_to_ebitda": leverage,
@@ -199,6 +218,7 @@ def extract_capital_metrics(rows, ticker=None, financial_year=None, fs_div=None)
             "lease_basis": ("embedded leases included; separate lease liabilities not added" if debt_mapping.startswith("samsung_") else ("lease_excluded" if debt_mapping == "standard_borrowings_pair_separate_lease_excluded" else "separate lease liabilities not added; embedded lease scope unverified")),
             "review_status": "automatic standard pattern" if debt_mapping == "standard_borrowings_pair_separate_lease_excluded" else "lease or source mapping review pending",
             "da_accounts": [r.get("account_nm") for r in da_rows if r],
+            "da_source": da_source, "xbrl_note_status": note_status,
             "status_roic": "산출 완료" if roic is not None else "계정 부족 또는 산식 적용 불가",
             "status_net_debt_to_ebitda": "산출 완료" if leverage is not None else "계정 부족 또는 산식 적용 불가",
         }
