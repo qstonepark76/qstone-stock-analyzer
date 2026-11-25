@@ -32,7 +32,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests
       - name: Compile candidate engine
-        run: python -m py_compile scripts/industry_relative.py scripts/collect.py scripts/dart_capital_metrics.py scripts/financial_industry.py scripts/audit_v33_dart.py scripts/audit_v33_fisis.py scripts/audit_v33_fisis_values.py scripts/audit_v33_top300.py scripts/metric_quality.py scripts/fisis_auto.py scripts/fisis_holding_auto.py scripts/xbrl_da_rule.py scripts/replay_v33_top300.py
+        run: python -m py_compile scripts/industry_relative.py scripts/collect.py scripts/dart_capital_metrics.py scripts/financial_industry.py scripts/audit_v33_dart.py scripts/audit_v33_fisis.py scripts/audit_v33_fisis_values.py scripts/audit_v33_top300.py scripts/metric_quality.py scripts/fisis_auto.py scripts/fisis_holding_auto.py scripts/xbrl_da_rule.py scripts/replay_v33_top300.py scripts/audit_v33_eight_factor.py
       - name: Run candidate industry-relative tests
         run: |
           python -m unittest discover -s tests -p 'test_industry_relative.py' -v
@@ -202,6 +202,18 @@ jobs:
         run: python -u audit_tools/enrich_top300_xbrl.py
       - name: Recalculate with verified XBRL evidence
         run: python -u scripts/replay_v33_top300.py
+      - name: Audit all eight candidate factors for the fixed source universe
+        env:
+          KRX_AUTH_KEY: ${{ secrets.KRX_AUTH_KEY }}
+        run: python -u scripts/audit_v33_eight_factor.py
+      - name: Upload eight-factor candidate audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v33-top300-eight-factor
+          path: audit-top300-eight-factor/
+          if-no-files-found: warn
+          retention-days: 14
       - name: Upload same-filing XBRL evidence
         if: always()
         uses: actions/upload-artifact@v4
