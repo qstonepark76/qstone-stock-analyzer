@@ -47,7 +47,7 @@ def request_with_retry(method, url, attempts=3, **kwargs):
             if attempt + 1 >= attempts:
                 raise
             delay = min(0.8 * (2 ** attempt), 5.0)
-            print(f"[API RETRY] {method} {url}: {str(exc)[:100]} / {attempt + 1}/{attempts}, {delay:.1f}s 후 재시도", flush=True)
+            print(f"[API RETRY] {method} {url}: {type(exc).__name__} / {attempt + 1}/{attempts}, {delay:.1f}s 후 재시도", flush=True)
             time.sleep(delay)
     raise last_error
 
