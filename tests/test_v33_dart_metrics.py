@@ -281,5 +281,20 @@ class FisisAutoAdmissionTests(unittest.TestCase):
         self.assertNotIn("kics_pct",result["032830"]["metrics"])
 
 
+
+class DartSourceSchemaTests(unittest.TestCase):
+    def test_full_statement_response_without_scope_field_uses_request_context(self):
+        from metric_quality import source_check
+        rows=[{"rcept_no":"20260317000001","bsns_year":"2025","reprt_code":"11011"},
+              {"rcept_no":"20260317000001","bsns_year":"2025","reprt_code":"11011","fs_div":None}]
+        self.assertTrue(source_check(rows,2025,"CFS"))
+        self.assertFalse(source_check(rows,2025,None))
+        rows[1]["fs_div"]="OFS"
+        self.assertFalse(source_check(rows,2025,"CFS"))
+        rows[1]["fs_div"]="CFS"
+        rows[1]["bsns_year"]="2024"
+        self.assertFalse(source_check(rows,2025,"CFS"))
+
+
 if __name__ == "__main__":
     unittest.main()
