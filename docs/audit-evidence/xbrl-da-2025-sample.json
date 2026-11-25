@@ -1,0 +1,251 @@
+{
+  "source_run": 45628041948,
+  "source_job": 139253402927,
+  "year": 2025,
+  "records": {
+    "005930": [
+      {
+        "concept": "{http://xbrl.ifrs.org/taxonomy/2021-03-24/ifrs-full}AdjustmentsForAmortisationExpense",
+        "context_ref": "PFY2024dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember_ifrs-full_CarryingAmountAccumulatedDepreciationAmortisationAndImpairmentAndGrossCarryingAmountAxis_dart_ReportedAmountMember",
+        "context": {
+          "start": "2024-01-01",
+          "end": "2024-12-31",
+          "instant": null,
+          "dimensions": [
+            {
+              "axis": "ifrs-full:ConsolidatedAndSeparateFinancialStatementsAxis",
+              "member": "ifrs-full:ConsolidatedMember"
+            },
+            {
+              "axis": "ifrs-full:CarryingAmountAccumulatedDepreciationAmortisationAndImpairmentAndGrossCarryingAmountAxis",
+              "member": "dart:ReportedAmountMember"
+            }
+          ]
+        },
+        "unit": [
+          "iso4217:KRW"
+        ],
+        "decimals": "-6",
+        "value": "2980840000000"
+      },
+      {
+        "concept": "{http://xbrl.ifrs.org/taxonomy/2021-03-24/ifrs-full}AdjustmentsForDepreciationExpense",
+        "context_ref": "PFY2024dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember_ifrs-full_CarryingAmountAccumulatedDepreciationAmortisationAndImpairmentAndGrossCarryingAmountAxis_dart_ReportedAmountMember",
+        "context": {
+          "start": "2024-01-01",
+          "end": "2024-12-31",
+          "instant": null,
+          "dimensions": [
+            {
+              "axis": "ifrs-full:ConsolidatedAndSeparateFinancialStatementsAxis",
+              "member": "ifrs-full:ConsolidatedMember"
+            },
+            {
+              "axis": "ifrs-full:CarryingAmountAccumulatedDepreciationAmortisationAndImpairmentAndGrossCarryingAmountAxis",
+              "member": "dart:ReportedAmountMember"
+            }
+          ]
+        },
+        "unit": [
+          "iso4217:KRW"
+        ],
+        "decimals": "-6",
+        "value": "39649982000000"
+      },
+      {
+        "concept": "{http://xbrl.ifrs.org/taxonomy/2021-03-24/ifrs-full}AdjustmentsForAmortisationExpense",
+        "context_ref": "CFY2025dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember_ifrs-full_CarryingAmountAccumulatedDepreciationAmortisationAndImpairmentAndGrossCarryingAmountAxis_dart_ReportedAmountMember",
+        "context": {
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "instant": null,
+          "dimensions": [
+            {
+              "axis": "ifrs-full:ConsolidatedAndSeparateFinancialStatementsAxis",
+              "member": "ifrs-full:ConsolidatedMember"
+            },
+            {
+              "axis": "ifrs-full:CarryingAmountAccumulatedDepreciationAmortisationAndImpairmentAndGrossCarryingAmountAxis",
+              "member": "dart:ReportedAmountMember"
+            }
+          ]
+        },
+        "unit": [
+          "iso4217:KRW"
+        ],
+        "decimals": "-6",
+        "value": "3320852000000"
+      },
+      {
+        "concept": "{http://xbrl.ifrs.org/taxonomy/2021-03-24/ifrs-full}AdjustmentsForDepreciationExpense",
+        "context_ref": "CFY2025dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember_ifrs-full_CarryingAmountAccumulatedDepreciationAmortisationAndImpairmentAndGrossCarryingAmountAxis_dart_ReportedAmountMember",
+        "context": {
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "instant": null,
+          "dimensions": [
+            {
+              "axis": "ifrs-full:ConsolidatedAndSeparateFinancialStatementsAxis",
+              "member": "ifrs-full:ConsolidatedMember"
+            },
+            {
+              "axis": "ifrs-full:CarryingAmountAccumulatedDepreciationAmortisationAndImpairmentAndGrossCarryingAmountAxis",
+              "member": "dart:ReportedAmountMember"
+            }
+          ]
+        },
+        "unit": [
+          "iso4217:KRW"
+        ],
+        "decimals": "-6",
+        "value": "43605740000000"
+      }
+    ],
+    "000660": [
+      {
+        "concept": "{http://xbrl.ifrs.org/taxonomy/2021-03-24/ifrs-full}AdjustmentsForDepreciationExpense",
+        "context_ref": "CFY2025dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember_ifrs-full_CarryingAmountAccumulatedDepreciationAmortisationAndImpairmentAndGrossCarryingAmountAxis_dart_ReportedAmountMember",
+        "context": {
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "instant": null,
+          "dimensions": [
+            {
+              "axis": "ifrs-full:ConsolidatedAndSeparateFinancialStatementsAxis",
+              "member": "ifrs-full:ConsolidatedMember"
+            },
+            {
+              "axis": "ifrs-full:CarryingAmountAccumulatedDepreciationAmortisationAndImpairmentAndGrossCarryingAmountAxis",
+              "member": "dart:ReportedAmountMember"
+            }
+          ]
+        },
+        "unit": [
+          "iso4217:KRW"
+        ],
+        "decimals": "-6",
+        "value": "13099311000000"
+      },
+      {
+        "concept": "{http://xbrl.ifrs.org/taxonomy/2021-03-24/ifrs-full}AdjustmentsForAmortisationExpense",
+        "context_ref": "CFY2025dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember_ifrs-full_CarryingAmountAccumulatedDepreciationAmortisationAndImpairmentAndGrossCarryingAmountAxis_dart_ReportedAmountMember",
+        "context": {
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "instant": null,
+          "dimensions": [
+            {
+              "axis": "ifrs-full:ConsolidatedAndSeparateFinancialStatementsAxis",
+              "member": "ifrs-full:ConsolidatedMember"
+            },
+            {
+              "axis": "ifrs-full:CarryingAmountAccumulatedDepreciationAmortisationAndImpairmentAndGrossCarryingAmountAxis",
+              "member": "dart:ReportedAmountMember"
+            }
+          ]
+        },
+        "unit": [
+          "iso4217:KRW"
+        ],
+        "decimals": "-6",
+        "value": "830819000000"
+      },
+      {
+        "concept": "{http://xbrl.ifrs.org/taxonomy/2021-03-24/ifrs-full}AdjustmentsForDepreciationExpense",
+        "context_ref": "PFY2024dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember_ifrs-full_CarryingAmountAccumulatedDepreciationAmortisationAndImpairmentAndGrossCarryingAmountAxis_dart_ReportedAmountMember",
+        "context": {
+          "start": "2024-01-01",
+          "end": "2024-12-31",
+          "instant": null,
+          "dimensions": [
+            {
+              "axis": "ifrs-full:ConsolidatedAndSeparateFinancialStatementsAxis",
+              "member": "ifrs-full:ConsolidatedMember"
+            },
+            {
+              "axis": "ifrs-full:CarryingAmountAccumulatedDepreciationAmortisationAndImpairmentAndGrossCarryingAmountAxis",
+              "member": "dart:ReportedAmountMember"
+            }
+          ]
+        },
+        "unit": [
+          "iso4217:KRW"
+        ],
+        "decimals": "-6",
+        "value": "11985337000000"
+      },
+      {
+        "concept": "{http://xbrl.ifrs.org/taxonomy/2021-03-24/ifrs-full}AdjustmentsForAmortisationExpense",
+        "context_ref": "PFY2024dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember_ifrs-full_CarryingAmountAccumulatedDepreciationAmortisationAndImpairmentAndGrossCarryingAmountAxis_dart_ReportedAmountMember",
+        "context": {
+          "start": "2024-01-01",
+          "end": "2024-12-31",
+          "instant": null,
+          "dimensions": [
+            {
+              "axis": "ifrs-full:ConsolidatedAndSeparateFinancialStatementsAxis",
+              "member": "ifrs-full:ConsolidatedMember"
+            },
+            {
+              "axis": "ifrs-full:CarryingAmountAccumulatedDepreciationAmortisationAndImpairmentAndGrossCarryingAmountAxis",
+              "member": "dart:ReportedAmountMember"
+            }
+          ]
+        },
+        "unit": [
+          "iso4217:KRW"
+        ],
+        "decimals": "-6",
+        "value": "596200000000"
+      },
+      {
+        "concept": "{http://xbrl.ifrs.org/taxonomy/2021-03-24/ifrs-full}AdjustmentsForDepreciationExpense",
+        "context_ref": "CFY2025dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_SeparateMember_ifrs-full_CarryingAmountAccumulatedDepreciationAmortisationAndImpairmentAndGrossCarryingAmountAxis_dart_ReportedAmountMember",
+        "context": {
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "instant": null,
+          "dimensions": [
+            {
+              "axis": "ifrs-full:ConsolidatedAndSeparateFinancialStatementsAxis",
+              "member": "ifrs-full:SeparateMember"
+            },
+            {
+              "axis": "ifrs-full:CarryingAmountAccumulatedDepreciationAmortisationAndImpairmentAndGrossCarryingAmountAxis",
+              "member": "dart:ReportedAmountMember"
+            }
+          ]
+        },
+        "unit": [
+          "iso4217:KRW"
+        ],
+        "decimals": "-6",
+        "value": "10034971000000"
+      },
+      {
+        "concept": "{http://xbrl.ifrs.org/taxonomy/2021-03-24/ifrs-full}AdjustmentsForAmortisationExpense",
+        "context_ref": "CFY2025dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_SeparateMember_ifrs-full_CarryingAmountAccumulatedDepreciationAmortisationAndImpairmentAndGrossCarryingAmountAxis_dart_ReportedAmountMember",
+        "context": {
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "instant": null,
+          "dimensions": [
+            {
+              "axis": "ifrs-full:ConsolidatedAndSeparateFinancialStatementsAxis",
+              "member": "ifrs-full:SeparateMember"
+            },
+            {
+              "axis": "ifrs-full:CarryingAmountAccumulatedDepreciationAmortisationAndImpairmentAndGrossCarryingAmountAxis",
+              "member": "dart:ReportedAmountMember"
+            }
+          ]
+        },
+        "unit": [
+          "iso4217:KRW"
+        ],
+        "decimals": "-6",
+        "value": "677739000000"
+      }
+    ]
+  }
+}
