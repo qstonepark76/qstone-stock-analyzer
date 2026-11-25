@@ -32,7 +32,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests
       - name: Compile candidate engine
-        run: python -m py_compile scripts/industry_relative.py scripts/collect.py scripts/dart_capital_metrics.py scripts/financial_industry.py scripts/audit_v33_dart.py scripts/audit_v33_fisis.py scripts/audit_v33_fisis_values.py
+        run: python -m py_compile scripts/industry_relative.py scripts/collect.py scripts/dart_capital_metrics.py scripts/financial_industry.py scripts/audit_v33_dart.py scripts/audit_v33_fisis.py scripts/audit_v33_fisis_values.py scripts/audit_v33_top300.py
       - name: Run candidate industry-relative tests
         run: |
           python -m unittest discover -s tests -p 'test_industry_relative.py' -v
@@ -137,5 +137,34 @@ jobs:
         with:
           name: v33-fisis-value-audit
           path: audit-fisis-values/
+          if-no-files-found: warn
+          retention-days: 14
+
+  top300-dart-preflight:
+    if: github.repository == 'qstonepark76/qstone-stock-analyzer' && github.ref == 'refs/heads/v3-3-industry-relative-model' && contains(github.event.head_commit.message, '[top300-preflight]')
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install requests
+      - name: Collect real top-300 financial statements without production writes
+        env:
+          KRX_AUTH_KEY: ${{ secrets.KRX_AUTH_KEY }}
+          DART_AUTH_KEY: ${{ secrets.DART_AUTH_KEY }}
+        run: python -u scripts/audit_v33_top300.py
+      - name: Upload unreviewed top-300 source evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v33-top300-preflight
+          path: audit-top300/
           if-no-files-found: warn
           retention-days: 14
