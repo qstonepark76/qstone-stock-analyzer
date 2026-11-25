@@ -51,7 +51,7 @@ def _sum(rows, period):
     return sum(values)
 
 
-def extract_capital_metrics(rows):
+def extract_capital_metrics(rows, ticker=None, financial_year=None, fs_div=None):
     bs = ("BS",)
     income = ("IS", "CIS")
     cf = ("CF",)
@@ -80,6 +80,18 @@ def extract_capital_metrics(rows):
     maturity = _pick(rows, bs, ["비유동차입금(사채포함)의유동성대체부분"])
     debt_rows = [total] if total else ([current, long] if current else [short, maturity, long])
 
+    debt_mapping = "generic_explicit_totals"
+    # Samsung Electronics FY2025 consolidated published balance sheet explicitly
+    # separates current borrowing, current maturities, bonds, long-term borrowing.
+    # Its lease liabilities are embedded in two of these lines; this variant
+    # includes embedded leases, not an additional lease liability line.
+    # Source: https://www.samsung.com/sec/ir/reports-disclosures/public-disclosure/3755/
+    if str(ticker) == "005930" and str(financial_year) == "2025" and fs_div == "CFS":
+        specific = [_pick(rows, bs, [name]) for name in
+                    ("단기차입금", "유동성장기부채", "사채", "장기차입금")]
+        if all(r is not None for r in specific):
+            debt_rows = specific
+            debt_mapping = "samsung_2025_cfs_published_four_lines_embedded_leases"
     # Use one explicit aggregate D&A row, or the two distinct reported
     # totals. Do not combine a subtotal with its children.
     da = _pick(rows, cf, ["감가상각비및무형자산상각비", "감가상각비와무형자산상각비"],
@@ -120,6 +132,8 @@ def extract_capital_metrics(rows):
             "cash_current": cash_now, "cash_previous": cash_prev,
             "effective_tax_rate": tax_rate, "depreciation_amortisation": da_now,
             "debt_accounts": [r.get("account_nm") for r in debt_rows if r],
+            "debt_mapping": debt_mapping,
+            "lease_basis": "embedded leases included; separate lease liabilities not added",
             "da_accounts": [r.get("account_nm") for r in da_rows if r],
             "status_roic": "산출 완료" if roic is not None else "계정 부족 또는 산식 적용 불가",
             "status_net_debt_to_ebitda": "산출 완료" if leverage is not None else "계정 부족 또는 산식 적용 불가",
