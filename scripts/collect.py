@@ -82,10 +82,13 @@ def has_financial_metrics(metrics):
     """A cache entry is valid only when at least one actual financial value exists."""
     if not isinstance(metrics, dict):
         return False
+    industry = metrics.get("industry_metrics") if isinstance(metrics.get("industry_metrics"), dict) else {}
     return any(metrics.get(key) is not None for key in (
         "roe_pct", "sales_growth_pct", "operating_profit_growth_pct",
-        "net_income", "equity_total", "operating_margin_pct", "asset_turnover",
-        "cash_conversion_pct",
+        "net_income", "equity_total",
+    )) or any(industry.get(key) is not None for key in (
+        "operating_margin_pct", "roic_pct", "asset_turnover",
+        "net_debt_to_ebitda", "cash_conversion_pct",
     ))
 
 
@@ -812,7 +815,7 @@ def collect_dart(stocks):
                 print(f"[DART] {index}/{len(todo)} {stock['ticker']} {stock['name']}: 자료 없음 ({message})", flush=True)
                 continue
             metrics = extract_financial(items)
-            if not any(value is not None for value in metrics.values()):
+            if not has_financial_metrics(metrics):
                 failures += 1
                 print(f"[DART] {index}/{len(todo)} {stock['ticker']} {stock['name']}: 필요한 계정과목 미확인", flush=True)
                 continue
