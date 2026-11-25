@@ -12,6 +12,7 @@ from recommendation_performance import update_recommendation_performance, build_
 from industry_relative import score_industry_relative, aggregate_candidate
 from dart_capital_metrics import extract_capital_metrics, industry_metrics_for_scoring, pick_standard_account
 from financial_industry import financial_model_for, load_financial_observations, external_financial_peers
+from metric_quality import assess_industry_metrics, admitted_industry_metrics
 
 KRX_URL = os.getenv("KRX_API_BASE", "https://data-dbg.krx.co.kr/svc/apis/sto/stk_bydd_trd")
 KRX_KEY = os.getenv("KRX_AUTH_KEY", "").strip()
@@ -733,18 +734,23 @@ def extract_financial(items, ticker=None, financial_year=None, fs_div=None):
     asset_turnover = sales_now / avg_assets if sales_now is not None and avg_assets not in (None, 0) else None
     cash_conversion = (cfo_now / op_now) * 100 if cfo_now is not None and op_now is not None and op_now > 0 else None
     capital = extract_capital_metrics(items, ticker=ticker, financial_year=financial_year, fs_div=fs_div)
+    industry_values = {
+        "operating_margin_pct": operating_margin,
+        "roic_pct": capital["roic_pct"],
+        "asset_turnover": asset_turnover,
+        "net_debt_to_ebitda": capital["net_debt_to_ebitda"],
+        "cash_conversion_pct": cash_conversion,
+    }
+    quality = assess_industry_metrics(industry_values, items, financial_year, fs_div,
+        {"operating_margin_pct":[op,sales], "asset_turnover":[sales,assets],
+         "cash_conversion_pct":[cfo,op]}, capital["capital_metric_audit"])
     return {
         "roe_pct": roe, "sales_growth_pct": sales_growth,
         "operating_profit_growth_pct": op_growth,
         "net_income": net_now, "equity_total": equity_now,
         "financial_currency": financial_currency,
-        "industry_metrics": {
-            "operating_margin_pct": operating_margin,
-            "roic_pct": capital["roic_pct"],
-            "asset_turnover": asset_turnover,
-            "net_debt_to_ebitda": capital["net_debt_to_ebitda"],
-            "cash_conversion_pct": cash_conversion,
-        },
+        "industry_metrics": industry_values,
+        "industry_metric_quality": quality,
         "capital_metric_audit": capital["capital_metric_audit"],
         "industry_metric_sources": {
             "roic_pct": "OpenDART annual BS/IS/CIS; observed effective tax, average invested capital",
@@ -799,7 +805,7 @@ def collect_dart(stocks):
             try:
                 saved = dt.datetime.fromisoformat(cached.get("cached_at", "").replace("Z", "+00:00"))
                 cached_metrics = cached.get("metrics", {})
-                fresh = (now - saved).days < CACHE_DAYS and cached.get("financial_year") == year and cached.get("schema_version") == 6 and has_financial_metrics(cached_metrics)
+                fresh = (now - saved).days < CACHE_DAYS and cached.get("financial_year") == year and cached.get("schema_version") == 7 and has_financial_metrics(cached_metrics)
             except Exception:
                 fresh = False
         if fresh:
@@ -827,7 +833,7 @@ def collect_dart(stocks):
                 print(f"[DART] {index}/{len(todo)} {stock['ticker']} {stock['name']}: 필요한 계정과목 미확인", flush=True)
                 continue
             cache[stock["ticker"]] = {
-                "cached_at": now.isoformat(), "financial_year": year, "schema_version": 6,
+                "cached_at": now.isoformat(), "financial_year": year, "schema_version": 7,
                 "corp_code": corp, "fs_div": fs_div, "metrics": metrics,
             }
             results[stock["ticker"]] = metrics
@@ -850,7 +856,7 @@ def collect_dart(stocks):
             fresh = (
                 (now - saved).days < CACHE_DAYS
                 and cached.get("financial_year") == year
-                and cached.get("schema_version") == 6 and has_financial_metrics(metrics)
+                and cached.get("schema_version") == 7 and has_financial_metrics(metrics)
             )
         except Exception:
             fresh = False
@@ -1209,7 +1215,9 @@ def main():
             "financial_model": financial_model_for(item["ticker"], item.get("sector_industry_code"), item.get("sector")),
             "financial_period": financial_period,
             "financial_observations": financial_observations.get(item["ticker"]),
-            "industry_metrics": industry_metrics_for_scoring(item.get("industry_metrics"), item.get("sector_industry_code"), item.get("sector")),
+            "industry_metrics": industry_metrics_for_scoring(
+                admitted_industry_metrics(item.get("industry_metrics"), item.get("industry_metric_quality") or {}, financial_period[:4]),
+                item.get("sector_industry_code"), item.get("sector")),
         })
     # Non-listed financial entities are comparison-only, never recommendation candidates.
     candidate_peer_rows.extend(external_financial_peers(listed_records=financial_observations))
