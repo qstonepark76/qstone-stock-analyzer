@@ -1,0 +1,38 @@
+name: Q Stone Park v3.3 XBRL D&A rule validation
+on:
+  push:
+    branches:
+      - v3-3-industry-relative-model
+    paths:
+      - '.github/workflows/v3-3-xbrl-da-rule.yml'
+      - 'audit_tools/xbrl_da_rule.py'
+      - 'audit_tools/replay_xbrl_da.py'
+permissions:
+  contents: read
+  actions: read
+jobs:
+  validate-da:
+    if: github.repository == 'qstonepark76/qstone-stock-analyzer'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-xbrl-note-evidence
+          run-id: 45628041948
+          github-token: ${{ github.token }}
+          path: xbrl-replay-source
+      - run: python -u audit_tools/replay_xbrl_da.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v33-xbrl-da-rule
+          path: audit-xbrl-da-rule/
+          if-no-files-found: warn
+          retention-days: 14
