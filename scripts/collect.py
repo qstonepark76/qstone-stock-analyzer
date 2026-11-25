@@ -1202,8 +1202,8 @@ def main():
 
     # Isolated v3.3 candidate: exact OpenDART industry-code peers only.
     # Preferred shares must not inflate the peer count of an issuer.
-    financial_observations = load_financial_observations()
     financial_period = str(dt.date.today().year - 1) + "-12"
+    financial_observations = load_financial_observations(period=financial_period)
     candidate_peer_rows = []
     for item in stocks:
         if item["ticker"] in PREFERRED_SHARE_PARENT:
