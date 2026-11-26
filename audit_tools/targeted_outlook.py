@@ -12,9 +12,11 @@ def main():
     u=read("replay-source/universe.json");asof=date.fromisoformat(u["asof"])
     names={s["ticker"]:norm_name(s["name"]) for s in u["stocks"]}
     ledger=read("data/analyst_reports.json")["reports"]
+    market={s["ticker"]:s for s in read("data/history/"+asof.strftime("%Y%m%d")+".json")}
     missing=[];pairs=[]
     for s in u["stocks"]:
-        result=score(s,ledger,asof)
+        m=market.get(s["ticker"],{})
+        result=score(dict(s,close=m.get("close") if m.get("market_cap")==s.get("market_cap") else None),ledger,asof)
         if not result["detail"]["rating"]["observed"] or not result["detail"]["upside"]["observed"]:missing.append(s["ticker"])
     # Prioritize gaps, then all targets for older reports. Query filter must be
     # independently confirmed in each response; never overwrite source ticker.
