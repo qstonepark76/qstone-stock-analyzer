@@ -1,0 +1,43 @@
+name: Q Stone Park v3.3 fundamental redesign experiment
+on:
+  push:
+    branches:
+      - v3-3-industry-relative-model
+    paths:
+      - '.github/workflows/v3-3-fundamental-candidate.yml'
+permissions:
+  contents: read
+  actions: read
+jobs:
+  fundamental:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install requests
+      - run: python -m unittest discover -s tests -p test_fundamental_candidate.py -v
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-top300-preflight
+          run-id: 45625150031
+          github-token: ${{ github.token }}
+          path: replay-source
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-expanded-direct-results
+          run-id: 45637274391
+          github-token: ${{ github.token }}
+          path: .
+      - run: python -u audit_tools/fundamental_candidate_audit.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v33-fundamental-redesign-evidence
+          path: audit-fundamental-candidate/
+          if-no-files-found: warn
+          retention-days: 14
