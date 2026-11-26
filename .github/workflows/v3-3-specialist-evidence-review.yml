@@ -1,0 +1,53 @@
+name: Q Stone Park v3.3 specialist and guidance evidence review
+on:
+  push:
+    branches:
+      - v3-3-industry-relative-model
+    paths:
+      - '.github/workflows/v3-3-specialist-evidence-review.yml'
+permissions:
+  contents: read
+  actions: read
+jobs:
+  evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install requests
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-financial-expanded-source
+          run-id: 45657812226
+          github-token: ${{ github.token }}
+          path: expanded-source
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-financial-simplified-evidence
+          run-id: 45656114003
+          github-token: ${{ github.token }}
+          path: audit-financial-simplified
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-forward-guidance-candidates
+          run-id: 45657812226
+          github-token: ${{ github.token }}
+          path: guidance-candidates
+      - run: python -u audit_tools/specialist_account_review.py
+      - run: python -u audit_tools/guidance_documents.py
+        env:
+          DART_AUTH_KEY: ${{ secrets.DART_AUTH_KEY }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v33-specialist-guidance-review
+          path: |
+            audit-specialist-account-review/
+            audit-guidance-documents/
+          if-no-files-found: warn
+          retention-days: 14
