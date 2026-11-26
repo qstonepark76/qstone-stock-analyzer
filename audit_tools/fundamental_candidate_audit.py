@@ -16,6 +16,8 @@ def main():
     sources={r["ticker"]:r for r in audit["records"]}
     meta={r["ticker"]:r for r in replay}
     assert len(sources)==len(meta)==len(universe["stocks"])==300
+    cagr_path=Path('audit-cagr/records.json')
+    cagr=read(cagr_path) if cagr_path.exists() else {}
     data=[]
     for u in universe["stocks"]:
         t=u["ticker"]
@@ -32,6 +34,9 @@ def main():
                         orig=r["financial_observations"]["metrics"][k]
                         regulatory[k]={**orig,"lower_better":not FINANCIAL_MODELS[model][k]["higher_is_better"]}
                 row["metrics"]=derive(raw,audit["year"],s.get("scope"),u["market_cap"],model,regulatory)
+        extra=cagr.get(t)
+        if extra and extra.get("year")==audit["year"] and extra.get("scope")==s.get("scope") and extra.get("receipt") in (s.get("receipts") or []) and row["metrics"]:
+            row["metrics"]["sales_cagr"]=extra
         row["slots"]=slots(row["metrics"],model)
         data.append(row)
     def signature(v):
