@@ -11,7 +11,9 @@ class OwnForecastV2Test(unittest.TestCase):
         self.assertEqual(change(-30,100,True),(-200,"symmetric_profit_change"))
         self.assertEqual(change(0,0,True),(0,"symmetric_profit_change"))
     def test_ordinary_growth(self):
-        self.assertEqual(change(120,100,True),(20.0,"ordinary_growth"))
+        value,basis=change(120,100,True)
+        self.assertAlmostEqual(value,20.0,places=10)
+        self.assertEqual(basis,"ordinary_growth")
         self.assertIsNone(change(10,0,False))
     def test_models(self):
         self.assertEqual(candidates(100,90,75,3)["seasonal_residual"],115)
