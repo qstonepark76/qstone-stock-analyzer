@@ -1,0 +1,52 @@
+name: Q Stone Park v3.3 forecast evidence reuse
+on:
+  push:
+    branches: [v3-3-industry-relative-model]
+    paths: ['.github/workflows/v3-3-forecast-reuse.yml', 'scripts/forecast_reuse.py', 'audit_tools/forecast_reuse_audit.py', 'tests/test_forecast_reuse.py']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  reuse:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - run: python -m unittest discover -s tests -p test_forecast_reuse.py -v
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-top300-preflight
+          run-id: 45625150031
+          github-token: ${{ github.token }}
+          path: replay-source
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-source-gap-evidence
+          run-id: 45632538819
+          github-token: ${{ github.token }}
+          path: source-gaps
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-own-outlook-evidence
+          run-id: 45768846083
+          github-token: ${{ github.token }}
+          path: prior-own
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-targeted-outlook-evidence
+          run-id: 45768846083
+          github-token: ${{ github.token }}
+          path: prior-external
+      - run: python -u audit_tools/forecast_reuse_audit.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v33-forecast-reuse-evidence
+          path: audit-forecast-reuse/
+          retention-days: 14
