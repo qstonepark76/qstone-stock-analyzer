@@ -8,7 +8,8 @@ import re
 import sys
 import time
 import zipfile
-import xml.etree.ElementTree as ET
+from lxml import etree as ET
+import hashlib
 from pathlib import Path
 import requests
 sys.path.insert(0,"scripts")
@@ -29,8 +30,18 @@ def main():
                 if sum(x.file_size for x in z.infolist())>60_000_000:raise ValueError("expanded_size")
                 for member in z.infolist():
                     if not member.filename.lower().endswith(".xml") or member.file_size>20_000_000:continue
-                    root=ET.fromstring(z.read(member))
-                    def tag(node):return node.tag.rsplit("}",1)[-1].upper()
+                    blob=z.read(member)
+                    parser=ET.XMLParser(recover=False,resolve_entities=False,load_dtd=False,no_network=True)
+                    mode="strict_xml"
+                    try:
+                        root=ET.fromstring(blob,parser)
+                    except ET.XMLSyntaxError:
+                        mode="recovered_xml_unverified"
+                        parser=ET.XMLParser(recover=True,resolve_entities=False,load_dtd=False,no_network=True)
+                        root=ET.fromstring(blob,parser)
+                    result.setdefault("document_diagnostics",[]).append({"member":member.filename,"sha256":hashlib.sha256(blob).hexdigest(),"mode":mode,"error_count":len(parser.error_log)})
+                    if root is None:continue
+                    def tag(node):return node.tag.rsplit("}",1)[-1].upper() if isinstance(node.tag,str) else ""
                     def txt(node):return " ".join("".join(node.itertext()).split())
                     for table in (node for node in root.iter() if tag(node)=="TABLE"):
                         cells=[]
@@ -39,7 +50,7 @@ def main():
                             if row:cells.append(row)
                         text=" ".join(x for row in cells for x in row)
                         if any(x in text for x in ("매출액","영업이익","당기순이익","영업수익")) and cells:
-                            result["candidate_tables"].append({"member":member.filename,"rows":cells[:60]})
+                            result["candidate_tables"].append({"member":member.filename,"parse_mode":mode,"rows":cells[:60]})
                 result["status"]="tables_received_unverified" if result["candidate_tables"] else "no_candidate_table"
         except Exception as e:
             result["status"]=type(e).__name__
