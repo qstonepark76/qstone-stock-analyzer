@@ -1,0 +1,152 @@
+name: Q Stone Park v3.3 targeted forecast recovery and validation
+on:
+  push:
+    branches: [v3-3-industry-relative-model]
+    paths: ['.github/workflows/v3-3-forecast-recovery.yml']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m unittest discover -s tests -p test_forecast_extended_models.py -v
+      - run: python -m unittest discover -s tests -p test_forecast_reuse.py -v
+      - run: python -m py_compile audit_tools/forecast_batch.py audit_tools/merge_forecast_batches.py audit_tools/forecast_gap_sources.py
+  batch:
+    needs: tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-top300-preflight
+          run-id: 45625150031
+          github-token: ${{ github.token }}
+          path: replay-source
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-financial-simplified-evidence
+          run-id: 45656114003
+          github-token: ${{ github.token }}
+          path: financial
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-forecast-reuse-evidence
+          run-id: 45816983114
+          github-token: ${{ github.token }}
+          path: reuse
+      - run: python -u audit_tools/forecast_batch.py
+        env:
+          DART_AUTH_KEY: ${{ secrets.DART_AUTH_KEY }}
+          SHARD: ${{ matrix.shard }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: forecast-validation-batch-${{ matrix.shard }}
+          path: forecast-batch/
+          retention-days: 14
+  gaps:
+    needs: tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-top300-preflight
+          run-id: 45625150031
+          github-token: ${{ github.token }}
+          path: replay-source
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-source-gap-evidence
+          run-id: 45632538819
+          github-token: ${{ github.token }}
+          path: source-gaps
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-forecast-reuse-evidence
+          run-id: 45816983114
+          github-token: ${{ github.token }}
+          path: reuse
+      - run: python -u audit_tools/forecast_gap_sources.py
+        env:
+          DART_AUTH_KEY: ${{ secrets.DART_AUTH_KEY }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v33-forecast-gap-source-candidates
+          path: audit-forecast-gap-sources/
+          retention-days: 14
+  merge:
+    needs: batch
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-top300-preflight
+          run-id: 45625150031
+          github-token: ${{ github.token }}
+          path: replay-source
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-forecast-reuse-evidence
+          run-id: 45816983114
+          github-token: ${{ github.token }}
+          path: reuse
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-own-outlook-evidence
+          run-id: 45768846083
+          github-token: ${{ github.token }}
+          path: prior-own
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-targeted-outlook-evidence
+          run-id: 45768846083
+          github-token: ${{ github.token }}
+          path: prior-external
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: forecast-validation-batch-*
+          path: batches
+      - run: python -u audit_tools/merge_forecast_batches.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v33-forecast-recovery-merged
+          path: audit-forecast-batch-merged/
+          retention-days: 14
