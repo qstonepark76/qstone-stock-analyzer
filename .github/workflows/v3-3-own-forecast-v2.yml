@@ -2,7 +2,7 @@ name: Q Stone Park v3.3 multi-vintage own forecast candidate
 on:
   push:
     branches: [v3-3-industry-relative-model]
-    paths: ['.github/workflows/v3-3-own-forecast-v2.yml']
+    paths: ['.github/workflows/v3-3-own-forecast-v2.yml', 'tests/test_own_forecast_v2.py', 'scripts/own_forecast_v2.py', 'audit_tools/own_forecast_v2_audit.py']
 permissions:
   contents: read
   actions: read
