@@ -790,5 +790,16 @@
       "sales_growth_pct": null,
       "operating_profit_growth_pct": -29.67362597331996
     }
+  },
+  "192820": {
+    "cached_at": "2026-11-26T11:01:11.598053+00:00",
+    "financial_year": 2025,
+    "corp_code": "01009789",
+    "fs_div": "CFS",
+    "metrics": {
+      "roe_pct": 23.382361165142516,
+      "sales_growth_pct": 10.741399255109062,
+      "operating_profit_growth_pct": 11.628809294684462
+    }
   }
 }
