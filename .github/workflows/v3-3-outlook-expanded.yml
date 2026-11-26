@@ -1,0 +1,62 @@
+name: Q Stone Park v3.3 expanded outlook coverage
+on:
+  push:
+    branches:
+      - v3-3-industry-relative-model
+    paths:
+      - '.github/workflows/v3-3-outlook-expanded.yml'
+permissions:
+  contents: read
+  actions: read
+jobs:
+  outlook:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install requests
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-top300-preflight
+          run-id: 45625150031
+          github-token: ${{ github.token }}
+          path: replay-source
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-outlook-policy-evidence
+          run-id: 45657544150
+          github-token: ${{ github.token }}
+          path: prior-outlook
+      - run: cp prior-outlook/data/analyst_reports.json data/analyst_reports.json
+      - name: Discover additional public reports
+        env:
+          REPORT_DISCOVERY_PAGES: "120"
+          REPORT_DISCOVERY_PAGE_SIZE: "50"
+        run: python -u scripts/discover_broker_reports.py
+      - run: python -u scripts/verify_broker_reports.py
+      - run: python -u audit_tools/outlook_policy_audit.py
+      - name: Identify uncovered target stocks
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          rows=json.loads(Path('audit-outlook-policy/records.json').read_text())
+          missing=[{'ticker':r['ticker'],'name':r['name'],'missing':[k for k,v in r['detail'].items() if not v['observed']]} for r in rows if not r['all_evidence_observed']]
+          Path('audit-outlook-policy/missing-targets.json').write_text(json.dumps(missing,ensure_ascii=False,indent=2))
+          print('Missing broker rating:',sum('rating' in x['missing'] for x in missing))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v33-outlook-expanded-evidence
+          path: |
+            audit-outlook-policy/
+            data/analyst_reports.json
+            data/analyst_report_candidates.json
+          if-no-files-found: warn
+          retention-days: 14
