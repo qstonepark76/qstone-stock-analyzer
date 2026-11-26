@@ -19,6 +19,7 @@ from collect import KRX_KEY, S, parse_rows, normalize
 OUT=Path("audit-wider-peers")
 SOURCE=Path("replay-source")
 LIMIT=int(os.getenv("PEER_BATCH_LIMIT","550"))
+OFFSET=int(os.getenv("PEER_BATCH_OFFSET","0"))
 
 def read(path):
     return json.loads(Path(path).read_text(encoding="utf-8"))
@@ -72,7 +73,7 @@ def main():
     counts=Counter()
     peers=[]
     metadata=[]
-    for s in selected[:LIMIT]:
+    for s in selected[OFFSET:OFFSET+LIMIT]:
         t=s["ticker"]
         corp=corpmap[t]
         saved=cache.get(t) or {}
@@ -123,7 +124,7 @@ def main():
         except Exception as exc:
             counts["error:"+type(exc).__name__]+=1
         (OUT/"peers.json").write_text(json.dumps(peers,ensure_ascii=False,indent=2),encoding="utf-8")
-    summary={"asof":asof.isoformat(),"market_snapshot_count":len(market),"outside_target_distinct_issuers":len(selected),"batch_limit":LIMIT,"counts":dict(counts),"exchange_counts":exchange_counts,"scope":"Bounded peer-only collection for exact and parent-code experiments; not recommendation candidates."}
+    summary={"asof":asof.isoformat(),"market_snapshot_count":len(market),"outside_target_distinct_issuers":len(selected),"batch_limit":LIMIT,"batch_offset":OFFSET,"counts":dict(counts),"exchange_counts":exchange_counts,"scope":"Bounded peer-only collection for exact and parent-code experiments; not recommendation candidates."}
     (OUT/"peers.json").write_text(json.dumps(peers,ensure_ascii=False,indent=2),encoding="utf-8")
     (OUT/"metadata.json").write_text(json.dumps(metadata,ensure_ascii=False,indent=2),encoding="utf-8")
     (OUT/"summary.json").write_text(json.dumps(summary,ensure_ascii=False,indent=2),encoding="utf-8")
