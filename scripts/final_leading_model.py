@@ -121,7 +121,7 @@ def score_groups(row,rows,weights,asof,leading=False):
                     # types must match; valuation/industry also exact industry.
                     lower=o.get("lower_better",k in LOWER)
                     def comparable(p):
-                        if p.get("excluded") or (p.get("peer_only") and factor!="industry_relative"): return False
+                        if p.get("excluded") or (p.get("peer_only") and factor not in {"industry_relative","valuation"}): return False
                         x=p.get("metrics",{}).get(k)
                         if not observed(x,asof) or x["basis"]!=o["basis"] or x.get("lower_better",k in LOWER)!=lower: return False
                         if x.get("asof")!=o.get("asof") or x.get("metric_id")!=o.get("metric_id"): return False
