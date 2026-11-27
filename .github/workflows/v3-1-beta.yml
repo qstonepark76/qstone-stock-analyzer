@@ -2,9 +2,6 @@ name: Q Stone Park v3.1 Beta Validation
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - v3-1-beta
 
 permissions:
   contents: write
@@ -15,6 +12,8 @@ concurrency:
 
 jobs:
   validate-and-collect:
+    # Temporarily suspended by owner request; restore from parent commit to resume.
+    if: ${{ false }}
     runs-on: ubuntu-latest
 
     steps:
