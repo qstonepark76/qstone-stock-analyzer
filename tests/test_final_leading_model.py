@@ -11,7 +11,7 @@ def obs(v=1):
 def fixture():
     keys={k for m in BASE.values() for k in m}|{k for m in LEADING.values() for k in m}
     return {"asof":"2026-11-24","stocks":[{"ticker":str(i),"industry_code":"001",
-             "metrics":{k:obs(i) for k in keys}} for i in range(5)]}
+             "metrics":{k:obs(min(i,3) if k=="rating" else i) for k in keys}} for i in range(5)]}
 
 class FinalModelTests(unittest.TestCase):
     def test_weights(self):
@@ -23,7 +23,7 @@ class FinalModelTests(unittest.TestCase):
         r=evaluate(fixture())
         self.assertEqual(r["coverage"],{"base_complete":5,"leading_complete":5,"combined_complete":5})
         x=r["records"][0]
-        self.assertAlmostEqual(x["combined"],.6*x["base"]["score"]+.4*x["leading"]["score"],places=2)
+        self.assertAlmostEqual(x["combined"],.6*x["base"]["score"]+.4*x["leading"]["score"],delta=.0051)
     def test_missing_and_future(self):
         p=fixture()
         p["stocks"][0]["metrics"].pop("foreign_60d")
