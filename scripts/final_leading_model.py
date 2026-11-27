@@ -7,6 +7,7 @@ import json
 import math
 from datetime import date
 from pathlib import Path
+from forecast_score_policy import choose_forecast,forecast_fraction,FACTORS as FORECAST_FIELDS
 
 VERSION = "3.3-final-leading-candidate"
 BASE = {
@@ -98,6 +99,15 @@ def score_groups(row,rows,weights,asof,leading=False):
     for factor,metrics in weights.items():
         for k,w in metrics.items():
             o=row.get("metrics",{}).get(k)
+            # New policy inputs are separate from historical replay observations.
+            # Only validated, comparable and timely source records may replace a slot.
+            policy=None
+            if k in FORECAST_FIELDS:
+                policy=choose_forecast(k,row.get("forecast_evidence",{}).get(k,[]),asof)
+                if policy and (not observed(o,asof) or policy["source_kind"]=="broker_consensus"):
+                    o=policy
+                else:
+                    policy=None
             q=None
             n=None
             status="데이터 부족"
@@ -115,7 +125,7 @@ def score_groups(row,rows,weights,asof,leading=False):
                 valid=o.get("asof")==asof.isoformat()
             if valid:
                 if k in CURVES:
-                    q=curve(k,o["value"])
+                    q=forecast_fraction(k,o["value"],policy["source_kind"]) if policy else curve(k,o["value"])
                 else:
                     # Matching definition and direction required. Financial
                     # types must match; valuation/industry also exact industry.
@@ -142,7 +152,9 @@ def score_groups(row,rows,weights,asof,leading=False):
             detail[k]={"factor":factor,"weight":w,"points":pts,"status":status,
                        "value":o["value"] if valid else None,
                        "source_ref":o.get("source_ref") if valid else None,
-                       "peer_count":n}
+                       "peer_count":n,
+                       "forecast_source_kind":policy["source_kind"] if valid and policy else None,
+                       "forecast_confidence":policy["confidence"] if valid and policy else None}
     complete=covered==100 and not row.get("excluded") and (leading or not specialist or model in SPECIAL_RELATIVE)
     # A partial subtotal is NOT an estimate of the full score.
     return {"score":round(earned,2) if complete else None,

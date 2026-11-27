@@ -1,0 +1,20 @@
+name: Q Stone Park approved forecast score policy tests
+on:
+  push:
+    branches: [v3-3-final-leading-score]
+    paths: ['.github/workflows/v3-3-forecast-score-policy.yml','scripts/forecast_score_policy.py']
+permissions:
+  contents: read
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m unittest discover -s tests -p test_forecast_score_policy.py -v
+      - run: python -m unittest discover -s tests -p test_final_leading_model.py -v
