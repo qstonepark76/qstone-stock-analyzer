@@ -1,0 +1,39 @@
+name: Q Stone Park priority 1 KIS estimate schema and DART actual reconciliation
+on:
+  push:
+    branches: [v3-3-final-leading-score]
+    paths: ['.github/workflows/v3-3-leading-kis-estimate-schema.yml']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  schema:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - run: python -m unittest discover -s tests -p test_leading_kis_estimate_schema.py -v
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-kis-outlook-pilot-evidence
+          run-id: 46039629531
+          github-token: ${{ github.token }}
+          path: pilot
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-top300-preflight
+          run-id: 45625150031
+          github-token: ${{ github.token }}
+          path: replay-source
+      - run: python -u scripts/leading_kis_estimate_schema.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: leading-kis-estimate-schema-evidence
+          path: audit-leading-kis-estimate-schema/
+          retention-days: 30
