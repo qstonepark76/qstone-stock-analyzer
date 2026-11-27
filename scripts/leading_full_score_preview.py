@@ -54,12 +54,12 @@ def main():
         for k,z in outlook[t]["slots"].items():
             if k not in ("rating","upside","target_revision","op_forecast_growth","earnings_revision"):continue
             points=z.get("points_candidate",z.get("points_out_of_2"))
-            if candidate(b.get(k),points,z,"report outlook 46051236237","2026-11-28 source candidate; market date differs from frozen replay",replace=True):stats["outlook_scored"]+=1
+            if candidate(b.get(k),points,z,"report outlook 46051236263","2026-11-28 source candidate; market date differs from frozen replay",replace=True):stats["outlook_scored"]+=1
         for k,z in leading[t]["slots"].items():
             # Only actual 30-day matched target revisions; one-month display
             # aggregates are not the approved 30-day signal or broker breadth.
-            if k!="target_revision_30d" or z.get("broker_count",0)<3:continue
-            if candidate(l.get(k),z.get("points_candidate"),z,"30-day broker targets 46052441920","target corporate-action basis unverified; provisional only"):stats["leading_target_added"]+=1
+            if k!="target_revision_30d" or z.get("broker_count",0)<3 or z.get("cross_provider_validation_required") is not False:continue
+            if candidate(l.get(k),z.get("points"),z,"30-day broker targets 46053886425","approved direct published target values; different snapshot date"):stats["leading_target_added"]+=1
         bs,ls=summarize_slots(b),summarize_slots(l);cs=combine(bs,ls)
         for model,slots in (("base",b),("leading",l)):
             for k,z in slots.items():
@@ -69,7 +69,7 @@ def main():
                 else:stats[model+"|missing|"+k]+=1
         records.append({"ticker":t,"name":r["name"],"base":bs,"leading":ls,"combined":cs,"frozen_scores":{"base":r["base"]["score"],"leading":r["leading"]["score"],"combined":r["combined"]}})
     n=len(records)
-    summary={"target_count":n,"frozen_asof":frozen["asof"],"candidate_snapshot_note":"mixed source dates; no official integration or ranks","source_runs":{"base":46051543687,"fundamental":46050303475,"valuation":46045769152,"specialty":46050749586,"outlook":46051236237,"leading":46052441920},
+    summary={"target_count":n,"frozen_asof":frozen["asof"],"candidate_snapshot_note":"mixed source dates; no official integration or ranks","source_runs":{"base":46051543687,"fundamental":46050303475,"valuation":46045769152,"specialty":46050749586,"outlook":46051236263,"leading":46053886425},
              "frozen_coverage_pct":{k:sum(r[k]["coverage_pct"] for r in rows)/n for k in ("base","leading")},
              "candidate_coverage_pct":{k:sum(r[k]["coverage_pct"] for r in records)/n for k in ("base","leading","combined")},
              "candidate_all_slots_filled":{k:sum(r[k]["candidate_all_slots_filled"] for r in records) for k in ("base","leading","combined")},

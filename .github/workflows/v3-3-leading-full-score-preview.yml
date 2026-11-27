@@ -45,14 +45,14 @@ jobs:
           path: specialty
       - uses: actions/download-artifact@v4
         with:
-          name: leading-report-earnings-revision-evidence
-          run-id: 46051236237
+          name: leading-report-revision-expanded-evidence
+          run-id: 46051236263
           github-token: ${{ github.token }}
           path: outlook
       - uses: actions/download-artifact@v4
         with:
-          name: leading-direct-consensus-evidence
-          run-id: 46052441920
+          name: leading-direct-source-policy-evidence
+          run-id: 46053886425
           github-token: ${{ github.token }}
           path: leading
       - run: python -u scripts/leading_full_score_preview.py
