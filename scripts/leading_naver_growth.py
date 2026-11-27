@@ -57,10 +57,11 @@ def main():
                     if isinstance(raw,dict) and raw.get("itemCode") and str(raw["itemCode"]).zfill(6)!=t:errors["ticker_mismatch"]+=1
                     else:
                         item["values"],item["annual_actuals"]=parse(raw,year)
-                        f=raw.get("financeInfo",{}) if isinstance(raw,dict) else {}
+                        f=raw.get("financeInfo") if isinstance(raw,dict) else None
+                        f=f if isinstance(f,dict) else {}
                         item["provider_basis"]=f.get("financeType") or f.get("accountingType")
                         if not item["values"]:errors["no_growth_values"]+=1
-            except (requests.RequestException,ValueError) as e:errors[type(e).__name__]+=1
+            except (requests.RequestException,ValueError,TypeError,AttributeError) as e:errors[type(e).__name__]+=1
             finally:time.sleep(.45)
         for k in WEIGHTS:
             old=existing[t][k]["points"] is not None

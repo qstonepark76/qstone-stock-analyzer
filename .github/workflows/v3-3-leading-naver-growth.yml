@@ -2,7 +2,7 @@ name: Q Stone Park direct Naver annual growth fallback
 on:
   push:
     branches: [v3-3-final-leading-score]
-    paths: ['.github/workflows/v3-3-leading-naver-growth.yml']
+    paths: ['.github/workflows/v3-3-leading-naver-growth.yml', 'scripts/leading_naver_growth.py']
 permissions:
   contents: read
   actions: read
