@@ -33,15 +33,22 @@ def change(old,new):
     den=abs(old)+abs(new)
     return 200*(new-old)/den if den else 0.0
 def explicit(text,year,page):
-    # Require annual year, net-income metric, explicit estimate/revision wording
-    # and directional change. Never interpret YoY growth or target revision as earnings revision.
+    # Explicit annual forecast revisions only, not YoY change or EPS/operating profit.
     s=re.sub(r"\s+"," ",text)
-    pat=rf"(?<![\d.]){year}년(?:도)?\s*(?:연간\s*)?{METRIC}\s*(?:전망치|추정치|예상치|전망|추정)(?:를|을|은|는)?\s*(?:기존\s*대비\s*)?({NUM})\s*%\s*(상향|하향)(?:\s*조정)?"
+    yr=rf"(?<![\d.])(?:{year}|{str(year)[2:]})\s*년(?:도)?\s*(?:연간\s*)?"
+    estimate=r"(?:전망치|추정치|예상치|전망|추정)(?:를|을|은|는|이|가)?\s*"
+    prior=r"(?:(?:기존|직전|종전|이전)(?:\s*(?:추정치|전망치|예상치))?\s*대비\s*)?"
+    prefix=yr+METRIC+r"\s*"+estimate+prior
+    patterns=[(prefix+rf"({NUM})\s*%\s*(상향|하향)(?:\s*조정)?",False),
+              (prefix+rf"(상향|하향)(?:\s*폭)?\s*({NUM})\s*%",True)]
     out=[]
-    for m in re.finditer(pat,s):
-        v=num(m[2])
-        if v is None or v<0:continue
-        out.append({"metric":account(m[1]),"period_end":f"{year}-12-31","value":v if m[3]=="상향" else -v,"page":page,"evidence":m[0],"kind":"explicit_report_revision"})
+    for pat,reverse in patterns:
+        for m in re.finditer(pat,s):
+            direction=m[2] if reverse else m[3];v=num(m[3] if reverse else m[2])
+            if v is None or v<0:continue
+            out.append({"metric":account(m[1]),"period_end":f"{year}-12-31","value":v if direction=="상향" else -v,"page":page,"evidence":m[0],"kind":"explicit_report_revision"})
+    for m in re.finditer(prefix+r"(?:기존과\s*동일하게\s*)?유지(?:한다|함|하였|했|하며|하고|[.。]|$)",s):
+        out.append({"metric":account(m[1]),"period_end":f"{year}-12-31","value":0.0,"page":page,"evidence":m[0],"kind":"explicit_report_revision"})
     return out
 def metadata(text):
     units=set(re.findall(r"(?:단위\s*[:：]\s*|\(\s*)(백만원|억원|십억원|조원)(?=[,\s)\n]|$)",text))
@@ -136,7 +143,8 @@ def parse_document(body,year,diagnostics=None):
                         if diagnostics is not None:diagnostics["value_rows_"+strategy]+=len(v)
             except (ValueError,RuntimeError,AttributeError):pass
     return out
-def choose_pairs(rows,asof):
+UNIT_SCALE={"백만원":1,"억원":100,"십억원":1000,"조원":1000000}
+def choose_pairs(rows,asof,latest_dates=None):
     # Prefer explicit latest report revision per broker; otherwise compare two
     # consecutive dated observations of same metric/period/unit/scope.
     grouped=defaultdict(list)
@@ -148,6 +156,7 @@ def choose_pairs(rows,asof):
         if not b:continue
         ds=sorted({r["published_at"] for r in rs},reverse=True)
         if (asof-date.fromisoformat(ds[0])).days>90:continue
+        if latest_dates is not None and latest_dates.get(b)!=ds[0]:continue
         latest=[r for r in rs if r["published_at"]==ds[0]]
         # Parent-attributable net income preferred, then explicitly total,
         # then unspecified label. No mixing of these accounting definitions.
@@ -160,12 +169,12 @@ def choose_pairs(rows,asof):
             current=a[0]
             # Unspecified net income label is not enough to pair separate reports.
             if metric=="net_income_unspecified":continue
-            prior=[r for r in rs if r["published_at"]<ds[0] and r["kind"]=="annual_forecast_amount" and all(r[k]==current[k] for k in ("metric","period_end","unit","scope"))]
+            prior=[r for r in rs if r["published_at"]<ds[0] and r["kind"]=="annual_forecast_amount" and all(r[k]==current[k] for k in ("metric","period_end","scope")) and r["unit"] in UNIT_SCALE]
             if not prior:continue
             pd=max(r["published_at"] for r in prior);prior=[r for r in prior if r["published_at"]==pd]
-            if len({r["amount"] for r in prior})!=1:continue
+            if len({r["amount"]*UNIT_SCALE[r["unit"]] for r in prior})!=1 or current["unit"] not in UNIT_SCALE:continue
             prev=prior[0]
-            pairs.append({**current,"value":change(prev["amount"],current["amount"]),"broker_key":b,"method":"same_broker_report_pair","prior":prev});break
+            pairs.append({**current,"value":change(prev["amount"]*UNIT_SCALE[prev["unit"]],current["amount"]*UNIT_SCALE[current["unit"]]),"broker_key":b,"method":"same_broker_report_pair","prior":prev});break
     # Do not combine inconsistent metrics or fiscal periods across brokers.
     for metric in ("owner_net_income","total_net_income","net_income_unspecified"):
         chosen=[r for r in pairs if r["metric"]==metric]
@@ -173,8 +182,8 @@ def choose_pairs(rows,asof):
             periods={r["period_end"] for r in chosen}
             if len(periods)==1:return chosen
     return []
-def score(rows,asof):
-    evidence=choose_pairs(rows,asof)
+def score(rows,asof,latest_dates=None):
+    evidence=choose_pairs(rows,asof,latest_dates)
     if not evidence:return None
     v=mean(r["value"] for r in evidence);n=len(evidence)
     kind="broker_consensus" if n>=3 else "single_broker"
@@ -189,23 +198,32 @@ def main():
         if r["ticker"] not in targets or not r.get("research_id"):continue
         d=date.fromisoformat(r["published_at"])
         if 0<=(asof-d).days<=180:by[r["ticker"]][broker_key(r["broker"])].append(r)
-    # Pilot: two recent reports per broker, up to two brokers per issuer.
-    # Fixed cap avoids excessive requests, expands in a separate run.
-    limit=int(os.getenv("REPORT_REVISION_LIMIT","60"))
-    selected=[]
-    for t in sorted(by):
-        brokers=sorted(by[t].values(),key=lambda rs:max(r["published_at"] for r in rs),reverse=True)[:2]
+    limit=max(1,min(180,int(os.getenv("REPORT_REVISION_LIMIT","60"))))
+    seed=Path("seed/extracted_values.json")
+    seeded=read(seed) if seed.exists() else []
+    # Reuse successful extracted values; do not download those reports again.
+    seed_ids={str(r.get("detail_url","")).rsplit("/",1)[-1] for r in seeded}
+    latest={t:{b:max(r["published_at"] for r in rs) for b,rs in bs.items()} for t,bs in by.items()}
+    # Select up to three independent broker pairs. Prefer tickers not yet scored,
+    # newest reports first within each pair, and finish whole pairs within cap.
+    scored_seed={t for t in by if score([r for r in seeded if r["ticker"]==t],asof,latest[t])}
+    chosen=[];seen=set(seed_ids)
+    for t in sorted(by,key=lambda x:(x in scored_seed,x)):
+        brokers=sorted(by[t].values(),key=lambda rs:max(r["published_at"] for r in rs),reverse=True)[:3]
+        batch=[]
         for rs in brokers:
-            selected.extend(sorted(rs,key=lambda r:r["published_at"],reverse=True)[:2])
-    # Round-robin issuer ordering so pilot covers more issuers, retaining pairs.
-    per=defaultdict(list)
-    for r in selected:per[r["ticker"]].append(r)
-    chosen=[]
-    for t in sorted(per):
-        if len(chosen)+len(per[t])>limit:break
-        chosen.extend(per[t])
+            pair=[];dates=set()
+            for r in sorted(rs,key=lambda r:r["published_at"],reverse=True):
+                if r["published_at"] in dates:continue
+                dates.add(r["published_at"]);pair.append(r)
+                if len(pair)==2:break
+            batch.extend(r for r in pair if str(r["research_id"]) not in seen)
+        batch=list({str(r["research_id"]):r for r in batch}.values())
+        if len(chosen)+len(batch)>limit:continue
+        chosen.extend(batch);seen.update(str(r["research_id"]) for r in batch)
     session=requests.Session();session.headers.update({"User-Agent":"Mozilla/5.0","Referer":"https://stock.naver.com/"})
-    stats=Counter();errors=Counter();raw=[];stop=False
+    stats=Counter();errors=Counter();raw=list(seeded);stop=False
+    stats["seed_value_rows"]=len(seeded)
     for r in chosen:
         if stop:break
         nid=str(r["research_id"])
@@ -250,13 +268,15 @@ def main():
             for v in vals:raw.append({**v,"ticker":r["ticker"],"broker":r["broker"],"published_at":r["published_at"],"source_ref":r["source_url"],"detail_url":url,"observed_at":datetime.now(KST).isoformat()})
         except (requests.RequestException,ValueError,RuntimeError,TypeError,AttributeError) as e:errors[type(e).__name__]+=1
         finally:
+            if stats["attempted"]%10==0:
+                write(out/"extracted_values.json",raw)
             if stats["attempted"]%10==0:print("REPORT REVISION PROGRESS",stats["attempted"],"/",len(chosen),flush=True)
             time.sleep(.6)
     by_t=defaultdict(list)
     for r in raw:by_t[r["ticker"]].append(r)
     admitted=0
     for row in records:
-        z=score(by_t[row["ticker"]],asof)
+        z=score(by_t[row["ticker"]],asof,latest.get(row["ticker"],{}))
         if z:
             row["slots"]["earnings_revision"]=z;admitted+=1
     fields=("rating","upside","target_revision","op_forecast_growth","earnings_revision")

@@ -2,7 +2,7 @@ name: Q Stone Park direct report earnings revision scoring pilot
 on:
   push:
     branches: [v3-3-final-leading-score]
-    paths: ['.github/workflows/v3-3-report-earnings-revision.yml', 'scripts/leading_report_earnings_revision.py']
+    paths: ['.github/workflows/v3-3-report-earnings-revision.yml']
 permissions:
   contents: read
   actions: read

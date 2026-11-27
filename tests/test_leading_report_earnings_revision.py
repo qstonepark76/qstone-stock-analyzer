@@ -15,6 +15,8 @@ class Revision(unittest.TestCase):
         self.assertTrue(same_report(d,r));self.assertFalse(same_report({**d,"itemCode":"000660"},r))
     def test_explicit(self):
         self.assertEqual(explicit("2026년 지배주주순이익 추정치를 10% 상향",2026,1)[0]["value"],10)
+        self.assertEqual(explicit("26년 순이익 전망치를 기존 추정치 대비 8% 하향",2026,1)[0]["value"],-8)
+        self.assertEqual(explicit("2026년 당기순이익 추정치는 유지한다",2026,1)[0]["value"],0)
         self.assertEqual(explicit("2026년 영업이익 추정치를 10% 상향",2026,1),[])
         self.assertEqual(explicit("2026년 순이익은 전년대비 10% 증가",2026,1),[])
     def test_amount(self):
@@ -33,4 +35,6 @@ class Revision(unittest.TestCase):
         self.assertAlmostEqual(score([a,b],date(2026,11,28))["value"],20)
         self.assertIsNone(score([a,{**b,"scope":"별도"}],date(2026,11,28)))
         self.assertGreater(change(-100,-50),0)
+        self.assertAlmostEqual(score([a,{**b,"unit":"십억원","amount":10}],date(2026,11,28))["value"],20)
+        self.assertIsNone(score([a,b],date(2026,11,28),{"A":"2026-11-28"}))
 if __name__=="__main__":unittest.main()

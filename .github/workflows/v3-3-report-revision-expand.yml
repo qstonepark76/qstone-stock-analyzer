@@ -1,0 +1,48 @@
+name: Q Stone Park expanded report earnings revision
+on:
+  push:
+    branches: [v3-3-final-leading-score]
+    paths: ['.github/workflows/v3-3-report-revision-expand.yml']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests pymupdf
+      - run: python -m unittest discover -s tests -p test_leading_report_earnings_revision.py -v
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-outlook-price-recovery-evidence
+          run-id: 46046346648
+          github-token: ${{ github.token }}
+          path: outlook
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-roadmap-outlook-evidence
+          run-id: 46039339525
+          github-token: ${{ github.token }}
+          path: roadmap
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-report-earnings-revision-evidence
+          run-id: 46049607546
+          github-token: ${{ github.token }}
+          path: seed
+      - env:
+          REPORT_REVISION_LIMIT: '150'
+        run: python -u scripts/leading_report_earnings_revision.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: leading-report-revision-expanded-evidence
+          path: audit-leading-report-revision/
+          retention-days: 30
