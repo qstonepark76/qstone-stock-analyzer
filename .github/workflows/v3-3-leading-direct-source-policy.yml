@@ -1,0 +1,33 @@
+name: Q Stone Park approved direct leading source replay
+on:
+  push:
+    branches: [v3-3-final-leading-score]
+    paths: ['.github/workflows/v3-3-leading-direct-source-policy.yml']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - run: python -m unittest discover -s tests -p test_leading_direct_source_policy.py -v
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-direct-consensus-evidence
+          run-id: 46052441920
+          github-token: ${{ github.token }}
+          path: leading
+      - run: python -u scripts/leading_direct_source_replay.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: leading-direct-source-policy-evidence
+          path: audit-leading-direct-source/
+          retention-days: 30

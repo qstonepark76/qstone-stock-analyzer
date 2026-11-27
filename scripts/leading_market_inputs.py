@@ -34,10 +34,10 @@ def flow_metrics(rows,days):
         result["joint_buy"]=min(result["foreign_5d"],result["institution_5d"])
     return {k:v for k,v in result.items() if v is not None}
 
-def price_metrics(rows,days,raw_close,index):
-    # Price adjustments must be enabled and latest close reconcile to KRX.
-    if not days or days[-1] not in rows or not finite(raw_close) or raw_close<=0:return {}
-    if abs(rows[days[-1]][0]/raw_close-1)>.0001:return {}
+def price_metrics(rows,days,raw_close,index,direct=False):
+    # Direct KIS mode accepts the adjusted-price API without KRX value comparison.
+    if not days or days[-1] not in rows or not finite(rows[days[-1]][0]) or rows[days[-1]][0]<=0:return {}
+    if not direct and (not finite(raw_close) or raw_close<=0 or abs(rows[days[-1]][0]/raw_close-1)>.0001):return {}
     def window(n):
         ds=days[-n:]
         if len(ds)!=n or any(d not in rows or rows[d][0]<=0 for d in ds):return []
@@ -62,6 +62,8 @@ def main():
     p.add_argument("--data",type=Path,default=Path("data"))
     p.add_argument("--out",type=Path,default=Path("audit-leading-market"))
     p.add_argument("--limit",type=int,default=300)
+    p.add_argument("--direct-source",action="store_true",help="Use KIS values without independent KRX cross-check")
+    p.add_argument("--tickers-file",type=Path,help="Optional JSON list of selected tickers for gap recovery")
     a=p.parse_args();a.out.mkdir(parents=True,exist_ok=True)
     root=a.data
     asof=read(root/"latest.json")["as_of"];stamp=asof.replace("-","")
@@ -70,6 +72,8 @@ def main():
     if len(days)<61 or days[-1]!=stamp:raise ValueError("Missing 61-session calendar")
     market=read(root/"history"/(stamp+".json"))
     stocks=sorted((r for r in market if finite(r.get("market_cap")) and r["market_cap"]>0),key=lambda x:(-x["market_cap"],x["ticker"]))[:300]
+    if a.tickers_file:
+        wanted=set(read(a.tickers_file));stocks=[r for r in stocks if r["ticker"] in wanted]
     volumes={d:{r["ticker"]:r.get("volume") for r in read(root/"history"/(d+".json"))} for d in days}
     index={d:read(root/"index_history"/(d+".json")).get("close") for d in days if (root/"index_history"/(d+".json")).exists()}
     key=os.getenv("KIS_APP_KEY","").strip();secret=os.getenv("KIS_APP_SECRET","").strip()
@@ -102,15 +106,16 @@ def main():
         flow=session_rows(allrows,("frgn_ntby_qty","orgn_ntby_qty","acml_vol"),set(days))
         # Reconcile trading volume against KRX for the same sessions. Missing
         # or inconsistent sessions never produce an exact-window flow metric.
-        flow={d:v for d,v in flow.items() if finite(volumes[d].get(t)) and v[2]==volumes[d][t]}
+        if not a.direct_source:
+            flow={d:v for d,v in flow.items() if finite(volumes[d].get(t)) and v[2]==volumes[d][t]}
         raw,e=call("inquire-daily-itemchartprice","FHKST03010100",dict(common,FID_INPUT_DATE_1=days[0],FID_INPUT_DATE_2=stamp,FID_PERIOD_DIV_CODE="D",FID_ORG_ADJ_PRC="0"))
         if e:errors.append(e)
         prices=session_rows(raw,("stck_clpr",),set(days))
-        pm=price_metrics(prices,days,s.get("close"),index)
+        pm=price_metrics(prices,days,s.get("close"),index,direct=a.direct_source)
         fm=flow_metrics(flow,days)
         results[t]={"flow":fm,"price":pm,"flow_sessions":len(flow),"price_sessions":len(prices),"errors":errors}
         if i%25==0:print("MARKET AUDIT",i,"/",a.limit,flush=True)
-    payload={"asof":asof,"basis":"KIS exact KRX sessions; adjusted price FID_ORG_ADJ_PRC=0; KRX close reconciliation; KOSPI benchmark","records":results}
+    payload={"asof":asof,"basis":"KIS exact trading sessions; adjusted price FID_ORG_ADJ_PRC=0; KOSPI benchmark; direct source without cross-check" if a.direct_source else "KIS exact KRX sessions; adjusted price FID_ORG_ADJ_PRC=0; KRX close reconciliation; KOSPI benchmark","records":results}
     (a.out/"market.json").write_text(json.dumps(payload,ensure_ascii=False,allow_nan=False),encoding="utf-8")
     keys={k for r in results.values() for k in [*r["flow"],*r["price"]]}
     summary={"asof":asof,"count":len(results),"coverage":{k:sum(k in r["flow"] or k in r["price"] for r in results.values()) for k in sorted(keys)}}
