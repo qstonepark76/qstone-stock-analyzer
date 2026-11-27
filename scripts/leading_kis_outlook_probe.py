@@ -2,7 +2,7 @@
 Capture actual acquisition timestamp; never backdate current estimates.
 No order endpoints, no automatic scoring, no production or legacy writes.
 """
-import os,json,time,re
+import os,json,time,re,argparse
 from pathlib import Path
 from collections import Counter
 from datetime import datetime,date,timedelta,timezone
@@ -50,11 +50,22 @@ def select_pilot(payload,universe):
     return top+[gaps[i*len(gaps)//n] for i in range(n)] if n else top
 
 def main():
-    out=Path("audit-leading-kis-outlook");out.mkdir(exist_ok=True)
+    ap=argparse.ArgumentParser();ap.add_argument("--expand",action="store_true");args=ap.parse_args()
+    out=Path("audit-leading-kis-outlook-expanded" if args.expand else "audit-leading-kis-outlook");out.mkdir(exist_ok=True)
     payload=read("stage5/observations.json");universe=read("replay-source/universe.json")
     if payload["asof"]!=universe["asof"]:raise ValueError("date mismatch")
     if set(r["ticker"] for r in payload["stocks"])!=set(r["ticker"] for r in universe["stocks"]):raise ValueError("universe mismatch")
     targets=select_pilot(payload,universe)
+    reused=[]
+    if args.expand:
+        prior=read('pilot/summary.json');reused=read('pilot/raw_candidates.json')
+        if prior['universe_asof']!=payload['asof'] or len({r['ticker'] for r in reused})!=len(reused):raise ValueError('pilot mismatch')
+        expected={r['ticker'] for r in payload['stocks'] if not r.get('excluded')}
+        if not {r['ticker'] for r in reused}<=expected:raise ValueError('pilot universe mismatch')
+        # Only reuse successful endpoint observations, preserving timestamps.
+        completed={r['ticker'] for r in reused if all(r.get(k,{}).get('status')=='source_candidate' for k in ('estimate-perform','invest-opinion'))}
+        reused=[r for r in reused if r['ticker'] in completed]
+        targets=sorted(expected-completed)
     key=os.getenv("KIS_APP_KEY","").strip();secret=os.getenv("KIS_APP_SECRET","").strip()
     if not key or not secret:raise ValueError("KIS credentials unavailable")
     token=kis_access_token(key,secret)
@@ -114,10 +125,10 @@ def main():
         records.append(record)
         if len(records)%10==0:print("KIS OUTLOOK PILOT",len(records),"/",len(targets),flush=True)
         if len(disabled)==2:break
-    s={"universe_asof":payload["asof"],"observed_at":start_at.isoformat(),"pilot_size":len(targets),
+    s={"universe_asof":payload["asof"],"observed_at":start_at.isoformat(),"pilot_size":len(targets),"reused_issuers":len(reused),
        "processed":len(records),"stats":dict(stats),"errors":dict(errors),"schema_fields":dict(schemas),
        "official_admitted":0,"status":"source_probe_only","official_reference":DOC,
        "limits":"One page per endpoint, no completeness assumption. No historic snapshot substitution; verify estimate period, units, accounting scope, broker identity and price adjustment basis before scoring."}
-    write(out/"summary.json",s);write(out/"raw_candidates.json",records);write(out/"pilot_tickers.json",targets)
+    write(out/"summary.json",s);write(out/"raw_candidates.json",reused+records);write(out/"pilot_tickers.json",targets)
     print("KIS OUTLOOK PILOT SUMMARY",json.dumps(s,ensure_ascii=False),flush=True)
 if __name__=="__main__":main()
