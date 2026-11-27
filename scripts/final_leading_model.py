@@ -10,6 +10,8 @@ from pathlib import Path
 from forecast_score_policy import choose_forecast,forecast_fraction,FACTORS as FORECAST_FIELDS
 
 VERSION = "3.3-final-leading-candidate"
+SIMPLIFIED_SPECIAL={"bank_group":{"nim_pct":4,"cet1_pct":3,"npl_pct":3},"life_insurance":{"kics_pct":4,"csm_growth_pct":3,"investment_yield_pct":3},"nonlife_insurance":{"kics_pct":4,"combined_ratio_pct":3,"investment_yield_pct":3},"securities":{"ncr_pct":4,"regulatory_leverage_pct":3,"cir_pct":3},"card_capital":{"adjusted_capital_pct":4,"delinquency_pct":3,"credit_cost_pct":3}}
+SIMPLIFIED_INDUSTRIAL={"operating_return_on_assets":3,"asset_turnover":3,"cash_conversion":2,"margin_stability":2}
 BASE = {
     "financial": {"roe":5,"roa":3,"margin":4,"stability":4,"cash":4},
     "growth": {"sales_growth":5,"op_growth":7,"net_growth":5,"sales_cagr":3},
@@ -86,7 +88,9 @@ def group_weights(row):
     w={f:dict(m) for f,m in BASE.items()}
     # Specialist alternatives are separate, never compared to industrial ratios.
     model=row.get("financial_model")
-    if model in SPECIAL_RELATIVE:
+    if row.get("simplified_industry_policy") and model in (None,"operating_holding",*SIMPLIFIED_SPECIAL):
+        w["industry_relative"]=dict(SIMPLIFIED_SPECIAL.get(model,SIMPLIFIED_INDUSTRIAL))
+    elif model in SPECIAL_RELATIVE:
         w["industry_relative"]={k:2 for k in SPECIAL_RELATIVE[model]}
     return w
 
@@ -110,6 +114,7 @@ def score_groups(row,rows,weights,asof,leading=False):
                     policy=None
             q=None
             n=None
+            peer_level=None
             status="데이터 부족"
             valid=observed(o,asof)
             if valid and k in {"rating","upward_broker_share","overheat"}:
@@ -130,7 +135,7 @@ def score_groups(row,rows,weights,asof,leading=False):
                     # Matching definition and direction required. Financial
                     # types must match; valuation/industry also exact industry.
                     lower=o.get("lower_better",k in LOWER)
-                    def comparable(p):
+                    def comparable(p,level="exact"):
                         if p.get("excluded") or (p.get("peer_only") and factor not in {"industry_relative","valuation"}): return False
                         x=p.get("metrics",{}).get(k)
                         if not observed(x,asof) or x["basis"]!=o["basis"] or x.get("lower_better",k in LOWER)!=lower: return False
@@ -139,10 +144,17 @@ def score_groups(row,rows,weights,asof,leading=False):
                         if factor in {"valuation","industry_relative"}:
                             if factor=="industry_relative" and row.get("financial_model") in SPECIAL_RELATIVE:
                                 return True
-                            return bool(row.get("industry_code") and p.get("industry_code")==row["industry_code"])
+                            code=str(row.get("industry_code") or "")
+                            other=str(p.get("industry_code") or "")
+                            if level=="parent":return code.isdigit() and other.isdigit() and len(code)>=2 and len(other)>=2 and code[:2]==other[:2]
+                            return bool(code and other==code)
                         return True
                     peers=[p["metrics"][k]["value"] for p in rows if comparable(p)]
                     n=len(peers)
+                    peer_level="exact"
+                    if n<MIN_PEERS and row.get("simplified_industry_policy") and factor in {"industry_relative","valuation"} and not specialist:
+                        peers=[p["metrics"][k]["value"] for p in rows if comparable(p,"parent")]
+                        n=len(peers);peer_level="KSIC_2digit"
                     q=percentile(o["value"],peers,lower)
                 status="산출" if q is not None else "비교대상 부족"
             pts=round(w*q,6) if q is not None else None
@@ -152,7 +164,7 @@ def score_groups(row,rows,weights,asof,leading=False):
             detail[k]={"factor":factor,"weight":w,"points":pts,"status":status,
                        "value":o["value"] if valid else None,
                        "source_ref":o.get("source_ref") if valid else None,
-                       "peer_count":n,
+                       "peer_count":n,"peer_level":peer_level,
                        "forecast_source_kind":policy["source_kind"] if valid and policy else None,
                        "forecast_confidence":policy["confidence"] if valid and policy else None}
     complete=covered==100 and not row.get("excluded") and (leading or not specialist or model in SPECIAL_RELATIVE)
@@ -165,6 +177,8 @@ def evaluate(payload):
     asof=day(payload.get("asof"))
     if not asof: raise ValueError("Invalid asof")
     rows=payload["stocks"]
+    if payload.get("industry_policy")=="simplified_v1":
+        rows=[{**r,"simplified_industry_policy":True} for r in rows]
     if len({r["ticker"] for r in rows})!=len(rows): raise ValueError("Duplicate tickers")
     peers=payload.get("comparison_peers",[])
     if any(not p.get("peer_only") for p in peers): raise ValueError("Comparison-only designation required")
@@ -183,7 +197,7 @@ def evaluate(payload):
         def val(r):return r[key]["score"] if key in ("base","leading") else r[key]
         return [r["ticker"] for r in sorted((r for r in results if not r["excluded"] and val(r) is not None),
                     key=lambda r:(-val(r),r["ticker"]))[:n]]
-    return {"model_version":VERSION,"asof":asof.isoformat(),"candidate_only":True,
+    return {"model_version":VERSION+("-simplified-v1" if payload.get("industry_policy")=="simplified_v1" else ""),"asof":asof.isoformat(),"candidate_only":True,
             "base_weights":{f:sum(m.values()) for f,m in BASE.items()},
             "leading_weights":{f:sum(m.values()) for f,m in LEADING.items()},
             "records":results,"base_top15":rank("base",15),"leading_top10":rank("leading",10),
