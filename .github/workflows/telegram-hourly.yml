@@ -1,8 +1,6 @@
 name: Q Stone Park Telegram Hourly Collection
 
 on:
-  schedule:
-    - cron: '7 * * * *'
   workflow_dispatch:
 
 permissions:
@@ -14,6 +12,8 @@ concurrency:
 
 jobs:
   collect-telegram:
+    # Temporarily suspended by owner request; restore from parent commit to resume.
+    if: ${{ false }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
