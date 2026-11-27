@@ -1,0 +1,35 @@
+name: Q Stone Park v3.3 fast quality tests
+
+on:
+  push:
+    branches:
+      - v3-3-industry-relative-model
+    paths:
+      - '.github/workflows/v3-3-fast-quality-tests.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-latest-quality:
+    if: github.repository == 'qstonepark76/qstone-stock-analyzer'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install requests
+      - run: python -m py_compile scripts/collect.py scripts/dart_capital_metrics.py scripts/metric_quality.py scripts/fisis_auto.py scripts/fisis_holding_auto.py scripts/financial_industry.py scripts/xbrl_da_rule.py scripts/replay_v33_top300.py audit_tools/enrich_top300_xbrl.py
+      - run: |
+          python -m unittest discover -s tests -p 'test_industry_relative.py' -v
+          python -m unittest discover -s tests -p 'test_v33_dart_metrics.py' -v
+      - name: Report actual FISIS snapshot normalized counts
+        run: |
+          PYTHONPATH=scripts python -c 'import json; from fisis_auto import load_auto_observations; r=load_auto_observations(); print("FISIS AUTO ACCEPTED",json.dumps({"issuers":len(r),"metrics":sum(len(x["metrics"]) for x in r.values())}))'
+      - name: Report actual holding snapshot normalized counts
+        run: |
+          PYTHONPATH=scripts python -c 'import json; from fisis_holding_auto import load_holding_observations; r=load_holding_observations(); print("HOLDING AUTO ACCEPTED",json.dumps({"issuers":len(r),"metrics":sum(len(x["metrics"]) for x in r.values())}))'

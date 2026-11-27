@@ -1,0 +1,45 @@
+name: Q Stone Park v3.3 evidence grades and alternative metrics
+on:
+  push:
+    branches:
+      - v3-3-industry-relative-model
+    paths:
+      - '.github/workflows/v3-3-evidence-grades.yml'
+      - 'audit_tools/evidence_grades.py'
+permissions:
+  contents: read
+  actions: read
+jobs:
+  evidence-grades:
+    if: github.repository == 'qstonepark76/qstone-stock-analyzer'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install requests
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-top300-preflight
+          run-id: 45625150031
+          github-token: ${{ github.token }}
+          path: replay-source
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-top300-xbrl-evidence
+          run-id: 45631525273
+          github-token: ${{ github.token }}
+          path: audit-top300-xbrl
+      - run: python -u scripts/replay_v33_top300.py
+      - run: python -u audit_tools/evidence_grades.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v33-evidence-grades
+          path: audit-evidence-grades/
+          if-no-files-found: warn
+          retention-days: 14

@@ -1,0 +1,3047 @@
+{
+  "schema_version": 1,
+  "period": "2025-12",
+  "source": "FISIS",
+  "source_run": 45623891222,
+  "source_job": 139240930553,
+  "records": [
+    {
+      "group": "bank_subsidiary_only",
+      "company": "0010927",
+      "name": "국민은행",
+      "table": "SA014",
+      "account": "A2",
+      "label": "보통주자본비율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010927",
+            "finance_nm": "국민은행",
+            "account_cd": "A2",
+            "account_nm": "보통주자본비율",
+            "a": "14.91"
+          }
+        ]
+      }
+    },
+    {
+      "group": "bank_subsidiary_only",
+      "company": "0010927",
+      "name": "국민은행",
+      "table": "SA015",
+      "account": "C",
+      "label": "고정이하여신비율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010927",
+            "finance_nm": "국민은행",
+            "account_cd": "C",
+            "account_nm": "고정이하여신비율",
+            "a": ".28"
+          }
+        ]
+      }
+    },
+    {
+      "group": "bank_subsidiary_only",
+      "company": "0010927",
+      "name": "국민은행",
+      "table": "SA017",
+      "account": "C",
+      "label": "명목순이자마진(NIM)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "금액"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010927",
+            "finance_nm": "국민은행",
+            "account_cd": "C",
+            "account_nm": "명목순이자마진(NIM)",
+            "a": "1.74"
+          }
+        ]
+      }
+    },
+    {
+      "group": "bank_subsidiary_only",
+      "company": "0011625",
+      "name": "신한은행",
+      "table": "SA014",
+      "account": "A2",
+      "label": "보통주자본비율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0011625",
+            "finance_nm": "신한은행",
+            "account_cd": "A2",
+            "account_nm": "보통주자본비율",
+            "a": "14.57"
+          }
+        ]
+      }
+    },
+    {
+      "group": "bank_subsidiary_only",
+      "company": "0011625",
+      "name": "신한은행",
+      "table": "SA015",
+      "account": "C",
+      "label": "고정이하여신비율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0011625",
+            "finance_nm": "신한은행",
+            "account_cd": "C",
+            "account_nm": "고정이하여신비율",
+            "a": ".28"
+          }
+        ]
+      }
+    },
+    {
+      "group": "bank_subsidiary_only",
+      "company": "0011625",
+      "name": "신한은행",
+      "table": "SA017",
+      "account": "C",
+      "label": "명목순이자마진(NIM)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "금액"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0011625",
+            "finance_nm": "신한은행",
+            "account_cd": "C",
+            "account_nm": "명목순이자마진(NIM)",
+            "a": "1.56"
+          }
+        ]
+      }
+    },
+    {
+      "group": "bank_subsidiary_only",
+      "company": "0010001",
+      "name": "우리은행",
+      "table": "SA014",
+      "account": "A2",
+      "label": "보통주자본비율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010001",
+            "finance_nm": "우리은행",
+            "account_cd": "A2",
+            "account_nm": "보통주자본비율",
+            "a": "14.13"
+          }
+        ]
+      }
+    },
+    {
+      "group": "bank_subsidiary_only",
+      "company": "0010001",
+      "name": "우리은행",
+      "table": "SA015",
+      "account": "C",
+      "label": "고정이하여신비율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010001",
+            "finance_nm": "우리은행",
+            "account_cd": "C",
+            "account_nm": "고정이하여신비율",
+            "a": ".31"
+          }
+        ]
+      }
+    },
+    {
+      "group": "bank_subsidiary_only",
+      "company": "0010001",
+      "name": "우리은행",
+      "table": "SA017",
+      "account": "C",
+      "label": "명목순이자마진(NIM)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "금액"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010001",
+            "finance_nm": "우리은행",
+            "account_cd": "C",
+            "account_nm": "명목순이자마진(NIM)",
+            "a": "1.46"
+          }
+        ]
+      }
+    },
+    {
+      "group": "bank_subsidiary_only",
+      "company": "0013909",
+      "name": "주식회사 하나은행",
+      "table": "SA014",
+      "account": "A2",
+      "label": "보통주자본비율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0013909",
+            "finance_nm": "주식회사 하나은행",
+            "account_cd": "A2",
+            "account_nm": "보통주자본비율",
+            "a": "16.42"
+          }
+        ]
+      }
+    },
+    {
+      "group": "bank_subsidiary_only",
+      "company": "0013909",
+      "name": "주식회사 하나은행",
+      "table": "SA015",
+      "account": "C",
+      "label": "고정이하여신비율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0013909",
+            "finance_nm": "주식회사 하나은행",
+            "account_cd": "C",
+            "account_nm": "고정이하여신비율",
+            "a": ".35"
+          }
+        ]
+      }
+    },
+    {
+      "group": "bank_subsidiary_only",
+      "company": "0013909",
+      "name": "주식회사 하나은행",
+      "table": "SA017",
+      "account": "C",
+      "label": "명목순이자마진(NIM)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "금액"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0013909",
+            "finance_nm": "주식회사 하나은행",
+            "account_cd": "C",
+            "account_nm": "명목순이자마진(NIM)",
+            "a": "1.49"
+          }
+        ]
+      }
+    },
+    {
+      "group": "life_insurance",
+      "company": "0010595",
+      "name": "삼성생명보험주식회사",
+      "table": "SH021",
+      "account": "A",
+      "label": "지급여력비율(경과조치 적용 전)(①/②)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010595",
+            "finance_nm": "삼성생명보험주식회사",
+            "account_cd": "A",
+            "account_nm": "지급여력비율(경과조치 적용 전)(①/②)",
+            "a": "197.97"
+          }
+        ]
+      }
+    },
+    {
+      "group": "life_insurance",
+      "company": "0010595",
+      "name": "삼성생명보험주식회사",
+      "table": "SH021",
+      "account": "D",
+      "label": "지급여력비율(경과조치 적용 후)(③/④)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010595",
+            "finance_nm": "삼성생명보험주식회사",
+            "account_cd": "D",
+            "account_nm": "지급여력비율(경과조치 적용 후)(③/④)",
+            "a": "0"
+          }
+        ]
+      }
+    },
+    {
+      "group": "life_insurance",
+      "company": "0010595",
+      "name": "삼성생명보험주식회사",
+      "table": "SH112",
+      "account": "A",
+      "label": "가중부실자산비율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010595",
+            "finance_nm": "삼성생명보험주식회사",
+            "account_cd": "A",
+            "account_nm": "가중부실자산비율",
+            "a": ".08"
+          }
+        ]
+      }
+    },
+    {
+      "group": "life_insurance",
+      "company": "0010595",
+      "name": "삼성생명보험주식회사",
+      "table": "SH114",
+      "account": "B",
+      "label": "운용자산이익율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "당분기"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010595",
+            "finance_nm": "삼성생명보험주식회사",
+            "account_cd": "B",
+            "account_nm": "운용자산이익율",
+            "a": "3.34"
+          }
+        ]
+      }
+    },
+    {
+      "group": "life_insurance",
+      "company": "0010593",
+      "name": "한화생명보험주식회사",
+      "table": "SH021",
+      "account": "A",
+      "label": "지급여력비율(경과조치 적용 전)(①/②)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010593",
+            "finance_nm": "한화생명보험주식회사",
+            "account_cd": "A",
+            "account_nm": "지급여력비율(경과조치 적용 전)(①/②)",
+            "a": "157.52"
+          }
+        ]
+      }
+    },
+    {
+      "group": "life_insurance",
+      "company": "0010593",
+      "name": "한화생명보험주식회사",
+      "table": "SH021",
+      "account": "D",
+      "label": "지급여력비율(경과조치 적용 후)(③/④)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010593",
+            "finance_nm": "한화생명보험주식회사",
+            "account_cd": "D",
+            "account_nm": "지급여력비율(경과조치 적용 후)(③/④)",
+            "a": "157.52"
+          }
+        ]
+      }
+    },
+    {
+      "group": "life_insurance",
+      "company": "0010593",
+      "name": "한화생명보험주식회사",
+      "table": "SH112",
+      "account": "A",
+      "label": "가중부실자산비율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010593",
+            "finance_nm": "한화생명보험주식회사",
+            "account_cd": "A",
+            "account_nm": "가중부실자산비율",
+            "a": ".34"
+          }
+        ]
+      }
+    },
+    {
+      "group": "life_insurance",
+      "company": "0010593",
+      "name": "한화생명보험주식회사",
+      "table": "SH114",
+      "account": "B",
+      "label": "운용자산이익율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "당분기"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010593",
+            "finance_nm": "한화생명보험주식회사",
+            "account_cd": "B",
+            "account_nm": "운용자산이익율",
+            "a": "2.87"
+          }
+        ]
+      }
+    },
+    {
+      "group": "life_insurance",
+      "company": "0010608",
+      "name": "미래에셋생명보험주식회사",
+      "table": "SH021",
+      "account": "A",
+      "label": "지급여력비율(경과조치 적용 전)(①/②)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010608",
+            "finance_nm": "미래에셋생명보험주식회사",
+            "account_cd": "A",
+            "account_nm": "지급여력비율(경과조치 적용 전)(①/②)",
+            "a": "176.68"
+          }
+        ]
+      }
+    },
+    {
+      "group": "life_insurance",
+      "company": "0010608",
+      "name": "미래에셋생명보험주식회사",
+      "table": "SH021",
+      "account": "D",
+      "label": "지급여력비율(경과조치 적용 후)(③/④)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010608",
+            "finance_nm": "미래에셋생명보험주식회사",
+            "account_cd": "D",
+            "account_nm": "지급여력비율(경과조치 적용 후)(③/④)",
+            "a": "0"
+          }
+        ]
+      }
+    },
+    {
+      "group": "life_insurance",
+      "company": "0010608",
+      "name": "미래에셋생명보험주식회사",
+      "table": "SH112",
+      "account": "A",
+      "label": "가중부실자산비율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010608",
+            "finance_nm": "미래에셋생명보험주식회사",
+            "account_cd": "A",
+            "account_nm": "가중부실자산비율",
+            "a": ".17"
+          }
+        ]
+      }
+    },
+    {
+      "group": "life_insurance",
+      "company": "0010608",
+      "name": "미래에셋생명보험주식회사",
+      "table": "SH114",
+      "account": "B",
+      "label": "운용자산이익율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "당분기"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010608",
+            "finance_nm": "미래에셋생명보험주식회사",
+            "account_cd": "B",
+            "account_nm": "운용자산이익율",
+            "a": "3.18"
+          }
+        ]
+      }
+    },
+    {
+      "group": "life_insurance",
+      "company": "0010597",
+      "name": "교보생명보험주식회사",
+      "table": "SH021",
+      "account": "A",
+      "label": "지급여력비율(경과조치 적용 전)(①/②)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010597",
+            "finance_nm": "교보생명보험주식회사",
+            "account_cd": "A",
+            "account_nm": "지급여력비율(경과조치 적용 전)(①/②)",
+            "a": "164.02"
+          }
+        ]
+      }
+    },
+    {
+      "group": "life_insurance",
+      "company": "0010597",
+      "name": "교보생명보험주식회사",
+      "table": "SH021",
+      "account": "D",
+      "label": "지급여력비율(경과조치 적용 후)(③/④)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010597",
+            "finance_nm": "교보생명보험주식회사",
+            "account_cd": "D",
+            "account_nm": "지급여력비율(경과조치 적용 후)(③/④)",
+            "a": "222.6"
+          }
+        ]
+      }
+    },
+    {
+      "group": "life_insurance",
+      "company": "0010597",
+      "name": "교보생명보험주식회사",
+      "table": "SH112",
+      "account": "A",
+      "label": "가중부실자산비율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010597",
+            "finance_nm": "교보생명보험주식회사",
+            "account_cd": "A",
+            "account_nm": "가중부실자산비율",
+            "a": ".27"
+          }
+        ]
+      }
+    },
+    {
+      "group": "life_insurance",
+      "company": "0010597",
+      "name": "교보생명보험주식회사",
+      "table": "SH114",
+      "account": "B",
+      "label": "운용자산이익율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "당분기"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010597",
+            "finance_nm": "교보생명보험주식회사",
+            "account_cd": "B",
+            "account_nm": "운용자산이익율",
+            "a": "3.58"
+          }
+        ]
+      }
+    },
+    {
+      "group": "life_insurance",
+      "company": "0010620",
+      "name": "메트라이프생명보험(주)",
+      "table": "SH021",
+      "account": "A",
+      "label": "지급여력비율(경과조치 적용 전)(①/②)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010620",
+            "finance_nm": "메트라이프생명보험(주)",
+            "account_cd": "A",
+            "account_nm": "지급여력비율(경과조치 적용 전)(①/②)",
+            "a": "269.59"
+          }
+        ]
+      }
+    },
+    {
+      "group": "life_insurance",
+      "company": "0010620",
+      "name": "메트라이프생명보험(주)",
+      "table": "SH021",
+      "account": "D",
+      "label": "지급여력비율(경과조치 적용 후)(③/④)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010620",
+            "finance_nm": "메트라이프생명보험(주)",
+            "account_cd": "D",
+            "account_nm": "지급여력비율(경과조치 적용 후)(③/④)",
+            "a": "0"
+          }
+        ]
+      }
+    },
+    {
+      "group": "life_insurance",
+      "company": "0010620",
+      "name": "메트라이프생명보험(주)",
+      "table": "SH112",
+      "account": "A",
+      "label": "가중부실자산비율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010620",
+            "finance_nm": "메트라이프생명보험(주)",
+            "account_cd": "A",
+            "account_nm": "가중부실자산비율",
+            "a": ".18"
+          }
+        ]
+      }
+    },
+    {
+      "group": "life_insurance",
+      "company": "0010620",
+      "name": "메트라이프생명보험(주)",
+      "table": "SH114",
+      "account": "B",
+      "label": "운용자산이익율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "당분기"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010620",
+            "finance_nm": "메트라이프생명보험(주)",
+            "account_cd": "B",
+            "account_nm": "운용자산이익율",
+            "a": "1.98"
+          }
+        ]
+      }
+    },
+    {
+      "group": "life_insurance",
+      "company": "0010599",
+      "name": "신한라이프생명보험주식회사",
+      "table": "SH021",
+      "account": "A",
+      "label": "지급여력비율(경과조치 적용 전)(①/②)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010599",
+            "finance_nm": "신한라이프생명보험주식회사",
+            "account_cd": "A",
+            "account_nm": "지급여력비율(경과조치 적용 전)(①/②)",
+            "a": "205.98"
+          }
+        ]
+      }
+    },
+    {
+      "group": "life_insurance",
+      "company": "0010599",
+      "name": "신한라이프생명보험주식회사",
+      "table": "SH021",
+      "account": "D",
+      "label": "지급여력비율(경과조치 적용 후)(③/④)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010599",
+            "finance_nm": "신한라이프생명보험주식회사",
+            "account_cd": "D",
+            "account_nm": "지급여력비율(경과조치 적용 후)(③/④)",
+            "a": "205.98"
+          }
+        ]
+      }
+    },
+    {
+      "group": "life_insurance",
+      "company": "0010599",
+      "name": "신한라이프생명보험주식회사",
+      "table": "SH112",
+      "account": "A",
+      "label": "가중부실자산비율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010599",
+            "finance_nm": "신한라이프생명보험주식회사",
+            "account_cd": "A",
+            "account_nm": "가중부실자산비율",
+            "a": ".2"
+          }
+        ]
+      }
+    },
+    {
+      "group": "life_insurance",
+      "company": "0010599",
+      "name": "신한라이프생명보험주식회사",
+      "table": "SH114",
+      "account": "B",
+      "label": "운용자산이익율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "당분기"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010599",
+            "finance_nm": "신한라이프생명보험주식회사",
+            "account_cd": "B",
+            "account_nm": "운용자산이익율",
+            "a": "2.88"
+          }
+        ]
+      }
+    },
+    {
+      "group": "nonlife_insurance",
+      "company": "0010636",
+      "name": "DB손해보험주식회사",
+      "table": "SI021",
+      "account": "A",
+      "label": "지급여력비율(경과조치 적용 전)(①/②)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010636",
+            "finance_nm": "DB손해보험주식회사",
+            "account_cd": "A",
+            "account_nm": "지급여력비율(경과조치 적용 전)(①/②)",
+            "a": "218.22"
+          }
+        ]
+      }
+    },
+    {
+      "group": "nonlife_insurance",
+      "company": "0010636",
+      "name": "DB손해보험주식회사",
+      "table": "SI021",
+      "account": "D",
+      "label": "지급여력비율(경과조치 적용 후)(③/④)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010636",
+            "finance_nm": "DB손해보험주식회사",
+            "account_cd": "D",
+            "account_nm": "지급여력비율(경과조치 적용 후)(③/④)",
+            "a": "218.22"
+          }
+        ]
+      }
+    },
+    {
+      "group": "nonlife_insurance",
+      "company": "0010636",
+      "name": "DB손해보험주식회사",
+      "table": "SI112",
+      "account": "A",
+      "label": "가중부실자산비율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010636",
+            "finance_nm": "DB손해보험주식회사",
+            "account_cd": "A",
+            "account_nm": "가중부실자산비율",
+            "a": ".27"
+          }
+        ]
+      }
+    },
+    {
+      "group": "nonlife_insurance",
+      "company": "0010636",
+      "name": "DB손해보험주식회사",
+      "table": "SI114",
+      "account": "D",
+      "label": "운용자산이익률",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "경영지표"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010636",
+            "finance_nm": "DB손해보험주식회사",
+            "account_cd": "D",
+            "account_nm": "운용자산이익률",
+            "a": "4.26"
+          }
+        ]
+      }
+    },
+    {
+      "group": "nonlife_insurance",
+      "company": "0010633",
+      "name": "삼성화재해상보험주식회사",
+      "table": "SI021",
+      "account": "A",
+      "label": "지급여력비율(경과조치 적용 전)(①/②)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010633",
+            "finance_nm": "삼성화재해상보험주식회사",
+            "account_cd": "A",
+            "account_nm": "지급여력비율(경과조치 적용 전)(①/②)",
+            "a": "262.87"
+          }
+        ]
+      }
+    },
+    {
+      "group": "nonlife_insurance",
+      "company": "0010633",
+      "name": "삼성화재해상보험주식회사",
+      "table": "SI021",
+      "account": "D",
+      "label": "지급여력비율(경과조치 적용 후)(③/④)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010633",
+            "finance_nm": "삼성화재해상보험주식회사",
+            "account_cd": "D",
+            "account_nm": "지급여력비율(경과조치 적용 후)(③/④)",
+            "a": "262.87"
+          }
+        ]
+      }
+    },
+    {
+      "group": "nonlife_insurance",
+      "company": "0010633",
+      "name": "삼성화재해상보험주식회사",
+      "table": "SI112",
+      "account": "A",
+      "label": "가중부실자산비율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010633",
+            "finance_nm": "삼성화재해상보험주식회사",
+            "account_cd": "A",
+            "account_nm": "가중부실자산비율",
+            "a": ".11"
+          }
+        ]
+      }
+    },
+    {
+      "group": "nonlife_insurance",
+      "company": "0010633",
+      "name": "삼성화재해상보험주식회사",
+      "table": "SI114",
+      "account": "D",
+      "label": "운용자산이익률",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "경영지표"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010633",
+            "finance_nm": "삼성화재해상보험주식회사",
+            "account_cd": "D",
+            "account_nm": "운용자산이익률",
+            "a": "3.06"
+          }
+        ]
+      }
+    },
+    {
+      "group": "nonlife_insurance",
+      "company": "0010634",
+      "name": "현대해상화재보험주식회사",
+      "table": "SI021",
+      "account": "A",
+      "label": "지급여력비율(경과조치 적용 전)(①/②)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010634",
+            "finance_nm": "현대해상화재보험주식회사",
+            "account_cd": "A",
+            "account_nm": "지급여력비율(경과조치 적용 전)(①/②)",
+            "a": "190.15"
+          }
+        ]
+      }
+    },
+    {
+      "group": "nonlife_insurance",
+      "company": "0010634",
+      "name": "현대해상화재보험주식회사",
+      "table": "SI021",
+      "account": "D",
+      "label": "지급여력비율(경과조치 적용 후)(③/④)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010634",
+            "finance_nm": "현대해상화재보험주식회사",
+            "account_cd": "D",
+            "account_nm": "지급여력비율(경과조치 적용 후)(③/④)",
+            "a": "190.15"
+          }
+        ]
+      }
+    },
+    {
+      "group": "nonlife_insurance",
+      "company": "0010634",
+      "name": "현대해상화재보험주식회사",
+      "table": "SI112",
+      "account": "A",
+      "label": "가중부실자산비율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010634",
+            "finance_nm": "현대해상화재보험주식회사",
+            "account_cd": "A",
+            "account_nm": "가중부실자산비율",
+            "a": ".23"
+          }
+        ]
+      }
+    },
+    {
+      "group": "nonlife_insurance",
+      "company": "0010634",
+      "name": "현대해상화재보험주식회사",
+      "table": "SI114",
+      "account": "D",
+      "label": "운용자산이익률",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "경영지표"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010634",
+            "finance_nm": "현대해상화재보험주식회사",
+            "account_cd": "D",
+            "account_nm": "운용자산이익률",
+            "a": "3.19"
+          }
+        ]
+      }
+    },
+    {
+      "group": "nonlife_insurance",
+      "company": "0010627",
+      "name": "한화손해보험주식회사",
+      "table": "SI021",
+      "account": "A",
+      "label": "지급여력비율(경과조치 적용 전)(①/②)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010627",
+            "finance_nm": "한화손해보험주식회사",
+            "account_cd": "A",
+            "account_nm": "지급여력비율(경과조치 적용 전)(①/②)",
+            "a": "174.47"
+          }
+        ]
+      }
+    },
+    {
+      "group": "nonlife_insurance",
+      "company": "0010627",
+      "name": "한화손해보험주식회사",
+      "table": "SI021",
+      "account": "D",
+      "label": "지급여력비율(경과조치 적용 후)(③/④)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010627",
+            "finance_nm": "한화손해보험주식회사",
+            "account_cd": "D",
+            "account_nm": "지급여력비율(경과조치 적용 후)(③/④)",
+            "a": "208.96"
+          }
+        ]
+      }
+    },
+    {
+      "group": "nonlife_insurance",
+      "company": "0010627",
+      "name": "한화손해보험주식회사",
+      "table": "SI112",
+      "account": "A",
+      "label": "가중부실자산비율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010627",
+            "finance_nm": "한화손해보험주식회사",
+            "account_cd": "A",
+            "account_nm": "가중부실자산비율",
+            "a": ".11"
+          }
+        ]
+      }
+    },
+    {
+      "group": "nonlife_insurance",
+      "company": "0010627",
+      "name": "한화손해보험주식회사",
+      "table": "SI114",
+      "account": "D",
+      "label": "운용자산이익률",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "경영지표"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010627",
+            "finance_nm": "한화손해보험주식회사",
+            "account_cd": "D",
+            "account_nm": "운용자산이익률",
+            "a": "3.27"
+          }
+        ]
+      }
+    },
+    {
+      "group": "nonlife_insurance",
+      "company": "0010635",
+      "name": "주식회사KB손해보험",
+      "table": "SI021",
+      "account": "A",
+      "label": "지급여력비율(경과조치 적용 전)(①/②)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010635",
+            "finance_nm": "주식회사KB손해보험",
+            "account_cd": "A",
+            "account_nm": "지급여력비율(경과조치 적용 전)(①/②)",
+            "a": "191.54"
+          }
+        ]
+      }
+    },
+    {
+      "group": "nonlife_insurance",
+      "company": "0010635",
+      "name": "주식회사KB손해보험",
+      "table": "SI021",
+      "account": "D",
+      "label": "지급여력비율(경과조치 적용 후)(③/④)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010635",
+            "finance_nm": "주식회사KB손해보험",
+            "account_cd": "D",
+            "account_nm": "지급여력비율(경과조치 적용 후)(③/④)",
+            "a": "0"
+          }
+        ]
+      }
+    },
+    {
+      "group": "nonlife_insurance",
+      "company": "0010635",
+      "name": "주식회사KB손해보험",
+      "table": "SI112",
+      "account": "A",
+      "label": "가중부실자산비율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010635",
+            "finance_nm": "주식회사KB손해보험",
+            "account_cd": "A",
+            "account_nm": "가중부실자산비율",
+            "a": ".24"
+          }
+        ]
+      }
+    },
+    {
+      "group": "nonlife_insurance",
+      "company": "0010635",
+      "name": "주식회사KB손해보험",
+      "table": "SI114",
+      "account": "D",
+      "label": "운용자산이익률",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "경영지표"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010635",
+            "finance_nm": "주식회사KB손해보험",
+            "account_cd": "D",
+            "account_nm": "운용자산이익률",
+            "a": "3.51"
+          }
+        ]
+      }
+    },
+    {
+      "group": "nonlife_insurance",
+      "company": "0010626",
+      "name": "메리츠화재해상보험주식회사",
+      "table": "SI021",
+      "account": "A",
+      "label": "지급여력비율(경과조치 적용 전)(①/②)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010626",
+            "finance_nm": "메리츠화재해상보험주식회사",
+            "account_cd": "A",
+            "account_nm": "지급여력비율(경과조치 적용 전)(①/②)",
+            "a": "241.33"
+          }
+        ]
+      }
+    },
+    {
+      "group": "nonlife_insurance",
+      "company": "0010626",
+      "name": "메리츠화재해상보험주식회사",
+      "table": "SI021",
+      "account": "D",
+      "label": "지급여력비율(경과조치 적용 후)(③/④)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010626",
+            "finance_nm": "메리츠화재해상보험주식회사",
+            "account_cd": "D",
+            "account_nm": "지급여력비율(경과조치 적용 후)(③/④)",
+            "a": "241.33"
+          }
+        ]
+      }
+    },
+    {
+      "group": "nonlife_insurance",
+      "company": "0010626",
+      "name": "메리츠화재해상보험주식회사",
+      "table": "SI112",
+      "account": "A",
+      "label": "가중부실자산비율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010626",
+            "finance_nm": "메리츠화재해상보험주식회사",
+            "account_cd": "A",
+            "account_nm": "가중부실자산비율",
+            "a": ".51"
+          }
+        ]
+      }
+    },
+    {
+      "group": "nonlife_insurance",
+      "company": "0010626",
+      "name": "메리츠화재해상보험주식회사",
+      "table": "SI114",
+      "account": "D",
+      "label": "운용자산이익률",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "경영지표"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010626",
+            "finance_nm": "메리츠화재해상보험주식회사",
+            "account_cd": "D",
+            "account_nm": "운용자산이익률",
+            "a": "4.12"
+          }
+        ]
+      }
+    },
+    {
+      "group": "securities",
+      "company": "0010119",
+      "name": "삼성증권(주)",
+      "table": "SF308",
+      "account": "E",
+      "label": "순자본비율(C/D×100)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "금액"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010119",
+            "finance_nm": "삼성증권(주)",
+            "account_cd": "E",
+            "account_nm": "순자본비율(C/D×100)",
+            "a": "1761.7"
+          }
+        ]
+      }
+    },
+    {
+      "group": "securities",
+      "company": "0010119",
+      "name": "삼성증권(주)",
+      "table": "SF331",
+      "account": "C",
+      "label": "레버리지비율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원, %",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010119",
+            "finance_nm": "삼성증권(주)",
+            "account_cd": "C",
+            "account_nm": "레버리지비율",
+            "a": "705"
+          }
+        ]
+      }
+    },
+    {
+      "group": "securities",
+      "company": "0010119",
+      "name": "삼성증권(주)",
+      "table": "SF209",
+      "account": "C",
+      "label": "유동성비율(A/B×100)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "금액"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010119",
+            "finance_nm": "삼성증권(주)",
+            "account_cd": "C",
+            "account_nm": "유동성비율(A/B×100)",
+            "a": "113.96"
+          }
+        ]
+      }
+    },
+    {
+      "group": "securities",
+      "company": "0010094",
+      "name": "미래에셋증권 주식회사",
+      "table": "SF308",
+      "account": "E",
+      "label": "순자본비율(C/D×100)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "금액"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010094",
+            "finance_nm": "미래에셋증권 주식회사",
+            "account_cd": "E",
+            "account_nm": "순자본비율(C/D×100)",
+            "a": "446.48"
+          }
+        ]
+      }
+    },
+    {
+      "group": "securities",
+      "company": "0010094",
+      "name": "미래에셋증권 주식회사",
+      "table": "SF331",
+      "account": "C",
+      "label": "레버리지비율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원, %",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010094",
+            "finance_nm": "미래에셋증권 주식회사",
+            "account_cd": "C",
+            "account_nm": "레버리지비율",
+            "a": "715.9"
+          }
+        ]
+      }
+    },
+    {
+      "group": "securities",
+      "company": "0010094",
+      "name": "미래에셋증권 주식회사",
+      "table": "SF209",
+      "account": "C",
+      "label": "유동성비율(A/B×100)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "금액"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010094",
+            "finance_nm": "미래에셋증권 주식회사",
+            "account_cd": "C",
+            "account_nm": "유동성비율(A/B×100)",
+            "a": "107.6"
+          }
+        ]
+      }
+    },
+    {
+      "group": "securities",
+      "company": "0010129",
+      "name": "한국투자증권",
+      "table": "SF308",
+      "account": "E",
+      "label": "순자본비율(C/D×100)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "금액"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010129",
+            "finance_nm": "한국투자증권",
+            "account_cd": "E",
+            "account_nm": "순자본비율(C/D×100)",
+            "a": "1858.06"
+          }
+        ]
+      }
+    },
+    {
+      "group": "securities",
+      "company": "0010129",
+      "name": "한국투자증권",
+      "table": "SF331",
+      "account": "C",
+      "label": "레버리지비율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원, %",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010129",
+            "finance_nm": "한국투자증권",
+            "account_cd": "C",
+            "account_nm": "레버리지비율",
+            "a": "643.4"
+          }
+        ]
+      }
+    },
+    {
+      "group": "securities",
+      "company": "0010129",
+      "name": "한국투자증권",
+      "table": "SF209",
+      "account": "C",
+      "label": "유동성비율(A/B×100)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "금액"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010129",
+            "finance_nm": "한국투자증권",
+            "account_cd": "C",
+            "account_nm": "유동성비율(A/B×100)",
+            "a": "122.26"
+          }
+        ]
+      }
+    },
+    {
+      "group": "securities",
+      "company": "0010106",
+      "name": "KB증권주식회사",
+      "table": "SF308",
+      "account": "E",
+      "label": "순자본비율(C/D×100)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "금액"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010106",
+            "finance_nm": "KB증권주식회사",
+            "account_cd": "E",
+            "account_nm": "순자본비율(C/D×100)",
+            "a": "1082.95"
+          }
+        ]
+      }
+    },
+    {
+      "group": "securities",
+      "company": "0010106",
+      "name": "KB증권주식회사",
+      "table": "SF331",
+      "account": "C",
+      "label": "레버리지비율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원, %",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010106",
+            "finance_nm": "KB증권주식회사",
+            "account_cd": "C",
+            "account_nm": "레버리지비율",
+            "a": "754.7"
+          }
+        ]
+      }
+    },
+    {
+      "group": "securities",
+      "company": "0010106",
+      "name": "KB증권주식회사",
+      "table": "SF209",
+      "account": "C",
+      "label": "유동성비율(A/B×100)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "금액"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010106",
+            "finance_nm": "KB증권주식회사",
+            "account_cd": "C",
+            "account_nm": "유동성비율(A/B×100)",
+            "a": "116"
+          }
+        ]
+      }
+    },
+    {
+      "group": "securities",
+      "company": "0010091",
+      "name": "신한투자증권 주식회사",
+      "table": "SF308",
+      "account": "E",
+      "label": "순자본비율(C/D×100)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "금액"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010091",
+            "finance_nm": "신한투자증권 주식회사",
+            "account_cd": "E",
+            "account_nm": "순자본비율(C/D×100)",
+            "a": "1776.69"
+          }
+        ]
+      }
+    },
+    {
+      "group": "securities",
+      "company": "0010091",
+      "name": "신한투자증권 주식회사",
+      "table": "SF331",
+      "account": "C",
+      "label": "레버리지비율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원, %",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010091",
+            "finance_nm": "신한투자증권 주식회사",
+            "account_cd": "C",
+            "account_nm": "레버리지비율",
+            "a": "700.1"
+          }
+        ]
+      }
+    },
+    {
+      "group": "securities",
+      "company": "0010091",
+      "name": "신한투자증권 주식회사",
+      "table": "SF209",
+      "account": "C",
+      "label": "유동성비율(A/B×100)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "금액"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010091",
+            "finance_nm": "신한투자증권 주식회사",
+            "account_cd": "C",
+            "account_nm": "유동성비율(A/B×100)",
+            "a": "128.02"
+          }
+        ]
+      }
+    },
+    {
+      "group": "securities",
+      "company": "0010090",
+      "name": "교보증권(주)",
+      "table": "SF308",
+      "account": "E",
+      "label": "순자본비율(C/D×100)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "금액"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010090",
+            "finance_nm": "교보증권(주)",
+            "account_cd": "E",
+            "account_nm": "순자본비율(C/D×100)",
+            "a": "926.83"
+          }
+        ]
+      }
+    },
+    {
+      "group": "securities",
+      "company": "0010090",
+      "name": "교보증권(주)",
+      "table": "SF331",
+      "account": "C",
+      "label": "레버리지비율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원, %",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010090",
+            "finance_nm": "교보증권(주)",
+            "account_cd": "C",
+            "account_nm": "레버리지비율",
+            "a": "802.8"
+          }
+        ]
+      }
+    },
+    {
+      "group": "securities",
+      "company": "0010090",
+      "name": "교보증권(주)",
+      "table": "SF209",
+      "account": "C",
+      "label": "유동성비율(A/B×100)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "금액"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010090",
+            "finance_nm": "교보증권(주)",
+            "account_cd": "C",
+            "account_nm": "유동성비율(A/B×100)",
+            "a": "137.25"
+          }
+        ]
+      }
+    },
+    {
+      "group": "card_only",
+      "company": "0010228",
+      "name": "삼성카드㈜",
+      "table": "SC007",
+      "account": "A",
+      "label": "조정자기자본비율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010228",
+            "finance_nm": "삼성카드㈜",
+            "account_cd": "A",
+            "account_nm": "조정자기자본비율",
+            "a": "30.36"
+          }
+        ]
+      }
+    },
+    {
+      "group": "card_only",
+      "company": "0010228",
+      "name": "삼성카드㈜",
+      "table": "SC008",
+      "account": "D",
+      "label": "고정이하여신비율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010228",
+            "finance_nm": "삼성카드㈜",
+            "account_cd": "D",
+            "account_nm": "고정이하여신비율",
+            "a": ".74"
+          }
+        ]
+      }
+    },
+    {
+      "group": "card_only",
+      "company": "0010228",
+      "name": "삼성카드㈜",
+      "table": "SC010",
+      "account": "A",
+      "label": "원화 유동성비율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010228",
+            "finance_nm": "삼성카드㈜",
+            "account_cd": "A",
+            "account_nm": "원화 유동성비율",
+            "a": "491.33"
+          }
+        ]
+      }
+    },
+    {
+      "group": "card_only",
+      "company": "0010228",
+      "name": "삼성카드㈜",
+      "table": "SC117",
+      "account": "B",
+      "label": "연체채권비율(1개월 이상)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "금액"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010228",
+            "finance_nm": "삼성카드㈜",
+            "account_cd": "B",
+            "account_nm": "연체채권비율(1개월 이상)",
+            "a": ".94"
+          }
+        ]
+      }
+    },
+    {
+      "group": "card_only",
+      "company": "0010229",
+      "name": "신한카드㈜",
+      "table": "SC007",
+      "account": "A",
+      "label": "조정자기자본비율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010229",
+            "finance_nm": "신한카드㈜",
+            "account_cd": "A",
+            "account_nm": "조정자기자본비율",
+            "a": "20.76"
+          }
+        ]
+      }
+    },
+    {
+      "group": "card_only",
+      "company": "0010229",
+      "name": "신한카드㈜",
+      "table": "SC008",
+      "account": "D",
+      "label": "고정이하여신비율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010229",
+            "finance_nm": "신한카드㈜",
+            "account_cd": "D",
+            "account_nm": "고정이하여신비율",
+            "a": "1.16"
+          }
+        ]
+      }
+    },
+    {
+      "group": "card_only",
+      "company": "0010229",
+      "name": "신한카드㈜",
+      "table": "SC010",
+      "account": "A",
+      "label": "원화 유동성비율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010229",
+            "finance_nm": "신한카드㈜",
+            "account_cd": "A",
+            "account_nm": "원화 유동성비율",
+            "a": "316.91"
+          }
+        ]
+      }
+    },
+    {
+      "group": "card_only",
+      "company": "0010229",
+      "name": "신한카드㈜",
+      "table": "SC117",
+      "account": "B",
+      "label": "연체채권비율(1개월 이상)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "금액"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010229",
+            "finance_nm": "신한카드㈜",
+            "account_cd": "B",
+            "account_nm": "연체채권비율(1개월 이상)",
+            "a": "1.18"
+          }
+        ]
+      }
+    },
+    {
+      "group": "card_only",
+      "company": "0010225",
+      "name": "현대카드㈜",
+      "table": "SC007",
+      "account": "A",
+      "label": "조정자기자본비율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010225",
+            "finance_nm": "현대카드㈜",
+            "account_cd": "A",
+            "account_nm": "조정자기자본비율",
+            "a": "16.79"
+          }
+        ]
+      }
+    },
+    {
+      "group": "card_only",
+      "company": "0010225",
+      "name": "현대카드㈜",
+      "table": "SC008",
+      "account": "D",
+      "label": "고정이하여신비율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010225",
+            "finance_nm": "현대카드㈜",
+            "account_cd": "D",
+            "account_nm": "고정이하여신비율",
+            "a": ".83"
+          }
+        ]
+      }
+    },
+    {
+      "group": "card_only",
+      "company": "0010225",
+      "name": "현대카드㈜",
+      "table": "SC010",
+      "account": "A",
+      "label": "원화 유동성비율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010225",
+            "finance_nm": "현대카드㈜",
+            "account_cd": "A",
+            "account_nm": "원화 유동성비율",
+            "a": "608.4"
+          }
+        ]
+      }
+    },
+    {
+      "group": "card_only",
+      "company": "0010225",
+      "name": "현대카드㈜",
+      "table": "SC117",
+      "account": "B",
+      "label": "연체채권비율(1개월 이상)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "금액"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010225",
+            "finance_nm": "현대카드㈜",
+            "account_cd": "B",
+            "account_nm": "연체채권비율(1개월 이상)",
+            "a": ".79"
+          }
+        ]
+      }
+    },
+    {
+      "group": "card_only",
+      "company": "0012627",
+      "name": "㈜케이비국민카드",
+      "table": "SC007",
+      "account": "A",
+      "label": "조정자기자본비율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0012627",
+            "finance_nm": "㈜케이비국민카드",
+            "account_cd": "A",
+            "account_nm": "조정자기자본비율",
+            "a": "20"
+          }
+        ]
+      }
+    },
+    {
+      "group": "card_only",
+      "company": "0012627",
+      "name": "㈜케이비국민카드",
+      "table": "SC008",
+      "account": "D",
+      "label": "고정이하여신비율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0012627",
+            "finance_nm": "㈜케이비국민카드",
+            "account_cd": "D",
+            "account_nm": "고정이하여신비율",
+            "a": ".93"
+          }
+        ]
+      }
+    },
+    {
+      "group": "card_only",
+      "company": "0012627",
+      "name": "㈜케이비국민카드",
+      "table": "SC010",
+      "account": "A",
+      "label": "원화 유동성비율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0012627",
+            "finance_nm": "㈜케이비국민카드",
+            "account_cd": "A",
+            "account_nm": "원화 유동성비율",
+            "a": "379.09"
+          }
+        ]
+      }
+    },
+    {
+      "group": "card_only",
+      "company": "0012627",
+      "name": "㈜케이비국민카드",
+      "table": "SC117",
+      "account": "B",
+      "label": "연체채권비율(1개월 이상)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "금액"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0012627",
+            "finance_nm": "㈜케이비국민카드",
+            "account_cd": "B",
+            "account_nm": "연체채권비율(1개월 이상)",
+            "a": ".97"
+          }
+        ]
+      }
+    },
+    {
+      "group": "card_only",
+      "company": "0010226",
+      "name": "롯데카드㈜",
+      "table": "SC007",
+      "account": "A",
+      "label": "조정자기자본비율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010226",
+            "finance_nm": "롯데카드㈜",
+            "account_cd": "A",
+            "account_nm": "조정자기자본비율",
+            "a": "16.02"
+          }
+        ]
+      }
+    },
+    {
+      "group": "card_only",
+      "company": "0010226",
+      "name": "롯데카드㈜",
+      "table": "SC008",
+      "account": "D",
+      "label": "고정이하여신비율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010226",
+            "finance_nm": "롯데카드㈜",
+            "account_cd": "D",
+            "account_nm": "고정이하여신비율",
+            "a": "2.15"
+          }
+        ]
+      }
+    },
+    {
+      "group": "card_only",
+      "company": "0010226",
+      "name": "롯데카드㈜",
+      "table": "SC010",
+      "account": "A",
+      "label": "원화 유동성비율",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "값"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010226",
+            "finance_nm": "롯데카드㈜",
+            "account_cd": "A",
+            "account_nm": "원화 유동성비율",
+            "a": "413.96"
+          }
+        ]
+      }
+    },
+    {
+      "group": "card_only",
+      "company": "0010226",
+      "name": "롯데카드㈜",
+      "table": "SC117",
+      "account": "B",
+      "label": "연체채권비율(1개월 이상)",
+      "status": "rows_received",
+      "response": {
+        "err_cd": "000",
+        "total_count": "1",
+        "description": [
+          {
+            "column_id": "a",
+            "column_nm": "금액"
+          }
+        ],
+        "date_of_settlement": "12/31",
+        "unit": "원,%",
+        "list": [
+          {
+            "base_month": "202512",
+            "finance_cd": "0010226",
+            "finance_nm": "롯데카드㈜",
+            "account_cd": "B",
+            "account_nm": "연체채권비율(1개월 이상)",
+            "a": "2.11"
+          }
+        ]
+      }
+    }
+  ]
+}

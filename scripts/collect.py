@@ -9,6 +9,10 @@ import requests
 import xml.etree.ElementTree as ET
 from analyst_consensus import load_and_score_consensus
 from recommendation_performance import update_recommendation_performance, build_performance_summary, STRATEGY_LABELS
+from industry_relative import score_industry_relative, aggregate_candidate
+from dart_capital_metrics import extract_capital_metrics, industry_metrics_for_scoring, pick_standard_account
+from financial_industry import financial_model_for, load_financial_observations, external_financial_peers
+from metric_quality import assess_industry_metrics, admitted_industry_metrics
 
 KRX_URL = os.getenv("KRX_API_BASE", "https://data-dbg.krx.co.kr/svc/apis/sto/stk_bydd_trd")
 KRX_KEY = os.getenv("KRX_AUTH_KEY", "").strip()
@@ -44,7 +48,7 @@ def request_with_retry(method, url, attempts=3, **kwargs):
             if attempt + 1 >= attempts:
                 raise
             delay = min(0.8 * (2 ** attempt), 5.0)
-            print(f"[API RETRY] {method} {url}: {str(exc)[:100]} / {attempt + 1}/{attempts}, {delay:.1f}s 후 재시도", flush=True)
+            print(f"[API RETRY] {method} {url}: {type(exc).__name__} / {attempt + 1}/{attempts}, {delay:.1f}s 후 재시도", flush=True)
             time.sleep(delay)
     raise last_error
 
@@ -81,9 +85,13 @@ def has_financial_metrics(metrics):
     """A cache entry is valid only when at least one actual financial value exists."""
     if not isinstance(metrics, dict):
         return False
+    industry = metrics.get("industry_metrics") if isinstance(metrics.get("industry_metrics"), dict) else {}
     return any(metrics.get(key) is not None for key in (
         "roe_pct", "sales_growth_pct", "operating_profit_growth_pct",
         "net_income", "equity_total",
+    )) or any(industry.get(key) is not None for key in (
+        "operating_margin_pct", "roic_pct", "asset_turnover",
+        "net_debt_to_ebitda", "cash_conversion_pct",
     ))
 
 
@@ -508,14 +516,18 @@ def load_dart_sector_classification(stocks):
                 continue
             if code:
                 time.sleep(float(os.getenv("DART_COMPANY_PAUSE_SECONDS", "0.2")))
-        category = classify_industry_code(code)
-        if category:
-            results[ticker] = {
-                "sector": category,
+        if code:
+            metadata = {
                 "sector_industry_code": code,
                 "sector_source": "OpenDART industry code",
                 "sector_confidence": "high",
             }
+            category = classify_industry_code(code)
+            # Keep exact official code even when the broad display-sector map
+            # does not recognize it; peer grouping must not collapse to 12 sectors.
+            if category:
+                metadata["sector"] = category
+            results[ticker] = metadata
 
     results = apply_sector_overrides(stocks, results)
     SECTOR_CACHE_FILE.write_text(json.dumps(cache, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -668,14 +680,40 @@ def dart_company_financial(corp_code, year):
             break
     return None, None, last_message
 
-def extract_financial(items):
-    sales = pick_account(items, ["매출액", "수익(매출액)", "영업수익"])
-    op = pick_account(items, ["영업이익", "영업이익(손실)"])
-    net = pick_account(items, [
-        "지배기업의 소유주에게 귀속되는 당기순이익",
-        "당기순이익", "당기순이익(손실)",
-    ])
-    equity = pick_account(items, ["자본총계"])
+def pick_statement_account(items, statement, names):
+    """Pick an account only from its declared statement section.
+
+    OpenDART may label a comprehensive income statement as CIS (not IS),
+    especially in consolidated filings. Accept explicit aliases without
+    mixing balance-sheet or cash-flow rows into income-statement metrics.
+    """
+    statements = (statement,) if isinstance(statement, str) else tuple(statement)
+    for code in statements:
+        scoped = [item for item in items if item.get("sj_div") == code]
+        found = pick_account(scoped, names)
+        if found is not None:
+            return found
+    return None
+
+
+def extract_financial(items, ticker=None, financial_year=None, fs_div=None, xbrl_note=None):
+    """Extract verified annual financial values; unsupported ratios remain null."""
+    income = ("IS", "CIS")
+    sales = pick_standard_account(items, income, ["매출액", "수익(매출액)", "영업수익", "매출"],
+                                  ["ifrs-full_Revenue", "ifrs_Revenue"])
+    op = pick_standard_account(items, income, ["영업이익", "영업이익(손실)", "영업손익"],
+                               ["dart_OperatingIncomeLoss", "ifrs-full_ProfitLossFromOperatingActivities"])
+    # Preserve owner-attributable earnings priority for per-share valuation.
+    net = pick_standard_account(items, income, ["지배기업의 소유주에게 귀속되는 당기순이익"],
+                                ["ifrs-full_ProfitLossAttributableToOwnersOfParent"])
+    if net is None and fs_div != "CFS":
+        net = pick_standard_account(items, income, ["당기순이익", "당기순이익(손실)", "당기순이익(손실)(*)"],
+                                    ["ifrs-full_ProfitLoss", "ifrs_ProfitLoss"])
+    equity = pick_standard_account(items, ("BS",), ["자본총계"], ["ifrs-full_Equity", "ifrs_Equity"])
+    assets = pick_standard_account(items, ("BS",), ["자산총계"], ["ifrs-full_Assets", "ifrs_Assets"])
+    cfo = pick_standard_account(items, ("CF",), [
+        "영업활동으로 인한 현금흐름", "영업활동현금흐름", "영업활동으로부터의 현금흐름",
+    ], ["ifrs-full_CashFlowsFromUsedInOperatingActivities", "ifrs_CashFlowsFromUsedInOperatingActivities"])
     sales_now = amount(sales) if sales else None
     sales_prev = previous_amount(sales) if sales else None
     op_now = amount(op) if op else None
@@ -683,16 +721,44 @@ def extract_financial(items):
     net_now = amount(net) if net else None
     equity_now = amount(equity) if equity else None
     equity_prev = previous_amount(equity) if equity else None
-    financial_currency = (equity or net or {}).get("currency")
+    assets_now = amount(assets) if assets else None
+    assets_prev = previous_amount(assets) if assets else None
+    cfo_now = amount(cfo) if cfo else None
+    financial_currency = (equity or net or sales or {}).get("currency")
     sales_growth = ((sales_now / sales_prev) - 1) * 100 if sales_now is not None and sales_prev not in (None, 0) else None
     op_growth = ((op_now / op_prev) - 1) * 100 if op_now is not None and op_prev not in (None, 0) else None
     avg_equity = ((equity_now + equity_prev) / 2) if equity_now is not None and equity_prev not in (None, 0) else None
+    avg_assets = ((assets_now + assets_prev) / 2) if assets_now is not None and assets_prev not in (None, 0) else None
     roe = (net_now / avg_equity) * 100 if net_now is not None and avg_equity not in (None, 0) else None
+    operating_margin = (op_now / sales_now) * 100 if op_now is not None and sales_now not in (None, 0) else None
+    asset_turnover = sales_now / avg_assets if sales_now is not None and avg_assets not in (None, 0) else None
+    cash_conversion = (cfo_now / op_now) * 100 if cfo_now is not None and op_now is not None and op_now > 0 else None
+    capital = extract_capital_metrics(items, ticker=ticker, financial_year=financial_year, fs_div=fs_div, xbrl_note=xbrl_note)
+    industry_values = {
+        "operating_margin_pct": operating_margin,
+        "roic_pct": capital["roic_pct"],
+        "asset_turnover": asset_turnover,
+        "net_debt_to_ebitda": capital["net_debt_to_ebitda"],
+        "cash_conversion_pct": cash_conversion,
+    }
+    quality = assess_industry_metrics(industry_values, items, financial_year, fs_div,
+        {"operating_margin_pct":[op,sales], "asset_turnover":[sales,assets],
+         "cash_conversion_pct":[cfo,op]}, capital["capital_metric_audit"])
     return {
         "roe_pct": roe, "sales_growth_pct": sales_growth,
         "operating_profit_growth_pct": op_growth,
         "net_income": net_now, "equity_total": equity_now,
         "financial_currency": financial_currency,
+        "industry_metrics": industry_values,
+        "industry_metric_quality": quality,
+        "capital_metric_audit": capital["capital_metric_audit"],
+        "industry_metric_sources": {
+            "roic_pct": "OpenDART annual BS/IS/CIS; observed effective tax, average invested capital",
+            "net_debt_to_ebitda": "OpenDART annual BS/IS/CIS/CF; reported borrowing incl. bonds, excl. separately reported lease liabilities",
+            "operating_margin_pct": "OpenDART IS",
+            "asset_turnover": "OpenDART IS + BS average total assets",
+            "cash_conversion_pct": "OpenDART CF / IS",
+        },
     }
 
 def calculate_valuation(market_cap, net_income, equity_total, currency):
@@ -739,7 +805,7 @@ def collect_dart(stocks):
             try:
                 saved = dt.datetime.fromisoformat(cached.get("cached_at", "").replace("Z", "+00:00"))
                 cached_metrics = cached.get("metrics", {})
-                fresh = (now - saved).days < CACHE_DAYS and cached.get("financial_year") == year and has_financial_metrics(cached_metrics)
+                fresh = (now - saved).days < CACHE_DAYS and cached.get("financial_year") == year and cached.get("schema_version") == 7 and has_financial_metrics(cached_metrics)
             except Exception:
                 fresh = False
         if fresh:
@@ -761,13 +827,13 @@ def collect_dart(stocks):
                 failures += 1
                 print(f"[DART] {index}/{len(todo)} {stock['ticker']} {stock['name']}: 자료 없음 ({message})", flush=True)
                 continue
-            metrics = extract_financial(items)
-            if not any(value is not None for value in metrics.values()):
+            metrics = extract_financial(items, ticker=stock['ticker'], financial_year=year, fs_div=fs_div)
+            if not has_financial_metrics(metrics):
                 failures += 1
                 print(f"[DART] {index}/{len(todo)} {stock['ticker']} {stock['name']}: 필요한 계정과목 미확인", flush=True)
                 continue
             cache[stock["ticker"]] = {
-                "cached_at": now.isoformat(), "financial_year": year,
+                "cached_at": now.isoformat(), "financial_year": year, "schema_version": 7,
                 "corp_code": corp, "fs_div": fs_div, "metrics": metrics,
             }
             results[stock["ticker"]] = metrics
@@ -790,7 +856,7 @@ def collect_dart(stocks):
             fresh = (
                 (now - saved).days < CACHE_DAYS
                 and cached.get("financial_year") == year
-                and has_financial_metrics(metrics)
+                and cached.get("schema_version") == 7 and has_financial_metrics(metrics)
             )
         except Exception:
             fresh = False
@@ -1030,7 +1096,7 @@ def main():
     for stock in stocks:
         metrics = financial.get(stock["ticker"], {})
         stock.update(metrics)
-        stock["financial_metrics_available"] = any(v is not None for v in metrics.values())
+        stock["financial_metrics_available"] = has_financial_metrics(metrics)
         market_cap = stock.get("market_cap")
         net_income = metrics.get("net_income")
         equity_total = metrics.get("equity_total")
@@ -1134,6 +1200,39 @@ def main():
         x["growth_score"] = growth
         x["momentum_score"] = mom
 
+    # Isolated v3.3 candidate: exact OpenDART industry-code peers only.
+    # Preferred shares must not inflate the peer count of an issuer.
+    financial_period = str(dt.date.today().year - 1) + "-12"
+    financial_observations = load_financial_observations(period=financial_period)
+    candidate_peer_rows = []
+    for item in stocks:
+        if item["ticker"] in PREFERRED_SHARE_PARENT:
+            continue
+        candidate_peer_rows.append({
+            "ticker": item["ticker"],
+            "industry_code": item.get("sector_industry_code"),
+            "industry_confidence": item.get("sector_confidence"),
+            "financial_model": financial_model_for(item["ticker"], item.get("sector_industry_code"), item.get("sector")),
+            "financial_period": financial_period,
+            "financial_observations": financial_observations.get(item["ticker"]),
+            "industry_metrics": industry_metrics_for_scoring(
+                admitted_industry_metrics(item.get("industry_metrics"), item.get("industry_metric_quality") or {}, financial_period[:4]),
+                item.get("sector_industry_code"), item.get("sector")),
+        })
+    # Non-listed financial entities are comparison-only, never recommendation candidates.
+    candidate_peer_rows.extend(external_financial_peers(listed_records=financial_observations))
+    for item in stocks:
+        if item["ticker"] in PREFERRED_SHARE_PARENT:
+            relative = {"status": "전략 제외", "official_score": None, "provisional_score": None,
+                        "coverage_pct": 0, "details": {}}
+        else:
+            relative = score_industry_relative(candidate_peer_rows, item["ticker"])
+        item["v33_candidate"] = aggregate_candidate(
+            item.get("component_scores", {}),
+            item.get("component_coverage_pct", {}),
+            relative,
+        )
+
     # Category lists only include stocks with real data for that category.
     def top(field, coverage_field=None, minimum_coverage=0):
         pool = [x for x in stocks if x.get(field) is not None and (coverage_field is None or x.get(coverage_field, 0) >= minimum_coverage)]
@@ -1187,7 +1286,7 @@ def main():
     )
 
     def compact(items, list_key):
-        keys = ["ticker", "name", "sector", "sector_raw", "sector_industry", "sector_industry_code", "sector_source", "sector_confidence", "close", "change_pct", "market_cap", "per", "pbr", "valuation_as_of", "net_income", "equity_total", "score", "provisional_score", "score_coverage_pct", "grade", "provisional_grade", "status", "official_recommendation_eligible", "component_scores", "component_coverage_pct", "financial_score", "growth_score", "momentum_score", "foreign_flow_score", "institution_flow_score", "roe_pct", "sales_growth_pct", "operating_profit_growth_pct", "momentum_5d", "momentum_20d", "momentum_60d", "history_observations", "trading_value", "foreign_net_buy_qty_5d", "institution_net_buy_qty_5d", "foreign_flow_5d_pct", "institution_flow_5d_pct", "investor_flow_as_of", "investor_flow_sessions", "reason", "risk_factors", "strategy_excluded", "strategy_exclusion_reason", "analyst_report_count", "analyst_broker_count", "analyst_avg_target_price", "analyst_avg_upside_pct", "analyst_rating_score", "analyst_consensus_score", "analyst_consensus_coverage_pct", "analyst_latest_report_date", "analyst_target_revision_pct", "analyst_recent_reports", "analyst_monthly_report_counts", "analyst_sources"]
+        keys = ["ticker", "name", "sector", "sector_raw", "sector_industry", "sector_industry_code", "sector_source", "sector_confidence", "close", "change_pct", "market_cap", "per", "pbr", "valuation_as_of", "net_income", "equity_total", "score", "provisional_score", "score_coverage_pct", "grade", "provisional_grade", "status", "official_recommendation_eligible", "component_scores", "component_coverage_pct", "industry_metrics", "industry_metric_sources", "capital_metric_audit", "v33_candidate", "financial_score", "growth_score", "momentum_score", "foreign_flow_score", "institution_flow_score", "roe_pct", "sales_growth_pct", "operating_profit_growth_pct", "momentum_5d", "momentum_20d", "momentum_60d", "history_observations", "trading_value", "foreign_net_buy_qty_5d", "institution_net_buy_qty_5d", "foreign_flow_5d_pct", "institution_flow_5d_pct", "investor_flow_as_of", "investor_flow_sessions", "reason", "risk_factors", "strategy_excluded", "strategy_exclusion_reason", "analyst_report_count", "analyst_broker_count", "analyst_avg_target_price", "analyst_avg_upside_pct", "analyst_rating_score", "analyst_consensus_score", "analyst_consensus_coverage_pct", "analyst_latest_report_date", "analyst_target_revision_pct", "analyst_recent_reports", "analyst_monthly_report_counts", "analyst_sources"]
         out = []
         for x in items:
             row = {k: x.get(k) for k in keys}
@@ -1197,9 +1296,25 @@ def main():
             elif list_key == "foreign_flow": row["list_score"] = x.get("foreign_flow_score"); row["list_coverage_pct"] = x.get("component_coverage_pct", {}).get("foreign_flow", 0)
             elif list_key == "institution_flow": row["list_score"] = x.get("institution_flow_score"); row["list_coverage_pct"] = x.get("component_coverage_pct", {}).get("institution_flow", 0)
             elif list_key == "undervalued": row["list_score"] = x.get("component_scores", {}).get("valuation"); row["list_coverage_pct"] = x.get("component_coverage_pct", {}).get("valuation", 0)
+            elif list_key == "v33_official": row["list_score"] = x.get("v33_candidate", {}).get("score"); row["list_coverage_pct"] = x.get("v33_candidate", {}).get("coverage_pct", 0)
+            elif list_key == "v33_provisional": row["list_score"] = x.get("v33_candidate", {}).get("provisional_score"); row["list_coverage_pct"] = x.get("v33_candidate", {}).get("coverage_pct", 0)
             else: row["list_score"] = x.get("score"); row["list_coverage_pct"] = x.get("score_coverage_pct", 0)
             out.append(row)
         return out
+
+    # Independent v3.3 TOP15 outputs. They are separate from the v3.2
+    # recommendation lists and only include official candidates with full coverage.
+    v33_official = sorted(
+        [x for x in stocks if x.get("v33_candidate", {}).get("official_recommendation_eligible")
+         and x.get("v33_candidate", {}).get("score") is not None],
+        key=lambda x: (-x["v33_candidate"]["score"], x["ticker"]),
+    )[:15]
+    v33_provisional = sorted(
+        [x for x in stocks if x.get("v33_candidate", {}).get("provisional_score") is not None
+         and not x.get("v33_candidate", {}).get("official_recommendation_eligible")
+         and x.get("v33_candidate", {}).get("status") != "전략 제외"],
+        key=lambda x: (-x["v33_candidate"]["provisional_score"], -x["v33_candidate"]["coverage_pct"], x["ticker"]),
+    )[:15]
 
     sector_groups = {}
     for stock in stocks:
@@ -1235,6 +1350,17 @@ def main():
         "as_of": asof.isoformat(),
         "market": {"kospi": kospi.get("close") if kospi else None, "kospi_change_pct": kospi.get("change_pct") if kospi else None, "analyzed_count": len(stocks), "advancers": sum(1 for x in stocks if (x.get("change_pct") or 0) > 0), "decliners": sum(1 for x in stocks if (x.get("change_pct") or 0) < 0)},
         "lists": {k: compact(v, k) for k, v in lists.items()},
+        "candidate_models": {
+            "3.3-candidate": {
+                "status": "개발 후보 · 미배포",
+                "official_top15": compact(v33_official, "v33_official"),
+                "provisional_top15": compact(v33_provisional, "v33_provisional"),
+                "official_eligible_count": sum(1 for x in stocks if x.get("v33_candidate", {}).get("official_recommendation_eligible")),
+                "industry_peer_group_count": len({x.get("sector_industry_code") for x in stocks if x.get("sector_industry_code") and x.get("sector_confidence") in ("high", "verified")}),
+                "industry_relative_complete_count": sum(1 for x in stocks if x.get("v33_candidate", {}).get("industry_relative", {}).get("status") == "산출 완료"),
+                "note": "v3.2 운영 추천목록과 분리. 공식 TOP15는 8개 평가영역의 데이터 충족률이 모두 100%인 종목만 포함하며, 잠정 TOP15는 별도 표시."
+            }
+        },
         "sector_top5": sector_top5,
         "sector_summary": sector_summary,
         "top15": compact(official, "overall"),
@@ -1242,7 +1368,7 @@ def main():
         "performance": {"snapshots": len(perf), "kospi_history_sessions": kospi_history_sessions, "note": "추천일 종가 기준 실제 후속 거래일 종가로 1주(5거래일)·1개월(20거래일)·3개월(60거래일) 성과를 계산합니다. 7개 전략별 평균수익률, KOSPI 초과수익률, 절대수익 성공률 및 시장초과 성공률을 추적합니다."},
         "data_quality": {"label": "v3.2 베타 · 시가총액 상위 300개 · 가격 이력 누적", "note": dart_note + ". " + sector_note + ". " + kis_note + ". " + analyst_note + ". PER/PBR은 KRX 시가총액과 OpenDART 최신 연간 순이익·자본총계로 산출하며 적자·자본잠식은 제외합니다.", "official_top15_count": len(official), "sector_classified_count": sum(1 for x in stocks if x.get("sector")), "sector_unclassified_count": sum(1 for x in stocks if not x.get("sector")), "sector_classification_pct": round(100 * sum(1 for x in stocks if x.get("sector")) / len(stocks), 1) if stocks else 0, "sector_classification_source_count": sum(1 for x in stocks if x.get("sector")), "sector_classification_sources": {"opendart_industry_code": sum(1 for x in stocks if x.get("sector_source") == "OpenDART industry code"), "fdr_krx_desc": sum(1 for x in stocks if x.get("sector_source") == "KRX-DESC"), "same_issuer_ordinary_share": sum(1 for x in stocks if x.get("sector_source") == "Same issuer ordinary share"), "manual_verified_company_mapping": sum(1 for x in stocks if x.get("sector_source") == "Manual verified company mapping")}, "sector_count": len(sector_summary), "coverage_gate": "7개 평가영역의 실제 확보 가중치가 100%일 때만 공식 추천 점수/등급 부여", "financial_universe_batch": FINANCIAL_UNIVERSE, "financial_universe_total": len(stocks), "market_cap_covered_count": len(cap_covered), "universe_limit": 300, "history_sessions_available": history_sessions_available, "history_sessions_required": 61, "history_progress_pct": round(min(history_sessions_available, 61) / 61 * 100, 1), "kis_flow_coverage_count": len(investor_flows), "foreign_flow_coverage_count": sum(1 for x in stocks if x.get("foreign_flow_5d_pct") is not None), "institution_flow_coverage_count": sum(1 for x in stocks if x.get("institution_flow_5d_pct") is not None), "analyst_report_count": sum(int(x.get("analyst_report_count", 0) or 0) for x in analyst_data.values()), "analyst_covered_stock_count": len(analyst_data), "analyst_three_broker_count": sum(1 for x in analyst_data.values() if x.get("analyst_broker_count", 0) >= 3), "analyst_full_factor_coverage_count": sum(1 for x in analyst_data.values() if x.get("analyst_consensus_coverage_pct", 0) >= 99.99), "analyst_revision_covered_count": sum(1 for x in analyst_data.values() if x.get("analyst_target_revision_pct") is not None), "analyst_upgrades_in_top15_count": len(analyst_upgrades_in_top15)},
         "providers": {"krx": "connected", "kospi_index": "connected" if kospi else "configured_no_data", "opendart": "connected" if financial else ("configured_no_data" if DART_KEY else "not_configured"), "investor_flows": "connected" if investor_flows else ("configured_no_data" if os.getenv("KIS_APP_KEY") and os.getenv("KIS_APP_SECRET") else "not_configured"), "valuation": "connected" if any(x.get("per") is not None or x.get("pbr") is not None for x in stocks) else "configured_no_data", "analyst_consensus": "connected" if analyst_data else "configured_no_data"},
-        "model": {"version": "3.2-beta", "weights": {"financial_health_profitability": 20, "growth": 20, "price_momentum": 15, "foreign_flow": 15, "institution_flow": 10, "valuation_per_pbr": 10, "broker_outlook": 10}, "grade_thresholds": {"S": 90, "A": 80, "B": 70, "C": 60, "D": "below_60"}, "grade_statuses": {"insufficient_data": "데이터 부족", "strategy_excluded": "전략 제외"}, "note": "확정 100점 배점 유지. 부분 데이터는 provisional_score로만 표시하고 공식 score/grade를 부여하지 않음. 모멘텀은 현재 종가를 포함해 61개 거래일 종가(직전 60거래일 비교)가 누적되어야 산출."}
+        "model": {"version": "3.2-beta", "candidate_models": {"3.3-candidate": {"status": "개발 후보 · 미배포", "weights": {"financial_health_profitability": 20, "growth": 15, "price_momentum": 10, "foreign_flow": 10, "institution_flow": 10, "valuation_per_pbr": 15, "broker_outlook": 10, "industry_relative": 10}, "note": "v3.2 점수·TOP15를 변경하지 않는 별도 후보 데이터. 업종 상대평가는 정확히 일치하는 OpenDART 업종코드 peer만 사용. candidate_models.3.3-candidate에서 공식/잠정 TOP15를 분리 제공."}}, "weights": {"financial_health_profitability": 20, "growth": 20, "price_momentum": 15, "foreign_flow": 15, "institution_flow": 10, "valuation_per_pbr": 10, "broker_outlook": 10}, "grade_thresholds": {"S": 90, "A": 80, "B": 70, "C": 60, "D": "below_60"}, "grade_statuses": {"insufficient_data": "데이터 부족", "strategy_excluded": "전략 제외"}, "note": "확정 100점 배점 유지. 부분 데이터는 provisional_score로만 표시하고 공식 score/grade를 부여하지 않음. 모멘텀은 현재 종가를 포함해 61개 거래일 종가(직전 60거래일 비교)가 누적되어야 산출."}
     }
     (OUT / "latest.json").write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"[완료] v3.2-beta {asof}: KRX {len(stocks)}개 / DART 재무 {len(financial)}개 / 공식추천 가능 {len(official)}개", flush=True)

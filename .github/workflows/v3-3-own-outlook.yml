@@ -1,0 +1,109 @@
+name: Q Stone Park v3.3 outlook source and own forecast experiment
+on:
+  push:
+    branches:
+      - v3-3-industry-relative-model
+    paths:
+      - '.github/workflows/v3-3-own-outlook.yml'
+permissions:
+  contents: read
+  actions: read
+jobs:
+  guidance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install requests lxml
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-forward-guidance-candidates
+          run-id: 45657812226
+          github-token: ${{ github.token }}
+          path: guidance-candidates
+      - run: python -u audit_tools/guidance_documents.py
+        env:
+          DART_AUTH_KEY: ${{ secrets.DART_AUTH_KEY }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v33-guidance-recovery
+          path: audit-guidance-documents/
+          retention-days: 14
+  targeted:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install requests
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-top300-preflight
+          run-id: 45625150031
+          github-token: ${{ github.token }}
+          path: replay-source
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-outlook-expanded-evidence
+          run-id: 45726434788
+          github-token: ${{ github.token }}
+          path: prior
+      - run: cp prior/data/analyst_reports.json data/analyst_reports.json
+      - run: python -u audit_tools/targeted_outlook.py
+      - run: python -u audit_tools/outlook_policy_audit.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v33-targeted-outlook-evidence
+          path: |
+            audit-targeted-outlook/
+            audit-outlook-policy/
+            data/analyst_reports.json
+          retention-days: 14
+  own-forecast:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install requests
+      - run: python -m unittest discover -s tests -p test_outlook_combined_candidate.py -v
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-top300-preflight
+          run-id: 45625150031
+          github-token: ${{ github.token }}
+          path: replay-source
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-outlook-expanded-evidence
+          run-id: 45726434788
+          github-token: ${{ github.token }}
+          path: prior
+      - run: cp prior/data/analyst_reports.json data/analyst_reports.json
+      - run: python -u audit_tools/own_forecast.py
+        env:
+          DART_AUTH_KEY: ${{ secrets.DART_AUTH_KEY }}
+      - run: python -u audit_tools/combined_outlook_audit.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v33-own-outlook-evidence
+          path: |
+            audit-own-forecast/
+            audit-combined-outlook/
+          retention-days: 14

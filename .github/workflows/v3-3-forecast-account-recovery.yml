@@ -1,0 +1,47 @@
+name: Q Stone Park v3.3 targeted account and listing recovery
+on:
+  push:
+    branches: [v3-3-industry-relative-model]
+    paths: ['.github/workflows/v3-3-forecast-account-recovery.yml']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  recovery:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests lxml
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-top300-preflight
+          run-id: 45625150031
+          github-token: ${{ github.token }}
+          path: replay-source
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-forecast-reuse-evidence
+          run-id: 45816983114
+          github-token: ${{ github.token }}
+          path: reuse
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-forecast-gap-source-candidates
+          run-id: 45817314640
+          github-token: ${{ github.token }}
+          path: gaps
+      - run: python -u audit_tools/forecast_account_recovery.py
+        env:
+          DART_AUTH_KEY: ${{ secrets.DART_AUTH_KEY }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v33-forecast-account-recovery
+          path: audit-forecast-account-recovery/
+          retention-days: 14

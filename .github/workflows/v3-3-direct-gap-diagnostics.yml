@@ -1,0 +1,43 @@
+name: Q Stone Park v3.3 direct gap diagnostics
+on:
+  push:
+    branches:
+      - v3-3-industry-relative-model
+    paths:
+      - '.github/workflows/v3-3-direct-gap-diagnostics.yml'
+permissions:
+  contents: read
+  actions: read
+jobs:
+  explain-direct-gaps:
+    if: github.repository == 'qstonepark76/qstone-stock-analyzer'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install requests
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-top300-preflight
+          run-id: 45625150031
+          github-token: ${{ github.token }}
+          path: replay-source
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-direct-calculation-baseline
+          run-id: 45633144862
+          github-token: ${{ github.token }}
+          path: audit-top300-replay
+      - run: python -u audit_tools/direct_gap_diagnostics.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v33-direct-gap-diagnostics
+          path: audit-direct-diagnostics/
+          if-no-files-found: warn
+          retention-days: 14

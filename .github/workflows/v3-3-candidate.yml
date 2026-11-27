@@ -1,0 +1,232 @@
+name: Q Stone Park v3.3 candidate validation
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - v3-3-industry-relative-model
+    paths:
+      - 'scripts/**'
+      - 'tests/**'
+      - '.github/workflows/v3-3-candidate.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: v33-candidate-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+      - name: Compile candidate engine
+        run: python -m py_compile scripts/industry_relative.py scripts/collect.py scripts/dart_capital_metrics.py scripts/financial_industry.py scripts/audit_v33_dart.py scripts/audit_v33_fisis.py scripts/audit_v33_fisis_values.py scripts/audit_v33_top300.py scripts/metric_quality.py scripts/fisis_auto.py scripts/fisis_holding_auto.py scripts/xbrl_da_rule.py scripts/replay_v33_top300.py scripts/audit_v33_eight_factor.py
+      - name: Run candidate industry-relative tests
+        run: |
+          python -m unittest discover -s tests -p 'test_industry_relative.py' -v
+          python -m unittest discover -s tests -p 'test_v33_dart_metrics.py' -v
+
+  real-dart-audit:
+    # Restrict secrets to this exact repository and candidate branch.
+    if: github.repository == 'qstonepark76/qstone-stock-analyzer' && github.ref == 'refs/heads/v3-3-industry-relative-model' && (github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[dart-audit]'))
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install requests
+      - name: Collect fifteen real annual filings and record coverage
+        env:
+          DART_AUTH_KEY: ${{ secrets.DART_AUTH_KEY }}
+        run: python -u scripts/audit_v33_dart.py
+      - name: Upload public filing audit evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v33-dart-audit
+          path: audit-v33/
+          if-no-files-found: warn
+          retention-days: 14
+
+  fisis-credential-check:
+    # Report credential availability only. No key is printed or transmitted.
+    if: github.repository == 'qstonepark76/qstone-stock-analyzer' && github.ref == 'refs/heads/v3-3-industry-relative-model' && (github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[fisis-check]'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    permissions:
+      contents: read
+    steps:
+      - name: Check configured FISIS credential
+        env:
+          FISIS_AUTH_KEY: ${{ secrets.FISIS_AUTH_KEY }}
+        run: |
+          if [ -n "$FISIS_AUTH_KEY" ]; then
+            echo "FISIS_AUTH_KEY: configured (validity not tested)"
+          else
+            echo "FISIS_AUTH_KEY: not configured under this name"
+          fi
+
+  fisis-metadata-audit:
+    if: github.repository == 'qstonepark76/qstone-stock-analyzer' && github.ref == 'refs/heads/v3-3-industry-relative-model' && (github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[fisis-audit]'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install requests
+      - name: Query FISIS company and account metadata
+        env:
+          FISIS_AUTH_KEY: ${{ secrets.FISIS_AUTH_KEY }}
+        run: python -u scripts/audit_v33_fisis.py
+      - name: Upload public metadata for review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v33-fisis-metadata
+          path: audit-fisis/
+          if-no-files-found: warn
+          retention-days: 14
+
+  fisis-value-audit:
+    if: github.repository == 'qstonepark76/qstone-stock-analyzer' && github.ref == 'refs/heads/v3-3-industry-relative-model' && (github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[fisis-values]'))
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install requests
+      - name: Retrieve real financial regulatory sample observations
+        env:
+          FISIS_AUTH_KEY: ${{ secrets.FISIS_AUTH_KEY }}
+        run: python -u scripts/audit_v33_fisis_values.py
+      - name: Upload unreviewed public sample values
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v33-fisis-value-audit
+          path: audit-fisis-values/
+          if-no-files-found: warn
+          retention-days: 14
+
+  top300-dart-preflight:
+    if: github.repository == 'qstonepark76/qstone-stock-analyzer' && github.ref == 'refs/heads/v3-3-industry-relative-model' && contains(github.event.head_commit.message, '[top300-preflight]')
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install requests
+      - name: Collect real top-300 financial statements without production writes
+        env:
+          KRX_AUTH_KEY: ${{ secrets.KRX_AUTH_KEY }}
+          DART_AUTH_KEY: ${{ secrets.DART_AUTH_KEY }}
+        run: python -u scripts/audit_v33_top300.py
+      - name: Upload unreviewed top-300 source evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v33-top300-preflight
+          path: audit-top300/
+          if-no-files-found: warn
+          retention-days: 14
+
+  top300-auto-replay:
+    # This workflow is queued behind the existing collection in the same
+    # concurrency group. Reuse its source rows, not a second 300 API calls.
+    if: github.repository == 'qstonepark76/qstone-stock-analyzer' && github.ref == 'refs/heads/v3-3-industry-relative-model' && contains(github.event.head_commit.message, '[top300-replay]')
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install requests
+      - name: Download original top-300 source audit
+        uses: actions/download-artifact@v4
+        with:
+          name: v33-top300-preflight
+          run-id: 45625150031
+          github-token: ${{ github.token }}
+          path: replay-source
+      - name: Recalculate baseline with latest automatic admission rules
+        run: python -u scripts/replay_v33_top300.py
+      - name: Enrich missing annual D&A with same-filing XBRL notes
+        env:
+          DART_AUTH_KEY: ${{ secrets.DART_AUTH_KEY }}
+        run: python -u audit_tools/enrich_top300_xbrl.py
+      - name: Recalculate with verified XBRL evidence
+        run: python -u scripts/replay_v33_top300.py
+      - name: Audit all eight candidate factors for the fixed source universe
+        env:
+          KRX_AUTH_KEY: ${{ secrets.KRX_AUTH_KEY }}
+        run: python -u scripts/audit_v33_eight_factor.py
+      - name: Upload eight-factor candidate audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v33-top300-eight-factor
+          path: audit-top300-eight-factor/
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Upload same-filing XBRL evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v33-top300-xbrl-evidence
+          path: audit-top300-xbrl/
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Upload automatic quality and exception report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v33-top300-auto-replay
+          path: audit-top300-replay/
+          if-no-files-found: warn
+          retention-days: 14

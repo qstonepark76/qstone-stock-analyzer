@@ -132,7 +132,12 @@ def attach_tickers(candidates, history_dir):
         key = re.sub(r"\s+", "", str(candidate.get("company", ""))).casefold()
         matches = names.get(key, set())
         if len(matches) == 1:
-            candidate["ticker"] = next(iter(matches))
+            matched = next(iter(matches))
+            candidate["source_ticker"] = candidate.get("ticker")
+            if candidate.get("ticker") and candidate["ticker"] != matched:
+                candidate["verification_status"] = "source_ticker_name_conflict"
+                continue
+            candidate["ticker"] = matched
             candidate["verification_status"] = "ticker_matched_unverified"
     return candidates
 

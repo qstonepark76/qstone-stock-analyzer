@@ -1,0 +1,55 @@
+name: Q Stone Park v3.3 outlook policy experiment
+on:
+  push:
+    branches:
+      - v3-3-industry-relative-model
+    paths:
+      - '.github/workflows/v3-3-outlook-policy.yml'
+      - 'scripts/outlook_candidate.py'
+      - 'tests/test_outlook_candidate.py'
+      - 'audit_tools/outlook_policy_audit.py'
+permissions:
+  contents: read
+  actions: read
+jobs:
+  outlook-policy:
+    if: github.repository == 'qstonepark76/qstone-stock-analyzer'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install requests
+      - run: python -m unittest discover -s tests -p test_outlook_candidate.py -v
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-top300-preflight
+          run-id: 45625150031
+          github-token: ${{ github.token }}
+          path: replay-source
+      - name: Audit existing verified ledger
+        run: python -u audit_tools/outlook_policy_audit.py
+      - name: Preserve baseline
+        run: mv audit-outlook-policy audit-outlook-policy-baseline
+      - name: Expand public report discovery
+        env:
+          REPORT_DISCOVERY_PAGES: "60"
+          REPORT_DISCOVERY_PAGE_SIZE: "50"
+        run: python -u scripts/discover_broker_reports.py
+      - run: python -u scripts/verify_broker_reports.py
+      - name: Audit expanded ledger
+        run: python -u audit_tools/outlook_policy_audit.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v33-outlook-policy-evidence
+          path: |
+            audit-outlook-policy*/
+            data/analyst_reports.json
+            data/analyst_report_candidates.json
+          if-no-files-found: warn
+          retention-days: 14

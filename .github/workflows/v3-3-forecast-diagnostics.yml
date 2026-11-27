@@ -1,0 +1,62 @@
+name: Q Stone Park v3.3 focused forecast diagnostics
+on:
+  push:
+    branches: [v3-3-industry-relative-model]
+    paths: ['.github/workflows/v3-3-forecast-diagnostics.yml']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  diagnostics:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-top300-preflight
+          run-id: 45625150031
+          github-token: ${{ github.token }}
+          path: replay-source
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-financial-simplified-evidence
+          run-id: 45656114003
+          github-token: ${{ github.token }}
+          path: financial
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-forecast-reuse-evidence
+          run-id: 45816983114
+          github-token: ${{ github.token }}
+          path: reuse
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-forecast-recovery-merged
+          run-id: 45817314640
+          github-token: ${{ github.token }}
+          path: merged
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-forecast-gap-source-candidates
+          run-id: 45817314640
+          github-token: ${{ github.token }}
+          path: gaps
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: forecast-validation-batch-*
+          run-id: 45817314640
+          github-token: ${{ github.token }}
+          path: batches
+      - run: python -u audit_tools/forecast_focused_diagnostics.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v33-forecast-focused-diagnostics
+          path: audit-forecast-diagnostics/
+          retention-days: 14

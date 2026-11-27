@@ -1,0 +1,41 @@
+name: Q Stone Park v3.3 source gap audit
+on:
+  push:
+    branches:
+      - v3-3-industry-relative-model
+    paths:
+      - 'audit_tools/retry_source_gaps.py'
+      - '.github/workflows/v3-3-source-gaps.yml'
+permissions:
+  contents: read
+  actions: read
+jobs:
+  source-gap-audit:
+    if: github.repository == 'qstonepark76/qstone-stock-analyzer'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install requests
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-top300-preflight
+          run-id: 45625150031
+          github-token: ${{ github.token }}
+          path: replay-source
+      - name: Diagnose only missing source records
+        env:
+          DART_AUTH_KEY: ${{ secrets.DART_AUTH_KEY }}
+        run: python -u audit_tools/retry_source_gaps.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v33-source-gap-evidence
+          path: audit-source-gaps/
+          if-no-files-found: warn
+          retention-days: 14

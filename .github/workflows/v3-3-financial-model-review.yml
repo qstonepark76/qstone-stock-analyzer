@@ -1,0 +1,44 @@
+name: Q Stone Park v3.3 financial model evidence review
+on:
+  push:
+    branches:
+      - v3-3-industry-relative-model
+    paths:
+      - '.github/workflows/v3-3-financial-model-review.yml'
+      - 'audit_tools/financial_model_review.py'
+permissions:
+  contents: read
+  actions: read
+jobs:
+  financial-model-review:
+    if: github.repository == 'qstonepark76/qstone-stock-analyzer'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install requests
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-top300-preflight
+          run-id: 45625150031
+          github-token: ${{ github.token }}
+          path: replay-source
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-expanded-direct-results
+          run-id: 45637274391
+          github-token: ${{ github.token }}
+          path: .
+      - run: python -u audit_tools/financial_model_review.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v33-financial-model-review
+          path: audit-financial-model-review/
+          if-no-files-found: warn
+          retention-days: 14

@@ -1,0 +1,34 @@
+name: Q Stone Park v3.3 holding value evidence
+on:
+  push:
+    branches:
+      - v3-3-industry-relative-model
+    paths:
+      - '.github/workflows/v3-3-holding-values.yml'
+      - 'audit_tools/holding_values.py'
+permissions:
+  contents: read
+jobs:
+  holding-value-audit:
+    if: github.repository == 'qstonepark76/qstone-stock-analyzer'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install requests
+      - name: Retrieve consolidated holding company regulatory observations
+        env:
+          FISIS_AUTH_KEY: ${{ secrets.FISIS_AUTH_KEY }}
+        run: python -u audit_tools/holding_values.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v33-holding-value-evidence
+          path: audit-holding-values/
+          if-no-files-found: warn
+          retention-days: 14

@@ -1,0 +1,95 @@
+name: Q Stone Park v3.3 wider peer batch expansion
+on:
+  push:
+    branches:
+      - v3-3-industry-relative-model
+    paths:
+      - '.github/workflows/v3-3-peer-batches.yml'
+permissions:
+  contents: read
+  actions: read
+jobs:
+  batch:
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        offset: [550, 1100, 1650, 2200]
+    runs-on: ubuntu-latest
+    timeout-minutes: 100
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install requests
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-top300-preflight
+          run-id: 45625150031
+          github-token: ${{ github.token }}
+          path: replay-source
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-expanded-direct-results
+          run-id: 45637274391
+          github-token: ${{ github.token }}
+          path: .
+      - run: python -u audit_tools/wider_industry_peers.py
+        env:
+          DART_AUTH_KEY: ${{ secrets.DART_AUTH_KEY }}
+          KRX_AUTH_KEY: ${{ secrets.KRX_AUTH_KEY }}
+          INCLUDE_KOSDAQ: "1"
+          PEER_BATCH_LIMIT: "550"
+          PEER_BATCH_OFFSET: ${{ matrix.offset }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: peer-batch-${{ matrix.offset }}
+          path: audit-wider-peers/
+          retention-days: 14
+  merge:
+    needs: batch
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install requests
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-top300-preflight
+          run-id: 45625150031
+          github-token: ${{ github.token }}
+          path: replay-source
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-expanded-direct-results
+          run-id: 45637274391
+          github-token: ${{ github.token }}
+          path: .
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-expanded-peer-alternative-evidence
+          run-id: 45645435672
+          github-token: ${{ github.token }}
+          path: prior
+      - run: mkdir -p peer-batches && mv prior/audit-wider-peers peer-batches/peer-batch-0000
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: peer-batch-*
+          path: peer-batches
+      - run: python -u audit_tools/merge_peer_batches.py
+      - run: python -u audit_tools/coverage_experiment.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: v33-merged-peer-evidence
+          path: |
+            audit-wider-peers/
+            audit-coverage-experiment/
+          retention-days: 14

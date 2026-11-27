@@ -112,5 +112,33 @@ class AnalystConsensusTests(unittest.TestCase):
         self.assertEqual(summary["analyst_target_revision_pct"], 10.0)
 
 
+
+    def test_candidate_single_broker_all_fields_stays_provisional(self):
+        self.write_reports([{**self.report("A",target=110000),"previous_target_price":100000}])
+        with patch("analyst_consensus.LEDGER",self.ledger):
+            stocks=self.stock()
+            load_and_score_consensus(stocks,date(2026,11,17),candidate=True)
+        x=stocks[0]
+        self.assertEqual(x["analyst_observed_coverage_pct"],100)
+        self.assertAlmostEqual(x["analyst_consensus_coverage_pct"],100/3)
+        self.assertEqual(x["analyst_confidence"],"partial")
+        self.assertIsNotNone(x["analyst_consensus_score"])
+    def test_candidate_three_brokers_each_field_required(self):
+        self.write_reports([{**self.report(b,target=110000),"previous_target_price":100000 if b=="A" else None} for b in ("A","B","C")])
+        with patch("analyst_consensus.LEDGER",self.ledger):
+            stocks=self.stock()
+            load_and_score_consensus(stocks,date(2026,11,17),candidate=True)
+        x=stocks[0]
+        self.assertAlmostEqual(x["analyst_consensus_coverage_pct"],80+20/3)
+        self.assertEqual(x["analyst_revision_broker_count"],1)
+    def test_candidate_full_independent_evidence(self):
+        self.write_reports([{**self.report(b,target=110000),"previous_target_price":100000} for b in ("A","B","C")])
+        with patch("analyst_consensus.LEDGER",self.ledger):
+            stocks=self.stock()
+            load_and_score_consensus(stocks,date(2026,11,17),candidate=True)
+        self.assertEqual(stocks[0]["analyst_consensus_coverage_pct"],100)
+        self.assertEqual(stocks[0]["analyst_confidence"],"high")
+
+
 if __name__ == "__main__":
     unittest.main()

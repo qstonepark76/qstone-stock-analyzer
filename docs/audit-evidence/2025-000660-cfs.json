@@ -1,0 +1,158 @@
+{
+  "ticker": "000660",
+  "name": "SK하이닉스",
+  "financial_year": 2025,
+  "fs_div": "CFS",
+  "review_date": "2026-11-25",
+  "source": "https://kind.krx.co.kr/external/2026/03/17/000735/20260317002879/11011.htm",
+  "source_sections": [
+    "2-1 연결재무상태표",
+    "2-2 연결 포괄손익계산서",
+    "연결 주석 16 차입금",
+    "연결 주석 영업활동현금흐름"
+  ],
+  "api_evidence_run": 45619807754,
+  "api_evidence_job": 139224724729,
+  "checks": [
+    {
+      "section": "BS",
+      "account_id": "ifrs-full_CashAndCashEquivalents",
+      "filing_krw_million": [
+        14923766,
+        11205117
+      ],
+      "api_krw": [
+        "14923766000000",
+        "11205117000000"
+      ],
+      "match": true
+    },
+    {
+      "section": "BS",
+      "account_id": "ifrs-full_Equity",
+      "filing_krw_million": [
+        120666751,
+        73915704
+      ],
+      "api_krw": [
+        "120666751000000",
+        "73915704000000"
+      ],
+      "match": true
+    },
+    {
+      "section": "BS",
+      "account_id": "ifrs-full_CurrentBorrowingsAndCurrentPortionOfNoncurrentBorrowings",
+      "filing_krw_million": [
+        8161757,
+        5252238
+      ],
+      "api_krw": [
+        "8161757000000",
+        "5252238000000"
+      ],
+      "match": true
+    },
+    {
+      "section": "BS",
+      "account_id": "ifrs-full_LongtermBorrowings",
+      "filing_krw_million": [
+        14086148,
+        17431495
+      ],
+      "api_krw": [
+        "14086148000000",
+        "17431495000000"
+      ],
+      "match": true
+    },
+    {
+      "section": "BS",
+      "account_id": "ifrs-full_CurrentLeaseLiabilities",
+      "filing_krw_million": [
+        547296,
+        588355
+      ],
+      "api_krw": [
+        "547296000000",
+        "588355000000"
+      ],
+      "match": true
+    },
+    {
+      "section": "BS",
+      "account_id": "ifrs-full_NoncurrentLeaseLiabilities",
+      "filing_krw_million": [
+        1962647,
+        2180021
+      ],
+      "api_krw": [
+        "1962647000000",
+        "2180021000000"
+      ],
+      "match": true
+    },
+    {
+      "section": "CIS",
+      "account_id": "dart_OperatingIncomeLoss",
+      "filing_krw_million": [
+        47206319,
+        23467319
+      ],
+      "api_krw": [
+        "47206319000000",
+        "23467319000000"
+      ],
+      "match": true
+    },
+    {
+      "section": "CIS",
+      "account_id": "ifrs-full_ProfitLossBeforeTax",
+      "filing_krw_million": [
+        50465552,
+        23885350
+      ],
+      "api_krw": [
+        "50465552000000",
+        "23885350000000"
+      ],
+      "match": true
+    },
+    {
+      "section": "CIS",
+      "account_id": "ifrs-full_IncomeTaxExpenseContinuingOperations",
+      "filing_krw_million": [
+        7517650,
+        4088448
+      ],
+      "api_krw": [
+        "7517650000000",
+        "4088448000000"
+      ],
+      "match": true
+    }
+  ],
+  "source_account_match_count": 9,
+  "source_account_check_count": 9,
+  "filing_note_krw_million": {
+    "borrowings_including_bonds_current": 22247905,
+    "borrowings_including_bonds_previous": 22683733,
+    "lease_current": 2509943,
+    "lease_previous": 2768376,
+    "depreciation": 13099311,
+    "amortisation": 830819,
+    "ebitda": 61136449
+  },
+  "expected_calculations_using_filing_notes_only": {
+    "excluding_separately_disclosed_lease": {
+      "roic_pct": 37.654140895162584,
+      "net_debt_to_ebitda": 0.11979987584820309
+    },
+    "including_lease": {
+      "roic_pct": 36.7452075754428,
+      "net_debt_to_ebitda": 0.16085464826391863
+    }
+  },
+  "status": "debt and base inputs matched; D&A obtained from filing notes, not current API rows; comparison definition and automated note retrieval pending; not eligible for official score",
+  "warning": "Cash means cash and cash equivalents only; issuer disclosed net cash includes other liquid assets and is not equivalent. EBITDA is an operating-profit plus cash-flow-note D&A proxy. Do not compare lease-inclusive and lease-exclusive borrowing definitions or treat this record as live production data."
+}
