@@ -1,0 +1,37 @@
+name: Q Stone Park expanded specialist archival replay
+on:
+  push:
+    branches: [v3-3-final-leading-score]
+    paths: ['.github/workflows/v3-3-leading-specialist-expanded-replay.yml']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-true-cagr-evidence
+          run-id: 46049896295
+          github-token: ${{ github.token }}
+          path: cagr
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-financial-expanded-source
+          run-id: 45657812226
+          github-token: ${{ github.token }}
+          path: expanded
+      - run: python -u scripts/leading_specialist_expanded_replay.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: leading-specialist-expanded-replay-evidence
+          path: audit-leading-specialist-expanded/
+          retention-days: 30
