@@ -1,0 +1,41 @@
+name: Q Stone Park direct Naver valuation source collection
+on:
+  push:
+    branches: [v3-3-final-leading-score]
+    paths: ['.github/workflows/v3-3-direct-valuation.yml']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - run: python -m unittest discover -s tests -p test_leading_direct_valuation.py -v
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-stage5-margin-evidence
+          run-id: 46034168630
+          github-token: ${{ github.token }}
+          path: stage5
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-top300-preflight
+          run-id: 45625150031
+          github-token: ${{ github.token }}
+          path: replay-source
+      - run: python -u scripts/leading_direct_valuation.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: leading-direct-valuation-evidence
+          path: audit-leading-direct-valuation/
+          if-no-files-found: warn
+          retention-days: 30

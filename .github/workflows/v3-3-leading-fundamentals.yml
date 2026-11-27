@@ -1,0 +1,43 @@
+name: Q Stone Park leading fundamental and forecast evidence
+on:
+  push:
+    branches: [v3-3-final-leading-score]
+    paths: ['.github/workflows/v3-3-leading-fundamentals.yml']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-top300-preflight
+          run-id: 45625150031
+          github-token: ${{ github.token }}
+          path: replay-source
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-expanded-direct-results
+          run-id: 45637274391
+          github-token: ${{ github.token }}
+          path: .
+      - run: python -u scripts/leading_fundamental_inputs.py
+      - run: python -u scripts/leading_forecast_inventory.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: leading-fundamental-forecast-evidence
+          path: |
+            audit-leading-fundamentals/
+            audit-leading-forecast/
+          if-no-files-found: warn
+          retention-days: 30

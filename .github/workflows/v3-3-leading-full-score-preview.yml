@@ -1,0 +1,63 @@
+name: Q Stone Park full evaluation score evidence integration
+on:
+  push:
+    branches: [v3-3-final-leading-score]
+    paths: ['.github/workflows/v3-3-leading-full-score-preview.yml']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - run: python -m unittest discover -s tests -p test_leading_full_score_preview.py -v
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-industry-margin-recovery-evidence
+          run-id: 46051543687
+          github-token: ${{ github.token }}
+          path: base
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-direct-fundamental-score-evidence
+          run-id: 46050303475
+          github-token: ${{ github.token }}
+          path: fundamental
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-direct-valuation-hierarchy-evidence
+          run-id: 46045769152
+          github-token: ${{ github.token }}
+          path: valuation
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-specialist-expanded-replay-evidence
+          run-id: 46050749586
+          github-token: ${{ github.token }}
+          path: specialty
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-report-revision-expanded-evidence
+          run-id: 46051236263
+          github-token: ${{ github.token }}
+          path: outlook
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-direct-source-policy-evidence
+          run-id: 46053886425
+          github-token: ${{ github.token }}
+          path: leading
+      - run: python -u scripts/leading_full_score_preview.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: leading-full-score-preview-evidence
+          path: audit-leading-full-score-preview/
+          retention-days: 30

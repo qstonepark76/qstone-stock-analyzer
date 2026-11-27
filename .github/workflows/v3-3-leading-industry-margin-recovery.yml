@@ -1,0 +1,53 @@
+name: Q Stone Park targeted industry margin history recovery
+on:
+  push:
+    branches: [v3-3-final-leading-score]
+    paths: ['.github/workflows/v3-3-leading-industry-margin-recovery.yml']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - run: python -m unittest discover -s tests -p test_leading_industry_margin_recovery.py -v
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-true-cagr-evidence
+          run-id: 46049896295
+          github-token: ${{ github.token }}
+          path: cagr
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-top300-preflight
+          run-id: 45625150031
+          github-token: ${{ github.token }}
+          path: replay-source
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-merged-peer-evidence
+          run-id: 45726349207
+          github-token: ${{ github.token }}
+          path: reuse-peers
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-stage5-margin-evidence
+          run-id: 46034168630
+          github-token: ${{ github.token }}
+          path: prior
+      - env:
+          DART_AUTH_KEY: ${{ secrets.DART_AUTH_KEY }}
+        run: python -u scripts/leading_industry_margin_recovery.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: leading-industry-margin-recovery-evidence
+          path: audit-leading-industry-margin/
+          retention-days: 30

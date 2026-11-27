@@ -1,0 +1,47 @@
+name: Q Stone Park true three-year sales CAGR recovery
+on:
+  push:
+    branches: [v3-3-final-leading-score]
+    paths: ['.github/workflows/v3-3-leading-true-cagr.yml', 'scripts/leading_true_cagr.py']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - run: python -m unittest discover -s tests -p test_leading_true_cagr.py -v
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-simplified-industry-evidence
+          run-id: 46044687022
+          github-token: ${{ github.token }}
+          path: simplified
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-top300-preflight
+          run-id: 45625150031
+          github-token: ${{ github.token }}
+          path: replay-source
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-stage5-margin-evidence
+          run-id: 46034168630
+          github-token: ${{ github.token }}
+          path: prior
+      - env:
+          DART_AUTH_KEY: ${{ secrets.DART_AUTH_KEY }}
+        run: python -u scripts/leading_true_cagr.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: leading-true-cagr-evidence
+          path: audit-leading-true-cagr/
+          retention-days: 30

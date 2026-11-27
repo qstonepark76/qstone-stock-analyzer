@@ -1,0 +1,62 @@
+name: Q Stone Park stage 1 reuse prior evidence
+on:
+  push:
+    branches: [v3-3-final-leading-score]
+    paths: ['.github/workflows/v3-3-leading-reuse-stage1.yml']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  reuse:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-top300-preflight
+          run-id: 45625150031
+          github-token: ${{ github.token }}
+          path: replay-source
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-fundamental-forecast-evidence
+          run-id: 46031239443
+          github-token: ${{ github.token }}
+          path: .
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-growth-source-evidence
+          run-id: 45726502771
+          github-token: ${{ github.token }}
+          path: reuse-growth
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-merged-peer-evidence
+          run-id: 45726349207
+          github-token: ${{ github.token }}
+          path: reuse-peers
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-outlook-expanded-evidence
+          run-id: 45726434788
+          github-token: ${{ github.token }}
+          path: reuse-external
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-forecast-recovery-merged
+          run-id: 45817314640
+          github-token: ${{ github.token }}
+          path: reuse-forecast
+      - run: python -u scripts/leading_reuse_stage1.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: leading-reuse-stage1-evidence
+          path: audit-leading-reuse/
+          retention-days: 30

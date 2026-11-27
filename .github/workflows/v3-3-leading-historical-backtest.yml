@@ -1,0 +1,35 @@
+name: Q Stone Park 3 and 5 year backtest historical readiness
+on:
+  push:
+    branches: [v3-3-final-leading-score]
+    paths: ['.github/workflows/v3-3-leading-historical-backtest.yml']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  history:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - run: python -m unittest discover -s tests -p 'test_leading*backtest*.py' -v
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-true-cagr-evidence
+          run-id: 46049896295
+          github-token: ${{ github.token }}
+          path: cagr
+      - env:
+          KRX_AUTH_KEY: ${{ secrets.KRX_AUTH_KEY }}
+        run: python -u scripts/leading_historical_readiness.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: leading-historical-backtest-readiness
+          path: audit-leading-historical-readiness/
+          retention-days: 30

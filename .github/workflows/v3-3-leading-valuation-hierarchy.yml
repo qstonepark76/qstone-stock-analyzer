@@ -1,0 +1,33 @@
+name: Q Stone Park direct valuation hierarchical peer replay
+on:
+  push:
+    branches: [v3-3-final-leading-score]
+    paths: ['.github/workflows/v3-3-leading-valuation-hierarchy.yml']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - run: python -m unittest discover -s tests -p test_leading_direct_valuation_hierarchy.py -v
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-direct-valuation-evidence
+          run-id: 46043343106
+          github-token: ${{ github.token }}
+          path: direct
+      - run: python -u scripts/leading_direct_valuation_hierarchy.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: leading-direct-valuation-hierarchy-evidence
+          path: audit-leading-valuation-hierarchy/
+          retention-days: 30

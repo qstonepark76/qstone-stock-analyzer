@@ -1,0 +1,44 @@
+name: Q Stone Park stage 3 reuse financial and outlook evidence preflight
+on:
+  push:
+    branches: [v3-3-final-leading-score]
+    paths: ['.github/workflows/v3-3-leading-stage3-preflight.yml']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-reuse-stage1-evidence
+          run-id: 46032586851
+          github-token: ${{ github.token }}
+          path: audit-leading-reuse
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-outlook-expanded-evidence
+          run-id: 45726434788
+          github-token: ${{ github.token }}
+          path: reuse-external
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-forecast-recovery-merged
+          run-id: 45817314640
+          github-token: ${{ github.token }}
+          path: reuse-forecast
+      - run: python -u scripts/leading_stage3_evidence.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: leading-stage3-preflight-evidence
+          path: audit-leading-stage3/
+          retention-days: 30

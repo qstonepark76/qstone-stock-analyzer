@@ -1,0 +1,63 @@
+name: Q Stone Park roadmap priority 1 outlook evidence and stress test
+on:
+  push:
+    branches: [v3-3-final-leading-score]
+    paths: ['.github/workflows/v3-3-leading-roadmap-outlook.yml']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - run: python -m unittest discover -s tests -p test_leading_stage6_scenarios.py -v
+      - run: python -m py_compile scripts/leading_outlook_roadmap_audit.py
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-stage5-margin-evidence
+          run-id: 46034168630
+          github-token: ${{ github.token }}
+          path: stage5
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-top300-preflight
+          run-id: 45625150031
+          github-token: ${{ github.token }}
+          path: replay-source
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-forecast-recovery-merged
+          run-id: 45817314640
+          github-token: ${{ github.token }}
+          path: reuse-forecast
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-outlook-expanded-evidence
+          run-id: 45726434788
+          github-token: ${{ github.token }}
+          path: reuse-external
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-targeted-outlook-evidence
+          run-id: 45768846083
+          github-token: ${{ github.token }}
+          path: reuse-targeted
+      - name: Reuse report sources and test fixed 2022 historical sample
+        env:
+          DART_AUTH_KEY: ${{ secrets.DART_AUTH_KEY }}
+        run: python -u scripts/leading_outlook_roadmap_audit.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: leading-roadmap-outlook-evidence
+          path: audit-leading-roadmap-outlook/
+          if-no-files-found: warn
+          retention-days: 30

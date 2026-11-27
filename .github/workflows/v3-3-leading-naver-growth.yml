@@ -1,0 +1,39 @@
+name: Q Stone Park direct Naver annual growth fallback
+on:
+  push:
+    branches: [v3-3-final-leading-score]
+    paths: ['.github/workflows/v3-3-leading-naver-growth.yml', 'scripts/leading_naver_growth.py']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - run: python -m unittest discover -s tests -p test_leading_naver_growth.py -v
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-simplified-industry-evidence
+          run-id: 46044687022
+          github-token: ${{ github.token }}
+          path: simplified
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-top300-preflight
+          run-id: 45625150031
+          github-token: ${{ github.token }}
+          path: replay-source
+      - run: python -u scripts/leading_naver_growth.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: leading-naver-growth-evidence
+          path: audit-leading-naver-growth/
+          retention-days: 30

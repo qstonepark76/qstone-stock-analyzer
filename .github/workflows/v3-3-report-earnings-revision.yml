@@ -1,0 +1,39 @@
+name: Q Stone Park direct report earnings revision scoring pilot
+on:
+  push:
+    branches: [v3-3-final-leading-score]
+    paths: ['.github/workflows/v3-3-report-earnings-revision.yml']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests pymupdf
+      - run: python -m unittest discover -s tests -p test_leading_report_earnings_revision.py -v
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-outlook-price-recovery-evidence
+          run-id: 46046346648
+          github-token: ${{ github.token }}
+          path: outlook
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-roadmap-outlook-evidence
+          run-id: 46039339525
+          github-token: ${{ github.token }}
+          path: roadmap
+      - run: python -u scripts/leading_report_earnings_revision.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: leading-report-earnings-revision-evidence
+          path: audit-leading-report-revision/
+          retention-days: 30

@@ -1,0 +1,63 @@
+name: Q Stone Park stage 2 integrate reused and market evidence
+on:
+  push:
+    branches: [v3-3-final-leading-score]
+    paths: ['.github/workflows/v3-3-leading-reuse-stage2.yml']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  integrate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - run: python -m unittest discover -s tests -p test_final_leading_model.py -v
+      - name: Require successful stage 1 and existing market audit
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          for run in 46032586851 46031114626; do
+            for attempt in $(seq 1 145); do
+              state=$(gh api "repos/$REPO/actions/runs/$run" --jq '.status')
+              if [ "$state" = "completed" ]; then
+                conclusion=$(gh api "repos/$REPO/actions/runs/$run" --jq '.conclusion')
+                echo "Evidence run $run: $conclusion"
+                test "$conclusion" = "success"
+                break
+              fi
+              if [ "$attempt" = "145" ]; then exit 1; fi
+              sleep 20
+            done
+          done
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-reuse-stage1-evidence
+          run-id: 46032586851
+          github-token: ${{ github.token }}
+          path: audit-leading-reuse
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-fundamental-forecast-evidence
+          run-id: 46031239443
+          github-token: ${{ github.token }}
+          path: .
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-market-inputs
+          run-id: 46031114626
+          github-token: ${{ github.token }}
+          path: audit-leading-market
+      - run: python -u scripts/leading_integrated_audit.py --fundamental audit-leading-reuse/observations.json --out audit-leading-reuse-stage2
+      - uses: actions/upload-artifact@v4
+        with:
+          name: leading-reuse-stage2-evidence
+          path: audit-leading-reuse-stage2/
+          retention-days: 30

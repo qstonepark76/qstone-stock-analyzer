@@ -1,0 +1,51 @@
+name: Q Stone Park stage 4 forecast vintage validation
+on:
+  push:
+    branches: [v3-3-final-leading-score]
+    paths: ['.github/workflows/v3-3-leading-stage4-forecast.yml']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - run: python -m unittest discover -s tests -p test_leading_forecast_vintages.py -v
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-stage3-preflight-evidence
+          run-id: 46033155667
+          github-token: ${{ github.token }}
+          path: audit-leading-stage3
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-outlook-expanded-evidence
+          run-id: 45726434788
+          github-token: ${{ github.token }}
+          path: reuse-external
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-targeted-outlook-evidence
+          run-id: 45768846083
+          github-token: ${{ github.token }}
+          path: reuse-targeted
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-guidance-recovery
+          run-id: 45768846083
+          github-token: ${{ github.token }}
+          path: reuse-guidance
+      - run: python -u scripts/leading_stage4_forecasts.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: leading-stage4-forecast-evidence
+          path: audit-leading-stage4/
+          retention-days: 30

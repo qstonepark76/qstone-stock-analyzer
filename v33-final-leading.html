@@ -1,0 +1,25 @@
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Q Stone Park | 상승 선행지수</title>
+<style>*{box-sizing:border-box}body{margin:0;background:#f4f7f4;font:15px system-ui,"Malgun Gothic",sans-serif;color:#173528}header{background:#183b2d;color:white;padding:28px max(20px,calc((100% - 1150px)/2))}header small{letter-spacing:2px}h1{margin:8px 0}main{max-width:1150px;margin:auto;padding:20px}.panel{background:white;border:1px solid #d8e5db;border-radius:14px;padding:18px;margin:12px 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}.card{background:#eaf5ec;border-radius:10px;padding:12px}.card b{display:block;font-size:23px;margin-top:5px}.muted{color:#566d60}button,input{font:inherit}button{background:white;border:1px solid #9fb9a8;border-radius:8px;padding:9px 14px;margin:4px;cursor:pointer}button.active{background:#266745;color:white}table{width:100%;border-collapse:collapse;min-width:760px}td,th{padding:12px;border-bottom:1px solid #e4eae5;text-align:right}td:nth-child(2),th:nth-child(2){text-align:left}th{background:#edf4ee;font-size:13px}details{margin-top:10px}#status{color:#936320}.scroll{overflow:auto}</style>
+<header><small>Q STONE PARK · EQUITY INTELLIGENCE</small><h1>v3.3 최종 평가 · 상승 선행지수</h1><div>종합 100점 · 선행 100점 · 복합 60:40 | 개발 검증용</div></header>
+<main><section class="panel"><b>후보 모델 · 운영 미배포</b><p class="muted">실제 원천 데이터의 완전성 및 과거 성과 검증 전에는 투자 추천이 아닙니다. 미확보 값은 0점으로 대체하지 않습니다.</p><input id="file" type="file" accept=".json,application/json"><p id="status">산출 결과 JSON을 선택해 주세요.</p></section>
+<section class="panel"><h2>종합평가 배점</h2><div class="grid" id="base"></div><h2>상승 선행지수 배점</h2><div class="grid" id="leading"></div></section>
+<section class="panel"><h2>후보 종목 분석</h2><div id="coverage" class="muted"></div><div id="tabs"><button data-mode="base_top15">종합 TOP15</button><button data-mode="combined_top15">상승 유망 TOP15</button><button data-mode="leading_top10">상승 초기 TOP10</button><button data-mode="all">데이터 충족 현황</button></div><div class="scroll"><table><thead><tr><th>순위</th><th>종목</th><th>종합</th><th>종합 충족</th><th>선행</th><th>선행 충족</th><th>복합</th><th>등급</th></tr></thead><tbody id="rows"></tbody></table></div><details><summary>선택 종목 지표별 상세</summary><div class="scroll" id="detail">종목을 선택해 주세요.</div></details></section></main>
+<script>
+const $=x=>document.getElementById(x);
+const labels={financial:"재무 건전성",growth:"기업 성장성",momentum:"주가 모멘텀",foreign_flow:"외국인 수급",institution_flow:"기관 수급",valuation:"기업가치",outlook:"실적 및 투자 전망",industry_relative:"업종 상대평가",earnings:"이익 전망",flows:"수급 변화",price:"주가 모멘텀",industry:"업종 모멘텀",headroom:"상승여력"};
+const bw={financial:20,growth:20,momentum:10,foreign_flow:10,institution_flow:10,valuation:10,outlook:10,industry_relative:10};
+const lw={earnings:30,flows:25,price:20,industry:15,headroom:10};
+function card(id,obj){$(id).replaceChildren(...Object.entries(obj).map(([k,v])=>{let x=document.createElement("div");x.className="card";x.textContent=labels[k]||k;let b=document.createElement("b");b.textContent=v+"점";x.append(b);return x}))}
+card("base",bw);card("leading",lw);
+let data=null,mode="combined_top15";
+function detail(r){let t=document.createElement("table");for(const [model,o] of [["종합",r.base],["선행",r.leading]])for(const [key,v] of Object.entries(o.detail)){let tr=t.insertRow();for(const s of [model,key,v.points??"—",v.weight,v.status,v.source_ref??"—"]){tr.insertCell().textContent=s}}$("detail").replaceChildren(t);$("detail").parentNode.open=true}
+function render(){document.querySelectorAll("#tabs button").forEach(b=>b.classList.toggle("active",b.dataset.mode===mode));$("rows").replaceChildren();if(!data)return;
+let by=new Map(data.records.map(r=>[r.ticker,r]));let list=mode==="all"?data.records:(data[mode]||[]).map(t=>by.get(t)).filter(Boolean);
+$("coverage").textContent="기준일 "+data.asof+" · 종합 충족 "+data.coverage.base_complete+" / "+data.records.length+" · 선행 충족 "+data.coverage.leading_complete+" · 복합 충족 "+data.coverage.combined_complete;
+if(!list.length){let tr=$("rows").insertRow();let c=tr.insertCell();c.colSpan=8;c.textContent="완전한 데이터 충족 후보 없음";return}
+list.forEach((r,i)=>{let tr=$("rows").insertRow();for(const v of [mode==="all"?"—":i+1,r.name+" ("+r.ticker+")",r.base.score??"—",r.base.coverage_pct+"%",r.leading.score??"—",r.leading.coverage_pct+"%",r.combined??"—",r.grade??"—"]){tr.insertCell().textContent=v}tr.tabIndex=0;tr.style.cursor="pointer";tr.onclick=()=>detail(r);tr.onkeydown=e=>{if(e.key==="Enter")detail(r)}})}
+function load(d){if(d.model_version!=="3.3-final-leading-candidate"||!Array.isArray(d.records)||!d.coverage)throw Error("다른 모델 또는 잘못된 JSON");data=d;$("status").textContent="후보 데이터 로드 완료";render()}
+$("file").onchange=async e=>{try{load(JSON.parse(await e.target.files[0].text()))}catch(err){$("status").textContent=err.message}};
+document.querySelectorAll("#tabs button").forEach(b=>b.onclick=()=>{mode=b.dataset.mode;render()});render();
+fetch("./data/final-leading.json",{cache:"no-store"}).then(r=>{if(!r.ok)throw Error();return r.json()}).then(load).catch(()=>{});
+</script></html>

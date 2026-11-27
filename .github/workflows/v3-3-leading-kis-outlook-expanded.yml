@@ -1,0 +1,56 @@
+name: Q Stone Park priority 1 expand KIS outlook to eligible universe
+on:
+  push:
+    branches: [v3-3-final-leading-score]
+    paths: ['.github/workflows/v3-3-leading-kis-outlook-expanded.yml']
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: qstone-kis-outlook-pilot
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - run: python -m unittest discover -s tests -p test_leading_kis_outlook_probe.py -v
+      - run: python -m py_compile scripts/leading_kis_outlook_review.py
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-kis-outlook-pilot-evidence
+          run-id: 46039629531
+          github-token: ${{ github.token }}
+          path: pilot
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-stage5-margin-evidence
+          run-id: 46034168630
+          github-token: ${{ github.token }}
+          path: stage5
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-top300-preflight
+          run-id: 45625150031
+          github-token: ${{ github.token }}
+          path: replay-source
+      - name: Collect missing eligible issuers only
+        env:
+          KIS_APP_KEY: ${{ secrets.KIS_APP_KEY }}
+          KIS_APP_SECRET: ${{ secrets.KIS_APP_SECRET }}
+        run: python -u scripts/leading_kis_outlook_probe.py --expand
+      - run: python -u scripts/leading_kis_outlook_review.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: leading-kis-outlook-expanded-evidence
+          path: audit-leading-kis-outlook-expanded/
+          if-no-files-found: warn
+          retention-days: 30
