@@ -29,13 +29,12 @@ LEADING = {
 # Separate approved specialist relative models retain their five 2-point slots.
 SPECIAL_RELATIVE = {
     "bank_group": ("nim_pct","cet1_pct","npl_pct","credit_cost_pct","cir_pct"),
-    "direct_bank": ("nim_pct","cet1_pct","npl_pct","credit_cost_pct","cir_pct"),
-    "life_insurance": ("kics_pct","new_business_csm_margin_pct","insurance_service_margin_pct","investment_yield_pct","impaired_assets_pct"),
-    "nonlife_insurance": ("kics_pct","new_business_csm_margin_pct","investment_yield_pct","combined_ratio_pct","impaired_assets_pct"),
-    "securities": ("ncr_pct","liquidity_pct","regulatory_leverage_pct","contingent_liabilities_equity_pct","cir_pct"),
+    "life_insurance": ("kics_pct","new_csm_margin_pct","insurance_service_margin_pct","investment_yield_pct","impaired_asset_pct"),
+    "nonlife_insurance": ("kics_pct","new_csm_margin_pct","investment_yield_pct","combined_ratio_pct","impaired_asset_pct"),
+    "securities": ("ncr_pct","liquidity_pct","regulatory_leverage_pct","contingent_liability_equity_pct","cir_pct"),
     "card_capital": ("adjusted_capital_pct","liquidity_pct","delinquency_pct","npl_pct","credit_cost_pct"),
 }
-LOWER = {"stability","volatility_20d","earnings_value","book_value","margin_stability"}
+LOWER = {"stability","volatility_20d","earnings_value","book_value","margin_stability", "npl_pct","credit_cost_pct","cir_pct","impaired_asset_pct","combined_ratio_pct","regulatory_leverage_pct","contingent_liability_equity_pct","delinquency_pct"}
 # Percent units except rating (0..3), shares (0..100), ratio-based growth (%).
 # Fixed, provisional calibration; not estimated probabilities.
 CURVES = {
@@ -93,13 +92,28 @@ def group_weights(row):
 def score_groups(row,rows,weights,asof,leading=False):
     detail={}
     earned=covered=0
+    # Specialist stability must specify direction and an independent metric ID.
+    model=row.get("financial_model")
+    specialist=bool(model and model!="operating_holding")
     for factor,metrics in weights.items():
         for k,w in metrics.items():
             o=row.get("metrics",{}).get(k)
             q=None
             n=None
             status="데이터 부족"
-            if observed(o,asof):
+            valid=observed(o,asof)
+            if valid and k in {"rating","upward_broker_share","overheat"}:
+                valid=(0<=o["value"]<=3 if k=="rating" else
+                       0<=o["value"]<=100 if k=="upward_broker_share" else o["value"]>=0)
+            if valid and specialist and not leading and factor=="financial" and k in {"stability","cash"}:
+                valid=bool(o.get("metric_id") and o["metric_id"] not in SPECIAL_RELATIVE.get(model,())
+                           and isinstance(o.get("lower_better"),bool))
+            if valid and k in {"momentum_5d","momentum_20d","momentum_60d","trading_value","volatility_20d",
+                               "foreign_5d","foreign_20d","foreign_60d","institution_5d","institution_20d",
+                               "institution_60d","foreign_acceleration","institution_acceleration","joint_buy",
+                               "relative_acceleration","turnover_growth","breakout","industry_relative_return","overheat","revision_price_gap","upside"}:
+                valid=o.get("asof")==asof.isoformat()
+            if valid:
                 if k in CURVES:
                     q=curve(k,o["value"])
                 else:
@@ -110,6 +124,7 @@ def score_groups(row,rows,weights,asof,leading=False):
                         if p.get("excluded"): return False
                         x=p.get("metrics",{}).get(k)
                         if not observed(x,asof) or x["basis"]!=o["basis"] or x.get("lower_better",k in LOWER)!=lower: return False
+                        if x.get("asof")!=o.get("asof") or x.get("metric_id")!=o.get("metric_id"): return False
                         if factor in PEER_FACTORS and p.get("financial_model")!=row.get("financial_model"): return False
                         if factor in {"valuation","industry_relative"}:
                             if factor=="industry_relative" and row.get("financial_model") in SPECIAL_RELATIVE:
@@ -125,10 +140,10 @@ def score_groups(row,rows,weights,asof,leading=False):
                 earned+=pts
                 covered+=w
             detail[k]={"factor":factor,"weight":w,"points":pts,"status":status,
-                       "value":o["value"] if observed(o,asof) else None,
-                       "source_ref":o.get("source_ref") if observed(o,asof) else None,
+                       "value":o["value"] if valid else None,
+                       "source_ref":o.get("source_ref") if valid else None,
                        "peer_count":n}
-    complete=covered==100 and not row.get("excluded")
+    complete=covered==100 and not row.get("excluded") and (leading or not specialist or model in SPECIAL_RELATIVE)
     # A partial subtotal is NOT an estimate of the full score.
     return {"score":round(earned,2) if complete else None,
             "observed_points":round(earned,2) if covered else None,

@@ -51,6 +51,14 @@ class FinalModelTests(unittest.TestCase):
         r=evaluate(p)
         self.assertNotIn("0",r["leading_top10"])
         self.assertIsNone(r["records"][0]["combined"])
+    def test_stale_market_metric(self):
+        p=fixture()
+        p["stocks"][0]["metrics"]["foreign_5d"]["asof"]="2026-11-23"
+        self.assertIsNone(evaluate(p)["records"][0]["base"]["score"])
+    def test_unknown_financial_model(self):
+        p=fixture()
+        for r in p["stocks"]: r["financial_model"]="financial_unclassified"
+        self.assertIsNone(evaluate(p)["records"][0]["base"]["score"])
     def test_unverified(self):
         p=fixture()
         p["stocks"][0]["metrics"]["joint_buy"]["verified"]=False
