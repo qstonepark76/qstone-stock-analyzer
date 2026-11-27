@@ -1,0 +1,53 @@
+name: Q Stone Park approved direct outlook candidate coverage
+on:
+  push:
+    branches: [v3-3-final-leading-score]
+    paths: ['.github/workflows/v3-3-leading-direct-outlook.yml']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - run: python -m unittest discover -s tests -p test_leading_direct_outlook.py -v
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-simplified-industry-evidence
+          run-id: 46044687022
+          github-token: ${{ github.token }}
+          path: simplified
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-kis-outlook-expanded-evidence
+          run-id: 46040140299
+          github-token: ${{ github.token }}
+          path: kis
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-kis-expanded-layout-evidence
+          run-id: 46041993630
+          github-token: ${{ github.token }}
+          path: layout
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-stage6-scenario-evidence
+          run-id: 46034452218
+          github-token: ${{ github.token }}
+          path: own
+      - run: python -u scripts/leading_direct_outlook.py
+        env:
+          KRX_AUTH_KEY: ${{ secrets.KRX_AUTH_KEY }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: leading-direct-outlook-evidence
+          path: audit-leading-direct-outlook/
+          retention-days: 30
