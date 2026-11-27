@@ -1,0 +1,57 @@
+name: Q Stone Park integrated leading evidence
+on:
+  push:
+    branches: [v3-3-final-leading-score]
+    paths: ['.github/workflows/v3-3-leading-integrated-audit.yml']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  integrate:
+    if: github.repository == 'qstonepark76/qstone-stock-analyzer'
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - name: Check fixed evidence runs before integration
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          for run in 46031239443 46031114626; do
+            for attempt in $(seq 1 145); do
+              state=$(gh api "repos/$REPO/actions/runs/$run" --jq '.status')
+              if [ "$state" = "completed" ]; then
+                conclusion=$(gh api "repos/$REPO/actions/runs/$run" --jq '.conclusion')
+                echo "Evidence run $run: $conclusion"
+                test "$conclusion" = "success"
+                break
+              fi
+              if [ "$attempt" = "145" ]; then exit 1; fi
+              sleep 20
+            done
+          done
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-fundamental-forecast-evidence
+          run-id: 46031239443
+          github-token: ${{ github.token }}
+          path: .
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-market-inputs
+          run-id: 46031114626
+          github-token: ${{ github.token }}
+          path: audit-leading-market
+      - run: python -u scripts/leading_integrated_audit.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: leading-integrated-evidence
+          path: audit-leading-integrated/
+          retention-days: 30
