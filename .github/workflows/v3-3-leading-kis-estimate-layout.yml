@@ -1,0 +1,45 @@
+name: Q Stone Park priority 1 five-column KIS forecast layout reconciliation
+on:
+  push:
+    branches: [v3-3-final-leading-score]
+    paths: ['.github/workflows/v3-3-leading-kis-estimate-layout.yml']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - run: python -m unittest discover -s tests -p test_leading_kis_estimate_layout.py -v
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-kis-outlook-pilot-evidence
+          run-id: 46039629531
+          github-token: ${{ github.token }}
+          path: pilot
+      - uses: actions/download-artifact@v4
+        with:
+          name: v33-top300-preflight
+          run-id: 45625150031
+          github-token: ${{ github.token }}
+          path: replay-source
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-stage5-margin-evidence
+          run-id: 46034168630
+          github-token: ${{ github.token }}
+          path: stage5
+      - run: python -u scripts/leading_kis_estimate_layout.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: leading-kis-layout-evidence
+          path: audit-leading-kis-layout/
+          retention-days: 30
