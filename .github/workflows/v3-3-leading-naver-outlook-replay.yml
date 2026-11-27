@@ -1,0 +1,45 @@
+name: Q Stone Park direct Naver outlook and KRX price mapping
+on:
+  push:
+    branches: [v3-3-final-leading-score]
+    paths: ['.github/workflows/v3-3-leading-naver-outlook-replay.yml']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - run: python -m unittest discover -s tests -p test_leading_naver_outlook_replay.py -v
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-direct-outlook-evidence
+          run-id: 46045554502
+          github-token: ${{ github.token }}
+          path: direct
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-roadmap-outlook-evidence
+          run-id: 46039339525
+          github-token: ${{ github.token }}
+          path: roadmap
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-kis-outlook-expanded-evidence
+          run-id: 46040140299
+          github-token: ${{ github.token }}
+          path: kis
+      - run: python -u scripts/leading_naver_outlook_replay.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: leading-naver-outlook-replay-evidence
+          path: audit-leading-naver-outlook/
+          retention-days: 30
