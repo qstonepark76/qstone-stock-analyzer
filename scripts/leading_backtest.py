@@ -12,7 +12,7 @@ HORIZONS={"1w":5,"1m":20,"3m":60}
 STRATEGIES=("base_top15","leading_top10","combined_top15")
 def positive(x):return finite(x) and x>0
 
-def test(snapshots,panel,cost_bps=30):
+def test(snapshots,panel,cost_bps=30,strategies=STRATEGIES):
     if not finite(cost_bps) or not 0<=cost_bps<10000:raise ValueError("invalid costs")
     days=panel["sessions"]
     if days!=sorted(set(days)):raise ValueError("invalid calendar")
@@ -25,7 +25,7 @@ def test(snapshots,panel,cost_bps=30):
         d=snap["asof"]
         if d not in days:continue
         i=days.index(d);entry=i+1
-        for strategy in STRATEGIES:
+        for strategy in strategies:
             tickers=snap.get(strategy,[])
             if len(tickers)!=len(set(tickers)):raise ValueError("duplicate recommendation")
             for label,h in HORIZONS.items():
@@ -52,7 +52,7 @@ def test(snapshots,panel,cost_bps=30):
                     excess_pct=mean(vals)-market,win_rate_pct=100*sum(v>0 for v in vals)/len(vals),
                     outperform_rate_pct=100*sum(v>market for v in vals)/len(vals),cohort_mdd_pct=100*dd)
     summary={}
-    for strategy in STRATEGIES:
+    for strategy in strategies:
         summary[strategy]={}
         for label in HORIZONS:
             cohort=[r for r in results if r["strategy"]==strategy and r["horizon"]==label]
