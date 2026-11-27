@@ -80,6 +80,14 @@ def safe_pdf(url):
     p=urlparse(url);h=p.hostname or ""
     return p.scheme=="https" and (h=="naver.com" or h.endswith(".naver.com") or h.endswith(".pstatic.net") or h=="pstatic.net") and p.path.lower().endswith(".pdf")
 def norm(v):return re.sub(r"\s+","",str(v or "")).casefold()
+def same_report(detail,report):
+    # Only identity and publication date in the source response; no cross-provider check.
+    if str(detail.get("nid") or "")!=str(report.get("research_id") or ""):return False
+    if str(detail.get("itemCode") or "").zfill(6)!=str(report.get("ticker") or ""):return False
+    if broker_key(detail.get("brokerName"))!=broker_key(report.get("broker")):return False
+    d=str(detail.get("writeDate") or "")[:10].replace(".","-").replace("/","-")
+    if re.fullmatch(r"\d{8}",d):d=d[:4]+"-"+d[4:6]+"-"+d[6:]
+    return d==report.get("published_at")
 def parse_document(body,year):
     out=[]
     with fitz.open(stream=body,filetype="pdf") as doc:
@@ -161,25 +169,30 @@ def main():
     for t in sorted(per):
         if len(chosen)+len(per[t])>limit:break
         chosen.extend(per[t])
-    session=requests.Session();session.headers.update({"User-Agent":"Mozilla/5.0","Referer":"https://finance.naver.com/"})
+    session=requests.Session();session.headers.update({"User-Agent":"Mozilla/5.0","Referer":"https://stock.naver.com/"})
     stats=Counter();errors=Counter();raw=[];stop=False
     for r in chosen:
         if stop:break
         nid=str(r["research_id"])
         if not nid.isdigit():errors["invalid_research_id"]+=1;continue
-        url="https://finance.naver.com/research/company_read.naver?nid="+nid
+        url="https://stock.naver.com/api/stockSecurity/researches/v2/company/"+nid
         stats["attempted"]+=1
         try:
-            h=session.get(url,timeout=(5,12),allow_redirects=False)
+            h=session.get(url,timeout=(5,12),allow_redirects=False,headers={"Accept":"application/json","Referer":"https://stock.naver.com/research/company/"+nid})
             if h.status_code in (401,403,429):errors["http_"+str(h.status_code)]+=1;break
-            h.raise_for_status();page=Page();page.feed(h.text)
-            body=" ".join(page.parts)
-            # Identity check within the source only; not a financial data cross-check.
-            if not all(norm(r[k]) in norm(body) for k in ("company","broker")):
+            h.raise_for_status();detail=h.json()
+            if not isinstance(detail,dict):errors["detail_not_object"]+=1;continue
+            if stats["attempted"]==1:print("REPORT DETAIL SCHEMA",json.dumps(sorted(detail),ensure_ascii=False),flush=True)
+            if not same_report(detail,r):
                 errors["detail_identity_missing"]+=1;continue
             stats["detail_identity_matched"]+=1
+            page=Page();page.feed(str(detail.get("content") or ""))
+            body=" ".join(page.parts)
+            stats["detail_content_received"]+=bool(body.strip())
             vals=explicit(body,year,None)
-            links=sorted({urljoin(url,x) for x in page.links if safe_pdf(urljoin(url,x))})
+            stats["explicit_content_values"]+=len(vals)
+            attachment=detail.get("attachUrl")
+            links=[attachment] if isinstance(attachment,str) and safe_pdf(attachment) else []
             if links:
                 stats["pdf_link_found"]+=1
             if len(links)==1:
@@ -200,7 +213,7 @@ def main():
             elif len(links)>1:errors["ambiguous_pdf_links"]+=1
             stats["report_with_values"]+=bool(vals);stats["value_rows"]+=len(vals)
             for v in vals:raw.append({**v,"ticker":r["ticker"],"broker":r["broker"],"published_at":r["published_at"],"source_ref":r["source_url"],"detail_url":url,"observed_at":datetime.now(KST).isoformat()})
-        except (requests.RequestException,ValueError,RuntimeError) as e:errors[type(e).__name__]+=1
+        except (requests.RequestException,ValueError,RuntimeError,TypeError,AttributeError) as e:errors[type(e).__name__]+=1
         finally:
             if stats["attempted"]%10==0:print("REPORT REVISION PROGRESS",stats["attempted"],"/",len(chosen),flush=True)
             time.sleep(.6)

@@ -2,8 +2,12 @@ import sys,unittest
 from pathlib import Path
 from datetime import date
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"scripts"))
-from leading_report_earnings_revision import explicit,amount_table,score,change
+from leading_report_earnings_revision import explicit,amount_table,score,change,same_report
 class Revision(unittest.TestCase):
+    def test_same_report(self):
+        r={"research_id":"1","ticker":"005930","broker":"A증권","published_at":"2026-11-27"}
+        d={"nid":"1","itemCode":"005930","brokerName":"A증권","writeDate":"2026-11-27"}
+        self.assertTrue(same_report(d,r));self.assertFalse(same_report({**d,"itemCode":"000660"},r))
     def test_explicit(self):
         self.assertEqual(explicit("2026년 지배주주순이익 추정치를 10% 상향",2026,1)[0]["value"],10)
         self.assertEqual(explicit("2026년 영업이익 추정치를 10% 상향",2026,1),[])

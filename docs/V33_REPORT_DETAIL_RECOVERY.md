@@ -1,0 +1,2 @@
+# 리포트 원문 경로 수정
+기존 구버전 HTML 주소에 신규 리서치 ID를 넣은 시험에서 59/59 원문 식별 실패. 현행 공개 리서치 상세 응답 경로인 stock.naver.com/api/stockSecurity/researches/v2/company/{id} 사용으로 변경. 공개 제3자 참고 구현(dd3ok/naverstock-api-skill의 references/api-content.md 및 koreapyj/nstock-mcp src/naver.ts)의 경로/필드 정보를 참고. 실제 응답은 별도 실행 확인 필요. 응답 자체의 nid, 종목코드, 증권사, 발표일만 확인하며 외부 수치 교차검증 없음. content 요약 본문 및 공개 attachUrl PDF의 명시적 수치만 추출. 제한 응답 시 중단, 접근 통제 우회 금지. 원문 전체 저장/배포 없이 산출 근거만 보존. 59~60건 시험부터 진행, 실제 점수와 충족률은 후속 실행에서 확인.
