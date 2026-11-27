@@ -121,7 +121,7 @@ def score_groups(row,rows,weights,asof,leading=False):
                     # types must match; valuation/industry also exact industry.
                     lower=o.get("lower_better",k in LOWER)
                     def comparable(p):
-                        if p.get("excluded"): return False
+                        if p.get("excluded") or (p.get("peer_only") and factor!="industry_relative"): return False
                         x=p.get("metrics",{}).get(k)
                         if not observed(x,asof) or x["basis"]!=o["basis"] or x.get("lower_better",k in LOWER)!=lower: return False
                         if x.get("asof")!=o.get("asof") or x.get("metric_id")!=o.get("metric_id"): return False
@@ -154,9 +154,13 @@ def evaluate(payload):
     if not asof: raise ValueError("Invalid asof")
     rows=payload["stocks"]
     if len({r["ticker"] for r in rows})!=len(rows): raise ValueError("Duplicate tickers")
+    peers=payload.get("comparison_peers",[])
+    if any(not p.get("peer_only") for p in peers): raise ValueError("Comparison-only designation required")
+    all_rows=rows+peers
+    if len({r["ticker"] for r in all_rows})!=len(all_rows): raise ValueError("Duplicate target/peer tickers")
     results=[]
     for row in rows:
-        a=score_groups(row,rows,group_weights(row),asof)
+        a=score_groups(row,all_rows,group_weights(row),asof)
         b=score_groups(row,rows,LEADING,asof,True)
         combined=round(.6*a["score"]+.4*b["score"],2) if a["complete"] and b["complete"] else None
         grade=None if not a["complete"] else next(g for threshold,g in [(90,"S"),(80,"A"),(70,"B"),(60,"C"),(0,"D")] if a["score"]>=threshold)
