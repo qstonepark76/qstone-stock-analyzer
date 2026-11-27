@@ -24,6 +24,18 @@ class FinalModelTests(unittest.TestCase):
         self.assertEqual(r["coverage"],{"base_complete":5,"leading_complete":5,"combined_complete":5})
         x=r["records"][0]
         self.assertAlmostEqual(x["combined"],.6*x["base"]["score"]+.4*x["leading"]["score"],delta=.0051)
+    def test_comparison_only_peers(self):
+        p=fixture()
+        p["stocks"]=p["stocks"][:4]
+        peer=fixture()["stocks"][4]
+        peer["peer_only"]=True
+        p["comparison_peers"]=[peer]
+        result=evaluate(p)
+        self.assertEqual(len(result["records"]),4)
+        self.assertNotIn(peer["ticker"],result["leading_top10"])
+        self.assertNotIn(peer["ticker"],result["base_top15"])
+        self.assertIsNotNone(result["records"][0]["base"]["detail"]["roic"]["points"])
+        self.assertIsNone(result["records"][0]["base"]["detail"]["roe"]["points"])
     def test_missing_and_future(self):
         p=fixture()
         p["stocks"][0]["metrics"].pop("foreign_60d")
