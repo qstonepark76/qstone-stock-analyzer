@@ -1,0 +1,39 @@
+name: Q Stone Park stage 8 historical legacy comparison only
+on:
+  push:
+    branches: [v3-3-final-leading-score]
+    paths: ['.github/workflows/v3-3-leading-stage8-comparator.yml']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  comparator:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - run: python -m unittest discover -s tests -p test_leading_legacy_comparator.py -v
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-stage7-gap-evidence
+          run-id: 46035068674
+          github-token: ${{ github.token }}
+          path: stage7
+      - name: Reconstruct archived legacy cohorts using adjusted prices
+        env:
+          KIS_APP_KEY: ${{ secrets.KIS_APP_KEY }}
+          KIS_APP_SECRET: ${{ secrets.KIS_APP_SECRET }}
+        run: python -u scripts/leading_legacy_comparator.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: leading-stage8-legacy-comparator
+          path: audit-leading-stage8/
+          if-no-files-found: warn
+          retention-days: 30
