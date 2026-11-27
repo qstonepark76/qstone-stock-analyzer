@@ -1,0 +1,45 @@
+name: Q Stone Park direct fundamental candidate score replay
+on:
+  push:
+    branches: [v3-3-final-leading-score]
+    paths: ['.github/workflows/v3-3-leading-direct-fundamental-replay.yml']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - run: python -m unittest discover -s tests -p test_leading_direct_fundamental_replay.py -v
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-true-cagr-evidence
+          run-id: 46049896295
+          github-token: ${{ github.token }}
+          path: cagr
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-naver-growth-evidence
+          run-id: 46048541526
+          github-token: ${{ github.token }}
+          path: growth
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-direct-financial-evidence
+          run-id: 46044935080
+          github-token: ${{ github.token }}
+          path: finance
+      - run: python -u scripts/leading_direct_fundamental_replay.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: leading-direct-fundamental-score-evidence
+          path: audit-leading-direct-fundamental-replay/
+          retention-days: 30
