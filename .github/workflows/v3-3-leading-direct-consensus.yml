@@ -1,0 +1,53 @@
+name: Q Stone Park leading direct consensus and target revisions
+on:
+  push:
+    branches: [v3-3-final-leading-score]
+    paths: ['.github/workflows/v3-3-leading-direct-consensus.yml']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests beautifulsoup4
+      - run: python -m unittest discover -s tests -p test_leading_direct_consensus.py -v
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-industry-margin-recovery-evidence
+          run-id: 46051543687
+          github-token: ${{ github.token }}
+          path: base
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-outlook-price-recovery-evidence
+          run-id: 46046346648
+          github-token: ${{ github.token }}
+          path: outlook
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-roadmap-outlook-evidence
+          run-id: 46039339525
+          github-token: ${{ github.token }}
+          path: roadmap
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-kis-outlook-expanded-evidence
+          run-id: 46040140299
+          github-token: ${{ github.token }}
+          path: kis
+      - env:
+          CONSENSUS_LIMIT: '40'
+        run: python -u scripts/leading_direct_consensus.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: leading-direct-consensus-evidence
+          path: audit-leading-direct-consensus/
+          retention-days: 30
