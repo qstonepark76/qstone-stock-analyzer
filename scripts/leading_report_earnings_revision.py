@@ -17,7 +17,7 @@ from outlook_candidate import broker_key
 from forecast_score_policy import forecast_fraction
 KST=timezone(timedelta(hours=9))
 NUM=r"[+-]?\d+(?:,\d{3})*(?:\.\d+)?"
-METRIC=r"(지배주주(?:지분)?\s*순이익|지배(?:주주)?\s*당기순이익|당기\s*순이익|순이익)"
+METRIC=r"(지배주주(?:지분)?\s*(?:당기)?순이익|지배(?:주주)?\s*당기순이익|순이익\s*\(지배\)|지배순이익|당기\s*순이익|순이익)"
 def read(p):return json.loads(Path(p).read_text(encoding="utf-8"))
 def write(p,v):Path(p).write_text(json.dumps(v,ensure_ascii=False,indent=2,allow_nan=False),encoding="utf-8")
 def num(x):
@@ -27,7 +27,7 @@ def num(x):
     except (ValueError,TypeError):return None
 def account(label):
     x=re.sub(r"\s","",label)
-    return "owner_net_income" if x.startswith("지배") else "total_net_income" if x=="당기순이익" else "net_income_unspecified"
+    return "owner_net_income" if x.startswith("지배") or x=="순이익(지배)" else "total_net_income" if x=="당기순이익" else "net_income_unspecified"
 def change(old,new):
     if old>0 and new>=0:return 100*(new/old-1)
     den=abs(old)+abs(new)
@@ -43,31 +43,54 @@ def explicit(text,year,page):
         if v is None or v<0:continue
         out.append({"metric":account(m[1]),"period_end":f"{year}-12-31","value":v if m[3]=="상향" else -v,"page":page,"evidence":m[0],"kind":"explicit_report_revision"})
     return out
+def metadata(text):
+    units=set(re.findall(r"(?:단위\s*[:：]\s*|\(\s*)(백만원|억원|십억원|조원)(?=[,\s)\n]|$)",text))
+    scopes=set(re.findall(r"(?:IFRS|K-IFRS|회계기준)\s*[-(]?\s*(연결|별도)|(?:연결|별도)\s*(?:기준|재무제표)",text,re.I))
+    scopes.discard("")
+    for m in re.finditer(r"(연결|별도)\s*(?:기준|재무제표)",text):scopes.add(m[1])
+    return (next(iter(units)) if len(units)==1 else None,next(iter(scopes)) if len(scopes)==1 else None)
+def year_header(v,year):
+    x=re.sub(r"\s","",str(v or "")).upper().replace("(E)","E").replace("(F)","F")
+    return x in {f"{y}{suffix}" for y in (str(year),str(year)[2:]) for suffix in ("E","F","년E","년F","년추정",".12E",".12F","A/E")} - {f"{y}A/E" for y in (str(year),str(year)[2:])}
 def amount_table(table,page_text,year,page):
-    # Extract only unambiguous units and scope. Require explicit forecast-year
-    # header, a labelled annual table and a net-income row; never guess columns.
-    units=set(re.findall(r"(?:단위\s*[:：]\s*)(백만원|억원|십억원|조원)",page_text))
-    scopes=set(re.findall(r"(?:IFRS|K-IFRS|회계기준)\s*[-(]?\s*(연결|별도)",page_text,re.I))
-    if len(units)!=1 or len(scopes)!=1:return []
-    unit=next(iter(units));scope=next(iter(scopes))
     if not table or len(table)<2:return []
-    wanted={f"{year}E",f"{year}F",f"{year}년E",f"{year}년F",f"{year}년추정"}
-    headers=[]
-    for i,r in enumerate(table[:3]):
-        for j,v in enumerate(r):
-            x=re.sub(r"\s","",str(v or "")).upper().replace("(E)","E").replace("(F)","F")
-            if x in wanted:headers.append((i,j))
+    # Prefer the local table unit and scope, then unambiguous page metadata.
+    local=" ".join(str(v or "") for r in table[:4] for v in r)
+    u,s=metadata(local);pu,ps=metadata(page_text)
+    unit=u or pu;scope=s or ps
+    if not unit or not scope:return []
+    headers=[(i,j) for i,r in enumerate(table[:5]) for j,v in enumerate(r) if year_header(v,year)]
     if len(headers)!=1:return []
     i,j=headers[0]
     out=[]
     for r in table[i+1:]:
         if j>=len(r) or not r:continue
-        label=str(r[0] or "").strip()
-        if not re.fullmatch(METRIC,label):continue
+        label=next((str(v).strip() for v in r[:j] if re.fullmatch(METRIC,str(v or "").strip())),None)
+        if not label:continue
         v=num(r[j])
         if v is None:continue
         out.append({"metric":account(label),"period_end":f"{year}-12-31","amount":v,"unit":unit,"scope":scope,"page":page,"evidence":f"{label} | {year}E/F | {r[j]} | {unit} | {scope}","kind":"annual_forecast_amount"})
     return out
+def layout_amounts(lines,year,page):
+    """Read whitespace-aligned PDF text rows only when year and numeric columns
+    can be uniquely paired. Header must carry actual/estimate suffix on target."""
+    result=[]
+    for i,line in enumerate(lines):
+        tokens=line.split()
+        if len(tokens)<3 or sum(year_header(t,year) for t in tokens)!=1:continue
+        cols=[t for t in tokens if re.fullmatch(r"(?:20)?\d{2}(?:년)?(?:\.\d{2})?(?:\(?[AEF]\)?)?",t,re.I)]
+        if len(cols)<3 or sum(year_header(t,year) for t in cols)!=1:continue
+        j=next(k for k,t in enumerate(cols) if year_header(t,year))
+        unit,scope=metadata("\n".join(lines[max(0,i-5):i+2]))
+        if not unit or not scope:continue
+        for row in lines[i+1:i+25]:
+            if any(year_header(t,year) for t in row.split()):break
+            m=re.fullmatch(rf"\s*{METRIC}\s+(.+?)\s*",row)
+            if not m:continue
+            vals=m[2].split()
+            if len(vals)!=len(cols) or any(num(v) is None for v in vals):continue
+            result.append({"metric":account(m[1]),"period_end":f"{year}-12-31","amount":num(vals[j]),"unit":unit,"scope":scope,"page":page,"evidence":f"{m[1]} | {cols[j]} | {vals[j]} | {unit} | {scope}","kind":"annual_forecast_amount","extraction":"aligned_text"})
+    return result
 class Page(HTMLParser):
     def __init__(self):
         super().__init__(convert_charrefs=True);self.links=[];self.parts=[]
@@ -88,17 +111,29 @@ def same_report(detail,report):
     d=str(detail.get("writeDate") or "")[:10].replace(".","-").replace("/","-")
     if re.fullmatch(r"\d{8}",d):d=d[:4]+"-"+d[4:6]+"-"+d[6:]
     return d==report.get("published_at")
-def parse_document(body,year):
+def parse_document(body,year,diagnostics=None):
     out=[]
     with fitz.open(stream=body,filetype="pdf") as doc:
         for i,p in enumerate(doc):
             if i>=12:break
-            text=p.get_text("text")
+            text=p.get_text("text",sort=True)
+            if diagnostics is not None:
+                diagnostics["pages"]+=1
+                diagnostics["text_pages"]+=bool(text.strip())
+                diagnostics["net_income_pages"]+=("순이익" in text)
+                diagnostics["annual_label_pages"]+=bool(re.search(rf"\b(?:{year}|{str(year)[2:]})\s*\(?[EF]\)?",text))
+                u,sc=metadata(text);diagnostics["unit_pages"]+=bool(u);diagnostics["scope_pages"]+=bool(sc)
+            out.extend(layout_amounts(text.splitlines(),year,i+1))
             out.extend(explicit(text,year,i+1))
             # Table parser is only used for pages with relevant annual labels.
-            if str(year) not in text or "순이익" not in text:continue
+            if (str(year) not in text and str(year)[2:]+"E" not in text and str(year)[2:]+"F" not in text) or "순이익" not in text:continue
             try:
-                for t in p.find_tables().tables:out.extend(amount_table(t.extract(),text,year,i+1))
+                for strategy in ("lines","text"):
+                    tables=p.find_tables(strategy=strategy).tables
+                    if diagnostics is not None:diagnostics["tables_"+strategy]+=len(tables)
+                    for t in tables:
+                        v=amount_table(t.extract(),text,year,i+1);out.extend(v)
+                        if diagnostics is not None:diagnostics["value_rows_"+strategy]+=len(v)
             except (ValueError,RuntimeError,AttributeError):pass
     return out
 def choose_pairs(rows,asof):
@@ -207,7 +242,7 @@ def main():
                         data=b"".join(parts)
                         if data.startswith(b"%PDF"):
                             stats["pdf_read"]+=1
-                            for x in parse_document(data,year):vals.append({**x,"pdf_url":links[0]})
+                            for x in parse_document(data,year,stats):vals.append({**x,"pdf_url":links[0]})
                         else:errors["not_pdf"]+=1
                     else:errors["pdf_size_limit"]+=1
             elif len(links)>1:errors["ambiguous_pdf_links"]+=1

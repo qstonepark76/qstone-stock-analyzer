@@ -2,8 +2,13 @@ import sys,unittest
 from pathlib import Path
 from datetime import date
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"scripts"))
-from leading_report_earnings_revision import explicit,amount_table,score,change,same_report
+from leading_report_earnings_revision import explicit,amount_table,score,change,same_report,layout_amounts,year_header
 class Revision(unittest.TestCase):
+    def test_layout(self):
+        rows=["K-IFRS 연결 (십억원)","2024A 2025A 2026F 2027F","지배주주순이익 10 20 30 40"]
+        self.assertEqual(layout_amounts(rows,2026,1)[0]["amount"],30)
+        self.assertTrue(year_header("26(E)",2026));self.assertFalse(year_header("2026A",2026))
+        self.assertEqual(layout_amounts([rows[1],rows[2]],2026,1),[])
     def test_same_report(self):
         r={"research_id":"1","ticker":"005930","broker":"A증권","published_at":"2026-11-27"}
         d={"nid":"1","itemCode":"005930","brokerName":"A증권","writeDate":"2026-11-27"}
