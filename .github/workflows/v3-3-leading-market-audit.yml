@@ -1,0 +1,36 @@
+name: Q Stone Park leading market inputs audit
+on:
+  push:
+    branches: [v3-3-final-leading-score]
+    paths: ['.github/workflows/v3-3-leading-market-audit.yml']
+permissions:
+  contents: read
+concurrency:
+  group: qstone-leading-market-audit
+  cancel-in-progress: false
+jobs:
+  audit:
+    if: github.repository == 'qstonepark76/qstone-stock-analyzer'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - run: python -m unittest discover -s tests -p test_leading_market_backtest.py -v
+      - name: Read-only KIS audit
+        env:
+          KIS_APP_KEY: ${{ secrets.KIS_APP_KEY }}
+          KIS_APP_SECRET: ${{ secrets.KIS_APP_SECRET }}
+        run: python -u scripts/leading_market_inputs.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: leading-market-inputs
+          path: audit-leading-market/
+          if-no-files-found: warn
+          retention-days: 30
