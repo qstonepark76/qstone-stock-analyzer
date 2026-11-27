@@ -1,0 +1,51 @@
+name: Q Stone Park direct outlook dated price recovery
+on:
+  push:
+    branches: [v3-3-final-leading-score]
+    paths: ['.github/workflows/v3-3-leading-outlook-price-recovery.yml']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - run: python -m unittest discover -s tests -p test_leading_outlook_price_recovery.py -v
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-naver-outlook-replay-evidence
+          run-id: 46046102325
+          github-token: ${{ github.token }}
+          path: replay
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-direct-outlook-evidence
+          run-id: 46045554502
+          github-token: ${{ github.token }}
+          path: direct
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-roadmap-outlook-evidence
+          run-id: 46039339525
+          github-token: ${{ github.token }}
+          path: roadmap
+      - uses: actions/download-artifact@v4
+        with:
+          name: leading-kis-outlook-expanded-evidence
+          run-id: 46040140299
+          github-token: ${{ github.token }}
+          path: kis
+      - run: python -u scripts/leading_outlook_price_recovery.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: leading-outlook-price-recovery-evidence
+          path: audit-leading-outlook-price/
+          retention-days: 30
